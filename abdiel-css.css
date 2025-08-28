@@ -1,0 +1,78 @@
+/* =========================================
+   INICIA CSS DE CINTA DE TEXTO (marquee)
+   ========================================= */
+
+.marquee-container {
+  width: 100%;           /* Usa todo el ancho disponible */
+  overflow: hidden;      /* Oculta el contenido que se va desplazando fuera del contenedor */
+}
+
+.marquee-track {
+  font-family: var(--headlinefont);  /* Tipografía configurable desde CSS global */
+  color: white;
+  font-size: 23px;
+  font-weight: 500;
+  display: flex;         /* Para que el track crezca en horizontal con su contenido */
+  width: max-content;    /* El ancho se adapta al contenido; necesario para el bucle fluido */
+  animation: scroll-left linear infinite; /* Animación base; la duración se setea vía JS */
+}
+
+.marquee-text {
+  white-space: nowrap;   /* Evita que el texto parta en varias líneas */
+  padding-right: 5px;    /* Espacio entre repeticiones/separadores */
+}
+
+@keyframes scroll-left {
+  /* Del punto inicial… */
+  0%   { transform: translateX(0%); }
+  /* …al desplazamiento de media pista (duplicamos contenido para bucle). */
+  100% { transform: translateX(-50%); }
+}
+
+/* Ocultamos saltos de línea reales dentro del carrusel;
+   serán reemplazados por separadores visuales en JS */
+.marquee-text br { display: none; }
+
+/* Estilo del separador inyectado (ej. ✦) */
+.separator {
+  padding: 0 10px;       /* Respiración a ambos lados del separador */
+  display: inline-block;
+}
+
+/* =========================================
+   TERMINA CSS DE CINTA DE TEXTO (marquee)
+   ========================================= */
+
+
+
+/* =========================================
+   COMIENZA CSS ANIMACIONES DE SCROLL (fade/slide)
+   ========================================= */
+
+/* Estados iniciales (ocultos + desplazados) */
+.scroll-left,
+.scroll-right,
+.scroll-bottom,
+.scroll-top {
+  opacity: 0;            /* Elemento oculto inicialmente */
+  transition: 0.8s all;  /* Transición suave para transform y opacity */
+}
+
+/* Desplazamientos iniciales según la dirección deseada */
+.scroll-left   { transform: translateX(-30px); } /* Entra desde la izquierda */
+.scroll-right  { transform: translateX( 30px); } /* Entra desde la derecha  */
+.scroll-bottom { transform: translateY( 80px); } /* Entra desde abajo       */
+.scroll-top    { transform: translateY(-80px); } /* Entra desde arriba      */
+
+/* Estado visible (se activa agregando la clase .ativo desde JS) */
+.ativo {
+  opacity: 1;            /* Hace visible el elemento */
+  transition: 0.8s;      /* Mantiene la duración de la animación */
+  transform: none;       /* IMPORTANTE: resetea cualquier translateX/Y a 0 para todos los casos */
+  /* Nota: Usar transform: none evita conflictos entre X e Y y asegura que todas
+           las variantes (.scroll-left/right/top/bottom) animen hacia su posición final (0,0). */
+}
+
+/* =========================================
+   TERMINA CSS ANIMACIONES DE SCROLL
+   ========================================= */
