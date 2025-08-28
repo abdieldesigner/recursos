@@ -1,4 +1,77 @@
 /* =========================================
+   INICIA CSS: EVITAR DESBORDE (layout global)
+   ========================================= */
+/* Evita scroll horizontal por desbordes y permite que el contenido vertical se vea.
+   Nota: usa clip en X (mejor que hidden para rendimiento). */
+#__nuxt {
+  overflow-x: clip;     /* Bloquea desbordes laterales (evita scroll horizontal) */
+  overflow-y: visible;  /* Permite que elementos absolutamente posicionados “asomen” en Y */
+}
+/* =========================================
+   TERMINA CSS: EVITAR DESBORDE
+   ========================================= */
+
+
+
+/* =========================================
+   INICIA CSS: OCULTAR ELEMENTOS DE TRABAJO
+   ========================================= */
+/* Oculta contenedores de pruebas/previews en producción. */
+#wrapperno,
+#preview-containerno {
+  display: none;        /* No renderiza estos nodos (quedan fuera del flujo) */
+}
+/* =========================================
+   TERMINA CSS: OCULTAR ELEMENTOS DE TRABAJO
+   ========================================= */
+
+
+
+/* =========================================
+   INICIA CSS: FUSIONAR IMÁGENES CON EL FONDO
+   ========================================= */
+/* Elimina “oscuridad” usando composición (screen).
+   Útil sobre fondos oscuros/negros para integrar logos o PNGs. */
+.fusion img {
+  mix-blend-mode: screen; /* 🔥 La “magia”: aclara la imagen con el fondo */
+  /* Recomendación: asegúrate de que el fondo no sea blanco puro, o el efecto será mínimo. */
+}
+/* =========================================
+   TERMINA CSS: FUSIONAR IMÁGENES CON EL FONDO
+   ========================================= */
+
+
+
+/* =========================================
+   INICIA CSS: SEPARACIÓN ENTRE ELEMENTOS
+   ========================================= */
+/* Aplica espaciado consistente entre hijos directos de .separacion-elemnts > .inner.
+   Requiere que el contenedor use display:flex o display:grid (gap funciona en ambos). */
+.separacion-elemnts > .inner {
+  gap: 40px !important;  /* Fuerza un espacio de 40px; usa !important por si el builder pisa estilos */
+}
+/* =========================================
+   TERMINA CSS: SEPARACIÓN ENTRE ELEMENTOS
+   ========================================= */
+
+
+
+/* =========================================
+   INICIA CSS: INVERTIR COLUMNAS EN MÓVIL
+   ========================================= */
+/* Invierte el orden visual de los hijos en mobile (column-reverse) sin tocar el HTML. */
+@media (max-width: 768px) {
+  .invertir-elements > .inner {
+    display: flex;                 /* Asegura contexto flex para poder invertir columnas */
+    flex-direction: column-reverse !important; /* Coloca el último elemento arriba en móvil */
+  }
+}
+/* =========================================
+   TERMINA CSS: INVERTIR COLUMNAS EN MÓVIL
+   ========================================= */
+
+
+/* =========================================
    INICIA CSS DE CINTA DE TEXTO (marquee)
    ========================================= */
 
@@ -76,3 +149,4 @@
 /* =========================================
    TERMINA CSS ANIMACIONES DE SCROLL
    ========================================= */
+
