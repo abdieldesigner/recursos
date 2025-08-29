@@ -150,3 +150,53 @@
    TERMINA CSS ANIMACIONES DE SCROLL
    ========================================= */
 
+
+/* =========================================
+   COMIENZA CSS BENTO REFLEJO 
+   ========================================= */
+
+.bento:hover::before {
+    content: "";
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100%;
+    width: 80px;
+    opacity: 0;
+    filter: blur(25px);
+    -webkit-filter: blur(25px);
+    background: #fff;
+    box-shadow: 0 0 30px 20px #fffa;
+    transform: skewX(-30deg);
+    mix-blend-mode: overlay;
+    z-index: 2;
+    pointer-events: none
+}
+
+@media (min-width: 767px) {
+    .bento:hover::before {
+        animation: brilho 1s ease-in-out
+    }
+}
+
+@keyframes brilho {
+    0% {
+        opacity: 1;
+        left: -50%
+    }
+
+    100% {
+        opacity: 1;
+        left: 150%
+    }
+}
+
+.bento:hover {
+    transform: scale(1.05) rotate(-2deg);
+    filter: brightness(130%)
+}
+
+
+/* =========================================
+   TERMINA CSS BENTO REFLEJO 
+   ========================================= */
