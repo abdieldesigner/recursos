@@ -155,6 +155,15 @@
    COMIENZA CSS BENTO REFLEJO 
    ========================================= */
 
+
+.bento {
+    border-radius: 20px;
+    box-shadow: 1px -1px 0 0 #493D5C,-52px 98px 67px 0 rgb(0 0 0 / .19),-23px 44px 50px 0 rgb(0 0 0 / .32),-6px 11px 27px 0 rgb(0 0 0 / .36),0 0 29.2px 0 rgb(73 61 92 / .21) inset;
+    overflow: hidden;
+    transition: 0.5s ease;
+    position: relative
+}
+
 .bento:hover::before {
     content: "";
     top: 0;
@@ -200,3 +209,4 @@
 /* =========================================
    TERMINA CSS BENTO REFLEJO 
    ========================================= */
+
