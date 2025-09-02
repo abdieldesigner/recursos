@@ -210,3 +210,34 @@
    TERMINA CSS BENTO REFLEJO 
    ========================================= */
 
+/* =========================================
+   COmienza CSS CARD SCALE 
+   ========================================= */
+
+.card-scale-grupo .c-column {
+    transition: transform 0.3s ease;
+ /* añade esta línea */
+}
+
+.card-scale-grupo .c-column:hover {
+    transform: scale(1.1);
+ /* usa 'transform' en lugar de 'scale' directamente */
+}
+
+/* version invidiviual */
+
+.card-scale {
+    transition: transform 0.3s ease;
+ /* añade esta línea */
+}
+
+.card-scale:hover {
+    transform: scale(1.1);
+ /* usa 'transform' en lugar de 'scale' directamente */
+}
+
+/* =========================================
+   TERMINA CSS CARD SCALE 
+   ========================================= */
+
+
