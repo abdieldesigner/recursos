@@ -240,4 +240,20 @@
    TERMINA CSS CARD SCALE 
    ========================================= */
 
+/* =========================================
+   COMIENZA CSS TRADUCTOR 
+   ========================================= */
+#gt_float_wrapper {
+    scale: 0.7;
+}
+
+@media only screen and (max-width: 768px) {
+  #gt_float_wrapper {
+    top: 90% !important;
+  }
+}
+/* =========================================
+   TERMINA CSS TRADUCTOR 
+   ========================================= */
+
 
