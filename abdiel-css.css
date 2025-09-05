@@ -1,3 +1,17 @@
+/*<!-- CSS vía jsDelivr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-css.css">
+
+<!-- JS vía jsDelivr -->
+<script src="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js" defer></script>
+
+
+limpiar cache repositorio:
+
+https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-css.css
+https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
+
+*/
+
 /* =========================================
    INICIA CSS: EVITAR DESBORDE (layout global)
    ========================================= */
@@ -48,7 +62,13 @@
 /* Aplica espaciado consistente entre hijos directos de .separacion-elemnts > .inner.
    Requiere que el contenedor use display:flex o display:grid (gap funciona en ambos). */
 .separacion-elemnts > .inner {
-  gap: 40px !important;  /* Fuerza un espacio de 40px; usa !important por si el builder pisa estilos */
+  gap: 40px;  /* Fuerza un espacio de 40px; usa !important por si el builder pisa estilos */
+}
+
+@media (max-width: 768px) {
+    .separacion-elemnts > .inner {
+        gap: 0px !important;
+    }
 }
 /* =========================================
    TERMINA CSS: SEPARACIÓN ENTRE ELEMENTOS
@@ -255,5 +275,6 @@
 /* =========================================
    TERMINA CSS TRADUCTOR 
    ========================================= */
+
 
 
