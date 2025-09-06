@@ -143,19 +143,19 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 /* Estados iniciales (ocultos + desplazados) */
-.scroll-left,
-.scroll-right,
-.scroll-bottom,
-.scroll-top {
+#__nuxt .scroll-left,
+#__nuxt .scroll-right,
+#__nuxt .scroll-bottom,
+#__nuxt .scroll-top {
   opacity: 0;            /* Elemento oculto inicialmente */
   transition: 0.8s all;  /* Transición suave para transform y opacity */
 }
 
 /* Desplazamientos iniciales según la dirección deseada */
-.scroll-left   { transform: translateX(-30px); } /* Entra desde la izquierda */
-.scroll-right  { transform: translateX( 30px); } /* Entra desde la derecha  */
-.scroll-bottom { transform: translateY( 80px); } /* Entra desde abajo       */
-.scroll-top    { transform: translateY(-80px); } /* Entra desde arriba      */
+#__nuxt .scroll-left   { transform: translateX(-30px); } /* Entra desde la izquierda */
+#__nuxt .scroll-right  { transform: translateX( 30px); } /* Entra desde la derecha  */
+#__nuxt .scroll-bottom { transform: translateY( 80px); } /* Entra desde abajo       */
+#__nuxt .scroll-top    { transform: translateY(-80px); } /* Entra desde arriba      */
 
 /* Estado visible (se activa agregando la clase .ativo desde JS) */
 .ativo {
@@ -275,6 +275,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS TRADUCTOR 
    ========================================= */
+
 
 
 
