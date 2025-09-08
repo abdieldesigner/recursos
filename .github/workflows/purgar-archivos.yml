@@ -1,10 +1,11 @@
-# .github/workflows/purge-jsdelivr.yml
 name: Purge jsDelivr
 on:
   push:
     branches: [ "main" ]
     paths:
-      - "abdiel-css.css"   # ajusta la ruta si no está en la raíz
+      - "**/*.css"
+  workflow_dispatch:
+
 jobs:
   purge:
     runs-on: ubuntu-latest
