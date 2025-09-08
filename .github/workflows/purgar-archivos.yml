@@ -1,0 +1,11 @@
+name: Purge jsDelivr
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "abdiel-css.css"
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -sS "https://purge.jsdelivr.net/gh/abdieldesigner/recursos/abdiel-css.css"
