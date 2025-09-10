@@ -283,13 +283,13 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 .elemento-difuminado-bottom {
-    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 90% ,transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, #00000047 93%, #0000001f 96%, transparent 100%) !important;
     ;
     -webkit-mask-repeat: no-repeat !important;
     ;
     -webkit-mask-size: 100% 100% !important;
     ;
-    mask-image: linear-gradient(to bottom, black 80%, transparent 90% ,transparent 100%) !important;
+    mask-image: linear-gradient(to bottom, black 80%, #00000047 93%, #0000001f 96%, transparent 100%) !important;
     ;
     mask-repeat: no-repeat !important;
     ;
@@ -301,6 +301,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS difuminado abajo 
    ========================================= */
+
 
 
 
