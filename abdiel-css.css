@@ -278,6 +278,30 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 
+/* =========================================
+   EMPIEZA CSS difuminado abajo 
+   ========================================= */
+
+.elemento-difuminado-bottom {
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 90% ,transparent 100%) !important;
+    ;
+    -webkit-mask-repeat: no-repeat !important;
+    ;
+    -webkit-mask-size: 100% 100% !important;
+    ;
+    mask-image: linear-gradient(to bottom, black 80%, transparent 90% ,transparent 100%) !important;
+    ;
+    mask-repeat: no-repeat !important;
+    ;
+    mask-size: 100% 100% !important;
+    ;
+}
+
+
+/* =========================================
+   TERMINA CSS difuminado abajo 
+   ========================================= */
+
 
 
 
