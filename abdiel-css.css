@@ -144,10 +144,10 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 /* Estados iniciales (ocultos + desplazados) */
-.scroll-left,
-.scroll-right,
-.scroll-bottom,
-.scroll-top {
+#__nuxt .scroll-left,
+#__nuxt .scroll-right,
+#__nuxt .scroll-bottom,
+#__nuxt .scroll-top {
   opacity: 0;            /* Elemento oculto inicialmente */
   transition: 0.8s all;  /* Transición suave para transform y opacity */
 }
@@ -319,6 +319,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS Tdo blanco / negro
    ========================================= */
+
 
 
 
