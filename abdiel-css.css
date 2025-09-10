@@ -302,7 +302,23 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    TERMINA CSS difuminado abajo 
    ========================================= */
 
+/* =========================================
+   COMIENZA CSS Tdo blanco / negro
+   ========================================= */
 
+.todo-blanco {
+    filter: brightness(0) invert(1);
+}
+
+.todo-negro {
+    filter: brightness(0);
+}
+
+
+
+/* =========================================
+   TERMINA CSS Tdo blanco / negro
+   ========================================= */
 
 
 
