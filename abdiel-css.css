@@ -323,6 +323,39 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 
+/* =========================================
+   EMPIEZA CSS BRILLOS
+   ========================================= */
+
+
+.brillos::after {
+    border-radius: 10px;
+    content: '';
+    background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/GIF-texturas/brillos.webp);
+    background-size: 200px;
+    background-repeat: repeat;
+ /* Repetir la imagen */
+    background-position: center center;
+ /* Centrar la imagen */
+    position: absolute;
+ /* Posicionamiento absoluto */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.6;
+ /* Opacidad al 70% */
+    mix-blend-mode: screen;
+ /* Modo de fusión */
+    z-index: 0;
+    pointer-events: none;
+}
+
+
+/* =========================================
+   TERMINA CSS BRILLOS
+   ========================================= */
+
 
 
 
