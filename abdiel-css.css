@@ -162,8 +162,8 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 /* Estado visible (se activa agregando la clase .ativo desde JS) */
 .ativo {
-  opacity: 1;            /* Hace visible el elemento */
-  transition: 0.8s;      /* Mantiene la duración de la animación */
+  opacity: 1 !important;            /* Hace visible el elemento */
+  transition: 0.8s !important;      /* Mantiene la duración de la animación */
   transform: none !important;       /* IMPORTANTE: resetea cualquier translateX/Y a 0 para todos los casos */
   /* Nota: Usar transform: none evita conflictos entre X e Y y asegura que todas
            las variantes (.scroll-left/right/top/bottom) animen hacia su posición final (0,0). */
@@ -321,6 +321,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS Tdo blanco / negro
    ========================================= */
+
 
 
 
