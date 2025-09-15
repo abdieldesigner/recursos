@@ -243,7 +243,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 }
 
 .card-scale-grupo .c-column:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) !important;;
  /* usa 'transform' en lugar de 'scale' directamente */
 }
 
@@ -255,7 +255,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 }
 
 .card-scale:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) !important;;
  /* usa 'transform' en lugar de 'scale' directamente */
 }
 
@@ -355,9 +355,44 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS BRILLOS
    ========================================= */
+/* =========================================
+   EMpieza  CSS Mascaras
+   ========================================= */
+
+.mask-4-cuadros-redondeados img {
+  /* La máscara SVG */
+    -webkit-mask-image: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/64b825bf0ee11ef0046a185e4519740b19da87f7/mascaras/Mask-4cuadros-redondeados.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-image: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/64b825bf0ee11ef0046a185e4519740b19da87f7/mascaras/Mask-4cuadros-redondeados.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+  /* Para que se vea transparente fuera de la máscara */
+    background-color: transparent;
+    display: block;
+}
+
+
+/* =========================================
+   TERMINA CSS Mascaras
+   ========================================= */
+
+/* =========================================
+   EMPIEZA CSS Mantener horizonral
+   ========================================= */
+
+
+.mantener-horiontal > div {
+    flex-direction: row !important;
+}
 
 
 
+/* =========================================
+   TERMINA CSS Mantener horizonral
+   ========================================= */
 
 
 
