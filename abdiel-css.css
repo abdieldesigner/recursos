@@ -224,7 +224,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 }
 
 .bento:hover {
-    transform: scale(1.05) rotate(-2deg);
+    transform: scale(1.05) rotate(-2deg) !important;
     filter: brightness(130%)
 }
 
@@ -393,6 +393,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS Mantener horizonral
    ========================================= */
+
 
 
 
