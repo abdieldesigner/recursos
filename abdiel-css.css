@@ -372,7 +372,31 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
   /* Para que se vea transparente fuera de la máscara */
     background-color: transparent;
     display: block;
+
+   aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
 }
+
+
+.mask-ovalada1 {
+  /* La máscara SVG */
+    -webkit-mask-image: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/ovalada1.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-image: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/ovalada1.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+  /* Para que se vea transparente fuera de la máscara */
+    background-color: transparent;
+    display: block;
+    aspect-ratio: 4 / 4.8;
+    object-fit: cover;
+    object-position: center;
+}
+
 
 
 /* =========================================
@@ -393,6 +417,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS Mantener horizonral
    ========================================= */
+
 
 
 
