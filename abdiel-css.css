@@ -155,10 +155,10 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 }
 
 /* Desplazamientos iniciales según la dirección deseada */
-.scroll-left   { transform: translateX(-30px); } /* Entra desde la izquierda */
-.scroll-right  { transform: translateX( 30px); } /* Entra desde la derecha  */
-.scroll-bottom { transform: translateY( 80px); } /* Entra desde abajo       */
-.scroll-top    { transform: translateY(-80px); } /* Entra desde arriba      */
+#__nuxt .scroll-left   { transform: translateX(-30px); } /* Entra desde la izquierda */
+#__nuxt .scroll-right  { transform: translateX( 30px); } /* Entra desde la derecha  */
+#__nuxt .scroll-bottom { transform: translateY( 80px); } /* Entra desde abajo       */
+#__nuxt .scroll-top    { transform: translateY(-80px); } /* Entra desde arriba      */
 
 /* Estado visible (se activa agregando la clase .ativo desde JS) */
 .ativo {
@@ -416,6 +416,23 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 /* =========================================
    TERMINA CSS Mantener horizonral
+   ========================================= */
+
+/* =========================================
+   EMPIEZA CSS Elemento Sticky Pegagoso
+   ========================================= */
+
+
+.pegajoso {
+    position: sticky !important;
+    top: 20%;
+    z-index: 10;
+}
+
+
+
+/* =========================================
+   TERMINA CSS Elemento Sticky Pegagoso
    ========================================= */
 
 
