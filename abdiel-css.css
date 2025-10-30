@@ -435,10 +435,29 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 
 
+/* =========================================
+   EMPIEZA Coreccion redes flotante no la smuestre en el editor
+   ========================================= */
+
+   .social-icons-container-abdiel {
+       position: relative !important;
+       top: 0;
+       right: 0;
+       transform: none;
+   }
+     
+     #__nuxt .social-icons-container-abdiel {
+       position: fixed !important;
+       top: 50%;
+       right: 20px; /* Separado 20px del borde derecho */
+       transform: translateY(-50%);
+   }
 
 
 
-
+/* =========================================
+   TERMINA CSS Coreccion redes flotante no la smuestre en el editor
+   ========================================= */
 
 
 
