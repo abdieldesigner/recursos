@@ -460,4 +460,24 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 
+/* =========================================
+   EMPIEZA CSS cintas inclinadas
+   ========================================= */
+   .cinta1 {
+       transform: rotate(5deg) scale(1.1);
+       overflow: visible;
+       z-index: 1;
+   }
+   
+   .cinta2 {
+       transform: rotate(356deg);
+       filter: blur(2px);
+   }
+
+/* =========================================
+   TERMINA CSS cintas inclinadas
+   ========================================= */
+
+
+
 
