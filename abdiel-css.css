@@ -399,6 +399,53 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 
 
+
+.mask-tecno1 img {
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    -webkit-mask-image: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/Mask%20tecno%201.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+    -webkit-mask-position: center;
+    -webkit-mask-mode: alpha;
+    mask-image: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/Mask%20tecno%201.svg");
+    mask-repeat: no-repeat;
+    mask-size: cover;
+    mask-position: center;
+    mask-mode: alpha;
+    border-radius: 20px;
+}
+
+.mask-tecno2 {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+
+  -webkit-mask-image: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/Mask%20tecno%202.svg");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+  -webkit-mask-mode: alpha;
+
+  mask-image: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/Mask%20tecno%202.svg");
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  mask-mode: alpha;
+
+  border-radius: 20px;
+}
+
+
+
+
+
+
 /* =========================================
    TERMINA CSS Mascaras
    ========================================= */
@@ -477,6 +524,9 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS cintas inclinadas
    ========================================= */
+
+
+
 
 
 
