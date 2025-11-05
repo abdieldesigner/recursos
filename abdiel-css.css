@@ -521,10 +521,30 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
        filter: blur(2px);
    }
 
+
 /* =========================================
    TERMINA CSS cintas inclinadas
    ========================================= */
 
+/* =========================================
+   EMPIEZA CSS Correccion de cosas nativas
+   ========================================= */
+
+   .abdiel-fix .time-grid-4 {
+       grid-template-columns: repeat(4, 1fr) !important;
+       gap: 20px;
+    /* opcional: espacio entre columnas */
+   } 
+
+   .menu-layout picture {
+       width: max-content !important;
+   }
+
+
+
+/* =========================================
+   TERMINA CSS Correccion de cosas nativas
+   ========================================= */
 
 
 
