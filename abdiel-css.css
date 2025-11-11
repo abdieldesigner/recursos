@@ -536,7 +536,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     /* opcional: espacio entre columnas */
    } 
 
-   .menu-layout picture {
+   .abdiel-fix .menu-layout picture {
        width: max-content !important;
    }
 
@@ -545,6 +545,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS Correccion de cosas nativas
    ========================================= */
+
 
 
 
