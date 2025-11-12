@@ -548,8 +548,129 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 
 
+/* =========================================
+   COMIENZA CSS Redes - botones flotantes
+   ========================================= */
+
+  <style>
+    /* ================= VARS GLOBALES ================= */
+    :root{
+      --abdiel-v2-size: 46px;
+      --abdiel-v2-radius: 14px;
+      --abdiel-v2-pad-x: 12px;
+      --abdiel-v2-gap: 10px;
+      --abdiel-v2-color-text: #fff;                /* color de texto global */
+      --abdiel-v2-bg-base: #00000047;              /* color base si no hay degradado */
+      --abdiel-v2-gradient: linear-gradient(105deg, #0000004f, #00000036);
+    }
+
+    /* ================= CONTENEDOR ================= */
+    .social-icons-container-abdiel{
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: end;
+      z-index: 9999;
+    }
+
+    /* ================= ITEM ================= */
+    .abdiel-v2-item{
+      height: var(--abdiel-v2-size);
+      min-width: var(--abdiel-v2-size);
+      max-width: var(--abdiel-v2-size);
+      border-radius: var(--abdiel-v2-radius);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0;
+      gap: 0;
+      line-height: 0;
+      text-decoration: none;
+      background-color: var(--abdiel-v2-bg-base);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 6px 18px rgba(0,0,0,.25);
+      transition:
+        transform .22s ease,
+        max-width .28s ease,
+        padding .28s ease,
+        gap .28s ease,
+        box-shadow .22s ease;
+      will-change: transform, max-width, padding;
+      font-family: var(--contentfont);
+    }
+
+    /* Switch global: si un padre tiene .no-degradado, apaga el degradado */
+    .no-degradado .bg-degradado {
+      background-color: var(--abdiel-v2-bg-base) !important;
+      background-image: var(--abdiel-v2-gradient) !important;
+    }
+
+    /* Hover/focus: expande a botón y muestra etiqueta */
+    .abdiel-v2-item:hover,
+    .abdiel-v2-item:focus-visible{
+      transform: scale(1.1);
+      max-width: 220px;
+      padding: 0 var(--abdiel-v2-pad-x);
+      gap: var(--abdiel-v2-gap);
+      box-shadow: 0 10px 26px rgba(0,0,0,.32);
+      outline: none;
+    }
+
+    /* ================= ICONO ================= */
+    .abdiel-v2-icon{
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      display: block;
+      filter: brightness(-100); 
+      /* Si la fuente del SVG es negra, esto lo invierte a blanco */ 
+      filter: invert(1) brightness(100%);
+    }
+
+    /* ================= LABEL ================= */
+    /* Importante: no usar display:none para que la transición funcione */
+    .abdiel-v2-label{
+      display: none;
+      align-items: center;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1;
+      color: var(--abdiel-v2-color-text);
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity .22s ease, transform .22s ease;
+      pointer-events: none;
+    }
+
+    .abdiel-v2-item:hover .abdiel-v2-label,
+    .abdiel-v2-item:focus-visible .abdiel-v2-label{
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 768px){
+      .social-icons-container-abdiel{ gap: 21px; }
+      :root{ --abdiel-v2-size: 34px; }
+      .abdiel-v2-icon{ width: 18px; height: 18px; }
+
+      .text-output {
+          margin-right: 45px !important;
+      }
+    }
+  </style>
 
 
-
+/* =========================================
+   TERMINA CSS Redes - botones flotantes
+   ========================================= */
 
 
