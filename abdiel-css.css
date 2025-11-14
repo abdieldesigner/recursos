@@ -24,6 +24,14 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
   overflow-x: clip;     /* Bloquea desbordes laterales (evita scroll horizontal) */
   overflow-y: visible;  /* Permite que elementos absolutamente posicionados “asomen” en Y */
 }
+
+
+/* oculta cositas */
+.oculto {
+    display: none !important;
+}
+
+
 /* =========================================
    TERMINA CSS: EVITAR DESBORDE
    ========================================= */
@@ -77,6 +85,20 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    TERMINA CSS: SEPARACIÓN ENTRE ELEMENTOS
    ========================================= */
 
+
+/* =========================================
+   INICIA CSS: Dimenciones de imagenes
+   ========================================= */
+
+   .img-1-1 img {
+       aspect-ratio: 1 / 1;
+       object-fit: cover;
+       object-position: center;
+   }
+
+/* =========================================
+   TERMINA CSS: Dimenciones de imagenes
+   ========================================= */
 
 
 /* =========================================
@@ -549,6 +571,39 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 
 /* =========================================
+   COMIENZA CSS COntenedores GRID
+   ========================================= */
+
+.grid-2 > .inner {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
+  gap: 10px; /* espacio entre filas y columnas */
+}
+  
+.grid-3 > .inner {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr); /* 2 columnas iguales */
+  gap: 10px; /* espacio entre filas y columnas */
+}
+
+.grid-4 > .inner {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr); /* 2 columnas iguales */
+  gap: 10px; /* espacio entre filas y columnas */
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .grid-2 > .inner, .grid-3 > .inner, .grid-4 > .inner {
+    grid-template-columns: 1fr !important; /* una sola columna en móvil */
+  }
+}
+
+/* =========================================
+   Termina CSS COntenedores GRID
+   ========================================= */
+
+/* =========================================
    COMIENZA CSS Redes - botones flotantes
    ========================================= */
 
@@ -672,5 +727,6 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS Redes - botones flotantes
    ========================================= */
+
 
 
