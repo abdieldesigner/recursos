@@ -618,9 +618,20 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
       --abdiel-v2-bg-base: #00000047;              /* color base si no hay degradado */
       --abdiel-v2-gradient: linear-gradient(105deg, #0000004f, #00000036);
     }
+/* ================= estilo ventana de edecion ================= */
+      .social-icons-container-abdiel {
+        position: relative;
+        display: flex;
+        flex-direction: row; /* elementos en fila */
+        flex-wrap: wrap;     /* permite que salten a otra línea */
+        gap: 10px;           /* opcional: espacio entre elementos */
+        transform: none;
+        top: 0;
+        right: 0px;
+      }
 
-    /* ================= CONTENEDOR ================= */
-    .social-icons-container-abdiel{
+    /* ================= CONTENEDOR estilo finales ================= */
+    #__nuxt .social-icons-container-abdiel{
       position: fixed;
       top: 50%;
       right: 20px;
@@ -727,6 +738,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS Redes - botones flotantes
    ========================================= */
+
 
 
 
