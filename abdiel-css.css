@@ -756,3 +756,72 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    TERMINA CSS Suscripcion wiget
    ========================================= */
+
+/* =========================================
+   Comienza CSS Calendario
+   ========================================= */
+
+/*<!-- ===== Calendario Abdiel: chips, meses en cajas, modal con descripción y links ===== -->*/
+
+  :root{ --accent1:#e3c35b; --accent2:#b6a1e1; --ink:#17151f; --muted:#8c8a96; }
+  .nr-wrap{max-width:1200px;margin:0 auto;padding:24px 16px;font-family:var(--contentfont)}
+  .nr-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+  .nr-title{font-family:var(--headlinefont);font-size:clamp(20px,2.4vw,28px);font-weight:700;color:var(--accent1);margin-right:auto}
+  .nr-chip{border:1px solid var(--accent1);color:var(--accent1);background:#fff;padding:8px 12px;border-radius:999px;cursor:pointer;font-size:14px;transition:.18s}
+  .nr-chip.is-active{background:var(--accent1);color:#fff;box-shadow:0 0 0 2px var(--accent2) inset}
+  .nr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:980px){ .nr-grid{grid-template-columns:1fr} }
+
+  .nr-month{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;box-shadow:0 8px 28px rgba(0,0,0,.06);padding:16px}
+  .nr-month h3{font-family:var(--headlinefont);font-size:18px;margin:0 0 12px}
+  .nr-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .nr-wd{text-align:center;font-size:12px;color:var(--muted);padding:4px 0;font-family:var(--contentfont)}
+  .nr-cell{aspect-ratio:1/1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--ink);position:relative}
+  .nr-cell.muted{opacity:.35}
+  .nr-cell.has-ev{cursor:pointer}
+  .nr-cell.has-ev:focus{outline:2px solid var(--accent2)}
+  .nr-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px}
+  .nr-cell.has-ev .nr-num{color:#fff}
+
+  .nr-summary{margin-top:12px;border-top:1px dashed rgba(0,0,0,.12);padding-top:10px}
+  .nr-summary li{font-size:13px;display:flex;gap:8px;align-items:center;padding:4px 0;font-family:var(--contentfont)}
+  .nr-pill{padding:3px 8px;border-radius:999px;background:var(--accent2);font-size:11px;color:#2b2550}
+
+  /* Modal centrado + overlay */
+  .nr-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:9998}
+  .nr-modal{position:fixed;inset:0;display:none;z-index:9999;align-items:center;justify-content:center;padding:20px}
+  .nr-modal__card{width:min(640px, 94vw);background:#fff;color:#111;border-radius:16px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);padding:18px;font-family:var(--contentfont)}
+  .nr-modal__head{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .nr-modal__title{font-family:var(--headlinefont);font-size:18px;font-weight:700;margin:0;color:#111}
+  .nr-modal__close{background:#111;color:#fff;border:none;width:32px;height:32px;border-radius:999px;cursor:pointer;font-size:18px;line-height:1}
+  .nr-modal__meta{font-size:13px;color:#444;margin-bottom:8px}
+  .nr-modal__body{font-size:14px;color:#222}
+  .nr-modal__body a{color:#111;text-decoration:underline}
+
+  /* Botones del modal (más pequeños y en fila) */
+  .nr-modal__actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .nr-btn{display:inline-flex;align-items:center;justify-content:center;
+    padding:8px 12px;border-radius:12px;font-weight:600;font-size:13px;text-decoration:none;line-height:1}
+  .nr-btn--primary{background:#111;color:#fff;border:1px solid #111}
+  .nr-btn--ghost{background:transparent;color:#111;border:1px solid #111}
+  
+  /* Etiquetas - botones de cada evento */
+#nr-chips {
+  display: flex;     
+  flex-wrap: wrap;         
+  gap: 10px;               
+}
+  
+ @media (max-width: 768px) {
+/* ajustar tamaño de calendario en movil */
+  .nr-month {
+    margin-left: -30px;
+    scale: 0.95;
+  }
+}
+
+
+/* =========================================
+   Termina CSS Calendario
+   ========================================= */
