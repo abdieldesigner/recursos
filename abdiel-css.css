@@ -740,5 +740,19 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 
+/* =========================================
+   Comienza Suscripcion wiget
+   ========================================= */
+
+.abdiel-suscripcion .subscribe-text-section {
+    display: none !important;
+}
+
+.abdiel-suscripcion .subscribe-form-plain {
+    margin: auto !important;
+}
 
 
+/* =========================================
+   TERMINA CSS Suscripcion wiget
+   ========================================= */
