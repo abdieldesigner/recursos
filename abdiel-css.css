@@ -728,9 +728,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
       :root{ --abdiel-v2-size: 34px; }
       .abdiel-v2-icon{ width: 18px; height: 18px; }
 
-      .text-output {
-          margin-right: 45px !important;
-      }
+      
     }
   </style>
 
@@ -825,3 +823,4 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    Termina CSS Calendario
    ========================================= */
+
