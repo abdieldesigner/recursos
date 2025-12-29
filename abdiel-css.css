@@ -752,7 +752,28 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 .abdiel-suscripcion .subscribe-form-plain {
     margin: auto !important;
 }
+/* limpio total =========================================*/
+.abdiel-suscripcion2 .subscribe-icon-section,  .abdiel-suscripcion2 .subscribe-content-inner-wrapper {
+    display: none !important;
+}
 
+.abdiel-suscripcion2 .subscribe-content, .abdiel-suscripcion2 .subscribe-content-inner {
+    min-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.abdiel-suscripcion2 .subscribe-content, .abdiel-suscripcion2 .subscribe-content,  .abdiel-suscripcion2 .subscribe-wrapper {
+    height: auto !important;
+}
+
+.abdiel-suscripcion2 .subscribe-form-plain {
+    margin: auto !important;
+}
+
+.abdiel-suscripcion2 div.subscribe-wrapper, .abdiel-suscripcion2  .subscribe-email-input {
+    background: transparent !important;
+}
 
 /* =========================================
    TERMINA CSS Suscripcion wiget
@@ -826,5 +847,6 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    Termina CSS Calendario
    ========================================= */
+
 
 
