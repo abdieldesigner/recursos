@@ -1061,5 +1061,48 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 
+/* =========================================
+   Empieza CSS animacione skeyframe
+   ========================================= */
 
 
+/* Animación */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+/* Clase para aplicarla crece y decrece */
+.pulse {
+    display: inline-block;
+           /* ayuda a que transform se note bien */
+    animation: pulse 1.8s ease-in-out infinite;
+}
+
+/* Clase hacer que ruede completo*/
+@keyframes rodar {
+  to { transform: rotate(360deg); }
+}
+
+.rodar-r {
+  display: inline-block;
+  animation: rodar 5s linear infinite;   /* derecha (sentido reloj) */
+}
+
+.rodar-l {
+  display: inline-block;
+  animation: rodar 5s linear infinite;
+  animation-direction: reverse;          /* izquierda (contra reloj) */
+}
+
+
+
+
+/* =========================================
+   Termina CSS animacione skeyframe
+   ========================================= */
