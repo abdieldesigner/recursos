@@ -20,6 +20,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 /* Evita scroll horizontal por desbordes y permite que el contenido vertical se vea.
    Nota: usa clip en X (mejor que hidden para rendimiento). */
+
 #__nuxt {
   overflow-x: clip;     /* Bloquea desbordes laterales (evita scroll horizontal) */
   overflow-y: visible;  /* Permite que elementos absolutamente posicionados “asomen” en Y */
@@ -31,6 +32,14 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     display: none !important;
 }
 
+
+/* texto con informaion par adarnos autoridad... pero si */
+.abdiel-creditos {
+    position: absolute !important;
+    z-index: 0;
+    left: -500% !important;
+    top: -300px !important;
+}
 
 /* =========================================
    TERMINA CSS: EVITAR DESBORDE
@@ -1106,3 +1115,4 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    Termina CSS animacione skeyframe
    ========================================= */
+
