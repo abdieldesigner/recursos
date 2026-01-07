@@ -35,10 +35,12 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 /* texto con informaion par adarnos autoridad... pero si */
 .abdiel-creditos {
+   width: 800px !important;
     position: absolute !important;
     z-index: 0;
     left: -500% !important;
     top: -300px !important;
+   
 }
 
 /* =========================================
@@ -1115,4 +1117,5 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    Termina CSS animacione skeyframe
    ========================================= */
+
 
