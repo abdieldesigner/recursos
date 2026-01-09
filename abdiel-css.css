@@ -869,6 +869,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
   :root{
     /* Colores base */
     --seo-text:   #212121;   /* color de texto principal */
+    --seo-accent: #0d0d0d; 
     --seo-accent: {{custom_values.color_primary}};   /* color de acento / destacado */
 
     /* Derivados (puedes ajustarlos o no usarlos) */
@@ -1117,5 +1118,6 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    Termina CSS animacione skeyframe
    ========================================= */
+
 
 
