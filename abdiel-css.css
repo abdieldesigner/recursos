@@ -740,7 +740,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
       .abdiel-v2-icon{ width: 18px; height: 18px; }
 
        /* ✔ solo aplica si existe el contenedor con esa clase */
-        body:has(.social-icons-container-abdiel) .text-output {
+        body:has(.social-icons-container-abdiel) .text-output, body:has(.social-icons-container-abdiel) .c-button {
           margin-right: 45px !important;
         }
     }
@@ -1118,6 +1118,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    Termina CSS animacione skeyframe
    ========================================= */
+
 
 
 
