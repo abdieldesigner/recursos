@@ -31,6 +31,11 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 .oculto {
     display: none !important;
 }
+.destacar-1, .z-index1 {
+   z-index: 1;
+}
+
+
 
 
 /* texto con informaion par adarnos autoridad... pero si */
@@ -1118,6 +1123,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    Termina CSS animacione skeyframe
    ========================================= */
+
 
 
 
