@@ -112,6 +112,12 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
        object-position: center;
    }
 
+   .img-6-4 img {
+       aspect-ratio: 6 / 4;
+       object-fit: cover;
+       object-position: center;
+   }
+
 /* =========================================
    TERMINA CSS: Dimenciones de imagenes
    ========================================= */
@@ -1123,6 +1129,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* =========================================
    Termina CSS animacione skeyframe
    ========================================= */
+
 
 
 
