@@ -1125,11 +1125,116 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 
 
-
 /* =========================================
    Termina CSS animacione skeyframe
    ========================================= */
 
+/* =========================================
+   Termina CSS divisores de seccion
+========================================= */
+
+/* Variables globales */
+body {
+    --divider-mask: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/Shapes/mountains.svg");
+    --divider-height: 70px;  
+    --divider-color: #fff;
+}
+
+
+.divider-top-ab::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: var(--divider-height);
+    background: var(--divider-color);
+    z-index: 1;
+    -webkit-mask-image: var(--divider-mask);
+    mask-image: var(--divider-mask);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+  /* CAMBIO AQUÍ */
+    mask-size: cover;
+           /* CAMBIO AQUÍ */
+    -webkit-mask-position: center;
+    mask-position: center;
+    z-index: 0;
+}
+
+.divider-bottom-ab::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: var(--divider-height);
+    background: var(--divider-color);
+    z-index: 1;
+    -webkit-mask-image: var(--divider-mask);
+    mask-image: var(--divider-mask);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+  /* CAMBIO AQUÍ */
+    mask-size: cover;
+           /* CAMBIO AQUÍ */
+    -webkit-mask-position: center;
+    mask-position: center;
+    transform-origin: center;
+    transform: scaleY(-1);
+    z-index: 3;
+}
+
+/* Divisor TOP - una sola clase */
+.divisor-top-ab2 {
+    position: absolute !important;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: var(--divider-height);
+    -webkit-mask-image: var(--divider-mask);
+    mask-image: var(--divider-mask);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-position: center;
+    mask-position: center;
+    z-index: 0;
+}
+
+/* Divisor BOTTOM - una sola clase */
+.divisor-bottom-ab2 {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleY(-1);
+    width: 100vw;
+    height: var(--divider-height);
+    -webkit-mask-image: var(--divider-mask);
+    mask-image: var(--divider-mask);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-position: center;
+    mask-position: center;
+    z-index: 1;
+}
+
+/* La sección padre necesita esto */
+.seccion-con-divisor {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+
+/* =========================================
+   Termina CSS divisores
+   ========================================= */
 
 
 
