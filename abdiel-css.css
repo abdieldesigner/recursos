@@ -21,9 +21,9 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* Evita scroll horizontal por desbordes y permite que el contenido vertical se vea.
    Nota: usa clip en X (mejor que hidden para rendimiento). */
 
-#__nuxt {
-  overflow-x: clip;     /* Bloquea desbordes laterales (evita scroll horizontal) */
-  overflow-y: visible;  /* Permite que elementos absolutamente posicionados “asomen” en Y */
+#__nuxt, #previewer {
+    overflow-x: clip; /* Bloquea desbordes laterales (evita scroll horizontal) */
+    overflow-y: visible; /* Permite que elementos absolutamente posicionados “asomen” en Y */
 }
 
 
@@ -1141,11 +1141,15 @@ body {
 }
 
 
+.divider-top-ab, .divider-bottom-ab {
+    border-width: 0 !important;
+}
+
 .divider-top-ab::before {
     content: "";
     position: absolute;
     left: 0;
-    top: 0;
+    top: -1px;
     width: 100%;
     height: var(--divider-height);
     background: var(--divider-color);
@@ -1167,7 +1171,7 @@ body {
     content: "";
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: -1px;
     width: 100%;
     height: var(--divider-height);
     background: var(--divider-color);
@@ -1193,7 +1197,7 @@ body {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100vw;
+    width: 100vw !important;
     height: var(--divider-height);
     -webkit-mask-image: var(--divider-mask);
     mask-image: var(--divider-mask);
@@ -1212,7 +1216,7 @@ body {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%) scaleY(-1);
-    width: 100vw;
+    width: 100vw !important;
     height: var(--divider-height);
     -webkit-mask-image: var(--divider-mask);
     mask-image: var(--divider-mask);
@@ -1232,9 +1236,33 @@ body {
 }
 
 
+/* Animación para divisores - se activa con la clase "divisor-move" */
+.divisor-move.divider-top-ab::before,
+.divisor-move.divider-bottom-ab::after,
+.divisor-move.divisor-top-ab2,
+.divisor-move.divisor-bottom-ab2 {
+    width: 210% !important;
+    animation: wave 30s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+@keyframes wave {
+    0% {
+        margin-left: 0;
+    }
+
+    50% {
+        margin-left: -100%;
+    }
+
+    100% {
+        margin-left: 0;
+    }
+}
+
 /* =========================================
    Termina CSS divisores
    ========================================= */
+
 
 
 
