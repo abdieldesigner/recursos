@@ -1270,6 +1270,26 @@ body {
    ========================================= */
 
 
+.circular-text-container {
+  margin: 0 auto;
+  animation: rodar 25s linear infinite;
+  animation-direction: reverse; 
+}
+
+.circular-text {
+  font-size: 18px;
+  fill: #212121;
+  font-family: var(--headlinefont);
+  font-weight: 500;
+}
+
+
+/* =========================================
+   Termina CSS texto ciruclar
+   ========================================= */
+
+
+
 
 
 
