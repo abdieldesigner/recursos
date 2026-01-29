@@ -1140,6 +1140,12 @@ body {
     --divider-color: #fff;
 }
 
+/* cuando el fono tine eimage queda sobre la imagen y no detras */
+.divider-top-ab > div.inner, .divider-bottom-ab > div.inner {
+    z-index: 3 !important;
+    position: relative !important;
+}
+
 
 .divider-top-ab, .divider-bottom-ab {
     border-width: 0 !important;
@@ -1164,7 +1170,7 @@ body {
            /* CAMBIO AQUÍ */
     -webkit-mask-position: center;
     mask-position: center;
-    z-index: 0;
+    z-index: 1;
 }
 
 .divider-bottom-ab::after {
@@ -1237,15 +1243,15 @@ body {
 
 
 /* Animación para divisores - se activa con la clase "divisor-move" */
-.divisor-move.divider-top-ab::before,
-.divisor-move.divider-bottom-ab::after,
-.divisor-move.divisor-top-ab2,
-.divisor-move.divisor-bottom-ab2 {
+.divider-move.divider-top-ab::before,
+.divider-move.divider-bottom-ab::after,
+.divider-move.divisor-top-ab2,
+.divider-move.divisor-bottom-ab2 {
     width: 210% !important;
-    animation: wave 30s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    animation: wave-divider 30s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
 }
 
-@keyframes wave {
+@keyframes wave-divider {
     0% {
         margin-left: 0;
     }
@@ -1262,6 +1268,7 @@ body {
 /* =========================================
    Termina CSS divisores
    ========================================= */
+
 
 
 
