@@ -109,6 +109,23 @@ document.addEventListener('DOMContentLoaded', function() {
    ============================================================ */
 
 
+/* ============================================================
+   EMpieza JS anadir clase un a cada pagina
+   ============================================================ */
+
+
+(function () {
+  var host = window.location.hostname.replace(/^www\./, '');
+  var clase = host.replace(/\./g, '-') + '-';
+  var nuxtEl = document.getElementById('__nuxt');
+  if (nuxtEl) nuxtEl.classList.add(clase);
+})();
+
+/* ============================================================
+   TERMINA JS anadir clase un a cada pagina
+   ============================================================ */
+
+
 
 
 
