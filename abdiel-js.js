@@ -82,8 +82,6 @@ window.addEventListener('load', () => {
    Empieza JS roba color del borde para divisores
    ============================================================ */
 
-
-<script>
 document.addEventListener('DOMContentLoaded', function() {
     const secciones = document.querySelectorAll('section, .section, [class*="section"]');
     
@@ -107,12 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-</script>
 
 
 /* ============================================================
    TERMINA JS roba color del borde para divisores
    ============================================================ */
+
 
 
 
