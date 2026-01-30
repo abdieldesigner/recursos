@@ -81,35 +81,33 @@ window.addEventListener('load', () => {
 /* ============================================================
    Empieza JS roba color del borde para divisores
    ============================================================ */
-
 document.addEventListener('DOMContentLoaded', function() {
     const secciones = document.querySelectorAll('section, .section, [class*="section"]');
     
     secciones.forEach(function(seccion) {
         if (seccion.classList.contains('divider-top-ab') || 
-            seccion.classList.contains('divider-bottom-ab') ||
-            seccion.querySelector('.divider-top-ab, .divider-bottom-ab')) {
+            seccion.classList.contains('divider-bottom-ab')) {
             
             const borderColor = window.getComputedStyle(seccion).borderTopColor;
             
             // Solo cambiar si NO es negro, transparente o rgba(0,0,0,0)
             if (borderColor && 
+                borderColor !== 'rgb(0, 0, 0)' && 
                 borderColor !== 'rgba(0, 0, 0, 0)' &&
                 borderColor !== 'transparent') {
                 
-                console.log('Color aplicado:', borderColor);
-                document.body.style.setProperty('--divider-color', borderColor);
-            } else {
-                console.log('Sin borde válido, manteniendo color del body');
+                console.log('Color aplicado a sección:', borderColor);
+                // Aplicar el color SOLO a esta sección específica
+                seccion.style.setProperty('--divider-color', borderColor);
             }
         }
     });
 });
 
-
 /* ============================================================
    TERMINA JS roba color del borde para divisores
    ============================================================ */
+
 
 
 
