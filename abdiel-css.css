@@ -56,6 +56,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 :root {
     --degradado-texto: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
     --degradado-fondo: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
+    --degradado-boton: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
     --primary-color-custom: #009246;
     --secondary-color-custom: #00b6c2;
     --accent-color-custom: #00b34d;
@@ -101,7 +102,7 @@ body:has(.colores-abdiel) .excluir-icons :is(h1, h2, h3, p, .button-icon-end)::b
 
 body:has(.colores-abdiel) .boton-degradado {
     box-shadow: none;
-    background-image: var(--degradado-fondo);
+    background-image: var(--degradado-boton);
     transition: all .4s;
     color: white !important;
 }
@@ -1343,6 +1344,7 @@ body {
 /* =========================================
    Termina CSS texto ciruclar
    ========================================= */
+
 
 
 
