@@ -53,6 +53,62 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ========================================= */
 
 
+:root {
+    --degradado-texto: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
+    --degradado-fondo: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
+    --primary-color-custom: #009246;
+    --secondary-color-custom: #00b6c2;
+    --accent-color-custom: #00b34d;
+}
+
+/* =============================================
+   Colores personaliza de cada web — debo declara las variebles antes.
+   ============================================= */
+
+
+body:has(.colores-abdiel) .bg-degradado {
+    box-shadow: none;
+    background-image: var(--degradado-fondo);
+    transition: all .4s;
+}
+
+body:has(.colores-abdiel) :is(.cinta2 span, .cinta2 .marquee-text) {
+    color: #646464 !important;
+    -webkit-text-fill-color: transparent;
+    background-image: var(--degradado-texto) !important;
+    padding-right: .15rem;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+body:has(.colores-abdiel) :is(h1 strong, h2 strong, .gradient-text h1, .gradient-text h2, .gradient-text strong, .card-categoria h2, .counter-value),
+body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *)) {
+    color: #991e30;
+    -webkit-text-fill-color: transparent;
+    background-image: var(--degradado-texto);
+    padding-right: .15rem;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+body:has(.colores-abdiel) :is(h1, h2, h3, p, .button-icon-end)::before {
+    color: var(--secondary-color-custom) !important;
+}
+
+body:has(.colores-abdiel) .excluir-icons :is(h1, h2, h3, p, .button-icon-end)::before {
+    color: inherit !important;
+}
+
+body:has(.colores-abdiel) .boton-degradado {
+    box-shadow: none;
+    background-image: var(--degradado-fondo);
+    transition: all .4s;
+    color: white !important;
+}
+
+/* =========================================
+   Termina colores perosnalizados
+   ========================================= */
 
 /* =========================================
    INICIA CSS: OCULTAR ELEMENTOS DE TRABAJO
@@ -1287,6 +1343,7 @@ body {
 /* =========================================
    Termina CSS texto ciruclar
    ========================================= */
+
 
 
 
