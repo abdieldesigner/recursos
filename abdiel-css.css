@@ -60,6 +60,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --primary-color-custom: #009246;
     --secondary-color-custom: #00b6c2;
     --accent-color-custom: #00b34d;
+    --divider-color: #fff;
 }
 
 /* =============================================
@@ -86,7 +87,7 @@ body:has(.colores-abdiel) :is(h1 strong, h2 strong, .gradient-text h1, .gradient
 body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *)) {
     color: #991e30;
     -webkit-text-fill-color: transparent;
-    background-image: var(--degradado-texto);
+    background-image: var(--degradado-boton);
     padding-right: .15rem;
     -webkit-background-clip: text;
     background-clip: text;
@@ -1344,6 +1345,7 @@ body {
 /* =========================================
    Termina CSS texto ciruclar
    ========================================= */
+
 
 
 
