@@ -1207,6 +1207,7 @@ body {
 
 .divider-top-ab, .divider-bottom-ab {
     border-width: 0 !important;
+   z-index: 0;
 }
 
 .divider-top-ab::before {
@@ -1345,6 +1346,7 @@ body {
 /* =========================================
    Termina CSS texto ciruclar
    ========================================= */
+
 
 
 
