@@ -123,8 +123,24 @@ document.addEventListener('DOMContentLoaded', function() {
 /* ============================================================
    TERMINA JS anadir clase un a cada pagina
    ============================================================ */
+/* ============================================================
+   empieza JS afecto aparecer anuncio
+   ============================================================ */
 
+  window.onload = function() {
+    const anuncios = document.querySelectorAll('.contenedor-anuncio'); // Selecciona todos los elementos con la clase 'contenedor-anuncio'
 
+    anuncios.forEach(function(anuncio) {
+      // Después de 4 segundos, hazlo visible y clickeable
+      setTimeout(function() {
+        anuncio.classList.add('visible');
+      }, 4000); // 4000 ms = 4 segundos
+    });
+  };
+
+/* ============================================================
+   TERMINA JS afecto aparecer anuncio
+   ============================================================ */
 
 
 
