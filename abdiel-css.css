@@ -25,6 +25,10 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     overflow-x: clip; /* Bloquea desbordes laterales (evita scroll horizontal) */
     overflow-y: visible; /* Permite que elementos absolutamente posicionados “asomen” en Y */
 }
+/* nativamente todo esta en stativ lo qu ecomlica usalro los z-index */
+.c-section, .custom-code-container {
+    position: relative;
+}
 
 
 /* oculta cositas */
@@ -87,7 +91,8 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ============================================= */
 
 
-body:has(.colores-abdiel) .bg-degradado, .faq-degradado .hl-faq-child-heading.active {
+body:has(.colores-abdiel) .bg-degradado, 
+.faq-degradado .hl-faq-child-heading.active {
     box-shadow: none;
     background-image: var(--degradado-fondo);
     transition: all .4s;
@@ -112,7 +117,7 @@ body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .excl
     background-clip: text;
 }
 
-body:has(.colores-abdiel) :is(h1, h2, h3, h4, p {
+body:has(.colores-abdiel) :is(h1, h2, h3, h4, p, .button-icon-end)::before  {
     color: var(--accent-color-custom) !important;
 }
 
@@ -126,7 +131,9 @@ body:has(.colores-abdiel) .boton-degradado {
     transition: all .4s;
     color: white !important;
 }
-body:has(.colores-abdiel) .boton-degradado .button-icon-end)::before {
+
+/* Se corrigió el error de la doble llave en la siguiente regla */
+body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
     color: white !important;
 }
 
@@ -1368,6 +1375,7 @@ body {
 /* =========================================
    Termina CSS texto ciruclar
    ========================================= */
+
 
 
 
