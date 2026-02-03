@@ -41,6 +41,19 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    z-index: 3;
 }
 
+.blur1 {
+   filter: blur(2px);
+}
+.blur2 {
+   filter: blur(6px);
+}
+.opacity-5 {
+   opacity: 0.5;
+}
+
+
+
+
 
 
 
@@ -74,7 +87,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    ============================================= */
 
 
-body:has(.colores-abdiel) .bg-degradado {
+body:has(.colores-abdiel) .bg-degradado, .faq-degradado .hl-faq-child-heading.active {
     box-shadow: none;
     background-image: var(--degradado-fondo);
     transition: all .4s;
@@ -93,14 +106,14 @@ body:has(.colores-abdiel) :is(h1 strong, h2 strong, .gradient-text h1, .gradient
 body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *)) {
     color: #991e30;
     -webkit-text-fill-color: transparent;
-    background-image: var(--degradado-boton);
+    background-image: var(--degradado-texto);
     padding-right: .15rem;
     -webkit-background-clip: text;
     background-clip: text;
 }
 
-body:has(.colores-abdiel) :is(h1, h2, h3, p, .button-icon-end)::before {
-    color: var(--secondary-color-custom) !important;
+body:has(.colores-abdiel) :is(h1, h2, h3, h4, p {
+    color: var(--accent-color-custom) !important;
 }
 
 body:has(.colores-abdiel) .excluir-icons :is(h1, h2, h3, p, .button-icon-end)::before {
@@ -113,6 +126,10 @@ body:has(.colores-abdiel) .boton-degradado {
     transition: all .4s;
     color: white !important;
 }
+body:has(.colores-abdiel) .boton-degradado .button-icon-end)::before {
+    color: white !important;
+}
+
 
 /* =========================================
    Termina colores perosnalizados
@@ -626,7 +643,6 @@ body:has(.colores-abdiel) .boton-degradado {
    
    .cinta2 {
        transform: rotate(356deg);
-       filter: blur(2px);
    }
 
 
@@ -1352,6 +1368,7 @@ body {
 /* =========================================
    Termina CSS texto ciruclar
    ========================================= */
+
 
 
 
