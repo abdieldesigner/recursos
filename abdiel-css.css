@@ -108,7 +108,7 @@ body:has(.colores-abdiel) :is(.cinta2 span, .cinta2 .marquee-text) {
     background-clip: text;
 }
 
-body:has(.colores-abdiel) :is(h1 strong, h2 strong, .gradient-text h1, .gradient-text h2, .gradient-text strong, .card-categoria h2, .counter-value),
+body:has(.colores-abdiel) :is(h1 strong, h2 strong, .gradient-text h1, .gradient-text h2, .gradient-text strong, .card-categoria h2, .gradient-text .timer-box > .count),
 body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *)) {
     color: #991e30;
     -webkit-text-fill-color: transparent;
@@ -606,7 +606,7 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
 .pegajoso {
     position: sticky !important;
     top: 20%;
-    z-index: 10;
+    z-index: 2;
 }
 
 /* =========================================
@@ -1369,6 +1369,54 @@ body {
 /* =========================================
    Termina CSS texto ciruclar
    ========================================= */
+
+
+/* =========================================
+   empieza CSS anucio
+   ========================================= */
+
+
+  #__nuxt .contenedor-anuncio{
+  position: sticky;
+  bottom: 10px;    
+  z-index: 3;
+  align-self: flex-start; /* clave si está dentro de un flex */
+}
+ #__nuxt .contenedor-anuncio {
+  opacity: 0;
+  pointer-events: none; /* No puede ser clickeado */
+}
+
+#__nuxt  .contenedor-anuncio.visible {
+  opacity: 1;
+  pointer-events: auto; /* Ahora es clickeable */  
+  transition: opacity 0.5s ease, pointer-events 0s linear 0.5s; /* Se asegura de que la transición de opacidad sea suave */
+}
+
+  
+.contenedor-anuncio .count {
+    margin-bottom: -6px;
+}
+
+@media (max-width: 768px) {
+  
+    .contenedor-anuncio {
+        padding-right: 45px !important;
+    }
+
+    .contenedor-anuncio .time-grid-3 {
+        scale: 0.75;
+    }
+
+    .contenedor-anuncio .c-button.c-wrapper, .contenedor-anuncio div.text-output {
+        margin-right: 0px !important;
+    }
+}
+
+/* =========================================
+   Termina CSS anucio
+   ========================================= */
+
 
 
 
