@@ -84,6 +84,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --secondary-color-custom: #00b6c2;
     --accent-color-custom: #00b34d;
     --divider-color: #fff;
+    --seo-text:   #212121;
 }
 
 /* =============================================
@@ -966,12 +967,8 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
 /* ====== Variables globales del módulo ====== */
   :root{
     /* Colores base */
-    --seo-text:   #212121;   /* color de texto principal */
-    --seo-accent: #0d0d0d; 
-    --seo-accent: {{custom_values.color_primary}};   /* color de acento / destacado */
+    /*--seo-text:   #212121;    color de texto principal */
 
-    /* Derivados (puedes ajustarlos o no usarlos) */
-    --seo-muted:  rgba(33,33,33,.78);
     --seo-border: rgba(19,127,82,.18);
 
     /* ====== Tipografía (2 tamaños) ====== */
@@ -1027,8 +1024,8 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
     width: .5rem;
     height: .5rem;
     border-radius: 50%;
-    background: var(--seo-accent);
-    box-shadow: 0 0 8px var(--seo-accent);
+    background: var(--accent-color-custom, #b0b0b0);
+    box-shadow: 0 0 8px var(--accent-color-custom, #b0b0b0);
     transform: translateY(1px);
   }
 
@@ -1078,11 +1075,11 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
     top: 50%;
     width: 10px; 
     height: 10px;
-    border-right: 2px solid var(--seo-accent);
-    border-bottom: 2px solid var(--seo-accent);
+    border-right: 2px solid var(--accent-color-custom, #b0b0b0);
+    border-bottom: 2px solid var(--accent-color-custom, #b0b0b0);
     transform: translateY(-50%) rotate(-45deg); /* “>” derecha */
     transition: transform .2s ease;
-    filter: drop-shadow(0 0 6px var(--seo-accent));
+    filter: drop-shadow(0 0 6px var(--accent-color-custom, #b0b0b0));
   }
   .seo-item[open] .seo-item-summary::before{
     transform: translateY(-50%) rotate(45deg);  /* hacia abajo al abrir */
@@ -1091,7 +1088,7 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
   /* Título h3 del bloque */
   .seo-sub{
     margin: 0;
-    color: var(--seo-accent) !important;           /* forzar color vs estilos globales */
+    color: var(--accent-color-custom, #b0b0b0) !important;           /* forzar color vs estilos globales */
     font-family: var(--headlinefont);
     font-size: var(--seo-fs-title) !important;     /* tamaño subtítulo (forzado) */
     font-weight: var(--seo-fw-title);              /* peso de títulos */
@@ -1135,8 +1132,8 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
     width: .55rem;
     height: .55rem;
     border-radius: 50%;
-    background: var(--seo-accent);
-    box-shadow: 0 0 8px var(--seo-accent);
+    background: var(--accent-color-custom, #b0b0b0);
+    box-shadow: 0 0 8px var(--accent-color-custom, #b0b0b0);
   }
 
   /* Estado abierto del panel maestro */
@@ -1147,9 +1144,9 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
     animation: seo-pulse 1.2s ease-in-out 1;
   }
   @keyframes seo-pulse{
-    0%{   box-shadow: 0 0 0   var(--seo-accent); }
-    50%{  box-shadow: 0 0 14px var(--seo-accent); }
-    100%{ box-shadow: 0 0 8px  var(--seo-accent); }
+    0%{   box-shadow: 0 0 0   var(--accent-color-custom, #b0b0b0); }
+    50%{  box-shadow: 0 0 14px var(--accent-color-custom, #b0b0b0); }
+    100%{ box-shadow: 0 0 8px  var(--accent-color-custom, #b0b0b0); }
   }
 
   /* Responsive */
@@ -1161,9 +1158,6 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
   }
 
 /*<!-- ====== SEO Colapsable Abdiel JoseAbdiel.com ====== -->*/
-
-
-
 
 
 /* =========================================
@@ -1375,6 +1369,7 @@ body {
 /* =========================================
    Termina CSS texto ciruclar
    ========================================= */
+
 
 
 
