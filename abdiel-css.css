@@ -263,7 +263,7 @@ body:has(.colores-abdiel) .boton-degradado:hover {
 
 .marquee-track {
   font-family: var(--headlinefont);  /* Tipografía configurable desde CSS global */
-  color: white;
+  color: var(--color-texto-boton, #a8a8a8);
   font-size: 23px;
   font-weight: 500;
   display: flex;         /* Para que el track crezca en horizontal con su contenido */
@@ -1442,6 +1442,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
