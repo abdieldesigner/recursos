@@ -77,12 +77,18 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 
 :root {
-    --degradado-texto: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
-    --degradado-fondo: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
-    --degradado-boton: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
     --primary-color-custom: #009246;
     --secondary-color-custom: #00b6c2;
     --accent-color-custom: #00b34d;
+   
+    --degradado-texto: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
+    --degradado-fondo: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
+    --degradado-boton: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
+    --resplandor-boton: 0 0 3rem transparent;
+   
+    --degradado-boton-menu: linear-gradient(135deg, #ff005e 0%, #c80000 100%);   
+    --color-texto-boton: #000;
+   
     --divider-color: #fff;
     --seo-text:   #212121;
 }
@@ -130,7 +136,7 @@ body:has(.colores-abdiel) .boton-degradado {
     box-shadow: none;
     background-image: var(--degradado-boton);
     transition: all .4s;
-    color: white !important;
+    color: var(--color-texto-boton, #fff);
 }
 
 /* Se corrigió el error de la doble llave en la siguiente regla */
@@ -138,6 +144,21 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
     color: white !important;
 }
 
+body:has(.colores-abdiel) .boton-degradado:hover {
+    box-shadow: var(--resplandor-boton);
+}
+
+/* boton en menu 3 opciones */
+.mega-menu-container.boton-menu > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+1 of .menu-item:not(.cart-search-desktop))
+, .mega-menu-container.boton-menu-l2 > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+2 of .menu-item:not(.cart-search-desktop))
+, .mega-menu-container.boton-menu-l3 > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+3 of .menu-item:not(.cart-search-desktop)) {
+    background: var(--degradado-boton-menu, var(--degradado-boton, #a8a8a8));
+    color: var(--color-texto-boton, #fff);
+    font-weight: 800;
+    font-family: inherit;
+    border-radius: 100px;
+    padding: 5px 15px;
+}
 
 /* =========================================
    Termina colores perosnalizados
@@ -839,9 +860,10 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
       .abdiel-v2-icon{ width: 18px; height: 18px; }
 
        /* ✔ solo aplica si existe el contenedor con esa clase */
-        body:has(.social-icons-container-abdiel) .text-output, body:has(.social-icons-container-abdiel) .c-button {
+         body:has(.social-icons-container-abdiel) :is(.text-output, .c-button):not(.nav-menu-ul *) {
           margin-right: 45px !important;
         }
+       
     }
   </style>
 
@@ -1416,6 +1438,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
