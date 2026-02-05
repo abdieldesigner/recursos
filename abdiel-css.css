@@ -55,6 +55,10 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    opacity: 0.5;
 }
 
+/* maxima transparecia en fondos */
+.trans-fondo1 .bgCover {
+    opacity: 0.1 !important;
+}
 
 
 
@@ -134,7 +138,7 @@ body:has(.colores-abdiel) .excluir-icons :is(h1, h2, h3, p, .button-icon-end)::b
 
 body:has(.colores-abdiel) .boton-degradado {
     box-shadow: none;
-    background-image: var(--degradado-boton);
+    background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
     transition: all .4s;
     color: var(--color-texto-boton, #fff);
 }
@@ -1384,7 +1388,7 @@ body {
   font-size: 18px;
   fill: #212121;
   font-family: var(--headlinefont);
-  font-weight: 500;
+  font-weight: 700;
 }
 
 
@@ -1438,6 +1442,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
