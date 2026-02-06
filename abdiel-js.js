@@ -141,6 +141,89 @@ document.addEventListener('DOMContentLoaded', function() {
 /* ============================================================
    TERMINA JS afecto aparecer anuncio
    ============================================================ */
+/* ============================================================
+   EMPIEZA  JS sin verificaccion
+   ============================================================ */
+
+(function () {
+  var DESTRUCTIVE_CLASS = 'hub365-ghl-not';
+
+  var TRIGGERS = [
+    'claseprefi-*',
+    'claseexactasinesteric'
+  ];
+
+  function matchesTrigger(className) {
+    for (var i = 0; i < TRIGGERS.length; i++) {
+      var t = TRIGGERS[i];
+      if (!t) continue;
+
+      if (t.slice(-1) === '*') {
+        var prefix = t.slice(0, -1);
+        if (className.indexOf(prefix) === 0) return true;
+      } else {
+        if (className === t) return true;
+      }
+    }
+    return false;
+  }
+
+  function findTriggerElement() {
+    var els = document.querySelectorAll('[class]');
+    for (var i = 0; i < els.length; i++) {
+      var cl = els[i].classList;
+      for (var j = 0; j < cl.length; j++) {
+        if (matchesTrigger(cl[j])) return els[i];
+      }
+    }
+    return null;
+  }
+
+  function activate(el) {
+    if (!el || !el.classList) return false;
+    if (el.classList.contains(DESTRUCTIVE_CLASS)) return true;
+    el.classList.add(DESTRUCTIVE_CLASS);
+    return true;
+  }
+
+  // 1) Intento inmediato
+  var first = findTriggerElement();
+  if (activate(first)) return;
+
+  // 2) Espera cambios de clases
+  var obs = new MutationObserver(function (mutations) {
+    for (var i = 0; i < mutations.length; i++) {
+      var m = mutations[i];
+      if (m.type !== 'attributes' || m.attributeName !== 'class') continue;
+
+      var el = m.target;
+      if (!el || !el.classList) continue;
+
+      for (var j = 0; j < el.classList.length; j++) {
+        if (matchesTrigger(el.classList[j])) {
+          activate(el);
+          obs.disconnect();
+          return;
+        }
+      }
+    }
+  });
+
+  obs.observe(document.documentElement, {
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['class']
+  });
+
+  setTimeout(function () {
+    obs.disconnect();
+  }, 3000);
+})();
+
+
+/* ============================================================
+   TERMINA JS sin verificaccion
+   ============================================================ */
 
 
 
