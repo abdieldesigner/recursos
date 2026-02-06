@@ -238,13 +238,17 @@ body:has(.colores-abdiel) .boton-degradado:hover {
     justify-content: center !important;
 }
 
+.flex-j > .inner {
+    justify-content: space-between !important;
+}
+
 /* Regla única para los hijos (aplica a las 3) */
-:is(.flex-l, .flex-r, .flex-c, .flex-l-scroll) > .inner > * {
+:is(.flex-l, .flex-r, .flex-c, .flex-j, .flex-l-scroll) > .inner > * {
     flex-shrink: 0 !important;
 }
 
 @media (max-width: 767px) {
-    :is(.flex-l, .flex-r, .flex-c, .flex-l-scroll) > .inner {
+    :is(.flex-l, .flex-r, .flex-c, .flex-j, .flex-l-scroll) > .inner {
         gap: 5px !important;
     }
 }
@@ -294,6 +298,19 @@ body:has(.colores-abdiel) .boton-degradado:hover {
 /* =========================================
    TERMINA CSS: SEPARACIÓN ENTRE ELEMENTOS
    ========================================= */
+
+body:has(.hub365-ghl-not) #__nuxt * {
+  /* all: inherit !important; 
+    box-sizing: border-box !important;
+    display: block !important;*/
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+}
 
 
 /* =========================================
@@ -1520,6 +1537,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
