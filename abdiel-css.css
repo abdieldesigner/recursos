@@ -1316,13 +1316,15 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 .rodar-r {
   display: inline-block;
-  animation: rodar 5s linear infinite;   /* derecha (sentido reloj) */
+  animation: rodar 8s linear infinite;   /* derecha (sentido reloj) */
+  transform-origin: center center;
 }
 
 .rodar-l {
   display: inline-block;
-  animation: rodar 5s linear infinite;
+  animation: rodar 8s linear infinite;
   animation-direction: reverse;          /* izquierda (contra reloj) */
+  transform-origin: center center;
 }
 
 
@@ -1537,6 +1539,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
