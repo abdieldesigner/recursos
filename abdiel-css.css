@@ -864,7 +864,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     #__nuxt .social-icons-container-abdiel{
       position: fixed;
       top: 50%;
-      right: 20px;
+      right: 10px;
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
@@ -955,6 +955,10 @@ body:has(.hub365-ghl-not) #__nuxt * {
     /* ================= RESPONSIVE ================= */
     @media (max-width: 768px){
       .social-icons-container-abdiel{ gap: 21px; }
+      #__nuxt .social-icons-container-abdiel {
+          scale: 0.8;
+          right: 1px;
+      }
       :root{ --abdiel-v2-size: 34px; }
       .abdiel-v2-icon{ width: 18px; height: 18px; }
 
@@ -1539,6 +1543,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
