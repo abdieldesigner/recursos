@@ -218,7 +218,7 @@ body:has(.colores-abdiel) .boton-degradado:hover {
 }
 
 /* Base común para las 3 */
-:is(.flex-l, .flex-r, .flex-c, flex-j) > .inner {
+:is(.flex-l, .flex-r, .flex-c, .flex-j) > .inner {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: wrap !important;
@@ -1539,6 +1539,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
