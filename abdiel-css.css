@@ -292,7 +292,7 @@ body:has(.colores-abdiel) .boton-degradado:hover {
 
 @media (max-width: 768px) {
     .separacion-elemnts > .inner {
-        gap: 0px !important;
+        gap: 20px !important;
     }
 }
 /* =========================================
@@ -1543,6 +1543,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
