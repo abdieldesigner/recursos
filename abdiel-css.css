@@ -840,7 +840,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
   <style>
     /* ================= VARS GLOBALES ================= */
     :root{
-      --abdiel-v2-size: 46px;
+      --abdiel-v2-size: 36px;
       --abdiel-v2-radius: 14px;
       --abdiel-v2-pad-x: 12px;
       --abdiel-v2-gap: 10px;
@@ -920,8 +920,8 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
     /* ================= ICONO ================= */
     .abdiel-v2-icon{
-      width: 22px;
-      height: 22px;
+      width: 19px;
+      height: 19px;
       flex: 0 0 auto;
       display: block;
       filter: brightness(-100); 
@@ -1543,6 +1543,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
