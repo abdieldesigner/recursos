@@ -61,6 +61,9 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 .z-index3 {
    z-index: 3;
 }
+.z-index999 {
+   z-index: 999;
+}
 
 .blur1 {
    filter: blur(2px);
@@ -1626,6 +1629,7 @@ div.menu-lado-2 {
 /* =========================================
    Termina CSS menu expandible
    ========================================= */
+
 
 
 
