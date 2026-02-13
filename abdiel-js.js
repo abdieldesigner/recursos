@@ -220,11 +220,79 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 3000);
 })();
 
-
 /* ============================================================
    TERMINA JS sin verificaccion
    ============================================================ */
 
+
+
+
+(function() {
+  function init() {
+    var abrirBtn = document.querySelector('.abrir-menu-ab');
+    var cerrarBtn = document.querySelector('.cerrar-menu-ab');
+    var contenedor = document.querySelector('.contenedor-menu-ab');
+
+    if (!abrirBtn || !contenedor) {
+      console.log('⏳ Esperando elementos...');
+      setTimeout(init, 500);
+      return;
+    }
+
+    console.log('✅ Menú inicializado correctamente');
+    contenedor.classList.remove('is-open');
+
+    function abrir() {
+      contenedor.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      console.log('📂 Menú abierto');
+    }
+
+    function cerrar() {
+      contenedor.classList.remove('is-open');
+      document.body.style.overflow = '';
+      console.log('📁 Menú cerrado');
+    }
+
+    abrirBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      abrir();
+    });
+
+    if (cerrarBtn) {
+      cerrarBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        cerrar();
+      });
+    }
+
+    /* Cerrar al hacer clic en el fondo (fuera del panel) */
+    contenedor.addEventListener('click', function(e) {
+      if (e.target === contenedor) {
+        cerrar();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && contenedor.classList.contains('is-open')) {
+        cerrar();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    setTimeout(init, 300);
+  }
+})();
+
+
+/* ============================================================
+   TERMINA men expandible
+   ============================================================ */
 
 
 
