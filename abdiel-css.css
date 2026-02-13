@@ -102,7 +102,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --degradado-boton: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
     --resplandor-boton: 0 0 3rem transparent;
    
-    --degradado-boton-menu: linear-gradient(135deg, #ff005e 0%, #c80000 100%);   
+    --degradado-boton-menu: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
     --color-texto-boton: #000;
    
     --divider-color: #fff;
@@ -1543,6 +1543,7 @@ body {
 /* =========================================
    Termina CSS anucio
    ========================================= */
+
 
 
 
