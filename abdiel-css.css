@@ -1541,12 +1541,91 @@ body {
 }
 
 /* =========================================
-   Termina CSS anucio
+   Termina CSS anuncio
    ========================================= */
 
 
+/* =========================================
+   empieza CSS menu expandible
+   ========================================= */
 
 
+/* ===== MENÚ MODAL ===== */
+
+/* Contenedor = cubre TODA la pantalla (es la capa del fondo) */
+.contenedor-menu-ab {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+.contenedor-menu-ab.is-open {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Panel central flotante — ESTE es el 80x80 centrado */
+.contenedor-menu-ab > :is(div, section, .inner) {
+  position: relative !important;
+  width: 80vw !important;
+  height: 80vh !important;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
+  overflow-y: auto !important;
+  padding: 30px 20px 20px 20px !important;
+  z-index: 2 !important;
+  transform: scale(0.95);
+  transition: transform 0.3s ease !important;
+}
+  
+.contenedor-menu-ab.is-open > :is(div, section, .inner) {
+  transform: scale(1) !important;
+}
+  
+.ico-cerrar-menu-ab {
+    position: absolute !important;
+    top: -12px !important;
+    right: -10px;
+    z-index: 10 !important;
+}
+
+div.menu-lado-1 {
+    width: 80% !important;
+}
+
+div.c-svg {
+    margin: auto !important;
+}
+
+div.menu-lado-2 {
+    width: 10% !important;
+}
+
+@media (max-width: 768px) {
+    div.menu-lado-1 {
+        width: 33% !important;
+    }
+}
+
+
+
+/* =========================================
+   Termina CSS menu expandible
+   ========================================= */
 
 
 
