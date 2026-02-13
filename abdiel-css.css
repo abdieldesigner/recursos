@@ -1556,7 +1556,7 @@ body {
 /* ===== MENÚ MODAL ===== */
 
 /* Contenedor = cubre TODA la pantalla (es la capa del fondo) */
-.contenedor-menu-ab {
+#__nuxt .contenedor-menu-ab {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -1581,7 +1581,7 @@ body {
 }
 
 /* Panel central flotante — ESTE es el 80x80 centrado */
-.contenedor-menu-ab > :is(div, section, .inner) {
+#__nuxt .contenedor-menu-ab > :is(div, section, .inner) {
   position: relative !important;
   width: 80vw !important;
   height: 80vh !important;
@@ -1595,7 +1595,7 @@ body {
   transition: transform 0.3s ease !important;
 }
   
-.contenedor-menu-ab.is-open > :is(div, section, .inner) {
+#__nuxt .contenedor-menu-ab.is-open > :is(div, section, .inner) {
   transform: scale(1) !important;
 }
   
@@ -1629,6 +1629,7 @@ div.menu-lado-2 {
 /* =========================================
    Termina CSS menu expandible
    ========================================= */
+
 
 
 
