@@ -1604,7 +1604,7 @@ body {
   width: 80vw !important;
   height: auto !important;
   max-height: 80vh !important;
-  background: var(--fondo-menu-expandible, #ffffff) !important;
+  background: var(--bg-p-l, #ffffff) !important;
   border-radius: 16px !important;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
   overflow-y: auto !important;
@@ -1641,6 +1641,7 @@ div.menu-lado-2 {
 /* =========================================
    Termina CSS menu expandible
    ========================================= */
+
 
 
 
