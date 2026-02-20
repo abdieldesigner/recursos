@@ -979,7 +979,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
       .abdiel-v2-icon{ width: 18px; height: 18px; }
 
        /* ✔ solo aplica si existe el contenedor con esa clase */
-         body:has(.social-icons-container-abdiel) :is(.text-output, .c-button):not(.nav-menu-ul *) {
+         body:has(.social-icons-container-abdiel) :is(.text-output, .c-button):not(.nav-menu-ul *, .ignorar-redes *) {
           margin-right: 45px !important;
         }
        
@@ -1641,6 +1641,7 @@ div.menu-lado-2 {
 /* =========================================
    Termina CSS menu expandible
    ========================================= */
+
 
 
 
