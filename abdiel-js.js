@@ -282,7 +282,55 @@ document.addEventListener('DOMContentLoaded', function() {
    TERMINA men expandible
    ============================================================ */
 
+(function() {
+  function initAcordeon() {
+    var titulos = document.querySelectorAll('.acordeon-titulo-ab');
+    if (!titulos.length) {
+      setTimeout(initAcordeon, 500);
+      return;
+    }
 
+    titulos.forEach(function(titulo) {
+      titulo.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
 
+        var siguiente = titulo.nextElementSibling;
+        while (siguiente && !siguiente.classList.contains('acordeon-contenido-ab')) {
+          siguiente = siguiente.nextElementSibling;
+        }
+        if (!siguiente) return;
+
+        var estaAbierto = siguiente.classList.contains('abierto');
+
+        // Cerrar todos
+        document.querySelectorAll('.acordeon-contenido-ab').forEach(function(c) {
+          c.classList.remove('abierto');
+        });
+        document.querySelectorAll('.acordeon-titulo-ab').forEach(function(t) {
+          t.classList.remove('activo');
+        });
+
+        // Si estaba cerrado, abrir este
+        if (!estaAbierto) {
+          siguiente.classList.add('abierto');
+          titulo.classList.add('activo');
+        }
+      });
+    });
+
+    console.log('✅ Acordeón AB inicializado (' + titulos.length + ' secciones)');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAcordeon);
+  } else {
+    setTimeout(initAcordeon, 300);
+  }
+})();
+
+/* ============================================================
+   TERMINA acordiones
+   ============================================================ */
 
 
