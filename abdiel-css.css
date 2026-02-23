@@ -1642,8 +1642,81 @@ div.menu-lado-2 {
    Termina CSS menu expandible
    ========================================= */
 
+#__nuxt .contenedor-menu-ab.m-m-r-ab {
+  align-items: unset !important;
+  justify-content: right !important;
+  padding: 0 !important;
+  -webkit-backdrop-filter: none;
+}
 
 
+#__nuxt .contenedor-menu-ab.m-m-r-ab > :is(div, section, .inner) {
+  width: 475px !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  margin-right: 0 !important;
+  right: 0;
+  transform: none;
+}
+  
+@media (max-width: 768px) {
+  
+  #__nuxt .contenedor-menu-ab.m-m-r-ab > :is(div, section, .inner) {
+    width: 90% !important;    
+  }
+  
+  #__nuxt .contenedor-menu-ab.m-m-r-ab {
+    justify-content: center !important;
+  }
+}
+
+
+/* =========================================
+   Termina CSS menu expandible 2
+   ========================================= */
+
+
+#__nuxt .acordeon-titulo-ab {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+#__nuxt .acordeon-titulo-ab,
+#__nuxt .acordeon-titulo-ab * {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+#__nuxt .acordeon-titulo-ab::after {
+  content: '▸';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+  font-size: 23px;
+  color: var(--accent-color-custom);
+}
+
+#__nuxt .acordeon-titulo-ab.activo::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+#__nuxt .acordeon-contenido-ab {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+#__nuxt .acordeon-contenido-ab.abierto {
+  max-height: 500px;
+}
+
+/* =========================================
+   Termina CSS acordiones
+   ========================================= */
 
 
 
