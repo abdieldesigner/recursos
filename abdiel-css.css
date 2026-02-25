@@ -350,25 +350,25 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
    .img-6-4 img {
        aspect-ratio: 6 / 4;
-       object-fit: cover;
+       object-fit: cover !important;
        object-position: center;
    }
 
   .img-4-6 img {
        aspect-ratio: 4 / 6;
-       object-fit: cover;
+       object-fit: cover !important;
        object-position: center;
    }
 
   .img-2-1 img {
        aspect-ratio: 2 / 1;
-       object-fit: cover;
+       object-fit: cover !important;
        object-position: center;
    }
 
   .img-16-9 img {
        aspect-ratio: 6 / 4;
-       object-fit: cover;
+       object-fit: cover !important;
        object-position: center;
    }
 
@@ -1742,12 +1742,13 @@ div.menu-lado-2 {
 }
 
 #__nuxt .acordeon-contenido-ab.abierto {
-  max-height: 500px;
+  max-height: max-content;
 }
 
 /* =========================================
    Termina CSS acordiones
    ========================================= */
+
 
 
 
