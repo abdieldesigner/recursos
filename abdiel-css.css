@@ -110,6 +110,15 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    
     --divider-color: #fff;
     --seo-text:   #212121;
+
+  /* Fondos */
+    --bg-p-d: #0d0d0d;
+    --bg-s-d: #252525;
+    --bg-p-l: #ffffff;
+    --bg-s-l: #f3f1f2;
+  /* Tipografía */
+    --text-l: #fdfdfd;
+    --text-d: #0d0d0d;
 }
 
 /* =============================================
@@ -344,6 +353,28 @@ body:has(.hub365-ghl-not) #__nuxt * {
        object-fit: cover;
        object-position: center;
    }
+
+  .img-4-6 img {
+       aspect-ratio: 4 / 6;
+       object-fit: cover;
+       object-position: center;
+   }
+
+  .img-2-1 img {
+       aspect-ratio: 2 / 1;
+       object-fit: cover;
+       object-position: center;
+   }
+
+  .img-16-9 img {
+       aspect-ratio: 6 / 4;
+       object-fit: cover;
+       object-position: center;
+   }
+
+  .img-circular img {
+      border-radius: 1000px;
+  }
 
 /* =========================================
    TERMINA CSS: Dimenciones de imagenes
@@ -1717,6 +1748,7 @@ div.menu-lado-2 {
 /* =========================================
    Termina CSS acordiones
    ========================================= */
+
 
 
 
