@@ -344,7 +344,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
    .img-1-1 img {
        aspect-ratio: 1 / 1;
-       object-fit: cover;
+       object-fit: cover !important;
        object-position: center;
    }
 
@@ -1748,6 +1748,7 @@ div.menu-lado-2 {
 /* =========================================
    Termina CSS acordiones
    ========================================= */
+
 
 
 
