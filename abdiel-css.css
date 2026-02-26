@@ -1655,8 +1655,11 @@ body {
   right: -12px;
   z-index: 10 !important;
 }
-div.menu-lado-1, div.menu-lado-1b {
+div.menu-lado-1 {
   width: 80% !important;
+}
+div.menu-lado-1b {
+  width: 90% !important;
 }
 div.c-svg {
   margin: auto !important;
@@ -1751,6 +1754,7 @@ div.menu-lado-2 {
 /* =========================================
    Termina CSS acordiones
    ========================================= */
+
 
 
 
