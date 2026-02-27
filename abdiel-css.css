@@ -80,6 +80,8 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     opacity: 0.1 !important;
 }
 
+
+
 /* texto con informaion par adarnos autoridad... pero si */
 .abdiel-creditos {
    width: 800px !important;
@@ -167,7 +169,7 @@ body:has(.colores-abdiel) :is(.cinta2 span, .cinta2 .marquee-text) {
     background-color: var(--bg-s-l, #f3f1f2) !important;
 }
 
-body:has(.colores-abdiel) :is(h1 strong, h2 strong, .gradient-text h1, .gradient-text h2, .gradient-text strong, .card-categoria h2, .gradient-text .timer-box > .count),
+body:has(.colores-abdiel) :is(h1 strong, h2 strong, .gradient-text h1, .gradient-text h2, .gradient-text strong, .gradient-text .counter-value, .card-categoria h2, .gradient-text .timer-box > .count),
 body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *)) {
     color: #991e30;
     -webkit-text-fill-color: transparent;
@@ -278,7 +280,37 @@ body:has(.colores-abdiel) .boton-degradado:hover {
     }
 }
 
+/* =========================================
+   variados
+   ========================================= */
 
+
+.border-a, .border-a .divider-element {
+    border-color: var(--accent-color-custom) !important;
+}
+
+.text-divider {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.text-divider::before,
+  .text-divider::after {
+    content: '';
+    flex: 1;
+    height: 1.5px;
+    background: var(--degradado-texto);
+}
+
+.text-etiqueta > div {
+    background: color-mix(in srgb, var(--accent-color-custom) 12%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--accent-color-custom) 20%, transparent);
+    border-radius: 30px;
+    display: inline-block;
+    padding: 5px 20px 3px 20px;
+}
 
 
 /* =========================================
@@ -614,6 +646,10 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 .todo-negro {
     filter: brightness(0);
+}
+
+.todo-gris {
+    filter: brightness(0) invert(0.7);
 }
 
 
@@ -1755,8 +1791,36 @@ div.menu-lado-2 {
    Termina CSS acordiones
    ========================================= */
 
+/* =========================================
+   intercambio de colores modo dark
+   ========================================= */
 
+ /* Variables — Modo Light (default) */
+[data-theme="dark"], .modo-dark, .cont-color-d:hover {
+  --bg-p-l: var(--bg-p-d);
+  --bg-s-l: var(--bg-s-d);
+  --text-d: var(--text-l);
+  --divider-color: var(--bg-p-d);
+  --brandboards-blanco_bordes: #00000047;
+  
+  /* Brandboards — asignar a las variables de GHL */
+    --brandboards-text_d: var(--text-d);
+    --brandboards-text_l: var(--text-l);
+    --brandboards-bg_p_d: var(--bg-p-d);
+    --brandboards-bg_p_l: var(--bg-p-l);
+    --brandboards-gris: var(--bg-s-l);
+    --divider-color: var(--bg-p-l);
+}
 
+/* Theme lock — DESPUÉS de dark y con especificidad para ganar */
+[data-theme="dark"] .color-lock {
+  --text-l: #fdfdfd;
+  --text-d: #0d0d0d;
+}
+  
+/* =========================================
+   fin intercambio de colores modo dark
+   ========================================= */
 
 
 
