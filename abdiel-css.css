@@ -179,13 +179,10 @@ body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .excl
     background-clip: text;
 }
 
-body:has(.colores-abdiel) :is(h1, h2, h3, h4, p, .button-icon-end)::before  {
+body:has(.colores-abdiel) :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .boton-degradado *)::before   {
     color: var(--accent-color-custom) !important;
 }
 
-body:has(.colores-abdiel) .excluir-icons :is(h1, h2, h3, p, .button-icon-end)::before {
-    color: inherit !important;
-}
 
 body:has(.colores-abdiel) .boton-degradado {
     box-shadow: none;
@@ -194,13 +191,12 @@ body:has(.colores-abdiel) .boton-degradado {
     color: var(--color-texto-boton, #fff);
 }
 
-/* Se corrigió el error de la doble llave en la siguiente regla */
-body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
-    color: white !important;
-}
-
 body:has(.colores-abdiel) .boton-degradado:hover {
     box-shadow: var(--resplandor-boton);
+}
+
+body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
+    color: var(--color-texto-boton, #fff) !important;
 }
 
 /* boton en menu 3 opciones */
@@ -214,6 +210,7 @@ body:has(.colores-abdiel) .boton-degradado:hover {
     border-radius: 100px;
     padding: 5px 15px;
 }
+
 
 /* =========================================
    Termina colores perosnalizados
@@ -1821,6 +1818,7 @@ div.menu-lado-2 {
 /* =========================================
    fin intercambio de colores modo dark
    ========================================= */
+
 
 
 
