@@ -156,6 +156,30 @@ body:has(.colores-abdiel) .bg-degradado,
     transition: all .4s;
 }
 
+.bg-degradado-grupo > .inner > div {
+  background: var(--degradado-fondo) !important;
+  background-size: 600% 100% !important;
+}
+
+.bg-degradado-grupo > .inner > div:nth-child(1) { background-position: 0% 50% !important; }
+.bg-degradado-grupo > .inner > div:nth-child(2) { background-position: 20% 50% !important; }
+.bg-degradado-grupo > .inner > div:nth-child(3) { background-position: 40% 50% !important; }
+.bg-degradado-grupo > .inner > div:nth-child(4) { background-position: 60% 50% !important; }
+.bg-degradado-grupo > .inner > div:nth-child(5) { background-position: 80% 50% !important; }
+.bg-degradado-grupo > .inner > div:nth-child(6) { background-position: 100% 50% !important; }
+
+.bg-degradado-g {
+  background: var(--degradado-fondo) !important;
+  background-size: 600% 100% !important;
+}
+
+.bg-degradado-g:nth-child(1) { background-position: 0% 50% !important; }
+.bg-degradado-g:nth-child(2) { background-position: 20% 50% !important; }
+.bg-degradado-g:nth-child(3) { background-position: 40% 50% !important; }
+.bg-degradado-g:nth-child(4) { background-position: 60% 50% !important; }
+.bg-degradado-g:nth-child(5) { background-position: 80% 50% !important; }
+.bg-degradado-g:nth-child(6) { background-position: 100% 50% !important; }
+
 body:has(.colores-abdiel) :is(.cinta2 span, .cinta2 .marquee-text) {
     color: #646464 !important;
     -webkit-text-fill-color: transparent;
@@ -1944,6 +1968,7 @@ div.menu-lado-2 {
 /* =========================================
    fin card carrusel
    ========================================= */
+
 
 
 
