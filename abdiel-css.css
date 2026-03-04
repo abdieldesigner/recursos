@@ -1965,9 +1965,24 @@ div.menu-lado-2 {
   }
 }
 
+  /* 2 columnas */
+#__nuxt .card-carrusel.carru-col-2 > .inner > .singler-card-carrusel {
+  flex: 0 0 calc((100% - 20px) / 2) !important;
+  max-width: calc((100% - 20px) / 2) !important;
+  min-width: calc((100% - 20px) / 2) !important;
+}
+
+/* 1 columna */
+#__nuxt .card-carrusel.carru-col-1 > .inner > .singler-card-carrusel {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+}
+
 /* =========================================
    fin card carrusel
    ========================================= */
+
 
 
 
