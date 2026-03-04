@@ -80,22 +80,18 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     opacity: 0.1 !important;
 }
 
-
-
 /* texto con informaion par adarnos autoridad... pero si */
 .abdiel-creditos {
    width: 800px !important;
     position: absolute !important;
     z-index: 0;
     left: -500% !important;
-    top: -300px !important;
-   
+    top: -300px !important;   
 }
 
 /* =========================================
    TERMINA CSS: EVITAR DESBORDE
    ========================================= */
-
 
 :root {
     --primary-color-custom: #009246;
@@ -121,6 +117,31 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
   /* Tipografía */
     --text-l: #fdfdfd;
     --text-d: #0d0d0d;
+}
+
+/* intercambio de colores modo dark  */
+
+ /* Variables — Modo Light (default) */
+[data-theme="dark"], .modo-dark, .cont-color-d:hover {
+  --bg-p-l: var(--bg-p-d);
+  --bg-s-l: var(--bg-s-d);
+  --text-d: var(--text-l);
+  --divider-color: var(--bg-p-d);
+  --brandboards-blanco_bordes: #00000047;
+  
+  /* Brandboards — asignar a las variables de GHL */
+    --brandboards-text_d: var(--text-d);
+    --brandboards-text_l: var(--text-l);
+    --brandboards-bg_p_d: var(--bg-p-d);
+    --brandboards-bg_p_l: var(--bg-p-l);
+    --brandboards-gris: var(--bg-s-l);
+    --divider-color: var(--bg-p-l);
+}
+
+/* Theme lock — DESPUÉS de dark y con especificidad para ganar */
+[data-theme="dark"] .color-lock {
+  --text-l: #fdfdfd;
+  --text-d: #0d0d0d;
 }
 
 /* =============================================
@@ -1788,35 +1809,140 @@ div.menu-lado-2 {
    Termina CSS acordiones
    ========================================= */
 
-/* =========================================
-   intercambio de colores modo dark
-   ========================================= */
 
- /* Variables — Modo Light (default) */
-[data-theme="dark"], .modo-dark, .cont-color-d:hover {
-  --bg-p-l: var(--bg-p-d);
-  --bg-s-l: var(--bg-s-d);
-  --text-d: var(--text-l);
-  --divider-color: var(--bg-p-d);
-  --brandboards-blanco_bordes: #00000047;
-  
-  /* Brandboards — asignar a las variables de GHL */
-    --brandboards-text_d: var(--text-d);
-    --brandboards-text_l: var(--text-l);
-    --brandboards-bg_p_d: var(--bg-p-d);
-    --brandboards-bg_p_l: var(--bg-p-l);
-    --brandboards-gris: var(--bg-s-l);
-    --divider-color: var(--bg-p-l);
+
+/* =========================================
+   comienzo  card carrusel
+   ========================================= */  
+
+/* ═══════════════════════════════════════════════
+   CARD CARRUSEL — GHL FINAL v4
+   ═══════════════════════════════════════════════ */
+
+#__nuxt .card-carrusel {
+  position: relative !important;
 }
 
-/* Theme lock — DESPUÉS de dark y con especificidad para ganar */
-[data-theme="dark"] .color-lock {
-  --text-l: #fdfdfd;
-  --text-d: #0d0d0d;
+#__nuxt .card-carrusel > .inner {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  gap: 20px !important;
+  padding: 10px 0 !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+  position: relative !important;
+}
+
+#__nuxt .card-carrusel > .inner::-webkit-scrollbar {
+  display: none;
+}
+
+#__nuxt .card-carrusel > .inner > .singler-card-carrusel {
+  flex: 0 0 calc((100% - 40px) / 3) !important;
+  max-width: calc((100% - 40px) / 3) !important;
+  min-width: calc((100% - 40px) / 3) !important;
+  box-sizing: border-box !important;
+  scroll-snap-align: start;
+}
+
+/* ── Overlay flechas ── */
+.carrusel-arrows-overlay {
+  position: absolute !important;
+  top: 0;
+  left: -28px;
+  right: -28px;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 9999 !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.carrusel-arrow {
+  pointer-events: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-color-custom, #d53232);
+  color: var(--color-texto-boton, #fff);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.carrusel-arrow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.carrusel-arrow:active {
+  transform: scale(0.95);
+}
+
+.carrusel-arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.carrusel-arrow.is-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
   
+.singler-card-carrusel > div.inner {
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+  .card-carrusel > .inner {
+    gap: 12px !important;
+  }
+
+  .card-carrusel > .inner > .singler-card-carrusel {
+    flex: 0 0 calc(100% - 24px) !important;
+    max-width: calc(100% - 24px) !important;
+    min-width: calc(100% - 24px) !important;
+  }
+
+  .carrusel-arrow {
+    width: 34px;
+    height: 34px;
+  }
+
+  .carrusel-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .carrusel-arrows-overlay {
+    left: -18px;
+    right: -18px;
+  }
+}
+
 /* =========================================
-   fin intercambio de colores modo dark
+   fin card carrusel
    ========================================= */
 
 
