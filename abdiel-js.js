@@ -333,4 +333,129 @@ document.addEventListener('DOMContentLoaded', function() {
    TERMINA acordiones
    ============================================================ */
 
+(function(){
+  "use strict";
+
+  function initCarrusel(container) {
+    var inner = container.querySelector(":scope > .inner");
+    if (!inner) {
+      for (var i = 0; i < container.children.length; i++) {
+        if (container.children[i].classList && container.children[i].classList.contains("inner")) {
+          inner = container.children[i];
+          break;
+        }
+      }
+    }
+    if (!inner) return;
+
+    var cards = inner.querySelectorAll(":scope > .singler-card-carrusel");
+    if (cards.length === 0) return;
+    if (container.querySelector(".carrusel-arrows-overlay")) return;
+
+    var overlay = document.createElement("div");
+    overlay.className = "carrusel-arrows-overlay";
+
+    var arrowLeft = document.createElement("button");
+    arrowLeft.className = "carrusel-arrow is-hidden";
+    arrowLeft.setAttribute("aria-label", "Previous");
+    arrowLeft.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>';
+
+    var arrowRight = document.createElement("button");
+    arrowRight.className = "carrusel-arrow";
+    arrowRight.setAttribute("aria-label", "Next");
+    arrowRight.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
+
+    overlay.appendChild(arrowLeft);
+    overlay.appendChild(arrowRight);
+    container.appendChild(overlay);
+
+    var domObserver = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        m.removedNodes.forEach(function(node) {
+          if (node === overlay) container.appendChild(overlay);
+        });
+      });
+    });
+    domObserver.observe(container, { childList: true });
+
+    function getStepSize() {
+      if (cards.length > 1) return cards[1].offsetLeft - cards[0].offsetLeft;
+      return cards[0].offsetWidth + 20;
+    }
+
+    function updateArrows() {
+      var sl = Math.round(inner.scrollLeft);
+      var max = inner.scrollWidth - inner.clientWidth;
+      arrowLeft.classList.toggle("is-hidden", sl <= 5);
+      arrowRight.classList.toggle("is-hidden", max <= 5 || sl >= max - 5);
+    }
+
+    arrowLeft.addEventListener("click", function(e){
+      e.preventDefault(); e.stopPropagation();
+      inner.scrollBy({ left: -getStepSize(), behavior: "smooth" });
+    });
+
+    arrowRight.addEventListener("click", function(e){
+      e.preventDefault(); e.stopPropagation();
+      inner.scrollBy({ left: getStepSize(), behavior: "smooth" });
+    });
+
+    inner.addEventListener("scroll", function(){
+      requestAnimationFrame(updateArrows);
+    });
+
+    var isDragging = false;
+    var startX = 0, scrollStart = 0, dragDelta = 0;
+
+    inner.addEventListener("mousedown", function(e){
+      isDragging = true;
+      startX = e.pageX;
+      scrollStart = inner.scrollLeft;
+      dragDelta = 0;
+      inner.style.scrollBehavior = "auto";
+      inner.style.cursor = "grabbing";
+      e.preventDefault();
+    });
+
+    document.addEventListener("mousemove", function(e){
+      if (!isDragging) return;
+      dragDelta = e.pageX - startX;
+      inner.scrollLeft = scrollStart - dragDelta;
+    });
+
+    document.addEventListener("mouseup", function(){
+      if (!isDragging) return;
+      isDragging = false;
+      inner.style.cursor = "grab";
+      inner.style.scrollBehavior = "smooth";
+
+      var step = getStepSize();
+      if (dragDelta < -30) {
+        inner.scrollBy({ left: step, behavior: "smooth" });
+      } else if (dragDelta > 30) {
+        inner.scrollBy({ left: -step, behavior: "smooth" });
+      } else {
+        inner.scrollBy({ left: 0, behavior: "smooth" });
+      }
+
+      updateArrows();
+    });
+
+    inner.style.cursor = "grab";
+    setTimeout(updateArrows, 100);
+  }
+
+  function initAll() {
+    document.querySelectorAll(".card-carrusel").forEach(initCarrusel);
+  }
+
+  if (document.readyState === "complete") {
+    setTimeout(initAll, 300);
+  } else {
+    window.addEventListener("load", function(){ setTimeout(initAll, 300); });
+  }
+})();
+/* ============================================================
+   TERMINA car carrusel
+   ============================================================ */
 
