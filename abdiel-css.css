@@ -1983,6 +1983,44 @@ div.menu-lado-2 {
    fin card carrusel
    ========================================= */
 
+/* empieza — card flip */
+
+#__nuxt .flip-1 .flip-contenido, body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-1 .flip-contenido {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.flip-1:hover .flip-contenido, body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-1:hover .flip-contenido {
+    opacity: 1;
+}
+
+#__nuxt .flip-2 .flip-contenido, body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-2 .flip-contenido {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+    transition: opacity 0.5s ease, transform 0.4s ease;
+}
+
+#__nuxt .flip-2:hover .flip-contenido, body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-2:hover .flip-contenido {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* FLIP-3: giro 3D */
+#__nuxt .flip-3 .flip-contenido,
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-3 .flip-contenido {
+    opacity: 0;
+    transform: rotateY(-90deg) scale(0.95);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform-origin: left center;
+}
+
+#__nuxt .flip-3:hover .flip-contenido,
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-3:hover .flip-contenido {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+}
+
+/* fin — card flip */
 
 
 
