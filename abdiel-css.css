@@ -1990,7 +1990,7 @@ div.menu-lado-2 {
     transition: opacity 0.5s ease;
 }
 
-.flip-1:hover .flip-contenido, body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-1:hover .flip-contenido {
+#__nuxt .flip-1:hover .flip-contenido, body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-1:hover .flip-contenido {
     opacity: 1;
 }
 
@@ -2021,6 +2021,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-3:hover .fli
 }
 
 /* fin — card flip */
+
 
 
 
