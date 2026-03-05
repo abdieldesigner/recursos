@@ -441,7 +441,19 @@ body:has(.hub365-ghl-not) #__nuxt * {
    }
 
   .img-16-9 img {
-       aspect-ratio: 6 / 4;
+       aspect-ratio: 16 / 9;
+       object-fit: cover !important;
+       object-position: center;
+   }
+
+  .img-1-2 img {
+       aspect-ratio: 1 / 2;
+       object-fit: cover !important;
+       object-position: center;
+   }
+
+  .img-9-16 img {
+       aspect-ratio: 9 / 16;
        object-fit: cover !important;
        object-position: center;
    }
@@ -2021,6 +2033,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-3:hover .fli
 }
 
 /* fin — card flip */
+
 
 
 
