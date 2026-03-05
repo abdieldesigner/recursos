@@ -2033,8 +2033,86 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .flip-3:hover .fli
 }
 
 /* fin — card flip */
+/* inicio — imagen galeria expandible*/
+
+/* IMG-EXPAN-G */
+
+#__nuxt .img-expan-g,
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g {
+    display: flex;
+    justify-content: center;
+ /* cambia a flex-end para derecha */
+}
+
+#__nuxt .img-expan-g > div.inner,
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div.inner {
+    display: flex;
+    align-items: stretch;
+    height: auto;
+    width: fit-content !important;
+}
+
+#__nuxt .img-expan-g > div.inner .c-image,
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div.inner .c-image {
+    max-width: 10%;
+    min-width: 10%;
+    transition: max-width 0.4s ease, min-width 0.4s ease;
+    /*overflow: hidden;*/
+    height: 100%;
+}
+
+#__nuxt .img-expan-g > div.inner .c-image:first-child,
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div.inner .c-image:first-child {
+    min-width: 300px;
+    max-width: 300px;
+}
+
+#__nuxt .img-expan-g > div.inner:hover .c-image:not(:hover),
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div.inner:hover .c-image:not(:hover) {
+    max-width: 10%;
+    min-width: 10%;
+}
+
+#__nuxt .img-expan-g > div.inner:hover .c-image:hover,
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div.inner:hover .c-image:hover {
+    min-width: 300px;
+    max-width: 300px;
+}
+
+.img-expan-g > div.inner .image-container, .img-expan-g > div.inner .image-container > div, .img-expan-g > div.inner .image-container > div > div {
+    height: 100%;
+}
+
+#__nuxt .img-expan-g > div.inner .c-image img,
+body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div.inner .c-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
 
+/* ===== SOLO MOVIL ===== */
+@media (max-width: 768px), (hover: none) {
+
+  /* 1) Padding en móvil */
+    .img-expan-g > div.inner .image-container,
+  .img-expan-g > div.inner .image-container > div,
+  .img-expan-g > div.inner .image-container > div > div {
+        padding: 1px;
+    }
+
+  /* 2) Tu regla (primer hijo + hover) pero SOLO en móvil */
+    #__nuxt .img-expan-g > div.inner .c-image:first-child,
+  body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div.inner .c-image:first-child,
+  #__nuxt .img-expan-g > div.inner:hover .c-image:hover,
+  body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div.inner:hover .c-image:hover {
+        min-width: 50% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* fin — imagen galeria expandible*/
 
 
 
