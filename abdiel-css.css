@@ -180,6 +180,30 @@ body:has(.colores-abdiel) .bg-degradado,
 .bg-degradado-g:nth-child(5) { background-position: 80% 50% !important; }
 .bg-degradado-g:nth-child(6) { background-position: 100% 50% !important; }
 
+.bg-degradado-p {
+  background-image: linear-gradient(
+    135deg,
+    var(--primary-color-custom),
+    color-mix(in srgb, var(--primary-color-custom) 70%, white)
+  );
+}
+
+.bg-degradado-s {
+  background-image: linear-gradient(
+    135deg,
+    var(--secondary-color-custom),
+    color-mix(in srgb, var(--secondary-color-custom) 70%, white)
+  );
+}
+
+.bg-degradado-a {
+  background-image: linear-gradient(
+    135deg,
+    var(--accent-color-custom),
+    color-mix(in srgb, var(--accent-color-custom) 70%, white)
+  );
+}
+
 body:has(.colores-abdiel) :is(.cinta2 span, .cinta2 .marquee-text) {
     color: #646464 !important;
     -webkit-text-fill-color: transparent;
