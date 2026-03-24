@@ -991,6 +991,16 @@ body:has(.hub365-ghl-not) #__nuxt * {
   grid-template-columns: repeat(4, 1fr); /* 2 columnas iguales */
   gap: 10px; /* espacio entre filas y columnas */
 }
+.grid-5 > .inner {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr); /* 2 columnas iguales */
+  gap: 10px; /* espacio entre filas y columnas */
+}
+.grid-6 > .inner {
+  display: grid !important;
+  grid-template-columns: repeat(6, 1fr); /* 2 columnas iguales */
+  gap: 10px; /* espacio entre filas y columnas */
+}
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
@@ -2022,6 +2032,19 @@ div.menu-lado-2 {
   flex: 0 0 100% !important;
   max-width: 100% !important;
   min-width: 100% !important;
+}
+/* 4 columnas */
+#__nuxt .card-carrusel.carru-col-4 > .inner > .singler-card-carrusel {
+  flex: 0 0 calc((100% - 60px) / 4) !important;  /* 4 columnas con gap de 20px cada una */
+  max-width: calc((100% - 60px) / 4) !important;
+  min-width: calc((100% - 60px) / 4) !important;
+}
+
+/* 5 columnas */
+#__nuxt .card-carrusel.carru-col-5 > .inner > .singler-card-carrusel {
+  flex: 0 0 calc((100% - 80px) / 5) !important;  /* 5 columnas con gap de 20px cada una */
+  max-width: calc((100% - 80px) / 5) !important;
+  min-width: calc((100% - 80px) / 5) !important;
 }
 
 /* =========================================
