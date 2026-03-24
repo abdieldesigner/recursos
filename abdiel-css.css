@@ -551,6 +551,15 @@ body:has(.hub365-ghl-not) #__nuxt * {
    TERMINA CSS DE CINTA DE TEXTO (marquee)
    ========================================= */
 
+.fullscreen-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+ /* Centra el contenido horizontalmente */
+    align-items: center;
+ /* Centra el contenido verticalmente */
+}
 
 
 /* =========================================
