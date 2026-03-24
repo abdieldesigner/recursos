@@ -144,6 +144,64 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
   --text-d: #0d0d0d;
 }
 
+ 
+/* PRIMARY */
+body .colores-p {
+  --secondary-color-custom: var(--primary-color-custom);
+  --accent-color-custom: var(--primary-color-custom);
+  --accent2-color-custom: var(--primary-color-custom);
+
+  /* degradado usando solo la variable, con un poco más claro y un poco más oscuro */
+  --degradado-texto: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--primary-color-custom) 85%, white),
+    var(--primary-color-custom),
+    color-mix(in srgb, var(--primary-color-custom) 70%, black)
+  );
+}
+
+/* SECONDARY */
+body  .colores-s {
+  --primary-color-custom: var(--secondary-color-custom);
+  --accent-color-custom: var(--secondary-color-custom);
+  --accent2-color-custom: var(--secondary-color-custom);
+
+  --degradado-texto: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--secondary-color-custom) 85%, white),
+    var(--secondary-color-custom),
+    color-mix(in srgb, var(--secondary-color-custom) 70%, black)
+  );
+}
+
+/* ACCENT */
+body .colores-a {
+  --primary-color-custom: var(--accent-color-custom);
+  --secondary-color-custom: var(--accent-color-custom);
+  --accent2-color-custom: var(--accent-color-custom);
+
+  --degradado-texto: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent-color-custom) 85%, white),
+    var(--accent-color-custom),
+    color-mix(in srgb, var(--accent-color-custom) 70%, black)
+  );
+}
+
+/* ACCENT2 */
+body .colores-a2 {
+  --primary-color-custom: var(--accent2-color-custom);
+  --secondary-color-custom: var(--accent2-color-custom);
+  --accent-color-custom: var(--accent2-color-custom);
+
+  --degradado-texto: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent2-color-custom) 85%, white),
+    var(--accent2-color-custom),
+    color-mix(in srgb, var(--accent2-color-custom) 70%, black)
+  );
+}
+
 /* =============================================
    Colores personaliza de cada web — debo declara las variebles antes.
    ============================================= */
