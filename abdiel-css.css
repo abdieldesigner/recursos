@@ -2087,35 +2087,35 @@ div.menu-lado-2 {
    ===================== */
 
 /* 1 columna */
-.card-carrusel.carru-col-1 > .inner > .singler-card-carrusel {
+#__nuxt .card-carrusel.carru-col-1 > .inner > .singler-card-carrusel {
   flex: 0 0 100%;
   max-width: 100%;
   min-width: 100%;
 }
 
 /* 2 columnas */
-.card-carrusel.carru-col-2 > .inner > .singler-card-carrusel {
+#__nuxt .card-carrusel.carru-col-2 > .inner > .singler-card-carrusel {
   flex: 0 0 calc((100% - 20px) / 2);
   max-width: calc((100% - 20px) / 2);
   min-width: calc((100% - 20px) / 2);
 }
 
 /* 3 columnas (por defecto) */
-.card-carrusel.carru-col-3 > .inner > .singler-card-carrusel {
+#__nuxt .card-carrusel.carru-col-3 > .inner > .singler-card-carrusel {
   flex: 0 0 calc((100% - 40px) / 3);
   max-width: calc((100% - 40px) / 3);
   min-width: calc((100% - 40px) / 3);
 }
 
 /* 4 columnas */
-.card-carrusel.carru-col-4 > .inner > .singler-card-carrusel {
+#__nuxt .card-carrusel.carru-col-4 > .inner > .singler-card-carrusel {
   flex: 0 0 calc((100% - 60px) / 4);
   max-width: calc((100% - 60px) / 4);
   min-width: calc((100% - 60px) / 4);
 }
 
 /* 5 columnas */
-.card-carrusel.carru-col-5 > .inner > .singler-card-carrusel {
+#__nuxt .card-carrusel.carru-col-5 > .inner > .singler-card-carrusel {
   flex: 0 0 calc((100% - 80px) / 5);
   max-width: calc((100% - 80px) / 5);
   min-width: calc((100% - 80px) / 5);
