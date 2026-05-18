@@ -93,7 +93,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    TERMINA CSS: EVITAR DESBORDE
    ========================================= */
 
-:root {
+.noroot {
     --primary-color-custom: #009246;
     --secondary-color-custom: #00b6c2;
     --accent-color-custom: #00b34d;
@@ -108,7 +108,8 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    
     --divider-color: #fff;
     --seo-text:   #212121;
-
+  }
+  :root {
   /* Fondos */
     --bg-p-d: #0d0d0d;
     --bg-s-d: #252525;
