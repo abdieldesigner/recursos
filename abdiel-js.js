@@ -459,3 +459,28 @@ document.addEventListener('DOMContentLoaded', function() {
    TERMINA car carrusel
    ============================================================ */
 
+document.addEventListener('DOMContentLoaded', function() {
+  var trigger = document.getElementById('sab2-main');
+  var body = document.getElementById('sab2-body');
+  if (trigger && body) {
+    trigger.addEventListener('click', function() {
+      var open = body.classList.toggle('is-open');
+      trigger.classList.toggle('is-open', open);
+    });
+  }
+  document.querySelectorAll('#seo-abdiel .sab2-hdr').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.closest('.sab2-item');
+      var wasOpen = item.classList.contains('is-open');
+      item.classList.toggle('is-open', !wasOpen);
+      btn.setAttribute('aria-expanded', String(!wasOpen));
+    });
+  });
+});
+
+
+
+/* ============================================================
+   TERMINA seo colasable 2
+   ============================================================ */
+
