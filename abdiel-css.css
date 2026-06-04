@@ -763,13 +763,13 @@ body:has(.hub365-ghl-not) #__nuxt * {
    ========================================= */
 
 .elemento-difuminado-bottom {
-    -webkit-mask-image: linear-gradient(to bottom, black 80%, #00000047 93%, #0000001f 96%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important
     ;
     -webkit-mask-repeat: no-repeat !important;
     ;
     -webkit-mask-size: 100% 100% !important;
     ;
-    mask-image: linear-gradient(to bottom, black 80%, #00000047 93%, #0000001f 96%, transparent 100%) !important;
+    mask-image: linear-gradient(to bottom, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important
     ;
     mask-repeat: no-repeat !important;
     ;
