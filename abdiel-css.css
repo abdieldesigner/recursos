@@ -2245,14 +2245,60 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 
 /* fin — imagen galeria expandible*/
 
+/* comienzo colapsable de seo 2*/
+
+#seo-abdiel.sab2{
+    --ac: var(--primary-color-custom);   /* color acento (verde) */
+    --t:  var(--seo-text);   /* color texto */
+    --lk: var(--primary-color-custom);   /* color links */
+    --h2: 15px;      /* tamaño título principal */
+    --h3: 14px;      /* tamaño títulos acordeón */
+    --p:  13px;      /* tamaño texto párrafos y listas */
+    color:var(--t);max-width:1100px;margin:auto
+  }
+  /* ============================ */
+
+    
+#seo-abdiel {
+    font-family: var(--contentfont);}  
+    
+   #seo-abdiel .sab2-trigger{display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;padding:.5rem 0;user-select:none;-webkit-tap-highlight-color:transparent;background:transparent!important;background-color:transparent!important;border:none!important;box-shadow:none!important;outline:none!important; 
+    font-family: var(--headlinefont);}
+  #seo-abdiel .sab2-trigger *{pointer-events:none}
+  #seo-abdiel .sab2-trigger h2{margin:0!important;padding:0!important;font-size:var(--h2)!important;font-weight:500!important;color:var(--t)!important;text-align:center;line-height:1.4;background:transparent!important;border:none!important;box-shadow:none!important}
+  #seo-abdiel .sab2-trigger::after{content:"";width:.45rem;height:.45rem;border-radius:50%;background:var(--ac);flex-shrink:0;transition:box-shadow .3s}
+  #seo-abdiel .sab2-trigger.is-open::after{animation:ab2pulse 1.1s ease 1}
+  @keyframes ab2pulse{0%{box-shadow:0 0 0 var(--ac)}50%{box-shadow:0 0 14px var(--ac)}100%{box-shadow:0 0 8px var(--ac)}}
+  #seo-abdiel .sab2-body{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:1rem!important;margin-top:.75rem!important;max-height:0!important;overflow:hidden!important;transition:max-height .45s ease!important;width:100%!important;box-sizing:border-box!important}
+  #seo-abdiel .sab2-body.is-open{max-height:6000px!important}
+  @media(max-width:640px){#seo-abdiel .sab2-body{grid-template-columns:minmax(0,1fr)!important}}
+  #seo-abdiel .sab2-item{display:block!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;border-bottom:1px dashed rgba(0,255,0,.15)!important;padding-bottom:.75rem!important;break-inside:avoid!important;background:transparent!important;float:none!important;overflow:hidden!important}
+  #seo-abdiel .sab2-hdr,
+  #seo-abdiel .sab2-hdr:link,
+  #seo-abdiel .sab2-hdr:visited,
+  #seo-abdiel .sab2-hdr:hover,
+  #seo-abdiel .sab2-hdr:focus,
+  #seo-abdiel .sab2-hdr:active,
+  #seo-abdiel .sab2-hdr:focus-visible{display:flex!important;align-items:center!important;gap:.5rem!important;cursor:pointer!important;padding:.25rem 0 .4rem 1.5rem!important;position:relative!important;user-select:none!important;-webkit-tap-highlight-color:transparent!important;background:transparent!important;background-color:transparent!important;background-image:none!important;border:none!important;border-radius:0!important;box-shadow:none!important;outline:none!important;width:100%!important;text-align:left!important;color:var(--ac)!important;transition:none!important;text-decoration:none!important;opacity:1!important;filter:none!important}
+  #seo-abdiel .sab2-hdr *{pointer-events:none!important}
+  #seo-abdiel .sab2-hdr::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;width:10px!important;height:10px!important;border-right:2px solid var(--ac)!important;border-bottom:2px solid var(--ac)!important;border-top:none!important;border-left:none!important;transform:translateY(-50%) rotate(-45deg)!important;transition:transform .2s ease!important;background:transparent!important;border-radius:0!important}
+  #seo-abdiel .sab2-item.is-open .sab2-hdr::before{transform:translateY(-50%) rotate(45deg)!important}
+  #seo-abdiel .sab2-hdr h3,
+  #seo-abdiel .sab2-hdr:hover h3,
+  #seo-abdiel .sab2-hdr:focus h3,
+  #seo-abdiel .sab2-hdr:active h3{margin:0!important;padding:0!important;color:var(--ac)!important;font-size:var(--h3)!important;font-weight:600!important;line-height:1.3!important;letter-spacing:.1px!important;background:transparent!important;border:none!important;box-shadow:none!important;text-decoration:none!important}
+  #seo-abdiel .sab2-cnt{overflow:hidden!important;max-height:0!important;transition:max-height .35s ease!important}
+  #seo-abdiel .sab2-item.is-open .sab2-cnt{max-height:1000px!important}
+  #seo-abdiel .sab2-cnt p{margin:.4rem 0 .6rem!important;font-size:var(--p)!important;color:var(--t)!important;font-weight:500!important;line-height:1.6!important}
+  #seo-abdiel .sab2-cnt strong{color:var(--t)!important}
+  #seo-abdiel .sab2-cnt a{color:var(--lk)!important;font-size:var(--p)!important;text-decoration:underline!important}
+  #seo-abdiel .sab2-list{margin:.2rem 0 .7rem!important;padding:0!important;list-style:none!important}
+  #seo-abdiel .sab2-list li{position:relative!important;padding-left:1.2rem!important;margin:.3rem 0!important;font-size:var(--p)!important;color:var(--t)!important;font-weight:500!important;line-height:1.5!important;list-style:none!important}
+  #seo-abdiel .sab2-list li::before{content:""!important;position:absolute!important;left:0!important;top:.55em!important;width:.5rem!important;height:.5rem!important;border-radius:50%!important;background:var(--ac)!important}
+  #seo-abdiel .sab2-list li::marker{display:none!important;color:transparent!important}
 
 
-
-
-
-
-
-
+/* fin colapsable de seo 2*/
 
 
 
