@@ -1125,7 +1125,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
-  .grid-2 > .inner, .grid-3 > .inner, .grid-4 > .inner {
+  .grid-2 > .inner, .grid-3 > .inner, .grid-4 > .inner , .grid-5 > .inner,  .grid-6 > .inner {
     grid-template-columns: 1fr !important; /* una sola columna en móvil */
   }
 }
