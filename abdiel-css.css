@@ -42,6 +42,15 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     overflow-x: clip; 
     overflow-y: visible; 
 }
+
+/* =========================================
+   formatear seccion de ghl
+   ========================================= */
+#__nuxt .f-s-ghl, #__nuxt  .f-s-ghl > div, #__nuxt  .f-s-ghl > .inner, #__nuxt .f-s-ghl .c-column,.f-s-ghl .c-row {
+    padding: 0px !important;
+    margin: 0px !important;
+    max-width: 100% !important;
+}
 /* nativamente todo esta en stativ lo qu ecomlica usalro los z-index */
 .c-section, .custom-code-container {
     position: relative;
@@ -410,6 +419,8 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
    ========================================= */
 
 
+
+
 .border-a, .border-a .divider-element {
     border-color: var(--accent-color-custom) !important;
 }
@@ -759,10 +770,10 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 
 /* =========================================
-   EMPIEZA CSS difuminado abajo 
+   EMPIEZA CSS difuminado o desvanecidos abajo 
    ========================================= */
 
-.elemento-difuminado-bottom {
+.elemento-difuminado-bottom, .difuminado-bottom {
     -webkit-mask-image: linear-gradient(to bottom, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important
     ;
     -webkit-mask-repeat: no-repeat !important;
@@ -777,10 +788,31 @@ body:has(.hub365-ghl-not) #__nuxt * {
     ;
 }
 
+.difuminado-left {
+    -webkit-mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
+.difuminado-right {
+    -webkit-mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
 
 /* =========================================
    TERMINA CSS difuminado abajo 
    ========================================= */
+
 
 /* =========================================
    COMIENZA CSS Tdo blanco / negro
