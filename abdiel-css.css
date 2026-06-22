@@ -808,6 +808,36 @@ body:has(.hub365-ghl-not) #__nuxt * {
     mask-size: 100% 100% !important;
 }
 
+.difuminado-horizontal {
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #0000001f 7%,
+        #00000047 10%,
+        black 20%,
+        black 80%,
+        #00000047 90%,
+        #0000001f 93%,
+        transparent 100%
+    ) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #0000001f 7%,
+        #00000047 10%,
+        black 20%,
+        black 80%,
+        #00000047 90%,
+        #0000001f 93%,
+        transparent 100%
+    ) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
 
 /* =========================================
    TERMINA CSS difuminado abajo 
