@@ -2311,7 +2311,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 
 #seo-abdiel.sab2{
     --ac: var(--primary-color-custom);   /* color acento (verde) */
-    --t:  var(--seo-text);   /* color texto */
+    --t:  var(--text-d);   /* color texto */
     --lk: var(--primary-color-custom);   /* color links */
     --h2: 15px;      /* tamaño título principal */
     --h3: 14px;      /* tamaño títulos acordeón */
