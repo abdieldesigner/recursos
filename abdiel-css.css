@@ -59,6 +59,9 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 /* oculta cositas */
 .oculto {
+    opacity: 0.5 !important;
+}
+#__nuxt .oculto {
     display: none !important;
 }
 .destacar-1, .z-index1 {
