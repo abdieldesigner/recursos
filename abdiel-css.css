@@ -788,6 +788,15 @@ body:has(.hub365-ghl-not) #__nuxt * {
     ;
 }
 
+.difuminado-top {
+    -webkit-mask-image: linear-gradient(to top, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-image: linear-gradient(to top, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+    mask-size: 100% 100% !important;
+}
+
 .difuminado-left {
     -webkit-mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
     -webkit-mask-repeat: no-repeat !important;
@@ -1264,9 +1273,10 @@ body:has(.hub365-ghl-not) #__nuxt * {
       .abdiel-v2-icon{ width: 18px; height: 18px; }
 
        /* ✔ solo aplica si existe el contenedor con esa clase */
-         body:has(.social-icons-container-abdiel) :is(.text-output, .c-button):not(.nav-menu-ul *, .ignorar-redes *) {
-          margin-right: 45px !important;
-        }
+         body:has(.social-icons-container-abdiel):not(:has(.ignorar-redes-total))
+            :is(.text-output, .c-button):not(.nav-menu-ul *, .ignorar-redes *) {
+              margin-right: 45px !important;
+          }
        
     }
   </style>
