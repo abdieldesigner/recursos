@@ -2375,7 +2375,12 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 
 /* fin colapsable de seo 2*/
 
+.list-camera li::marker, .list-disc li::marker {
+  content: var(--icon-list, "◆");  
+  color: var(--accent-color-custom); 
 
+}
+/* fin listas peronalizadas*/
 
 
 
