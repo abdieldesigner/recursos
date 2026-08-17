@@ -7,6 +7,7 @@ window.addEventListener('load', () => {
 
   tracks.forEach(track => {
     const textBlock = track.querySelector('.marquee-text'); // Bloque que contiene el texto original
+    if (!textBlock) return; // Si este track no trae el bloque de texto, se salta (no rompe los demás)
 
     // Reemplaza saltos de línea <br> por un separador visual ✦
     // - Usamos regex /<br\s*\/?>/gi para cubrir <br>, <br/> y mayúsculas/minúsculas
@@ -79,7 +80,7 @@ window.addEventListener('load', () => {
 
 
 /* ============================================================
-   Empieza JS roba color del borde para divisores
+   INICIA JS ROBA COLOR DEL BORDE PARA DIVISORES
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 /* ============================================================
-   EMpieza JS anadir clase un a cada pagina
+   INICIA JS AÑADIR CLASE A CADA PAGINA
    ============================================================ */
 
 
@@ -121,13 +122,14 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 /* ============================================================
-   TERMINA JS anadir clase un a cada pagina
-   ============================================================ */
-/* ============================================================
-   empieza JS afecto aparecer anuncio
+   TERMINA JS AÑADIR CLASE A CADA PAGINA
    ============================================================ */
 
-  window.onload = function() {
+/* ============================================================
+   INICIA JS EFECTO APARECER ANUNCIO
+   ============================================================ */
+
+  window.addEventListener('load', function() {
     const anuncios = document.querySelectorAll('.contenedor-anuncio'); // Selecciona todos los elementos con la clase 'contenedor-anuncio'
 
     anuncios.forEach(function(anuncio) {
@@ -136,13 +138,14 @@ document.addEventListener('DOMContentLoaded', function() {
         anuncio.classList.add('visible');
       }, 4000); // 4000 ms = 4 segundos
     });
-  };
+  });
 
 /* ============================================================
-   TERMINA JS afecto aparecer anuncio
+   TERMINA JS EFECTO APARECER ANUNCIO
    ============================================================ */
+
 /* ============================================================
-   EMPIEZA  JS sin verificaccion
+   INICIA JS ACTIVACION SIN VERIFICACION
    ============================================================ */
 
 (function () {
@@ -221,30 +224,32 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 /* ============================================================
-   TERMINA JS sin verificaccion
+   TERMINA JS ACTIVACION SIN VERIFICACION
    ============================================================ */
 
+/* ============================================================
+   INICIA JS MENU EXPANDIBLE
+   ============================================================ */
 
 (function() {
+  var intentosMenu = 0;
   function init() {
     var abrirBtn = document.querySelector('.abrir-menu-ab');
     var contenedor = document.querySelector('.contenedor-menu-ab');
     if (!abrirBtn || !contenedor) {
-      console.log('⏳ Esperando elementos...');
+      intentosMenu++;
+      if (intentosMenu > 20) return; // Página sin este menú: deja de intentar tras ~10s
       setTimeout(init, 500);
       return;
     }
-    console.log('✅ Menú inicializado correctamente');
     contenedor.classList.remove('is-open');
     function abrir() {
       contenedor.classList.add('is-open');
       document.body.style.overflow = 'hidden';
-      console.log('📂 Menú abierto');
     }
     function cerrar() {
       contenedor.classList.remove('is-open');
       document.body.style.overflow = '';
-      console.log('📁 Menú cerrado');
     }
     abrirBtn.addEventListener('click', function(e) {
       e.preventDefault();
@@ -279,13 +284,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 /* ============================================================
-   TERMINA men expandible
+   TERMINA JS MENU EXPANDIBLE
    ============================================================ */
 
 (function() {
+  var intentosAcordeon = 0;
   function initAcordeon() {
     var titulos = document.querySelectorAll('.acordeon-titulo-ab');
     if (!titulos.length) {
+      intentosAcordeon++;
+      if (intentosAcordeon > 20) return; // Página sin acordeón: deja de intentar tras ~10s
       setTimeout(initAcordeon, 500);
       return;
     }
@@ -318,8 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
-
-    console.log('✅ Acordeón AB inicializado (' + titulos.length + ' secciones)');
   }
 
   if (document.readyState === 'loading') {
@@ -330,7 +336,11 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 /* ============================================================
-   TERMINA acordiones
+   TERMINA JS ACORDEONES
+   ============================================================ */
+
+/* ============================================================
+   INICIA JS CARRUSEL DE TARJETAS
    ============================================================ */
 
 (function(){
@@ -456,7 +466,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 })();
 /* ============================================================
-   TERMINA car carrusel
+   TERMINA JS CARRUSEL DE TARJETAS
+   ============================================================ */
+
+/* ============================================================
+   INICIA JS SEO COLAPSABLE 2
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -481,6 +495,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 /* ============================================================
-   TERMINA seo colasable 2
+   TERMINA JS SEO COLAPSABLE 2
    ============================================================ */
 
