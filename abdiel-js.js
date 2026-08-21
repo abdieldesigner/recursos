@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function() {
     'a-e-zoom':   'animate__zoomIn',
     'a-e-zoom-t': 'animate__zoomInUp'
   };
-  var BTN_CLASSES = ['btn-link', 'btn-border', 'boton-degradado'];
+  var BTN_CLASSES = ['btn-link', 'btn-border', 'boton-degradado', 'btn-vp'];
   var DEFAULT_ANIM = 'animate__fadeIn';      /* respaldo de .animacion-e si no hay --a-e-anim */
   var DEFAULT_BTN_ANIM = 'animate__fadeIn';  /* respaldo de los botones si no hay --animate-btn */
 
