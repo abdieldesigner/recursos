@@ -498,3 +498,74 @@ document.addEventListener('DOMContentLoaded', function() {
    TERMINA JS SEO COLAPSABLE 2
    ============================================================ */
 
+/* ============================================================
+   INICIA JS ANIMACION DE ENTRADA (scroll)
+   El CSS correspondiente está en abdiel-css.css
+   ============================================================ */
+
+(function(){
+  var MAP = {
+    'a-e-flip-x': 'animate__flipInX',
+    'a-e-flip-y': 'animate__flipInY',
+    'a-e-fade':   'animate__fadeIn',
+    'a-e-fade-l': 'animate__fadeInLeft',   /* desde la izquierda */
+    'a-e-fade-r': 'animate__fadeInRight',  /* desde la derecha */
+    'a-e-fade-t': 'animate__fadeInUp',     /* hacia arriba (top) */
+    'a-e-fade-b': 'animate__fadeInDown',   /* hacia abajo (bottom) */
+    'a-e-zoom':   'animate__zoomIn',
+    'a-e-zoom-t': 'animate__zoomInUp'
+  };
+  var BTN_CLASSES = ['btn-link', 'btn-border', 'boton-degradado'];
+  var DEFAULT_ANIM = 'animate__fadeIn';      /* respaldo de .animacion-e si no hay --a-e-anim */
+  var DEFAULT_BTN_ANIM = 'animate__fadeIn';  /* respaldo de los botones si no hay --animate-btn */
+
+  var keys = Object.keys(MAP);
+  var sel = keys.map(function(k){ return '.' + k; })
+    .concat('.animacion-e')
+    .concat(BTN_CLASSES.map(function(k){ return '.' + k; }))
+    .join(',');
+
+  // .no-anim queda completamente afuera del sistema (no se oculta, no se observa)
+  var els = Array.prototype.filter.call(document.querySelectorAll(sel), function(el){
+    return !el.classList.contains('no-anim');
+  });
+  if(!els.length) return;
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target, anim = null;
+
+      // 1) clase específica (a-e-flip-x, a-e-fade-l, a-e-zoom, etc.)
+      for(var i=0;i<keys.length;i++){ if(el.classList.contains(keys[i])){ anim = MAP[keys[i]]; break; } }
+
+      // 2) si no, y tiene .animacion-e -> usa la animación de su variable (o el respaldo)
+      if(!anim && el.classList.contains('animacion-e')){
+        var v = getComputedStyle(el).getPropertyValue('--a-e-anim').trim();
+        anim = v || DEFAULT_ANIM;
+      }
+
+      // 3) si no, y es uno de los 3 botones -> usa --animate-btn (o el respaldo)
+      if(!anim){
+        for(var j=0;j<BTN_CLASSES.length;j++){
+          if(el.classList.contains(BTN_CLASSES[j])){
+            var vb = getComputedStyle(el).getPropertyValue('--animate-btn').trim();
+            anim = vb || DEFAULT_BTN_ANIM;
+            break;
+          }
+        }
+      }
+
+      if(anim) el.classList.add('animate__animated', anim);
+      el.classList.add('is-in');
+      io.unobserve(el);
+    });
+  }, { threshold: .2 });
+
+  els.forEach(function(el){ io.observe(el); });
+})();
+
+/* ============================================================
+   TERMINA JS ANIMACION DE ENTRADA (scroll)
+   ============================================================ */
+

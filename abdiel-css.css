@@ -34,6 +34,74 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 */
 
+
+/* 🔥 Colores personalizados - usar colores-abdiel Para activar los colores personalizados */
+/* NOTA: ".body-no" y ".theme-lock-no" son selectores intencionalmente inexistentes.
+   Este bloque NO se aplica a ningún sitio real — es solo una plantilla de referencia
+   para saber qué variables declarar (con "body" y ".theme-lock" reales) en cada web. */
+.body-no, [data-theme="dark"] .theme-lock-no  {
+    /* === Variables globales === */
+    --primary-color-custom: #06232b;
+    --secondary-color-custom: #0d4650;
+    --accent-color-custom: #1bcdcf;
+    --accent-color-custom-2: #9df0ef;
+
+
+    --degradado-texto: linear-gradient(105deg, var(--primary-color-custom), var(--accent-color-custom));
+    --degradado-texto-2: linear-gradient(105deg, var(--accent-color-custom), color-mix(in srgb, var(--accent-color-custom-2) 75%, white 25%));
+    --degradado-fondo: linear-gradient(105deg, var(--secondary-color-custom), var(--bg-p-d));
+    --degradado-boton: linear-gradient(105deg, var(--accent-color-custom), var(--primary-color-custom)); 
+    --resplandor-boton: 0 0 3rem var(--accent-color-custom);
+    --degradado-boton-menu: linear-gradient(105deg, var(--accent-color-custom), var(--primary-color-custom));
+
+    --color-texto-boton: #fff;
+    --seo-text: #06232b;
+    
+    --divider-mask: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/Shapes/triangle.svg");
+    --divider-color: #fff;
+
+    --radius-principal: 20px;
+    --radius-element: 90px;
+
+  /* Fondos */
+    --bg-p-d: #04191f;
+    --bg-s-d: #072830;
+    --bg-p-l: #ffffff;
+    --bg-s-l: #e6f7f7;
+    --fondo-menu-expandible: var(--bg-p-l);
+
+  /* Brandboards */
+    --brandboards-text_d: var(--text-d);
+    --brandboards-text_l: var(--text-l);
+    --brandboards-bg_p_d: var(--bg-p-d);
+    --brandboards-bg_p_l: var(--bg-p-l);
+    --divider-color: var(--bg-p-l);
+    
+
+    /* colores Tipografía */
+    --headlinefont: 'Economica';
+    --contentfont: 'Manrope';
+    --title-scale: 1;
+
+    --eyebrow: 13px;
+    --size-h2: clamp(32px, 4vw, 48px);
+    --size-h3: clamp(16px, 2vw, 24px);
+      
+    --text-l: #eafafa;
+    --text-d: #06232b;
+
+    /* Animaciones */
+    --a-e-dur: 2s;
+    --a-e-delay: 0.75s;    
+
+    --a-e-anim: animate__fadeInUp;
+    --animate-btn: animate__fadeIn;
+
+
+
+}
+
+
 /* =========================================
    INICIA CSS: EVITAR DESBORDE (layout global)
    ========================================= */
@@ -130,6 +198,10 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
   /* Tipografía */
     --text-l: #fdfdfd;
     --text-d: #0d0d0d;
+  /* Tamaños de texto */
+    --eyebrow: 13px;
+    --size-h2: clamp(32px, 4vw, 48px);
+    --size-h3: clamp(32px, 4vw, 48px);
 }
 
 /* intercambio de colores modo dark  */
@@ -220,7 +292,7 @@ body .colores-a2 {
    ============================================= */
 
 
-body:has(.colores-abdiel) .bg-degradado, 
+body:has(.colores-abdiel, .colores-hub365) .bg-degradado, 
 .faq-degradado .hl-faq-child-heading.active {
     box-shadow: none;
     background-image: var(--degradado-fondo);
@@ -275,7 +347,7 @@ body:has(.colores-abdiel) .bg-degradado,
   );
 }
 
-body:has(.colores-abdiel) :is(.cinta2 span, .cinta2 .marquee-text) {
+body:has(.colores-abdiel, .colores-hub365) :is(.cinta2 span, .cinta2 .marquee-text) {
     color: #646464 !important;
     -webkit-text-fill-color: transparent;
     background-image: var(--degradado-texto) !important;
@@ -309,8 +381,12 @@ body:has(.colores-abdiel) :is(.cinta2 span, .cinta2 .marquee-text) {
     background-color: var(--bg-s-l, #f3f1f2) !important;
 }
 
-body:has(.colores-abdiel) :is(h1 strong, h2 strong, .gradient-text h1, .gradient-text h2, .gradient-text strong, .gradient-text .counter-value, .card-categoria h2, .gradient-text .timer-box > .count),
-body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *)) {
+body:has(.colores-abdiel, .colores-hub365) :is(
+    :is(h1, h2) strong,
+    .gradient-text :is(h1, h2, strong, .counter-value, .timer-box > .count),
+    .card-categoria h2
+  ),
+body:has(.colores-abdiel, .colores-hub365) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *)) {
     color: #991e30;
     -webkit-text-fill-color: transparent;
     background-image: var(--degradado-texto);
@@ -319,23 +395,25 @@ body:has(.colores-abdiel) .main-heading-button:not(:is(.boton-degradado *, .excl
     background-clip: text;
 }
 
-body:has(.colores-abdiel) :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .boton-degradado *)::before   {
+
+body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .boton-degradado *)::before   {
     color: var(--accent-color-custom) !important;
 }
 
 
-body:has(.colores-abdiel) .boton-degradado {
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado {
     box-shadow: none;
     background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
     transition: all .4s;
     color: var(--color-texto-boton, #fff);
+    border-radius: var(--radius-element, 100px) !important;
 }
 
-body:has(.colores-abdiel) .boton-degradado:hover {
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado:hover {
     box-shadow: var(--resplandor-boton);
 }
 
-body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado .button-icon-end::before {
     color: var(--color-texto-boton, #fff) !important;
 }
 
@@ -347,7 +425,7 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
     color: var(--color-texto-boton, #fff);
     font-weight: 800;
     font-family: inherit;
-    border-radius: 100px;
+    border-radius: var(--radius-element, 100px);
     padding: 5px 15px;
 }
 
@@ -446,9 +524,12 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
 .text-etiqueta > div {
     background: color-mix(in srgb, var(--accent-color-custom) 12%, transparent);
     border: 1.5px solid color-mix(in srgb, var(--accent-color-custom) 20%, transparent);
-    border-radius: 30px;
+    border-radius: var(--radius-element, 100px);
     display: inline-block;
     padding: 5px 20px 3px 20px;
+}
+.text-etiqueta {
+    padding: 0px !important;
 }
 
 
@@ -483,13 +564,20 @@ body:has(.colores-abdiel) .boton-degradado .button-icon-end::before {
    INICIA CSS: SEPARACIÓN ENTRE ELEMENTOS
    ========================================= */
 .separacion-elemnts > .inner {
-  gap: 40px;  
+  gap: 25px;  
 }
 
 @media (max-width: 768px) {
     .separacion-elemnts > .inner {
         gap: 20px !important;
     }
+}
+
+.gap-10 > .inner {
+  gap: 10px !important;  
+}
+.gap-5 > .inner {
+  gap: 5px !important;  
 }
 /* =========================================
    TERMINA CSS: SEPARACIÓN ENTRE ELEMENTOS
@@ -515,6 +603,16 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
    .img-1-1 img {
        aspect-ratio: 1 / 1;
+       object-fit: cover !important;
+       object-position: center;
+   }
+   .img-5-4 img {
+       aspect-ratio: 5 / 4;
+       object-fit: cover !important;
+       object-position: center;
+   }
+   .img-4-5 img {
+       aspect-ratio: 4 / 5;
        object-fit: cover !important;
        object-position: center;
    }
@@ -672,7 +770,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 
 .bento {
-    border-radius: 20px;
+    border-radius: var(--radius-element, 20px);
     box-shadow: 1px -1px 0 0 #493D5C,-52px 98px 67px 0 rgb(0 0 0 / .19),-23px 44px 50px 0 rgb(0 0 0 / .32),-6px 11px 27px 0 rgb(0 0 0 / .36),0 0 29.2px 0 rgb(73 61 92 / .21) inset;
     overflow: hidden;
     transition: 0.5s ease;
@@ -850,6 +948,36 @@ body:has(.hub365-ghl-not) #__nuxt * {
     mask-size: 100% 100% !important;
 }
 
+.difuminado-vertical {
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #0000001f 7%,
+        #00000047 10%,
+        black 20%,
+        black 80%,
+        #00000047 90%,
+        #0000001f 93%,
+        transparent 100%
+    ) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #0000001f 7%,
+        #00000047 10%,
+        black 20%,
+        black 80%,
+        #00000047 90%,
+        #0000001f 93%,
+        transparent 100%
+    ) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
 
 /* =========================================
    TERMINA CSS difuminado abajo 
@@ -885,7 +1013,6 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 
 .brillos::after {
-    border-radius: 10px;
     content: '';
     background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/GIF-texturas/brillos.webp);
     background-size: 200px;
@@ -1903,7 +2030,7 @@ body {
   height: auto !important;
   max-height: 80vh !important;
   background: var(--bg-p-l, #ffffff) !important;
-  border-radius: 16px !important;
+  border-radius: var(--radius-principal, 100px) !important;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
   overflow-y: auto !important;
   padding: 30px 20px 20px 20px !important;
@@ -1957,7 +2084,7 @@ div.menu-lado-2 {
 #__nuxt .contenedor-menu-ab.m-m-r-ab > :is(div, section, .inner) {
   width: 475px !important;
   max-height: 100vh !important;
-  border-radius: 0 !important;
+  border-radius: var(--radius-principal, 16px) !important;
   margin: 0 !important;
   margin-right: 0 !important;
   right: 0;
@@ -2080,7 +2207,7 @@ div.menu-lado-2 {
   pointer-events: auto;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
+  border-radius: var(--radius-principal, 50%);
   background: var(--accent-color-custom, #d53232);
   color: var(--color-texto-boton, #fff);
   border: none;
@@ -2381,8 +2508,92 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 
 }
 /* fin listas peronalizadas*/
+/* TEXTOS */
+
+.pre-titulo :is(*, h1, h2, h3, h4, p, span, a) {
+    font-size: var(--eyebrow) !important;
+    font-weight: 400 !important;
+}
+/* fin Pretitulo*/
 
 
+.title-h2 :is(*, h2, h3) {
+    font-size: var(--size-h2) !important;
+    line-height: 1em;
+}
 
+.title-h3 :is(*, h2, h3) {
+    font-size: var(--size-h3) !important;
+    line-height: 1em;
+}
 
+.radius-principal :is(img, video, .vjs-big-play-centered, figure.video-container div, iframe) {
+    border-radius: var(--radius-element) !important;
+}
+.radius-principal-s {
+    border-radius: var(--radius-principal) !important;
+}
 
+.btn-footer :is(.main-heading-button, a, p) {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.75 !important;
+    -webkit-font-smoothing: antialiased !important;
+    text-align: left !important;
+}
+
+.btn-link {
+    width: fit-content !important;
+    background: transparent;
+    background-color: transparent !important;
+    ont-family: var(--contentfont) !important;
+    border-bottom: 1px solid var(--secondary-color-custom) !important;
+    padding: 0px !important;
+    padding-bottom: 4px !important;
+    border-radius: var(--radius-principal);
+}
+
+.btn-link :is(.main-heading-button, .button-icon-end:before) {
+    font-size: 14px;
+    letter-spacing: .2em !important;
+    text-transform: uppercase !important;
+    color: var(--text-d) !important;
+}
+
+.btn-border {
+    box-shadow: none;
+    background: none;
+    background-image: none;
+    transition: all .4s;
+    color: var(--text-d, #fff);
+    border: var(--accent-color-custom, #000) 1px solid !important;
+    border-radius: var(--radius-element, 100px) !important;
+}
+.btn-border :is(.main-heading-button, .button-icon-end:before) {
+    color: var(--text-d) !important;
+}
+
+/* =========================================
+   INICIA CSS: ANIMACION DE ENTRADA (scroll)
+   El JS correspondiente está en abdiel-js.js
+   ========================================= */
+
+/* Base común: duración + delay (defaults globales) */
+#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado):not(.no-anim){
+  --animate-duration: var(--a-e-dur, 2s);
+  animation-delay: var(--a-e-delay, 0.75s);
+}
+/* Oculto hasta que se dispare */
+#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado):not(.is-in):not(.no-anim){
+  opacity: 0;
+}
+
+/* Interruptor global: si existe .animate-btn-not en cualquier parte de la página */
+body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado) {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* =========================================
+   TERMINA CSS: ANIMACION DE ENTRADA (scroll)
+   ========================================= */
