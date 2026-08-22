@@ -2530,7 +2530,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
     line-height: 1em;
 }
 
-p:not(.excluir) {
+p:not(.excluir-p, .excluir-p p) {
     font-weight: 400;
     line-height: 1.5;
     font-size: var(--size-p, 16px) !important;
