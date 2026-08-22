@@ -22,3 +22,11 @@ Dentro de los archivos CSS/JS, siempre que no cambie ningún nombre de selector 
 - Reordenar y agrupar lógicamente.
 - Formatear/indentar de forma consistente.
 - Mejorar legibilidad general.
+
+## Identidad de git para los commits
+
+La identidad oficial para los commits de este repo es:
+```
+abdieldesigner <diferentecreativo@gmail.com>
+```
+Verificar con `git config user.name` / `git config user.email` antes de commitear si no coincide (puede desconfigurarse si cambia el hostname del equipo u otra causa). No usar la identidad de la cuenta de trabajo (`abdiel-Hub365`) en este repo — son cuentas distintas.
