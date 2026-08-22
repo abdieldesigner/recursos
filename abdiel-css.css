@@ -72,6 +72,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
     --radius-principal: 20px;
     --radius-element: 90px;
+    --padding-s: 60px 0px;
 
   /* Fondos */
     --bg-p-d: #04191f;
@@ -96,6 +97,8 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --eyebrow: 13px;
     --size-h2: clamp(32px, 4vw, 48px);
     --size-h3: clamp(16px, 2vw, 24px);
+    --size-p: 16px;
+    --size-font-btn: 14px;
       
     --text-l: #eafafa;
     --text-d: #06232b;
@@ -106,9 +109,6 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
     --a-e-anim: animate__fadeInUp;
     --animate-btn: animate__fadeIn;
-
-
-
 }
 
 
@@ -179,26 +179,15 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     top: -300px !important;   
 }
 
+.padding-s {
+    padding: var(--padding-s, 60px 0px) !important;
+}
+
 /* =========================================
    TERMINA CSS: EVITAR DESBORDE
    ========================================= */
 
-.noroot {
-    --primary-color-custom: #009246;
-    --secondary-color-custom: #00b6c2;
-    --accent-color-custom: #00b34d;
-   
-    --degradado-texto: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
-    --degradado-fondo: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
-    --degradado-boton: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
-    --resplandor-boton: 0 0 3rem transparent;
-   
-    --degradado-boton-menu: linear-gradient(135deg, #009246 0%, #00b6c2 100%);
-    --color-texto-boton: #000;
-   
-    --divider-color: #fff;
-    --seo-text:   #212121;
-  }
+
   :root {
   /* Fondos */
     --bg-p-d: #0d0d0d;
@@ -211,7 +200,9 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
   /* Tamaños de texto */
     --eyebrow: 13px;
     --size-h2: clamp(32px, 4vw, 48px);
-    --size-h3: clamp(32px, 4vw, 48px);
+    --size-h3: clamp(16px, 2vw, 24px);
+    --size-p: 16px;    
+    --size-font-btn: 14px;
 }
 
 /* intercambio de colores modo dark  */
@@ -414,8 +405,7 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
 body:has(.colores-abdiel, .colores-hub365) .boton-degradado {
     box-shadow: none;
     background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
-    transition: all .4s;
-    color: var(--color-texto-boton, #fff);
+    transition: all .4s;   
     border-radius: var(--radius-element, 100px) !important;
 }
 
@@ -425,6 +415,10 @@ body:has(.colores-abdiel, .colores-hub365) .boton-degradado:hover {
 
 body:has(.colores-abdiel, .colores-hub365) .boton-degradado .button-icon-end::before {
     color: var(--color-texto-boton, #fff) !important;
+}
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-button, .button-icon-end:before) {
+    color: var(--color-texto-boton, #fff) !important;
+    font-size: var(--size-font-btn, 14px) !important;
 }
 
 /* boton en menu 3 opciones */
@@ -1287,7 +1281,6 @@ body:has(.hub365-ghl-not) #__nuxt * {
    COMIENZA CSS Redes - botones flotantes
    ========================================= */
 
-  <style>
     /* ================= VARS GLOBALES ================= */
     :root{
       --abdiel-v2-size: 36px;
@@ -1419,7 +1412,6 @@ body:has(.hub365-ghl-not) #__nuxt * {
           }
        
     }
-  </style>
 
 
 /* =========================================
@@ -2521,20 +2513,27 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 /* TEXTOS */
 
 .pre-titulo :is(*, h1, h2, h3, h4, p, span, a) {
-    font-size: var(--eyebrow) !important;
+    font-size: var(--eyebrow, 13px) !important;
     font-weight: 400 !important;
 }
 /* fin Pretitulo*/
 
 
 .title-h2 :is(*, h2, h3) {
-    font-size: var(--size-h2) !important;
+    font-size: var(--size-h2, clamp(32px, 4vw, 48px)) !important;
     line-height: 1em;
 }
 
 .title-h3 :is(*, h2, h3) {
-    font-size: var(--size-h3) !important;
+    font-size: var(--size-h3, clamp(16px, 2vw, 24px)) !important;
     line-height: 1em;
+}
+
+p:not(.excluir) {
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: var(--size-p, 16px);
+    -webkit-font-smoothing: antialiased;
 }
 
 .radius-principal :is(img, video, .vjs-big-play-centered, figure.video-container div, iframe) {
@@ -2564,7 +2563,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 }
 
 .btn-link :is(.main-heading-button, .button-icon-end:before) {
-    font-size: 14px;
+    font-size: var(--size-font-btn, 14px) !important;
     letter-spacing: .2em !important;
     text-transform: uppercase !important;
     color: var(--text-d) !important;
@@ -2581,6 +2580,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 }
 .btn-border :is(.main-heading-button, .button-icon-end:before) {
     color: var(--text-d) !important;
+    font-size: var(--size-font-btn, 14px) !important;
 }
 
 /* =========================================
@@ -2606,4 +2606,60 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .btn-vp
 
 /* =========================================
    TERMINA CSS: ANIMACION DE ENTRADA (scroll)
+   ========================================= */
+
+   /* =========================================
+   EMPIEZA CSS: capa de fondo degradada
+   ========================================= */
+
+   .capa-bg-l .bg::before, .capa-bg-l .bgVideoWrapper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        100deg,
+        var(--bg-p-l) 30%,
+        color-mix(in srgb, var(--bg-p-l) 72%, transparent) 40%,
+        transparent 55%
+    );
+}
+
+@media (max-width: 768px) {
+    .capa-bg-l .bg::before, .capa-bg-l .bgVideoWrapper::after {
+        background: linear-gradient(
+            143deg,
+            var(--bg-p-l) 30%,
+            color-mix(in srgb, var(--bg-p-l) 72%, transparent) 60%,
+            transparent 75%
+        );
+    }
+}
+
+.capa-bg-d .bg::before,
+.capa-bg-d .bgVideoWrapper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        100deg,
+        var(--bg-p-d) 30%,
+        color-mix(in srgb, var(--bg-p-d) 72%, transparent) 40%,
+        transparent 55%
+    );
+}
+
+@media (max-width: 768px) {
+    .capa-bg-d .bg::before,
+    .capa-bg-d .bgVideoWrapper::after {
+        background: linear-gradient(
+            143deg,
+            var(--bg-p-d) 30%,
+            color-mix(in srgb, var(--bg-p-d) 72%, transparent) 60%,
+            transparent 75%
+        );
+    }
+}
+
+/* =========================================
+   TERMINA CSS: capa de fondo degradada
    ========================================= */
