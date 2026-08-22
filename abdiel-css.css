@@ -2533,7 +2533,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 p:not(.excluir) {
     font-weight: 400;
     line-height: 1.5;
-    font-size: var(--size-p, 16px);
+    font-size: var(--size-p, 16px) !important;
     -webkit-font-smoothing: antialiased;
 }
 
