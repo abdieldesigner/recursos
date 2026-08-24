@@ -556,7 +556,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-      if(anim) el.classList.add('animate__animated', anim);
+      if(anim){
+        el.classList.add('animate__animated', anim);
+        // Al terminar, se quitan las clases de animación para que un reflow
+        // posterior (hover, transform en un ancestro, etc.) no la reinicie.
+        el.addEventListener('animationend', function handler(){
+          el.classList.remove('animate__animated', anim);
+          el.removeEventListener('animationend', handler);
+        }, { once: true });
+      }
       el.classList.add('is-in');
       io.unobserve(el);
     });
