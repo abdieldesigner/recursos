@@ -20,7 +20,7 @@ window.addEventListener('load', () => {
     // Calcula la duración basada en el ancho real del contenido
     // - track.scrollWidth ahora es el ancho de texto original + clon (x2)
     const totalWidth = track.scrollWidth / 2; // Solo el ancho del bloque original
-    const speed = 80;                        // Velocidad objetivo: 100 px/seg
+    const speed = 40;                        // Velocidad objetivo: 40 px/seg
     const duration = totalWidth / speed;      // Segundos que tarda en recorrer media pista
 
     // Setea la duración en la animación CSS (definida como linear infinite)
@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function() {
     'a-e-zoom':   'animate__zoomIn',
     'a-e-zoom-t': 'animate__zoomInUp'
   };
-  var BTN_CLASSES = ['btn-link', 'btn-border', 'boton-degradado', 'btn-vp'];
+  var BTN_CLASSES = ['btn-link', 'btn-border', 'boton-degradado', 'btn-vp', 'boton-degradado-2'];
   var DEFAULT_ANIM = 'animate__fadeIn';      /* respaldo de .animacion-e si no hay --a-e-anim */
   var DEFAULT_BTN_ANIM = 'animate__fadeIn';  /* respaldo de los botones si no hay --animate-btn */
 

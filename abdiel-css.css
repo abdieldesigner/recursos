@@ -73,7 +73,8 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
     --radius-principal: 20px;
     --radius-element: 90px;
-    --padding-s: 60px 0px;
+    --padding-seccion: 60px 0px;
+    --padding-btn: 15px 40px;
 
   /* Fondos */
     --bg-p-d: #04191f;
@@ -90,13 +91,15 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --divider-color: var(--bg-p-l);
     
 
-    /* colores Tipografía */
+    /* Fuentes Tipografía */
     --headlinefont: 'Economica';
     --contentfont: 'Manrope';
+    --extrafont: 'Cormorant Garamond'; 
     --title-scale: 1;
 
     --eyebrow: 13px;
-    --size-h2: clamp(32px, 4vw, 48px);
+    --size-h2: clamp(32px, 7vw, 96px);
+    --size-h2-2: clamp(32px, 4vw, 48px);
     --size-h3: clamp(16px, 2vw, 24px);
     --size-p: 16px;
     --size-font-btn: font-size: clamp(16px, 19.22px - 0.32vw, 18px);
@@ -167,10 +170,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    opacity: 0.5;
 }
 
-/* maxima transparecia en fondos */
-.trans-fondo1 .bgCover {
-    opacity: 0.1 !important;
-}
+
 
 /* texto con informaion par adarnos autoridad... pero si */
 .abdiel-creditos {
@@ -181,8 +181,15 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     top: -300px !important;   
 }
 
-.padding-s {
-    padding: var(--padding-s, 60px 0px) !important;
+.padding-s, .padding-seccion {
+    padding: var(--padding-seccion, 60px 0px) !important;
+}
+
+.flex-padding-10 > .inner > * {
+    padding: 10px !important;
+}
+.flex-padding-20 > .inner > * {
+    padding: 20px !important;
 }
 
 /* =========================================
@@ -308,6 +315,11 @@ body:has(.colores-abdiel, .colores-hub365) .bg-degradado,
     border-radius: 0px !important;
 }
 
+.hl-faq-child-heading-text:not(.not-title-faq, .not-title-faq *) {
+    font-family: var(--headlinefont) !important;
+}
+
+
 .bg-degradado-grupo > .inner > div {
   background: var(--degradado-fondo) !important;
   background-size: 600% 100% !important;
@@ -413,8 +425,9 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
 body:has(.colores-abdiel, .colores-hub365) .boton-degradado {
     box-shadow: none;
     background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
-    transition: all .4s;   
+    transition: all .4s;
     border-radius: var(--radius-element, 100px) !important;
+    padding: var(--padding-btn, 15px 40px) !important;
 }
 
 body:has(.colores-abdiel, .colores-hub365) .boton-degradado:hover {
@@ -2528,13 +2541,28 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 
 
 .title-h2 :is(*, h2, h3) {
-    font-size: var(--size-h2, clamp(32px, 4vw, 48px)) !important;
+    font-size: var(--size-h2, clamp(32px, 7vw, 96px)) !important;
+    line-height: 1em;
+}
+
+.title-h2-2 :is(*, h2, h3) {
+    font-size: var(--size-h2-2, clamp(32px, 4vw, 48px)) !important;
     line-height: 1em;
 }
 
 .title-h3 :is(*, h2, h3) {
     font-size: var(--size-h3, clamp(16px, 2vw, 24px)) !important;
     line-height: 1em;
+}
+
+.text-especial :is(strong, b, em, i) {
+  font-family: var(--extrafont), serif; 
+  font-style: italic;
+  font-weight: 500;
+}
+
+.titulos-especial * {
+  --headlinefont: var(--extrafont);
 }
 
 p:not(.excluir-p, .excluir-p p) {
@@ -2559,6 +2587,15 @@ p:not(.excluir-p, .excluir-p p) {
     text-align: left !important;
 }
 
+.boton-degradado-2 {
+    padding: var(--padding-btn, 15px 40px) !important;
+}
+
+.boton-degradado-2 :is(.main-heading-button, .button-icon-end:before) {
+    font-size: var(--size-font-btn, 14px) !important;    
+    border-radius: var(--radius-principal);
+}
+
 .btn-link {
     width: fit-content !important;
     background: transparent;
@@ -2580,23 +2617,23 @@ p:not(.excluir-p, .excluir-p p) {
 .btn-border {
     box-shadow: none;
     background: none;
+    background-color: var(--bg-p-l) !important;
     background-image: none;
     transition: all .4s;
     color: var(--text-d, #fff);
     border: var(--accent-color-custom, #000) 1px solid !important;
     border-radius: var(--radius-element, 100px) !important;
+    padding: var(--padding-btn, 15px 40px) !important;
 }
 .btn-border :is(.main-heading-button, .button-icon-end:before) {
     color: var(--text-d) !important;
     font-size: var(--size-font-btn, 14px) !important;
 }
 
-/* Interruptor: si existe .btn-border-not-effect en cualquier parte de la página,
-   se desactiva este hover y el botón se queda con su look normal de borde */
+/* Interruptor: si existe .btn-border-not-effect e*/
 body:not(:has(.btn-border-not-effect)) .btn-border:hover {
     background: var(--primary-color-custom, #0d1b2a);
-    border-color: var(--primary-color-custom, #0d1b2a);
-    color: #fff;
+    border-color: var(--accent-color-custom, #0d1b2a) !important;
 }
 
 body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-button, .button-icon-end:before) {
@@ -2610,17 +2647,17 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
    ========================================= */
 
 /* Base común: duración + delay (defaults globales) */
-#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .btn-vp):not(.no-anim){
+#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .boton-degradado-2, .btn-vp):not(.no-anim){
   --animate-duration: var(--a-e-dur, 2s);
   animation-delay: var(--a-e-delay, 0.75s);
 }
 /* Oculto hasta que se dispare */
-#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .btn-vp):not(.is-in):not(.no-anim){
+#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .boton-degradado-2, .btn-vp):not(.is-in):not(.no-anim){
   opacity: 0;
 }
 
 /* Interruptor global: si existe .animate-btn-not en cualquier parte de la página */
-body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .btn-vp) {
+body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-degradado-2, .btn-vp) {
   opacity: 1 !important;
   animation: none !important;
 }
@@ -2681,7 +2718,39 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .btn-vp
     }
 }
 
+/* maxima transparecia en fondos */
+.trans-fondo1 .bgCover {
+    opacity: 0.1 !important;
+}
+
 /* =========================================
    TERMINA CSS: capa de fondo degradada
+   ========================================= */
+
+/* =========================================
+   INICIA CSS: divisores flex/grid
+   ========================================= */
+
+:is(.flex-divider-line, .grid-divider-line) > .inner > * {
+    border-right: 1px solid var(--accent-color-custom);
+}
+
+:is(.flex-divider-line, .grid-divider-line) > .inner > *:last-child {
+    border-right: none;
+}
+
+@media (max-width: 768px) {
+  :is(.flex-divider-line, .grid-divider-line) > .inner > * {
+      border-right: none;
+      border-bottom: 1px solid var(--accent-color-custom);
+  }
+
+  :is(.flex-divider-line, .grid-divider-line) > .inner > *:last-child {
+      border-bottom: none;
+  }
+}
+
+/* =========================================
+   TERMINA CSS: divisores flex/grid
    ========================================= */
 

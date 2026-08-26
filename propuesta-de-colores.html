@@ -1,0 +1,221 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Economica:wght@400;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Darker+Grotesque:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&family=Jost:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Orbitron:wght@400;700;900&family=Bebas+Neue&family=Caveat:wght@400;600;700&display=swap');
+
+/* Fuente propia (no es de Google Fonts) */
+@font-face {
+  font-family: 'Garet Book';
+  src: url('https://assets.cdn.filesafe.space/wjOtIjL0cLPNxQiK9YtU/media/6a727363ee7ca3d1c422e9a4.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.kcm-ts { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 99999;
+  display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 999px;
+  background: rgba(15,15,18,.72); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.14);
+  font-family: system-ui, sans-serif; }
+.kcm-ts__sep { width: 1px; height: 26px; background: rgba(255,255,255,.18); }
+.kcm-ts__btn { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; padding: 0; position: relative;
+  border: 2px solid rgba(255,255,255,.35); transition: transform .25s ease, border-color .25s ease; }
+.kcm-ts__btn:hover { transform: translateY(-4px) scale(1.08); }
+.kcm-ts__btn.is-active { border-color: #fff; }
+.kcm-ts__tip { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  background: #111; color: #fff; font-size: 11px; padding: 5px 9px; border-radius: 6px; opacity: 0;
+  pointer-events: none; transition: opacity .25s ease; }
+.kcm-ts__btn:hover .kcm-ts__tip { opacity: 1; }
+.kcm-ts__field { display: flex; align-items: center; gap: 6px; }
+.kcm-ts__label { color: rgba(255,255,255,.7); font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
+.kcm-ts__select, .kcm-ts__num { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2);
+  border-radius: 8px; font-size: 12px; padding: 6px 8px; font-family: system-ui, sans-serif; cursor: pointer; }
+.kcm-ts__num { width: 58px; text-align: center; }
+.kcm-ts__select option, .kcm-ts__select optgroup { color: #111; }
+/* Campo compacto: etiqueta arriba, número abajo, poco margen (para no ensanchar la barra) */
+.kcm-ts__field-stack { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.kcm-ts__field-stack .kcm-ts__label { font-size: 8px; line-height: 1; }
+.kcm-ts__field-stack .kcm-ts__num { width: 38px; padding: 3px 2px; font-size: 11px; }
+</style>
+<div class="kcm-ts" role="group" aria-label="Theme switcher">
+  <button class="kcm-ts__btn" data-pal="teal" aria-label="Bright teal"
+    style="background:conic-gradient(#06232b 0 25%,#0d4650 25% 50%,#1bcdcf 50% 75%,#9df0ef 75% 100%)">
+    <span class="kcm-ts__tip">Original</span></button>
+  <button class="kcm-ts__btn" data-pal="azulMarca" aria-label="Brand blue"
+    style="background:conic-gradient(#011114 0 25%,#0d2c47 25% 50%,#2471b9 50% 75%,#cee9fe 75% 100%)">
+    <span class="kcm-ts__tip">Blue V2</span></button>
+  <button class="kcm-ts__btn" data-pal="azulNoche" aria-label="Deep indigo blue"
+    style="background:conic-gradient(#0a1633 0 25%,#8cc8ec 25% 50%,#4361ee 50% 75%,#7aa2f7 75% 100%)">
+    <span class="kcm-ts__tip">Blue Logo</span></button>
+  <button class="kcm-ts__btn" data-pal="champagne" aria-label="Charcoal and champagne"
+    style="background:conic-gradient(#00406d 0 25%,#2b2926 25% 50%,#c9a86a 50% 75%,#e8d9b5 75% 100%)">
+    <span class="kcm-ts__tip">Carbón &amp; champagne</span></button>
+  <button class="kcm-ts__btn" data-pal="naranja" aria-label="Vibrant orange"
+    style="background:conic-gradient(#14100c 0 25%,#3a2416 25% 50%,#ff7a29 50% 75%,#ffb27d 75% 100%)">
+    <span class="kcm-ts__tip">Naranja</span></button>
+  <button class="kcm-ts__btn" data-pal="mostaza" aria-label="Mustard and chocolate"
+    style="background:conic-gradient(#2a1a0f 0 25%,#4e3020 25% 50%,#e3b23c 50% 75%,#f2d98a 75% 100%)">
+    <span class="kcm-ts__tip">Mostaza &amp; chocolate</span></button>
+  <span class="kcm-ts__sep"></span>
+  <button class="kcm-ts__btn" id="kcmSolid" aria-label="Toggle solid / gradient">
+    <span class="kcm-ts__tip">Solid / Gradient</span></button>
+  <span class="kcm-ts__sep"></span>
+  <div class="kcm-ts__field">
+    <span class="kcm-ts__label">Title</span>
+    <select class="kcm-ts__select" id="kcmFont">
+      <optgroup label="Basics (sans)">
+        <option value="Economica" style="font-family:'Economica'" selected>Economica</option>
+        <option value="Montserrat" style="font-family:'Montserrat'">Montserrat</option>
+        <option value="Garet Book" style="font-family:'Garet Book'">Garet Book</option>
+        <option value="Jost" style="font-family:'Jost'">Jost</option>
+      </optgroup>
+      <optgroup label="Decorated (serif / display)">
+        <option value="Playfair Display" style="font-family:'Playfair Display'">Playfair Display</option>
+        <option value="Darker Grotesque" style="font-family:'Darker Grotesque'">Darker Grotesque</option>
+        <option value="Libre Baskerville" style="font-family:'Libre Baskerville'">Libre Baskerville</option>
+        <option value="Orbitron" style="font-family:'Orbitron'">Orbitron</option>
+        <option value="Bebas Neue" style="font-family:'Bebas Neue'">Bebas Neue</option>
+        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="kcm-ts__field">
+    <span class="kcm-ts__label">Content</span>
+    <select class="kcm-ts__select" id="kcmFontContent">
+      <optgroup label="Basics (sans)">
+        <option value="Manrope" style="font-family:'Manrope'" selected>Manrope</option>
+        <option value="Montserrat" style="font-family:'Montserrat'">Montserrat</option>
+        <option value="Economica" style="font-family:'Economica'">Economica</option>
+        <option value="Garet Book" style="font-family:'Garet Book'">Garet Book</option>
+        <option value="Jost" style="font-family:'Jost'">Jost</option>
+      </optgroup>
+      <optgroup label="Decorated (serif / display)">
+        <option value="Playfair Display" style="font-family:'Playfair Display'">Playfair Display</option>
+        <option value="Darker Grotesque" style="font-family:'Darker Grotesque'">Darker Grotesque</option>
+        <option value="Libre Baskerville" style="font-family:'Libre Baskerville'">Libre Baskerville</option>
+        <option value="Orbitron" style="font-family:'Orbitron'">Orbitron</option>
+        <option value="Bebas Neue" style="font-family:'Bebas Neue'">Bebas Neue</option>
+        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
+      </optgroup>
+    </select>
+  </div>
+  <span class="kcm-ts__sep"></span>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">H2</span>
+    <input class="kcm-ts__num" id="kcmH2" type="number" min="10" max="120" step="1" value="48">
+  </div>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">H2-2</span>
+    <input class="kcm-ts__num" id="kcmH2b" type="number" min="10" max="120" step="1" value="40">
+  </div>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">H3</span>
+    <input class="kcm-ts__num" id="kcmH3" type="number" min="10" max="80" step="1" value="24">
+  </div>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">P</span>
+    <input class="kcm-ts__num" id="kcmP" type="number" min="10" max="40" step="1" value="16">
+  </div>
+  <span class="kcm-ts__sep"></span>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">Radius</span>
+    <input class="kcm-ts__num" id="kcmRadius" type="number" min="0" max="100" step="1" value="40">
+  </div>
+</div>
+<script>
+(function () {
+  var PALETTES = {
+    teal:      { '--primary-color-custom':'#06232b','--secondary-color-custom':'#0d4650','--accent-color-custom':'#1bcdcf','--accent-color-custom-2':'#9df0ef','--bg-p-d':'#04191f','--bg-s-d':'#072830','--bg-p-l':'#ffffff','--bg-s-l':'#e6f7f7','--text-l':'#eafafa','--text-d':'#06232b' },
+    azulMarca: { '--primary-color-custom':'#011114','--secondary-color-custom':'#0d2c47','--accent-color-custom':'#2471b9','--accent-color-custom-2':'#cee9fe','--bg-p-d':'#011114','--bg-s-d':'#0a2233','--bg-p-l':'#ffffff','--bg-s-l':'#ebf5fe','--text-l':'#f5f9fd','--text-d':'#011114' },
+    azulNoche: { '--primary-color-custom':'#00406d','--secondary-color-custom':'#14224d','--accent-color-custom':'#8cc8ec','--accent-color-custom-2':'#7aa2f7','--bg-p-d':'#070f24','--bg-s-d':'#0f1a3a','--bg-p-l':'#ffffff','--bg-s-l':'#eef1fb','--text-l':'#eef2ff','--text-d':'#0a1633' },
+    champagne: { '--primary-color-custom':'#1a1a1a','--secondary-color-custom':'#2b2926','--accent-color-custom':'#c9a86a','--accent-color-custom-2':'#e8d9b5','--bg-p-d':'#141312','--bg-s-d':'#201e1b','--bg-p-l':'#ffffff','--bg-s-l':'#f4f1ea','--text-l':'#f5f2ea','--text-d':'#1a1a1a' },
+    naranja:   { '--primary-color-custom':'#14100c','--secondary-color-custom':'#3a2416','--accent-color-custom':'#ff7a29','--accent-color-custom-2':'#ffb27d','--bg-p-d':'#14100c','--bg-s-d':'#241a12','--bg-p-l':'#ffffff','--bg-s-l':'#fdeee3','--text-l':'#fdf2ea','--text-d':'#14100c' },
+    mostaza:   { '--primary-color-custom':'#2a1a0f','--secondary-color-custom':'#4e3020','--accent-color-custom':'#e3b23c','--accent-color-custom-2':'#f2d98a','--bg-p-d':'#241610','--bg-s-d':'#33211a','--bg-p-l':'#ffffff','--bg-s-l':'#f6efe4','--text-l':'#f7f0e4','--text-d':'#2a1a0f' }
+  };
+  var box = document.querySelector('.kcm-ts'); if (!box) return;
+  document.body.appendChild(box);
+  var styleEl = document.getElementById('kcm-pal-style');
+  if (!styleEl) { styleEl = document.createElement('style'); styleEl.id = 'kcm-pal-style'; document.head.appendChild(styleEl); }
+  var current = 'teal';
+  var solid = false;
+  function buildCss(name) {
+    var p = PALETTES[name]; if (!p) return '';
+    var css = 'html body{';
+    for (var k in p) css += k + ':' + p[k] + ';';
+    css += '--degradado-fondo:linear-gradient(105deg,var(--secondary-color-custom),var(--bg-p-d));';
+    css += '--resplandor-boton:0 0 3rem var(--accent-color-custom);';
+    if (solid) {
+      css += '--degradado-texto:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+      css += '--degradado-texto-2:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+      css += '--degradado-boton:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+      css += '--degradado-boton-menu:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+    } else {
+      css += '--degradado-texto:linear-gradient(105deg,var(--primary-color-custom),var(--accent-color-custom));';
+      css += '--degradado-texto-2:linear-gradient(105deg,var(--accent-color-custom),color-mix(in srgb,var(--accent-color-custom-2) 75%,white 25%));';
+      css += '--degradado-boton:linear-gradient(105deg,var(--accent-color-custom),var(--primary-color-custom));';
+      css += '--degradado-boton-menu:linear-gradient(105deg,var(--accent-color-custom),var(--primary-color-custom));';
+    }
+    css += '}';
+    return css;
+  }
+  var solidBtn = document.getElementById('kcmSolid');
+  function updateSolidBtn() {
+    solidBtn.style.background = solid
+      ? 'var(--accent-color-custom)'
+      : 'linear-gradient(105deg,var(--accent-color-custom),var(--primary-color-custom))';
+    solidBtn.classList.toggle('is-active', solid);
+  }
+  function apply(name) {
+    current = name;
+    styleEl.textContent = buildCss(name);
+    document.body.setAttribute('data-pal', name);
+    box.querySelectorAll('.kcm-ts__btn[data-pal]').forEach(function (b) {
+      b.classList.toggle('is-active', b.dataset.pal === name);
+    });
+    updateSolidBtn();
+  }
+  box.querySelectorAll('.kcm-ts__btn[data-pal]').forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.pal); });
+  });
+  solidBtn.addEventListener('click', function () { solid = !solid; apply(current); });
+  /* Tipografía */
+  var fontSel = document.getElementById('kcmFont');
+  fontSel.addEventListener('change', function () {
+    document.body.style.setProperty('--headlinefont', "'" + fontSel.value + "'");
+  });
+  var fontContentSel = document.getElementById('kcmFontContent');
+  fontContentSel.addEventListener('change', function () {
+    document.body.style.setProperty('--contentfont', "'" + fontContentSel.value + "'");
+  });
+  /* Tamaños de texto (número plano en px, solo para vista de escritorio) */
+  var h2Inp = document.getElementById('kcmH2');
+  h2Inp.addEventListener('input', function () {
+    document.body.style.setProperty('--size-h2', (h2Inp.value || 0) + 'px');
+  });
+  var h2bInp = document.getElementById('kcmH2b');
+  h2bInp.addEventListener('input', function () {
+    document.body.style.setProperty('--size-h2-2', (h2bInp.value || 0) + 'px');
+  });
+  var h3Inp = document.getElementById('kcmH3');
+  h3Inp.addEventListener('input', function () {
+    document.body.style.setProperty('--size-h3', (h3Inp.value || 0) + 'px');
+  });
+  var pInp = document.getElementById('kcmP');
+  pInp.addEventListener('input', function () {
+    document.body.style.setProperty('--size-p', (pInp.value || 0) + 'px');
+  });
+  /* Radius (por ahora, mismo valor para principal y element, para ir probando) */
+  var radiusInp = document.getElementById('kcmRadius');
+  radiusInp.addEventListener('input', function () {
+    document.body.style.setProperty('--radius-principal', (radiusInp.value || 0) + 'px');
+    document.body.style.setProperty('--radius-element', (radiusInp.value || 0) + 'px');
+  });
+  /* Estado inicial */
+  document.body.style.setProperty('--headlinefont', "'" + fontSel.value + "'");
+  document.body.style.setProperty('--contentfont', "'" + fontContentSel.value + "'");
+  document.body.style.setProperty('--size-h2', h2Inp.value + 'px');
+  document.body.style.setProperty('--size-h2-2', h2bInp.value + 'px');
+  document.body.style.setProperty('--size-h3', h3Inp.value + 'px');
+  document.body.style.setProperty('--size-p', pInp.value + 'px');
+  document.body.style.setProperty('--radius-principal', radiusInp.value + 'px');
+  document.body.style.setProperty('--radius-element', radiusInp.value + 'px');
+  apply('teal');
+})();
+</script>
