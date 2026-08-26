@@ -238,8 +238,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var contenedor = document.querySelector('.contenedor-menu-ab');
     if (!abrirBtn || !contenedor) {
       intentosMenu++;
-      if (intentosMenu > 20) return; // Página sin este menú: deja de intentar tras ~10s
-      setTimeout(init, 500);
+      if (intentosMenu > 50) return; // Página sin este menú: deja de intentar tras ~10s
+      setTimeout(init, 200);
       return;
     }
     contenedor.classList.remove('is-open');
@@ -275,11 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    setTimeout(init, 300);
-  }
+  init(); // intenta de inmediato; el reintento de arriba es la red de seguridad
 })();
 
 
@@ -293,8 +289,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var titulos = document.querySelectorAll('.acordeon-titulo-ab');
     if (!titulos.length) {
       intentosAcordeon++;
-      if (intentosAcordeon > 20) return; // Página sin acordeón: deja de intentar tras ~10s
-      setTimeout(initAcordeon, 500);
+      if (intentosAcordeon > 50) return; // Página sin acordeón: deja de intentar tras ~10s
+      setTimeout(initAcordeon, 200);
       return;
     }
 
@@ -328,11 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAcordeon);
-  } else {
-    setTimeout(initAcordeon, 300);
-  }
+  initAcordeon(); // intenta de inmediato; el reintento de arriba es la red de seguridad
 })();
 
 /* ============================================================
@@ -447,6 +439,12 @@ document.addEventListener('DOMContentLoaded', function() {
       requestAnimationFrame(updateArrows);
     });
 
+    /* Evita que el navegador tome el control con su arrastre nativo de imágenes
+       (el "fantasma" semitransparente), que interrumpe el scroll en vivo */
+    inner.addEventListener("dragstart", function(e){
+      e.preventDefault();
+    });
+
     var isDragging = false;
     var startX = 0, scrollStart = 0, dragDelta = 0;
 
@@ -456,6 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
       scrollStart = inner.scrollLeft;
       dragDelta = 0;
       inner.style.scrollBehavior = "auto";
+      inner.style.scrollSnapType = "none"; /* apaga el snap mientras se arrastra a mano */
       inner.style.cursor = "grabbing";
       e.preventDefault();
     });
@@ -471,6 +470,7 @@ document.addEventListener('DOMContentLoaded', function() {
       isDragging = false;
       inner.style.cursor = "grab";
       inner.style.scrollBehavior = "smooth";
+      inner.style.scrollSnapType = ""; /* restaura el snap del CSS para el aterrizaje final */
 
       var step = getStepSize();
       if (dragDelta < -30) {

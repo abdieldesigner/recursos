@@ -2263,6 +2263,14 @@ div.menu-lado-2 {
   scroll-snap-align: start;
 }
 
+/* Respaldo: evita el arrastre nativo de imágenes dentro del carrusel
+   (el dragstart en JS ya lo bloquea, esto es por si algún navegador lo ignora) */
+.card-carrusel img {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 /* Overlay flechas */
 .carrusel-arrows-overlay {
   position: absolute !important;
@@ -2332,17 +2340,29 @@ div.menu-lado-2 {
   justify-content: center;
   align-items: center;
   gap: 6px;
-  margin-top: 12px;
+  margin-top: 6px;
 }
 .carrusel-dot {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
   width: 20px;
   height: 3px;
+  padding: 0;
   border-radius: 999px;
   border: none;
-  padding: 0;
   cursor: pointer;
   background: color-mix(in srgb, var(--accent-color-custom, #000) 50%, transparent);
   transition: background .3s ease, width .3s ease;
+}
+/* Área clicable invisible más grande, sin agrandar la barra visible */
+.carrusel-dot::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -2px;
+  right: -2px;
+  bottom: -10px;
 }
 .carrusel-dot.is-active {
   background: var(--accent-color-custom, #000);
