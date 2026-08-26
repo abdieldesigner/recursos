@@ -65,7 +65,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --resplandor-boton: 0 0 3rem var(--accent-color-custom);
     --degradado-boton-menu: linear-gradient(105deg, var(--accent-color-custom), var(--primary-color-custom));
 
-    --color-texto-boton: #fff;
+    --color-texto-boton: var(--text-d);
     --seo-text: #06232b;
     
     --divider-mask: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/Shapes/triangle.svg");
@@ -102,15 +102,15 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --size-h2-2: clamp(32px, 4vw, 48px);
     --size-h3: clamp(16px, 2vw, 24px);
     --size-p: 16px;
-    --size-font-btn: font-size: clamp(16px, 19.22px - 0.32vw, 18px);
+    --size-font-btn: clamp(16px, 19.22px - 0.32vw, 18px);
 
       
     --text-l: #eafafa;
     --text-d: #06232b;
 
     /* Animaciones */
-    --a-e-dur: 2s;
-    --a-e-delay: 0.75s;    
+    --a-e-dur: 1.7s;
+    --a-e-delay: 0.65s;   
 
     --a-e-anim: animate__fadeInUp;
     --animate-btn: animate__fadeIn;
@@ -185,10 +185,10 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     padding: var(--padding-seccion, 60px 0px) !important;
 }
 
-.flex-padding-10 > .inner > * {
+.flex-padding-10 > .inner > *, .padding-10 > .inner > * {
     padding: 10px !important;
 }
-.flex-padding-20 > .inner > * {
+.flex-padding-20 > .inner > *, .padding-20 > .inner > * {
     padding: 20px !important;
 }
 
@@ -213,6 +213,19 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --size-p: 16px;    
     --size-font-btn: 14px;
 }
+
+/* Varibale fija spara formularioa de compras  */
+body {
+  	--cobalt: var(--accent-color-custom, #0047AB);
+  }
+  .form-step .active, .divider-form i, .step2 i {
+    color: var(--accent-color-custom, #0047AB) !important;
+}
+  .divider-form {
+    background: var(--accent-color-custom, #0047AB) !important;
+}
+/* finVaribale fija spara formularioa de compras  */
+
 
 /* intercambio de colores modo dark  */
 
@@ -796,7 +809,6 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 .bento {
     border-radius: var(--radius-element, 20px);
-    box-shadow: 1px -1px 0 0 #493D5C,-52px 98px 67px 0 rgb(0 0 0 / .19),-23px 44px 50px 0 rgb(0 0 0 / .32),-6px 11px 27px 0 rgb(0 0 0 / .36),0 0 29.2px 0 rgb(73 61 92 / .21) inset;
     overflow: hidden;
     transition: 0.5s ease;
     position: relative
@@ -845,7 +857,47 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 
 /* =========================================
-   TERMINA CSS BENTO REFLEJO 
+   TERMINA CSS BENTO REFLEJO
+   ========================================= */
+
+/* =========================================
+   COMIENZA CSS REFLEJO (igual que .bento, pero sin inclinar/escalar
+   el elemento en hover — solo el destello que lo cubre)
+   ========================================= */
+
+.reflejo {
+    border-radius: var(--radius-element, 20px);
+    overflow: hidden;
+    transition: 0.5s ease;
+    position: relative
+}
+
+.reflejo:hover::before {
+    content: "";
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100%;
+    width: 80px;
+    opacity: 0;
+    filter: blur(25px);
+    -webkit-filter: blur(25px);
+    background: #fff;
+    box-shadow: 0 0 30px 20px #fffa;
+    transform: skewX(-30deg);
+    mix-blend-mode: overlay;
+    z-index: 2;
+    pointer-events: none
+}
+
+@media (min-width: 767px) {
+    .reflejo:hover::before {
+        animation: brilho 1s ease-in-out
+    }
+}
+
+/* =========================================
+   TERMINA CSS REFLEJO
    ========================================= */
 
 /* =========================================
@@ -2269,6 +2321,33 @@ div.menu-lado-2 {
   pointer-events: none !important;
 }
 
+/* Interruptor: oculta las flechas del carrusel */
+.less-arrow .carrusel-arrows-overlay {
+  display: none !important;
+}
+
+/* Dots (barras) del carrusel: solo aparecen si el carrusel tiene la clase .con-dots */
+.carrusel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.carrusel-dot {
+  width: 20px;
+  height: 3px;
+  border-radius: 999px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--accent-color-custom, #000) 50%, transparent);
+  transition: background .3s ease, width .3s ease;
+}
+.carrusel-dot.is-active {
+  background: var(--accent-color-custom, #000);
+}
+
 .singler-card-carrusel > div.inner {
   height: 100%;
 }
@@ -2596,6 +2675,11 @@ p:not(.excluir-p, .excluir-p p) {
     border-radius: var(--radius-principal);
 }
 
+.btn-vp {
+    font-size: var(--size-font-btn, 14px) !important;
+    border-radius: var(--radius-principal);
+}
+
 .btn-link {
     width: fit-content !important;
     background: transparent;
@@ -2620,7 +2704,7 @@ p:not(.excluir-p, .excluir-p p) {
     background-color: var(--bg-p-l) !important;
     background-image: none;
     transition: all .4s;
-    color: var(--text-d, #fff);
+    color: var(--text-d, #212121);
     border: var(--accent-color-custom, #000) 1px solid !important;
     border-radius: var(--radius-element, 100px) !important;
     padding: var(--padding-btn, 15px 40px) !important;
@@ -2648,8 +2732,8 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
 
 /* Base común: duración + delay (defaults globales) */
 #__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .boton-degradado-2, .btn-vp):not(.no-anim){
-  --animate-duration: var(--a-e-dur, 2s);
-  animation-delay: var(--a-e-delay, 0.75s);
+  --animate-duration: var(--a-e-dur, 1.75s);
+  animation-delay: var(--a-e-delay, 0.65s);
 }
 /* Oculto hasta que se dispare */
 #__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .boton-degradado-2, .btn-vp):not(.is-in):not(.no-anim){

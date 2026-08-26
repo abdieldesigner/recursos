@@ -388,9 +388,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     domObserver.observe(container, { childList: true });
 
+    /* Dots (barras), opcional: solo se generan si el contenedor tiene .con-dots */
+    var dots = null;
+    if (container.classList.contains("con-dots")) {
+      var dotsWrap = document.createElement("div");
+      dotsWrap.className = "carrusel-dots";
+      dots = [];
+      cards.forEach(function(card, i) {
+        var dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "carrusel-dot";
+        dot.setAttribute("aria-label", "Ir a la tarjeta " + (i + 1));
+        dot.addEventListener("click", function(e) {
+          e.preventDefault(); e.stopPropagation();
+          inner.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+        });
+        dotsWrap.appendChild(dot);
+        dots.push(dot);
+      });
+      container.appendChild(dotsWrap);
+    }
+
     function getStepSize() {
       if (cards.length > 1) return cards[1].offsetLeft - cards[0].offsetLeft;
       return cards[0].offsetWidth + 20;
+    }
+
+    function updateDots() {
+      if (!dots) return;
+      var sl = inner.scrollLeft;
+      var closest = 0, closestDist = Infinity;
+      cards.forEach(function(card, i) {
+        var dist = Math.abs(card.offsetLeft - sl);
+        if (dist < closestDist) { closestDist = dist; closest = i; }
+      });
+      dots.forEach(function(d, i) { d.classList.toggle("is-active", i === closest); });
     }
 
     function updateArrows() {
@@ -398,6 +430,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var max = inner.scrollWidth - inner.clientWidth;
       arrowLeft.classList.toggle("is-hidden", sl <= 5);
       arrowRight.classList.toggle("is-hidden", max <= 5 || sl >= max - 5);
+      updateDots();
     }
 
     arrowLeft.addEventListener("click", function(e){
