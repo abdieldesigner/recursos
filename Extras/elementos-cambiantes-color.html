@@ -1,0 +1,172 @@
+<script>
+(function () {
+  "use strict";
+  var UMBRAL = 128;
+
+  /* ============================================================
+     Utilidades compartidas de detección de fondo (una sola vez,
+     la usan el logo, el ícono y cualquier texto con .auto-contraste-texto)
+     ============================================================ */
+
+  function parseRGB(str) {
+    var m = str.match(/rgba?\(([^)]+)\)/);
+    if (!m) return null;
+    var p = m[1].split(',').map(function (n) { return parseFloat(n.trim()); });
+    return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+  }
+  function luminancia(rgb) { return 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b; }
+
+  function detectarFondo(el, contenedor) {
+    var r = el.getBoundingClientRect();
+    var x = r.left + r.width / 2, y = r.top + r.height / 2;
+    var pila = document.elementsFromPoint(x, y);
+    for (var i = 0; i < pila.length; i++) {
+      var p = pila[i];
+      if (p === el || el.contains(p)) continue;
+      if (contenedor && contenedor.contains(p)) continue;
+      var marca = p.closest ? p.closest('.fondo-oscuro, .fondo-claro, [data-fondo]') : null;
+      if (marca) {
+        if (marca.classList.contains('fondo-oscuro')) return 'oscuro';
+        if (marca.classList.contains('fondo-claro')) return 'claro';
+        return (marca.getAttribute('data-fondo') || '').toLowerCase() === 'oscuro' ? 'oscuro' : 'claro';
+      }
+      var rgb = parseRGB(getComputedStyle(p).backgroundColor);
+      if (rgb && rgb.a > 0) return luminancia(rgb) < UMBRAL ? 'oscuro' : 'claro';
+    }
+    return null;
+  }
+
+  function esModoDark() { return document.body.getAttribute('data-theme') === 'dark'; }
+
+  /* ============================================================
+     LOGO: intercambia la imagen completa (logo claro / logo oscuro).
+     Se procesa CADA .menu-principal que exista en la página por
+     separado — si hay más de uno (ej. una fila para desktop y otra
+     para móvil), cada uno recibe su propio logo según su propio fondo,
+     en vez de que uno solo "gane" por ser el primero en el HTML.
+     ============================================================ */
+
+  var LOGO_PARA_FONDO_CLARO  = '{{custom_values.logo_dark_h}}';
+  var LOGO_PARA_FONDO_OSCURO = '{{custom_values.logo_light_h}}';
+
+  function ponerLogo(logo, url) {
+    if (!logo || logo.getAttribute('src') === url) return;
+    logo.setAttribute('src', url);
+    var picture = logo.closest('picture');
+    if (picture) {
+      var match = url.match(/media\/[^.]+\.svg/);
+      if (match) picture.querySelectorAll('source').forEach(function (s) {
+        var ss = s.getAttribute('srcset');
+        if (ss) s.setAttribute('srcset', ss.replace(/media\/[^.]+\.svg/, match[0]));
+      });
+    }
+  }
+
+  function ajustarLogos() {
+    if (esModoDark()) return;
+    document.querySelectorAll('.menu-principal').forEach(function (menuEl) {
+      var logo = menuEl.querySelector('img.logo-del-menu') || menuEl.querySelector('img');
+      if (!logo) return;
+      var tipo = detectarFondo(logo, menuEl);
+      if (!tipo) return;
+      ponerLogo(logo, tipo === 'oscuro' ? LOGO_PARA_FONDO_OSCURO : LOGO_PARA_FONDO_CLARO);
+    });
+  }
+
+  /* ============================================================
+     ÍCONO: intercambia solo el color (fill), no la imagen.
+     Se procesa CADA <svg> dentro de CUALQUIER .ico-menu-expandible —
+     si la clase se repite en varios lugares de la página (ej. un
+     ícono de búsqueda del menú de escritorio y el botón de abrir el
+     menú móvil), cada uno se ajusta según su propio fondo, en vez de
+     que solo el primero que aparece en el HTML reciba el cambio.
+     ============================================================ */
+
+  var SELECTOR_ICONO = '.ico-menu-expandible svg';
+  var COLOR_ICONO_FONDO_CLARO  = 'var(--bg-p-d)';  // fondo claro  -> ícono oscuro
+  var COLOR_ICONO_FONDO_OSCURO = 'var(--bg-p-l)';  // fondo oscuro -> ícono claro
+
+  function ponerFillIcono(svg, color) {
+    if (svg.__c === color) return;
+    svg.__c = color;
+    svg.style.fill = color;
+    if (!svg.__elementos) svg.__elementos = svg.querySelectorAll('[fill], path');
+    svg.__elementos.forEach(function (el) { el.style.fill = color; });
+  }
+  function limpiarFillIcono(svg) {
+    svg.__c = null;
+    svg.style.removeProperty('fill');
+    if (svg.__elementos) svg.__elementos.forEach(function (el) { el.style.removeProperty('fill'); });
+  }
+
+  function ajustarIconos() {
+    document.querySelectorAll(SELECTOR_ICONO).forEach(function (svg) {
+      if (esModoDark()) { limpiarFillIcono(svg); return; }
+      var contenedor = svg.closest('.ico-menu-expandible');
+      var tipo = detectarFondo(svg, contenedor);
+      if (!tipo) return;
+      ponerFillIcono(svg, tipo === 'oscuro' ? COLOR_ICONO_FONDO_OSCURO : COLOR_ICONO_FONDO_CLARO);
+    });
+  }
+
+  /* ============================================================
+     TEXTO: intercambia el color (--text-d / --text-l) en CUALQUIER
+     elemento con la clase .auto-contraste-texto — para agregar esto
+     a un texto nuevo en el futuro, solo hay que ponerle esa clase,
+     no hace falta tocar este script.
+     ============================================================ */
+
+  var SELECTOR_TEXTO = '.auto-contraste-texto';
+
+  function ajustarTextos() {
+    document.querySelectorAll(SELECTOR_TEXTO).forEach(function (el) {
+      if (esModoDark()) { el.style.removeProperty('color'); return; }
+      var contenedor = el.closest('.menu-principal') || el.closest('.ico-menu-expandible');
+      var tipo = detectarFondo(el, contenedor);
+      if (!tipo) return;
+      el.style.color = tipo === 'claro' ? 'var(--text-d)' : 'var(--text-l)';
+    });
+  }
+
+  /* ============================================================
+     Orquestación: un solo scroll/resize/observer para los tres
+     ============================================================ */
+
+  function ajustarTodo() {
+    ajustarLogos();
+    ajustarIconos();
+    ajustarTextos();
+  }
+
+  var tic = false;
+  function alScroll() {
+    if (tic) return;
+    tic = true;
+    requestAnimationFrame(function () { tic = false; ajustarTodo(); });
+  }
+  window.addEventListener('scroll', alScroll, { passive: true });
+  window.addEventListener('resize', alScroll);
+
+  /* Reajusta también al cambiar de tema (claro <-> oscuro) */
+  new MutationObserver(ajustarTodo).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+
+  /* Revisión inicial "insistente": el navegador a veces no terminó de pintar
+     fondos/imágenes justo en DOMContentLoaded/load, así que se reintenta unas
+     cuantas veces más en los primeros instantes, sin que el usuario tenga que
+     desplazarse para que se dispare una revisión nueva. */
+  function ajustarInicial() {
+    ajustarTodo();
+    requestAnimationFrame(function () {
+      requestAnimationFrame(ajustarTodo); // espera a que el navegador termine de pintar
+    });
+    setTimeout(ajustarTodo, 300);
+    setTimeout(ajustarTodo, 1000);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ajustarInicial);
+  else ajustarInicial();
+  window.addEventListener('load', ajustarInicial);
+
+  window.ajustarElementosCambiantes = ajustarTodo;
+})();
+</script>

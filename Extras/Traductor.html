@@ -1,0 +1,305 @@
+<!-- ============================================
+     TRADUCTOR PROPIO EN | ES
+     Sin GTranslate, sin recarga, sin API key
+     Compatible con Hub365.AI / GHL
+     ============================================ -->
+
+<!-- Switcher visual -->
+<nav class="gt_min_switch auto-contraste-texto notranslate" translate="no" aria-label="Selector de idioma">
+    <a href="#" class="gt_min_link active" data-lang="en">EN</a>
+    <span class="gt_min_sep" aria-hidden="true">|</span>
+    <a href="#" class="gt_min_link" data-lang="es">ES</a>
+</nav>
+
+<style>
+  .gt_min_switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--contentfont);
+    font-size: 14px;
+    line-height: 1;
+    user-select: none;
+    color: var(--text-d);
+  }
+  .gt_min_link {
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    opacity: .6;
+    color: inherit;
+    transition: opacity .2s;
+    cursor: pointer;
+  }
+  .gt_min_link:hover { opacity: .9; }
+  .gt_min_link.active {
+    opacity: 1;
+    text-decoration: underline;
+  }
+  .gt_min_sep { opacity: .4; margin: 0 2px; }
+
+  /* Indicador de carga sutil */
+  .gt_min_switch.translating .gt_min_link.active {
+    animation: gt_pulse 1s ease-in-out infinite;
+  }
+  @keyframes gt_pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .4; }
+  }
+</style>
+
+<script>
+(function(){
+  "use strict";
+
+  // ── Configuración ──
+  // La web ya nace en inglés (idioma original) — solo se traduce a español.
+  var SOURCE_LANG = "en";
+  var TARGET_LANG = "es";
+  var BATCH_SIZE  = 80;       // textos por petición (máx ~100)
+  var MIN_LENGTH  = 2;        // ignorar textos muy cortos
+  var CACHE_KEY   = "site_translations_cache";
+
+  // ── Estado ──
+  var originalTexts = [];     // {node, original}
+  var translationCache = {};  // "texto_es" → "texto_en"
+  var isTranslated = false;
+
+  // Cargar caché desde sessionStorage
+  try {
+    var saved = sessionStorage.getItem(CACHE_KEY);
+    if (saved) translationCache = JSON.parse(saved);
+  } catch(e){}
+
+  // ── Guardar caché ──
+  function saveCache() {
+    try { sessionStorage.setItem(CACHE_KEY, JSON.stringify(translationCache)); } catch(e){}
+  }
+
+  // ── Selectores a ignorar ──
+  var SKIP_TAGS = ["SCRIPT","STYLE","NOSCRIPT","IFRAME","OBJECT","EMBED","SVG","CODE","PRE","TEXTAREA","INPUT"];
+  var SKIP_CLASSES = ["notranslate","gt_min_switch","goog-te-banner-frame"];
+
+  function shouldSkip(node) {
+    if (!node || !node.parentElement) return true;
+    var el = node.parentElement;
+    // Verificar tags
+    while (el) {
+      if (SKIP_TAGS.indexOf(el.tagName) !== -1) return true;
+      if (el.getAttribute && (el.getAttribute("translate") === "no" || el.classList)) {
+        for (var i = 0; i < SKIP_CLASSES.length; i++) {
+          if (el.classList.contains(SKIP_CLASSES[i])) return true;
+        }
+      }
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  // ── Recolectar nodos de texto ──
+  function collectTextNodes() {
+    var walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: function(node) {
+          var text = node.nodeValue.trim();
+          if (text.length < MIN_LENGTH) return NodeFilter.FILTER_REJECT;
+          if (/^[\d\s\.\,\;\:\!\?\@\#\$\%\&\*\(\)\-\_\=\+\[\]\{\}\\\/\|]+$/.test(text)) return NodeFilter.FILTER_REJECT;
+          if (shouldSkip(node)) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+    var nodes = [];
+    while (walker.nextNode()) {
+      nodes.push({
+        node: walker.currentNode,
+        original: walker.currentNode.nodeValue
+      });
+    }
+    return nodes;
+  }
+
+  // ── Traducir via API gratuita de Google ──
+  function translateBatch(texts, sl, tl) {
+    return new Promise(function(resolve, reject){
+      var url = "https://translate.googleapis.com/translate_a/t?client=gtx&sl=" + sl + "&tl=" + tl;
+      texts.forEach(function(t){ url += "&q=" + encodeURIComponent(t); });
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.onload = function(){
+        if (xhr.status === 200) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            var results = [];
+            if (Array.isArray(data)) {
+              // Puede venir como array de strings o array de arrays
+              data.forEach(function(item){
+                if (typeof item === "string") {
+                  results.push(item);
+                } else if (Array.isArray(item) && item.length > 0) {
+                  results.push(item[0]);
+                }
+              });
+            } else if (typeof data === "string") {
+              results.push(data);
+            }
+            resolve(results);
+          } catch(e) {
+            reject(e);
+          }
+        } else {
+          reject(new Error("HTTP " + xhr.status));
+        }
+      };
+      xhr.onerror = function(){ reject(new Error("Network error")); };
+      xhr.send();
+    });
+  }
+
+  // ── Traducir toda la página ──
+  async function translatePage() {
+    var nav = document.querySelector(".gt_min_switch");
+    if (nav) nav.classList.add("translating");
+
+    originalTexts = collectTextNodes();
+
+    // Separar los que ya están en caché vs los que necesitan traducción
+    var needTranslation = [];
+    var needIndices = [];
+
+    originalTexts.forEach(function(item, index){
+      var key = item.original.trim();
+      if (translationCache[key]) {
+        // Ya está en caché, aplicar directo
+        item.node.nodeValue = translationCache[key];
+      } else {
+        needTranslation.push(key);
+        needIndices.push(index);
+      }
+    });
+
+    // Traducir en lotes los que faltan
+    if (needTranslation.length > 0) {
+      for (var i = 0; i < needTranslation.length; i += BATCH_SIZE) {
+        var batch = needTranslation.slice(i, i + BATCH_SIZE);
+        var batchIndices = needIndices.slice(i, i + BATCH_SIZE);
+        try {
+          var translated = await translateBatch(batch, SOURCE_LANG, TARGET_LANG);
+          translated.forEach(function(text, j){
+            var origKey = batch[j];
+            translationCache[origKey] = text;
+            originalTexts[batchIndices[j]].node.nodeValue = text;
+          });
+        } catch(e) {
+          console.warn("Translation batch error:", e);
+        }
+      }
+      saveCache();
+    }
+
+    isTranslated = true;
+    if (nav) nav.classList.remove("translating");
+  }
+
+  // ── Restaurar originales ──
+  function restorePage() {
+    originalTexts.forEach(function(item){
+      item.node.nodeValue = item.original;
+    });
+    isTranslated = false;
+  }
+
+  // ── UI ──
+  function updateActive(lang) {
+    document.querySelectorAll(".gt_min_link").forEach(function(el){
+      el.classList.remove("active");
+      if (el.getAttribute("data-lang") === lang) el.classList.add("active");
+    });
+  }
+
+  // ── Persistencia del idioma elegido entre páginas ──
+  // Solo importa recordar cuando el usuario elige español (el no nativo).
+  // Se guarda en sessionStorage (se borra solo al cerrar la pestaña) y además
+  // caduca a los 30 min por si la deja abierta mucho tiempo sin cerrarla.
+  var LANG_KEY = "site_lang";
+  var LANG_TIME_KEY = "site_lang_time";
+  var LANG_TTL_MS = 30 * 60 * 1000; // 30 minutos
+
+  function saveLang(lang) {
+    try {
+      sessionStorage.setItem(LANG_KEY, lang);
+      sessionStorage.setItem(LANG_TIME_KEY, String(Date.now()));
+    } catch(e) {}
+  }
+
+  function getSavedLang() {
+    try {
+      var lang = sessionStorage.getItem(LANG_KEY);
+      var time = parseInt(sessionStorage.getItem(LANG_TIME_KEY), 10);
+      if (!lang || !time || isNaN(time)) return null;
+      if (Date.now() - time > LANG_TTL_MS) {
+        sessionStorage.removeItem(LANG_KEY);
+        sessionStorage.removeItem(LANG_TIME_KEY);
+        return null; // caducó: se trata como si no hubiera nada guardado
+      }
+      return lang;
+    } catch(e) { return null; }
+  }
+
+  // ── Inicializar ──
+  // Por defecto nace en inglés (nativo), sin traducir. Solo se autotraduce
+  // al cargar si el usuario había elegido español antes (en esta sesión,
+  // hace menos de 30 minutos) — si eligió inglés o no eligió nada, no hace nada.
+  var initialLang = getSavedLang();
+  if (initialLang === "es") {
+    updateActive("es");
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", translatePage);
+    } else {
+      translatePage();
+    }
+  } else {
+    updateActive("en");
+  }
+
+  // ── Click handler ──
+  document.addEventListener("click", function(e){
+    var a = e.target.closest(".gt_min_link");
+    if (!a) return;
+    e.preventDefault();
+    var lang = a.getAttribute("data-lang");
+    if (!lang) return;
+
+    updateActive(lang);
+    saveLang(lang);
+
+    if (lang === "en") {
+      // Inglés es el idioma original: deshace la traducción si estaba aplicada
+      if (isTranslated) restorePage();
+    } else {
+      // Cualquier otro idioma (es): traduce solo si aún no se tradujo
+      if (!isTranslated) translatePage();
+    }
+  });
+
+})();
+</script>
+
+<!-- ============================================
+     FRAGMENTO PARA OTROS LUGARES (ej. menú móvil)
+     El <style> y el <script> de arriba van UNA SOLA VEZ en la página
+     (donde ya están, en el menú de escritorio). Para agregar el mismo
+     switcher en otro lugar (menú móvil, footer, etc.), pega SOLO esto,
+     sin repetir estilo ni script — el script ya reconoce y sincroniza
+     automáticamente cualquier cantidad de estos <nav> en la página:
+
+<nav class="gt_min_switch notranslate" translate="no" aria-label="Selector de idioma">
+    <a href="#" class="gt_min_link" data-lang="en">EN</a>
+    <span class="gt_min_sep" aria-hidden="true">|</span>
+    <a href="#" class="gt_min_link" data-lang="es">ES</a>
+</nav>
+
+     ============================================ -->

@@ -467,6 +467,13 @@ body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-bu
     padding: 5px 15px;
 }
 
+/* Solo .boton-menu: mantiene el mismo color de texto en hover (evita que
+   el navegador/GHL le aplique su color de hover por defecto) */
+.mega-menu-container.boton-menu > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+1 of .menu-item:not(.cart-search-desktop)):hover,
+.mega-menu-container.boton-menu > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+1 of .menu-item:not(.cart-search-desktop)):hover a {
+    color: var(--color-texto-boton, #fff) !important;
+}
+
 
 /* =========================================
    Termina colores perosnalizados
@@ -2095,6 +2102,19 @@ body {
 
 /* Contenedor = cubre TODA la pantalla (es la capa del fondo) */
 
+
+.estructura-menu-expandible > .inner {
+    justify-content: space-between !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+.estructura-menu-expandible .c-column {
+    width: fit-content !important;
+}
+
 #__nuxt .contenedor-menu-ab {
   
   opacity: 0;
@@ -2155,9 +2175,9 @@ div.menu-lado-1 {
 div.menu-lado-1b {
   width: 87% !important;
 }
-div.c-svg {
+/* div.c-svg {
   margin: auto !important;
-}
+} */
 div.menu-lado-2 {
   width: 10% !important;
 }
