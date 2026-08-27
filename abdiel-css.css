@@ -775,26 +775,43 @@ body:has(.hub365-ghl-not) #__nuxt * {
    COMIENZA CSS ANIMACIONES DE SCROLL (fade/slide)
    ========================================= */
 
-/* Estados iniciales (ocultos + desplazados) */
-#__nuxt .scroll-left,
-#__nuxt .scroll-right,
-#__nuxt .scroll-bottom,
-#__nuxt .scroll-top {
+/* Estados iniciales (ocultos + desplazados) — SOLO si el propio JS marcó el
+   elemento como "armado" (clase agregada por el script justo antes de la
+   primera evaluación). Si el JS nunca llega a correr o falla, el elemento
+   nunca recibe .scroll-armado y se queda visible en su lugar normal —
+   nunca depende únicamente del CSS para poder verse. */
+#__nuxt .scroll-armado.scroll-left,
+#__nuxt .scroll-armado.scroll-right,
+#__nuxt .scroll-armado.scroll-bottom,
+#__nuxt .scroll-armado.scroll-top {
   opacity: 0;            /* Elemento oculto inicialmente */
   transition: 0.8s all;  /* Transición suave para transform y opacity */
 }
 
 /* Desplazamientos iniciales según la dirección deseada */
-#__nuxt .scroll-left   { transform: translateX(-30px); } /* Entra desde la izquierda */
-#__nuxt .scroll-right  { transform: translateX( 30px); } /* Entra desde la derecha  */
-#__nuxt .scroll-bottom { transform: translateY( 80px); } /* Entra desde abajo       */
-#__nuxt .scroll-top    { transform: translateY(-80px); } /* Entra desde arriba      */
+#__nuxt .scroll-armado.scroll-left   { transform: translateX(-30px); } /* Entra desde la izquierda */
+#__nuxt .scroll-armado.scroll-right  { transform: translateX( 30px); } /* Entra desde la derecha  */
+#__nuxt .scroll-armado.scroll-bottom { transform: translateY( 80px); } /* Entra desde abajo       */
+#__nuxt .scroll-armado.scroll-top    { transform: translateY(-80px); } /* Entra desde arriba      */
 
 /* Estado visible (se activa agregando la clase .ativo desde JS) */
 .ativo {
-  opacity: 1 !important; 
-  transition: 0.8s !important; 
+  opacity: 1 !important;
+  transition: 0.8s !important;
   transform: none !important;
+}
+
+/* Accesibilidad: si el usuario prefiere menos movimiento, nada se oculta
+   ni se anima — todo el contenido queda visible de inmediato. */
+@media (prefers-reduced-motion: reduce) {
+  #__nuxt .scroll-armado.scroll-left,
+  #__nuxt .scroll-armado.scroll-right,
+  #__nuxt .scroll-armado.scroll-bottom,
+  #__nuxt .scroll-armado.scroll-top {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* =========================================
@@ -2755,9 +2772,22 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
   --animate-duration: var(--a-e-dur, 1.75s);
   animation-delay: var(--a-e-delay, 0.65s);
 }
-/* Oculto hasta que se dispare */
-#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .boton-degradado-2, .btn-vp):not(.is-in):not(.no-anim){
+/* Oculto SOLO cuando el propio JS marcó el elemento como "esperando" a animarse
+   (clase agregada por el script justo antes de empezar a observarlo). Si el JS
+   nunca llega a correr o falla, el elemento nunca recibe .a-e-waiting y se
+   queda visible — nunca depende únicamente del CSS para poder verse. */
+.a-e-waiting:not(.is-in) {
   opacity: 0;
+}
+
+/* Accesibilidad: si el usuario prefiere menos movimiento, nada se oculta
+   ni se anima — todo el contenido queda visible de inmediato. */
+@media (prefers-reduced-motion: reduce) {
+  #__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .boton-degradado-2, .btn-vp),
+  .a-e-waiting {
+    opacity: 1 !important;
+    animation: none !important;
+  }
 }
 
 /* Interruptor global: si existe .animate-btn-not en cualquier parte de la página */

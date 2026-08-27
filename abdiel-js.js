@@ -39,8 +39,19 @@ window.addEventListener('load', () => {
    ============================================================ */
 
 (function(){
+  // Accesibilidad: si el usuario prefiere menos movimiento, no se oculta ni
+  // anima nada — el respaldo de CSS (@media prefers-reduced-motion) ya cubre
+  // esto también, pero acá evitamos ni siquiera armar el sistema.
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   // Selecciona todos los elementos que tienen alguna de las clases de entrada
   const elementos = document.querySelectorAll('.scroll-left, .scroll-right, .scroll-bottom, .scroll-top');
+  if (!elementos.length) return;
+
+  // Recién ahora, que el JS SÍ va a controlar estos elementos, se marcan como
+  // "armados" (el CSS solo oculta a los que tienen esta clase). Si el script
+  // nunca llega a ejecutarse, ningún elemento la recibe y todo queda visible.
+  elementos.forEach((el) => el.classList.add('scroll-armado'));
 
   // Umbrales de activación/desactivación respecto al alto del viewport
   const APPEAR_AT = 0.70; // Activa cuando el top del elemento está por encima del 70% del viewport (entra al 30% inferior)
@@ -506,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
    INICIA JS SEO COLAPSABLE 2
    ============================================================ */
 
-document.addEventListener('DOMContentLoaded', function() {
+function initSab2() {
   var trigger = document.getElementById('sab2-main');
   var body = document.getElementById('sab2-body');
   if (trigger && body) {
@@ -523,7 +534,13 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.setAttribute('aria-expanded', String(!wasOpen));
     });
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSab2);
+} else {
+  initSab2();
+}
 
 
 
@@ -537,6 +554,11 @@ document.addEventListener('DOMContentLoaded', function() {
    ============================================================ */
 
 (function(){
+  // Accesibilidad: si el usuario prefiere menos movimiento, no se oculta ni
+  // anima nada — el respaldo de CSS (@media prefers-reduced-motion) ya cubre
+  // esto también, pero acá evitamos ni siquiera montar el observer.
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   var MAP = {
     'a-e-flip-x': 'animate__flipInX',
     'a-e-flip-y': 'animate__flipInY',
@@ -563,6 +585,11 @@ document.addEventListener('DOMContentLoaded', function() {
     return !el.classList.contains('no-anim');
   });
   if(!els.length) return;
+
+  // Recién ahora, que el JS SÍ va a observar estos elementos, se marcan como
+  // "esperando" (el CSS solo oculta a los que tienen esta clase). Si el script
+  // nunca llega a ejecutarse, ningún elemento la recibe y todo queda visible.
+  els.forEach(function(el){ el.classList.add('a-e-waiting'); });
 
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
@@ -601,7 +628,7 @@ document.addEventListener('DOMContentLoaded', function() {
       el.classList.add('is-in');
       io.unobserve(el);
     });
-  }, { threshold: .2 });
+  }, { threshold: 0, rootMargin: '0px 0px 200px 0px' }); // dispara ~200px antes de entrar en pantalla
 
   els.forEach(function(el){ io.observe(el); });
 })();
