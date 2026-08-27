@@ -760,14 +760,22 @@ body:has(.hub365-ghl-not) #__nuxt * {
    TERMINA CSS DE CINTA DE TEXTO (marquee)
    ========================================= */
 
-.fullscreen-section {
+.fullscreen-section, .fullscreen-content > .inner {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
- /* Centra el contenido horizontalmente */
     align-items: center;
- /* Centra el contenido verticalmente */
+}
+
+.fullscreen-section-80, .fullscreen-content-80 > .inner {
+    width: 100%;
+    min-height: 80vh;
+    min-height: 80dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -2721,7 +2729,6 @@ p:not(.excluir-p, .excluir-p p) {
     width: fit-content !important;
     background: transparent;
     background-color: transparent !important;
-    ont-family: var(--contentfont) !important;
     border-bottom: 1px solid var(--secondary-color-custom) !important;
     padding: 0px !important;
     padding-bottom: 4px !important;
@@ -2731,7 +2738,7 @@ p:not(.excluir-p, .excluir-p p) {
 .btn-link :is(.main-heading-button, .button-icon-end:before) {
     font-size: var(--size-font-btn, 14px) !important;
     letter-spacing: .2em !important;
-    text-transform: uppercase !important;
+    /* text-transform: uppercase !important; */
     color: var(--text-d) !important;
 }
 
@@ -2886,5 +2893,43 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
 
 /* =========================================
    TERMINA CSS: divisores flex/grid
+   ========================================= */
+
+/* =========================================
+   INICIA CSS: split-hero (columna imagen full-bleed + columna texto)
+   Solo desktop — en móvil no tiene sentido este layout
+   ========================================= */
+
+@media (min-width: 769px) {
+    .col-full-img {
+        width: 50%;
+        padding: 0 !important;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .col-full-img :is(img, .c-image) {
+        position: absolute;
+        inset: 0;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        object-fit: cover;
+    }
+
+    .col-full-text {
+        width: 50%;
+        z-index: 1;
+    }
+
+    .col-full-text .vertical.inner {
+        max-width: 750px;
+        margin: 0 0 0 auto;
+    }
+}
+
+/* =========================================
+   TERMINA CSS: split-hero
    ========================================= */
 
