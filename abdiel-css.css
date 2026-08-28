@@ -772,8 +772,8 @@ body:has(.hub365-ghl-not) #__nuxt * {
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center;    
+    align-items: stretch;
 }
 
 .fullscreen-section-80, .fullscreen-content-80 > .inner {
@@ -782,7 +782,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     min-height: 80dvh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
 }
 
 
@@ -2926,7 +2926,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
         padding: 0 !important;
         position: relative;
         overflow: hidden;
-        height: 100%;
+        height: auto;
     }
 
     .col-full-img :is(img, .c-image) {
@@ -2946,6 +2946,10 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
     .col-full-text .vertical.inner {
         max-width: 750px;
         margin: 0 0 0 auto;
+    }
+    .col-full-text-invetido .vertical.inner {
+      	max-width: 750px;
+        margin: 0 auto 0 30px;
     }
 }
 
