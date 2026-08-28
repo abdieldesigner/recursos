@@ -150,6 +150,20 @@
   /* Reajusta también al cambiar de tema (claro <-> oscuro) */
   new MutationObserver(ajustarTodo).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
 
+  /* Reajusta ante CUALQUIER cambio tardío de clases/estilos en toda la página.
+     Constructores como GHL/Elementor a veces terminan de montar o ajustar el
+     fondo real del hero un poco DESPUÉS de "load", más tarde que los reintentos
+     de ajustarInicial() de abajo. Sin este observer, ese cambio tardío se queda
+     sin detectar hasta que algo más (como un scroll) fuerza una revisión nueva. */
+  var ticDom = false;
+  new MutationObserver(function () {
+    if (ticDom) return;
+    ticDom = true;
+    requestAnimationFrame(function () { ticDom = false; ajustarTodo(); });
+  }).observe(document.documentElement, {
+    attributes: true, attributeFilter: ['class', 'style'], subtree: true, childList: true
+  });
+
   /* Revisión inicial "insistente": el navegador a veces no terminó de pintar
      fondos/imágenes justo en DOMContentLoaded/load, así que se reintenta unas
      cuantas veces más en los primeros instantes, sin que el usuario tenga que
@@ -161,6 +175,8 @@
     });
     setTimeout(ajustarTodo, 300);
     setTimeout(ajustarTodo, 1000);
+    setTimeout(ajustarTodo, 2500);
+    setTimeout(ajustarTodo, 5000);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ajustarInicial);
