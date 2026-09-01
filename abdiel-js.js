@@ -637,3 +637,141 @@ if (document.readyState === 'loading') {
    TERMINA JS ANIMACION DE ENTRADA (scroll)
    ============================================================ */
 
+/* ============================================================
+   INICIA JS: scroll-pin carrusel
+   ============================================================ */
+(function(){
+  "use strict";
+  var VELOCIDAD = 1.15;
+
+  function initSectionScrollPin(section) {
+    var frame = section.querySelector(':scope > .inner');
+    if (!frame) return;
+    var carrusel = section.querySelector('.card-carrusel.scroll-pin');
+    var inner = carrusel ? carrusel.querySelector(':scope > .inner') : null;
+    if (!inner) return;
+
+    var esPorPasos = carrusel.classList.contains('scroll-pin-paso');
+    var tarjetas = inner.querySelectorAll(':scope > .singler-card-carrusel');
+
+    var mq = window.matchMedia('(min-width: 769px)');
+    var activo = false, onScroll = null, onResize = null;
+
+    function recalcAltura() {
+      var distancia = Math.max(inner.scrollWidth - inner.clientWidth, 0);
+      section.style.height = (window.innerHeight + distancia * VELOCIDAD) + 'px';
+    }
+
+    function activar() {
+      if (activo) return;
+      activo = true;
+      section.classList.add('section-scroll-pin-active');
+      recalcAltura();
+      setTimeout(recalcAltura, 300); // corrige si el layout tarda en asentarse
+      setTimeout(recalcAltura, 1000);
+
+      var ticking = false;
+      onScroll = function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          var total = section.offsetHeight - window.innerHeight;
+          if (total <= 0) { inner.style.transform = ''; return; }
+          var rect = section.getBoundingClientRect();
+          var progreso = Math.min(Math.max(-rect.top / total, 0), 1);
+
+          if (esPorPasos && tarjetas.length) {
+            var indice = Math.round(progreso * (tarjetas.length - 1));
+            indice = Math.min(Math.max(indice, 0), tarjetas.length - 1);
+            var destino = tarjetas[indice].offsetLeft;
+            inner.style.transform = 'translateX(' + (-destino) + 'px)';
+          } else {
+            var distancia = Math.max(inner.scrollWidth - inner.clientWidth, 0);
+            inner.style.transform = 'translateX(' + (-progreso * distancia) + 'px)';
+          }
+        });
+      };
+      onResize = function () { recalcAltura(); onScroll(); };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onResize);
+      onScroll();
+    }
+
+    function desactivar() {
+      if (!activo) return;
+      activo = false;
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      inner.style.transform = '';
+      section.style.height = '';
+      section.classList.remove('section-scroll-pin-active');
+    }
+
+    function sync() { mq.matches ? activar() : desactivar(); }
+    mq.addEventListener('change', sync);
+    sync();
+  }
+
+  document.querySelectorAll('.section-scroll-pin').forEach(initSectionScrollPin);
+})();
+/* ============================================================
+   TERMINA JS: scroll-pin carrusel
+   ============================================================ */
+
+/* ============================================================
+   INICIA JS: sección que tapa (solo desktop)
+   ============================================================ */
+(function(){
+  "use strict";
+  var mq = window.matchMedia('(min-width: 769px)');
+
+  /* Empareja por orden de aparición: la 1a .seccion-que-va-fija con la
+     1a .seccion-que-la-tapa = grupo 1, la 2a con la 2a = grupo 2, etc. */
+  function initStickycover() {
+    var fijas = document.querySelectorAll('.seccion-que-va-fija');
+    var tapas = document.querySelectorAll('.seccion-que-la-tapa');
+    if (!fijas.length || !tapas.length) return false;
+
+    var total = Math.min(fijas.length, tapas.length);
+    var grupos = [];
+    for (var i = 0; i < total; i++) {
+      grupos.push({ fija: fijas[i], tapa: tapas[i], padre: fijas[i].parentNode });
+    }
+
+    function update() {
+      if (!mq.matches) {
+        var padres = new Set();
+        grupos.forEach(function (g) { padres.add(g.padre); });
+        padres.forEach(function (padre) { padre.style.minHeight = ''; });
+        return;
+      }
+      var alturas = new Map();
+      grupos.forEach(function (g) {
+        var necesaria = g.fija.offsetHeight + g.tapa.offsetHeight;
+        var previa = alturas.get(g.padre) || 0;
+        if (necesaria > previa) alturas.set(g.padre, necesaria);
+      });
+      alturas.forEach(function (px, padre) {
+        padre.style.minHeight = px + 'px';
+      });
+    }
+
+    update();
+    window.addEventListener('resize', update);
+    mq.addEventListener('change', update);
+    return true;
+  }
+
+  var observer = new MutationObserver(function () {
+    var listo = initStickycover();
+    if (listo) observer.disconnect();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+  initStickycover();
+})();
+/* ============================================================
+   TERMINA JS: sección que tapa
+   ============================================================ */
+

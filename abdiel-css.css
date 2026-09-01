@@ -617,7 +617,9 @@ body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-bu
         gap: 20px !important;
     }
 }
-
+.gap-0 > .inner {
+  gap: 0px !important;  
+}
 .gap-10 > .inner {
   gap: 10px !important;  
 }
@@ -1015,6 +1017,19 @@ body:has(.hub365-ghl-not) #__nuxt * {
     mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
     mask-repeat: no-repeat !important;
     mask-size: 100% 100% !important;
+}
+
+/* Igual que .difuminado-left pero solo en desktop */
+@media (min-width: 769px) {
+  .difuminado-left-pc {
+    -webkit-mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+  }
 }
 
 .difuminado-right {
@@ -2889,7 +2904,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
    ========================================= */
 
 /* =========================================
-   INICIA CSS: divisores flex/grid
+   INICIA CSS: divisores separadores flex/grid
    ========================================= */
 
 :is(.flex-divider-line, .grid-divider-line) > .inner > * {
@@ -2922,7 +2937,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
 
 @media (min-width: 769px) {
     .col-full-img {
-        width: 50%;
+        width: 50% !important;;
         padding: 0 !important;
         position: relative;
         overflow: hidden;
@@ -2939,7 +2954,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
     }
 
     .col-full-text {
-        width: 50%;
+        width: 50% !important;;
         z-index: 1;
     }
 
@@ -2955,5 +2970,85 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
 
 /* =========================================
    TERMINA CSS: split-hero
+   ========================================= */
+
+/* =========================================
+   INICIA CSS: scroll-pin carrusel
+   ========================================= */
+@media (min-width: 769px) {
+  #__nuxt .section-scroll-pin.section-scroll-pin-active > .inner {
+    position: sticky !important; /* le gana a divider-top/bottom-ab */
+    top: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #__nuxt .section-scroll-pin.section-scroll-pin-active .card-carrusel.scroll-pin > .inner {
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+    align-items: flex-start !important;
+    will-change: transform;
+  }
+
+  #__nuxt .section-scroll-pin.section-scroll-pin-active .card-carrusel.scroll-pin .carrusel-arrows-overlay,
+  #__nuxt .section-scroll-pin.section-scroll-pin-active .card-carrusel.scroll-pin .carrusel-dots {
+    display: none !important;
+  }
+
+  /* Opt-in: recorta solo el lado izquierdo */
+  .difuminado-left-scroll {
+    clip-path: inset(-9999px -9999px -9999px 0);
+    border-left: solid 3px var(--accent-color-custom) !important;
+  }
+
+  /* Opt-in: tarjetas de una en una, con salto entre cada una */
+  #__nuxt .section-scroll-pin.section-scroll-pin-active .card-carrusel.scroll-pin.scroll-pin-paso > .inner {
+    transition: transform .35s ease;
+  }
+
+  .scroll-pin-paso {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #0000001f 6px, #00000047 9px, black 18px, black calc(100% - 18px), #00000047 calc(100% - 9px), #0000001f calc(100% - 6px), transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+    mask-image: linear-gradient(to right, transparent 0, #0000001f 6px, #00000047 9px, black 18px, black calc(100% - 18px), #00000047 calc(100% - 9px), #0000001f calc(100% - 6px), transparent 100%) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+  }
+}
+/* =========================================
+   TERMINA CSS: scroll-pin carrusel
+   ========================================= */
+
+/* =========================================
+   INICIA CSS: sección que tapa (solo desktop)
+   ========================================= */
+@media (min-width: 769px) {
+  /* El contenido de .seccion-que-va-fija debe caber siempre en una
+     sola pantalla (100vh) — al quedar pegada no hay scroll de página
+     que revele lo que sobresalga hacia abajo */
+  .seccion-que-va-fija {
+    position: sticky;
+    top: 0;
+    height: auto;
+    z-index: 0;
+    align-self: start;
+  }
+
+  .seccion-que-la-tapa {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+  }
+}
+/* =========================================
+   TERMINA CSS: sección que tapa
    ========================================= */
 
