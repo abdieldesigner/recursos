@@ -2702,12 +2702,19 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 /* fin listas peronalizadas*/
 /* TEXTOS */
 
+
+
+p:not(.excluir-p, .excluir-p p, .pre-titulo p) {
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: var(--size-p, 16px);
+    -webkit-font-smoothing: antialiased;
+}
+
 .pre-titulo :is(*, h1, h2, h3, h4, p, span, a) {
     font-size: var(--eyebrow, 13px) !important;
     font-weight: 400 !important;
 }
-/* fin Pretitulo*/
-
 
 .title-h2 :is(*, h2, h3) {
     font-size: var(--size-h2, clamp(32px, 7vw, 96px)) !important;
@@ -2732,13 +2739,6 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 
 .titulos-especial * {
   --headlinefont: var(--extrafont);
-}
-
-p:not(.excluir-p, .excluir-p p) {
-    font-weight: 400;
-    line-height: 1.5;
-    font-size: var(--size-p, 16px) !important;
-    -webkit-font-smoothing: antialiased;
 }
 
 .radius-principal :is(img, video, .vjs-big-play-centered, figure.video-container div, iframe) {
