@@ -185,10 +185,10 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     padding: var(--padding-seccion, 60px 0px) !important;
 }
 
-.flex-padding-10 > .inner > *, .padding-10 > .inner > * {
+.flex-padding-10 > .inner > *, .padding-10 {
     padding: 10px !important;
 }
-.flex-padding-20 > .inner > *, .padding-20 > .inner > * {
+.flex-padding-20 > .inner > *, .padding-20 {
     padding: 20px !important;
 }
 
@@ -622,6 +622,12 @@ body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-bu
 }
 .gap-10 > .inner {
   gap: 10px !important;  
+}
+.gap-20 > .inner {
+  gap: 20px !important;  
+}
+.gap-30 > .inner {
+  gap: 30px !important;  
 }
 .gap-5 > .inner {
   gap: 5px !important;  
@@ -2126,6 +2132,10 @@ body {
     gap: 10px !important;
 }
 
+.estructura-menu-expandible div.c-svg {
+  margin: 0 !important;
+} 
+
 .estructura-menu-expandible .c-column {
     width: fit-content !important;
 }
@@ -2795,7 +2805,8 @@ p:not(.excluir-p, .excluir-p p) {
 
 /* Interruptor: si existe .btn-border-not-effect e*/
 body:not(:has(.btn-border-not-effect)) .btn-border:hover {
-    background: var(--primary-color-custom, #0d1b2a);
+    background-color: var(--primary-color-custom, #0d1b2a) !important;
+    background-image: none;
     border-color: var(--accent-color-custom, #0d1b2a) !important;
 }
 
