@@ -629,6 +629,9 @@ body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-bu
 .gap-30 > .inner {
   gap: 30px !important;  
 }
+.gap-40 > .inner {
+  gap: 40px !important;  
+}
 .gap-5 > .inner {
   gap: 5px !important;  
 }
@@ -709,6 +712,17 @@ body:has(.hub365-ghl-not) #__nuxt * {
   .img-circular img {
       border-radius: 1000px;
   }
+
+.galeria-custom-ab :is(.photo-video-gallery-grid-item, .photo-video-gallery-grid-item-img){
+    border-radius: var(--radius-element) !important;
+}
+
+.cover-top-center :is(.photo-video-gallery-grid-item-img, img) {
+    border-radius: var(--radius-element) !important;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+}
 
 /* =========================================
    TERMINA CSS: Dimenciones de imagenes
@@ -1390,6 +1404,10 @@ body:has(.hub365-ghl-not) #__nuxt * {
   display: grid !important;
   grid-template-columns: repeat(6, 1fr); /* 2 columnas iguales */
   gap: 10px; /* espacio entre filas y columnas */
+}
+
+:is(.grid-2, .grid-3, .grid-4, .grid-5, .grid-6) > .inner > .c-column {
+  width: 100%;
 }
 
 /* --- Responsive --- */
@@ -2788,13 +2806,15 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p) {
 }
 
 .btn-border {
-    box-shadow: none;
+    /* box-shadow inset en vez de border: se ve igual pero no le suma
+       tamaño al botón (border sí lo hace) */
+    box-shadow: inset 0 0 0 1px var(--accent-color-custom, #000) !important;
     background: none;
     background-color: var(--bg-p-l) !important;
     background-image: none;
     transition: all .4s;
     color: var(--text-d, #212121);
-    border: var(--accent-color-custom, #000) 1px solid !important;
+    border: none !important;
     border-radius: var(--radius-element, 100px) !important;
     padding: var(--padding-btn, 15px 40px) !important;
 }
@@ -2807,7 +2827,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p) {
 body:not(:has(.btn-border-not-effect)) .btn-border:hover {
     background-color: var(--primary-color-custom, #0d1b2a) !important;
     background-image: none;
-    border-color: var(--accent-color-custom, #0d1b2a) !important;
+    box-shadow: inset 0 0 0 1px var(--accent-color-custom, #0d1b2a) !important;
 }
 
 body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-button, .button-icon-end:before) {
@@ -2936,6 +2956,41 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
       border-bottom: none;
   }
 }
+
+/* Borde entre filas cuando el grid se envuelve a más de una fila — solo
+   funciona con .grid-divider-line (columnas fijas), no con flex-wrap */
+.grid-divider-line.grid-2 > .inner > *:not(:nth-last-child(-n+2)),
+.grid-divider-line.grid-3 > .inner > *:not(:nth-last-child(-n+3)),
+.grid-divider-line.grid-4 > .inner > *:not(:nth-last-child(-n+4)),
+.grid-divider-line.grid-5 > .inner > *:not(:nth-last-child(-n+5)),
+.grid-divider-line.grid-6 > .inner > *:not(:nth-last-child(-n+6)) {
+  border-bottom: 1px solid var(--accent-color-custom);
+}
+
+/* .grid-divider-box: marco completo tipo tabla — cada celda solo pone
+   borde arriba+izquierda, la última columna suma el derecho y la
+   última fila suma el inferior, para no duplicar el grosor entre
+   celdas vecinas */
+:is(.grid-divider-box.grid-2, .grid-divider-box.grid-3, .grid-divider-box.grid-4, .grid-divider-box.grid-5, .grid-divider-box.grid-6) > .inner > * {
+  border-top: 1px solid var(--accent-color-custom);
+  border-left: 1px solid var(--accent-color-custom);
+}
+
+.divider-box-line > .inner > * {
+  border: 1px solid var(--accent-color-custom);
+}
+
+.grid-divider-box.grid-2 > .inner > *:nth-child(2n) { border-right: 1px solid var(--accent-color-custom); }
+.grid-divider-box.grid-3 > .inner > *:nth-child(3n) { border-right: 1px solid var(--accent-color-custom); }
+.grid-divider-box.grid-4 > .inner > *:nth-child(4n) { border-right: 1px solid var(--accent-color-custom); }
+.grid-divider-box.grid-5 > .inner > *:nth-child(5n) { border-right: 1px solid var(--accent-color-custom); }
+.grid-divider-box.grid-6 > .inner > *:nth-child(6n) { border-right: 1px solid var(--accent-color-custom); }
+
+.grid-divider-box.grid-2 > .inner > *:nth-last-child(-n+2) { border-bottom: 1px solid var(--accent-color-custom); }
+.grid-divider-box.grid-3 > .inner > *:nth-last-child(-n+3) { border-bottom: 1px solid var(--accent-color-custom); }
+.grid-divider-box.grid-4 > .inner > *:nth-last-child(-n+4) { border-bottom: 1px solid var(--accent-color-custom); }
+.grid-divider-box.grid-5 > .inner > *:nth-last-child(-n+5) { border-bottom: 1px solid var(--accent-color-custom); }
+.grid-divider-box.grid-6 > .inner > *:nth-last-child(-n+6) { border-bottom: 1px solid var(--accent-color-custom); }
 
 /* =========================================
    TERMINA CSS: divisores flex/grid
