@@ -508,6 +508,19 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     window.addEventListener("load", function(){ setTimeout(initAll, 300); });
   }
+
+  /* Por si el carrusel se monta tarde (contenido lazy más abajo en la
+     página) — vigila los primeros 8 segundos por si aparece uno nuevo.
+     initCarrusel ya se protege solo (no repite flechas si ya las tiene),
+     así que reintentar no duplica nada en los que ya están listos. */
+  var ticCarrusel = false;
+  var moCarrusel = new MutationObserver(function () {
+    if (ticCarrusel) return;
+    ticCarrusel = true;
+    requestAnimationFrame(function () { ticCarrusel = false; initAll(); });
+  });
+  moCarrusel.observe(document.body, { childList: true, subtree: true });
+  setTimeout(function () { moCarrusel.disconnect(); }, 8000);
 })();
 /* ============================================================
    TERMINA JS CARRUSEL DE TARJETAS

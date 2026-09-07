@@ -115,87 +115,25 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --a-e-anim: animate__fadeInUp;
     --animate-btn: animate__fadeIn;
 }
+.colores-2 {
+    --degradado-texto: var(--degradado-texto-2);
+    --degradado-boton: linear-gradient(105deg, var(--accent-color-custom-2), var(--accent-color-custom-2));
+    --color-texto-boton: var(--primary-color-custom);
+    --secondary-color-custom: var(--accent-color-custom-2);
+    --accent-color-custom: var(--accent-color-custom-2);
 
-
-/* =========================================
-   INICIA CSS: EVITAR DESBORDE (layout global)
-   ========================================= */
-
-#__nuxt, #previewer {
-    overflow-x: clip; 
-    overflow-y: visible; 
-}
-
-/* =========================================
-   formatear seccion de ghl
-   ========================================= */
-#__nuxt .f-s-ghl, #__nuxt  .f-s-ghl > div, #__nuxt  .f-s-ghl > .inner, #__nuxt .f-s-ghl .c-column,.f-s-ghl .c-row {
-    padding: 0px !important;
-    margin: 0px !important;
-    max-width: 100% !important;
-}
-/* nativamente todo esta en stativ lo qu ecomlica usalro los z-index */
-.c-section, .custom-code-container {
-    position: relative;
+    & .btn-border {
+        --text-d: var(--text-l);
+    }
+  
+    & .btn-border:hover {
+        --color-texto-boton: var(--text-l);
+    }
 }
 
-
-/* oculta cositas */
-.oculto {
-    opacity: 0.5 !important;
-}
-#__nuxt .oculto {
-    display: none !important;
-}
-.destacar-1, .z-index1 {
-   z-index: 1;
-}
-.z-index2 {
-   z-index: 2;
-}
-.z-index3 {
-   z-index: 3;
-}
-.z-index999 {
-   z-index: 999 !important;
-}
-
-.blur1 {
-   filter: blur(2px);
-}
-.blur2 {
-   filter: blur(6px);
-}
-.opacity-5 {
-   opacity: 0.5;
-}
-
-
-
-/* texto con informaion par adarnos autoridad... pero si */
-.abdiel-creditos {
-   width: 800px !important;
-    position: absolute !important;
-    z-index: 0;
-    left: -500% !important;
-    top: -300px !important;   
-}
-
-.padding-s, .padding-seccion {
-    padding: var(--padding-seccion, 60px 0px) !important;
-}
-
-.flex-padding-10 > .inner > *, .padding-10 {
-    padding: 10px !important;
-}
-.flex-padding-20 > .inner > *, .padding-20 {
-    padding: 20px !important;
-}
-
-/* =========================================
-   TERMINA CSS: EVITAR DESBORDE
-   ========================================= */
-
+/* =============================================
+   Colores personaliza de cada web — debo declara las variebles antes.
+   ============================================= */
 
   :root {
   /* Fondos */
@@ -313,6 +251,86 @@ body .colores-a2 {
 /* =============================================
    Colores personaliza de cada web — debo declara las variebles antes.
    ============================================= */
+
+/* =========================================
+   INICIA CSS: EVITAR DESBORDE (layout global)
+   ========================================= */
+
+#__nuxt, #previewer {
+    overflow-x: clip; 
+    overflow-y: visible; 
+}
+
+/* =========================================
+   formatear seccion de ghl
+   ========================================= */
+#__nuxt .f-s-ghl, #__nuxt  .f-s-ghl > div, #__nuxt  .f-s-ghl > .inner, #__nuxt .f-s-ghl .c-column,.f-s-ghl .c-row {
+    padding: 0px !important;
+    margin: 0px !important;
+    max-width: 100% !important;
+}
+/* nativamente todo esta en stativ lo qu ecomlica usalro los z-index */
+.c-section, .custom-code-container {
+    position: relative;
+}
+
+
+/* oculta cositas */
+.oculto {
+    opacity: 0.5 !important;
+}
+#__nuxt .oculto {
+    display: none !important;
+}
+.destacar-1, .z-index1 {
+   z-index: 1;
+}
+.z-index2 {
+   z-index: 2;
+}
+.z-index3 {
+   z-index: 3;
+}
+.z-index999 {
+   z-index: 999 !important;
+}
+
+.blur1 {
+   filter: blur(2px);
+}
+.blur2 {
+   filter: blur(6px);
+}
+.opacity-5 {
+   opacity: 0.5;
+}
+
+
+
+/* texto con informaion par adarnos autoridad... pero si */
+.abdiel-creditos {
+   width: 800px !important;
+    position: absolute !important;
+    z-index: 0;
+    left: -500% !important;
+    top: -300px !important;   
+}
+
+.padding-s, .padding-seccion {
+    padding: var(--padding-seccion, 60px 0px) !important;
+}
+
+.flex-padding-10 > .inner > *, .padding-10 {
+    padding: 10px !important;
+}
+.flex-padding-20 > .inner > *, .padding-20 {
+    padding: 20px !important;
+}
+
+/* =========================================
+   TERMINA CSS: EVITAR DESBORDE
+   ========================================= */
+
 
 
 body:has(.colores-abdiel, .colores-hub365) .bg-degradado, 
@@ -715,6 +733,26 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 .galeria-custom-ab :is(.photo-video-gallery-grid-item, .photo-video-gallery-grid-item-img){
     border-radius: var(--radius-element) !important;
+}
+@media screen and (max-width: 767px) {
+
+    .galeria-custom-ab:is(#fake-id, .galeria-custom-ab)
+    .photo-video-gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .galeria-custom-ab:is(#fake-id, .galeria-custom-ab)
+    .photo-video-gallery-grid-item {
+        grid-column: auto;
+    }
+
+    .galeria-custom-ab:is(#fake-id, .galeria-custom-ab)
+    .photo-video-gallery-grid-item:nth-child(3n+1) {
+        grid-column: 1 / -1;
+    }
+
 }
 
 .cover-top-center :is(.photo-video-gallery-grid-item-img, img) {
@@ -1562,6 +1600,92 @@ body:has(.hub365-ghl-not) #__nuxt * {
    TERMINA CSS Redes - botones flotantes
    ========================================= */
 
+/* =========================================
+   COMIENZA CSS iconos sociales (widget nativo GHL) - recolor con mask
+   Agregar "iconos-sociales-a" al contenedor padre
+   ========================================= */
+
+.iconos-sociales-a {
+    --social-icon-color: var(--accent-color-custom);
+    --social-icon-size: 20px;
+}
+
+/* --- Base --- */
+.iconos-sociales-a .social-icon:has(img[src*="-light-gray.svg"]) {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ocultamos el gráfico gris original, pero mantenemos el espacio que ocupa */
+.iconos-sociales-a .social-icon:has(img[src*="-light-gray.svg"]) img {
+    opacity: 0 !important;
+}
+
+/* Creamos el nuevo icono coloreado */
+.iconos-sociales-a .social-icon:has(img[src*="-light-gray.svg"])::before {
+    content: "";
+    position: absolute;
+    width: var(--social-icon-size);
+    height: var(--social-icon-size);
+    background-color: var(--social-icon-color) !important;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    pointer-events: none;
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="whatsapp-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/whatsapp-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/whatsapp-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="instagram-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/instagram-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/instagram-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="facebook-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/facebook-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/facebook-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="linkedin-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/linkedin-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/linkedin-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="mail-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/mail-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/mail-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="youtube-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/youtube-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/youtube-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="tiktok-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/tiktok-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/tiktok-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon {
+    padding: 0 !important;
+}
+
+.iconos-sociales-a .social-icons-container {
+    gap: 16px !important;
+}
+
+/* =========================================
+   TERMINA CSS iconos sociales (widget nativo GHL)
+   ========================================= */
+
 
 /* =========================================
    Comienza Suscripcion wiget
@@ -1598,8 +1722,23 @@ body:has(.hub365-ghl-not) #__nuxt * {
 }
 
 /* =========================================
-   TERMINA CSS Suscripcion wiget
+   TERMINA CSS Suscripcion wiget y algo corto par ale boton d ela suscripcion
    ========================================= */
+
+.abdiel-suscripcion2:is(#force-override, .abdiel-suscripcion2) button.subscribe-button {
+    color: var(--color-texto-boton, #fff) !important;
+    background-color: #12303B !important;
+    padding: 10px 28px !important;
+    background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
+    transition: all .4s;
+    border-radius: var(--radius-element, 100px) !important;
+}
+
+.abdiel-suscripcion2:is(#force-override, .abdiel-suscripcion2)
+:is(.subscribe-email-input, .blog-subscribe-form-group) {
+    border-radius: var(--radius-element, 100px) !important;
+}
+
 
 /* =========================================
    Comienza CSS Calendario
@@ -1961,9 +2100,7 @@ body {
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-size: cover;
-  /* CAMBIO AQUÍ */
     mask-size: cover;
-           /* CAMBIO AQUÍ */
     -webkit-mask-position: center;
     mask-position: center;
     z-index: 1;
@@ -1983,14 +2120,12 @@ body {
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-size: cover;
-  /* CAMBIO AQUÍ */
     mask-size: cover;
-           /* CAMBIO AQUÍ */
     -webkit-mask-position: center;
     mask-position: center;
     transform-origin: center;
     transform: scaleY(-1);
-    z-index: 3;
+    z-index: 1;
 }
 
 /* Divisor TOP - una sola clase */
@@ -2150,9 +2285,15 @@ body {
     gap: 10px !important;
 }
 
-.estructura-menu-expandible div.c-svg {
+.estructura-menu-expandible div.c-svg, .svg-descontrolado div.c-svg {
   margin: 0 !important;
 } 
+
+@media (max-width: 767px) {
+  .estructura-menu-expandible div.c-svg, .svg-descontrolado div.c-svg  {
+    margin: auto !important;
+  }
+}
 
 .estructura-menu-expandible .c-column {
     width: fit-content !important;
@@ -2363,8 +2504,8 @@ div.menu-lado-2 {
 .carrusel-arrows-overlay {
   position: absolute !important;
   top: 0;
-  left: -28px;
-  right: -28px;
+  left: -36px;
+  right: -36px;
   bottom: 0;
   pointer-events: none;
   z-index: 9999;
@@ -2804,8 +2945,12 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p) {
     /* text-transform: uppercase !important; */
     color: var(--text-d) !important;
 }
+.btn-link .button-icon-end:before {
+    font-size: var(--size-font-btn, 14px) !important;
+    letter-spacing: .2em !important;
+}
 
-.btn-border {
+.btn-border, a.btn-border {
     /* box-shadow inset en vez de border: se ve igual pero no le suma
        tamaño al botón (border sí lo hace) */
     box-shadow: inset 0 0 0 1px var(--accent-color-custom, #000) !important;
@@ -2825,14 +2970,14 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p) {
 
 /* Interruptor: si existe .btn-border-not-effect e*/
 body:not(:has(.btn-border-not-effect)) .btn-border:hover {
-    background-color: var(--primary-color-custom, #0d1b2a) !important;
+    background-color: var(--accent-color-custom, #0d1b2a) !important;
     background-image: none;
     box-shadow: inset 0 0 0 1px var(--accent-color-custom, #0d1b2a) !important;
 }
 
 body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-button, .button-icon-end:before) {
-    color: var(--text-l, #fff) !important;
-    -webkit-text-fill-color: var(--text-l, #fff) !important;
+    color: var(--color-texto-boton, #fff) !important;
+    -webkit-text-fill-color: var(--color-texto-boton, #fff) !important;
 }
 
 /* =========================================
@@ -2884,8 +3029,8 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
     background: linear-gradient(
         100deg,
         var(--bg-p-l) 30%,
-        color-mix(in srgb, var(--bg-p-l) 72%, transparent) 40%,
-        transparent 55%
+        color-mix(in srgb, var(--bg-p-l) 72%, transparent) 46%,
+        transparent 62%
     );
 }
 
@@ -2908,8 +3053,8 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
     background: linear-gradient(
         100deg,
         var(--bg-p-d) 30%,
-        color-mix(in srgb, var(--bg-p-d) 72%, transparent) 40%,
-        transparent 55%
+        color-mix(in srgb, var(--bg-p-d) 72%, transparent) 46%,
+        transparent 62%
     );
 }
 
@@ -2992,6 +3137,28 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
 .grid-divider-box.grid-5 > .inner > *:nth-last-child(-n+5) { border-bottom: 1px solid var(--accent-color-custom); }
 .grid-divider-box.grid-6 > .inner > *:nth-last-child(-n+6) { border-bottom: 1px solid var(--accent-color-custom); }
 
+/* En móvil, cualquier .grid-divider-box (sin importar si es grid-2, 4,
+   6...) pasa siempre a 2 columnas — y el borde se calcula como si fuera
+   un grid-2 (derecho cada 2 elementos, inferior en los últimos 2), sin
+   duplicar grosor entre celdas vecinas */
+@media (max-width: 768px) {
+  :is(.grid-divider-box.grid-2, .grid-divider-box.grid-3, .grid-divider-box.grid-4, .grid-divider-box.grid-5, .grid-divider-box.grid-6) > .inner {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  :is(.grid-divider-box.grid-2, .grid-divider-box.grid-3, .grid-divider-box.grid-4, .grid-divider-box.grid-5, .grid-divider-box.grid-6) > .inner > * {
+    border-top: 1px solid var(--accent-color-custom) !important;
+    border-left: 1px solid var(--accent-color-custom) !important;
+    border-right: none !important;
+    border-bottom: none !important;
+  }
+  :is(.grid-divider-box.grid-2, .grid-divider-box.grid-3, .grid-divider-box.grid-4, .grid-divider-box.grid-5, .grid-divider-box.grid-6) > .inner > *:nth-child(2n) {
+    border-right: 1px solid var(--accent-color-custom) !important;
+  }
+  :is(.grid-divider-box.grid-2, .grid-divider-box.grid-3, .grid-divider-box.grid-4, .grid-divider-box.grid-5, .grid-divider-box.grid-6) > .inner > *:nth-last-child(-n+2) {
+    border-bottom: 1px solid var(--accent-color-custom) !important;
+  }
+}
+
 /* =========================================
    TERMINA CSS: divisores flex/grid
    ========================================= */
@@ -3025,11 +3192,11 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
     }
 
     .col-full-text .vertical.inner {
-        max-width: 750px;
+        max-width: 600px;
         margin: 0 0 0 auto;
     }
     .col-full-text-invetido .vertical.inner {
-      	max-width: 750px;
+      	max-width: 600px;
         margin: 0 auto 0 30px;
     }
 }
