@@ -1466,7 +1466,10 @@ body:has(.hub365-ghl-not) #__nuxt * {
     /* ================= VARS GLOBALES ================= */
     :root{
       --abdiel-v2-size: 36px;
-      --abdiel-v2-radius: 14px;
+      /* Toma --radius-element del sitio, pero nunca pasa de 14px (y sí
+         respeta 0 si lo ponen así) — para que un radio grande general
+         (ej. botones tipo píldora) no se vea exagerado en este cuadrito */
+      --abdiel-v2-radius: min(var(--radius-element, 14px), 14px);
       --abdiel-v2-pad-x: 12px;
       --abdiel-v2-gap: 10px;
       --abdiel-v2-color-text: #fff;                /* color de texto global */
@@ -3123,6 +3126,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
 
 .divider-box-line > .inner > * {
   border: 1px solid var(--accent-color-custom);
+  border-radius: min(var(--radius-element, 12px), 20px);
 }
 
 .grid-divider-box.grid-2 > .inner > *:nth-child(2n) { border-right: 1px solid var(--accent-color-custom); }
@@ -3138,9 +3142,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
 .grid-divider-box.grid-6 > .inner > *:nth-last-child(-n+6) { border-bottom: 1px solid var(--accent-color-custom); }
 
 /* En móvil, cualquier .grid-divider-box (sin importar si es grid-2, 4,
-   6...) pasa siempre a 2 columnas — y el borde se calcula como si fuera
-   un grid-2 (derecho cada 2 elementos, inferior en los últimos 2), sin
-   duplicar grosor entre celdas vecinas */
+   6...) pasa siempre a 2 columnas*/
 @media (max-width: 768px) {
   :is(.grid-divider-box.grid-2, .grid-divider-box.grid-3, .grid-divider-box.grid-4, .grid-divider-box.grid-5, .grid-divider-box.grid-6) > .inner {
     grid-template-columns: repeat(2, 1fr) !important;
