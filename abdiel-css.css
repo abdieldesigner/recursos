@@ -122,11 +122,11 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --secondary-color-custom: var(--accent-color-custom-2);
     --accent-color-custom: var(--accent-color-custom-2);
 
-    & .btn-border {
+    .btn-border {
         --text-d: var(--text-l);
     }
-  
-    & .btn-border:hover {
+
+    .btn-border:hover {
         --color-texto-boton: var(--text-l);
     }
 }
@@ -152,7 +152,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --size-font-btn: 14px;
 }
 
-/* Varibale fija spara formularioa de compras  */
+/* Varibale fijas para formularios de compras  */
 body {
   	--cobalt: var(--accent-color-custom, #0047AB);
   }
@@ -435,11 +435,9 @@ body:has(.colores-abdiel, .colores-hub365) :is(.cinta2 span, .cinta2 .marquee-te
 
 body:has(.colores-abdiel, .colores-hub365) :is(
     :is(h1, h2) strong,
-    .gradient-text :is(h1, h2, strong, .counter-value, .timer-box > .count),
-    .card-categoria h2
-  ),
-body:has(.colores-abdiel, .colores-hub365) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *, .btn-border *, .btn-link *, .boton-degradado-2 *)) {
-    color: #991e30;
+    .gradient-text :is(h1, h2, strong, .counter-value, .timer-box > .count)
+  ) {
+    color: var(--text-d);
     -webkit-text-fill-color: transparent;
     background-image: var(--degradado-texto);
     padding-right: .15rem;
@@ -447,9 +445,21 @@ body:has(.colores-abdiel, .colores-hub365) .main-heading-button:not(:is(.boton-d
     background-clip: text;
 }
 
+body:has(.colores-abdiel, .colores-hub365) :is(
+    :is(h1, h2) strong,
+    .gradient-text :is(h1, h2, strong, .counter-value, .timer-box > .count)
+)::before {
+    color: var(--accent-color-custom);
+}
+
+body:has(.colores-abdiel, .colores-hub365) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *, .btn-border *, .btn-link *, .boton-degradado-2 *)) {
+    color: var(--accent-color-custom);
+}
+
 
 body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .boton-degradado *)::before   {
-    color: var(--accent-color-custom) !important;
+    color: currentColor;
+    padding-left: .15rem;
 }
 
 
@@ -2866,7 +2876,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 
 
 
-p:not(.excluir-p, .excluir-p p, .pre-titulo p) {
+p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     font-weight: 400;
     line-height: 1.5;
     font-size: var(--size-p, 16px);
@@ -2910,7 +2920,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p) {
     border-radius: var(--radius-principal) !important;
 }
 
-.btn-footer :is(.main-heading-button, a, p) {
+.btn-footer :is(.main-heading-button, a, p, .button-icon-end) {
     font-size: 13px !important;
     font-weight: 400 !important;
     line-height: 1.75 !important;
@@ -2957,9 +2967,11 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p) {
     /* box-shadow inset en vez de border: se ve igual pero no le suma
        tamaño al botón (border sí lo hace) */
     box-shadow: inset 0 0 0 1px var(--accent-color-custom, #000) !important;
-    background: none;
-    background-color: var(--bg-p-l) !important;
+    background: none;    
     background-image: none;
+    /* background-color: var(--bg-p-l) !important; */
+    background-color: transparent !important;
+    backdrop-filter: blur(4px);
     transition: all .4s;
     color: var(--text-d, #212121);
     border: none !important;
@@ -3046,6 +3058,10 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
             transparent 75%
         );
     }
+    
+    .capa-bg-l .bg {
+        opacity: 0.5;
+    }
 }
 
 .capa-bg-d .bg::before,
@@ -3071,11 +3087,23 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
             transparent 75%
         );
     }
+    .capa-bg-d .bg {
+        opacity: 0.5;
+    }
+
 }
 
-/* maxima transparecia en fondos */
-.trans-fondo1 .bgCover {
+
+
+/* maxima transparecia en las imagenes de fondos */
+.bg-img-opacity-1 .bg {
     opacity: 0.1 !important;
+}
+.bg-img-opacity-2 .bg {
+    opacity: 0.2 !important;
+}
+.bg-img-opacity-0-7 .bg {
+    opacity: 0.07 !important;
 }
 
 /* =========================================
@@ -3287,3 +3315,56 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
    TERMINA CSS: sección que tapa
    ========================================= */
 
+/* =========================================
+   INICIA CSS: ícono de WhatsApp/teléfono en menú 
+   ========================================= */
+.ico-ws-menu a.mega-menu-link[href^="tel:"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ico-ws-menu a.mega-menu-link[href^="tel:"]::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/whatsapp-light-gray.svg");
+  mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/whatsapp-light-gray.svg");
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+/* =========================================
+   TERMINA CSS: ícono de WhatsApp/teléfono en menú
+   ========================================= */
+
+/* Modifica el formulario nativo de GHL */
+.form-custom-ab {
+    --btn-form: var(--accent-color-custom);
+    --text-btn-form: var(--text-l);
+}
+
+.form-custom-ab:is(#fake-id, .form-custom-ab) {
+    button {
+        background: var(--btn-form) !important;
+        border-radius: var(--radius-element) !important;
+
+        p {
+            color: var(--text-btn-form) !important;
+        }
+    }
+
+    a {
+        color: var(--btn-form) !important;
+    }
+
+    * {
+        font-family: var(--contentfont) !important;
+    }
+}

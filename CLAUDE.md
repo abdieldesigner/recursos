@@ -41,6 +41,19 @@ Antes de cada push, revisar `abdiel-css.css` y `abdiel-js.js` en busca de errore
 
 Si algo fallara, corregirlo antes de hacer commit — nunca subir a push con un error de escritura conocido.
 
+## Comentarios en clases nuevas: cortos
+
+Al agregar una clase/sección nueva, el comentario que la explica debe ser **breve** (una línea, lo mínimo para saber qué hace y cómo activarla) — nada de párrafos largos explicando el razonamiento, alternativas descartadas o detalles del proceso. Ejemplo: `/* Ícono de WhatsApp para el teléfono en el menú */`, no una explicación extensa de cómo funciona el mask o por qué se eligió ese enfoque.
+
+## Nota informativa: anidación CSS (`&`) con selectores de etiqueta
+
+Observado en vivo, no es una regla obligatoria, solo para entender por qué a veces la anidación nativa de CSS (`&`) no aplicaba y otras veces sí:
+
+- Si el selector anidado empieza con una **clase** (ej. `& .btn-border`), `&` funciona bien — es opcional, con o sin él se aplica igual.
+- Si el selector anidado empieza con una **etiqueta HTML** (ej. `& button`, `& a`, `& *`), usar `&` explícito ahí sí dio problemas (solo la primera regla del bloque se aplicaba, las siguientes no) — quitando el `&` y dejando el anidado implícito (`button { ... }` directo, sin `&`) funcionó correctamente.
+
+No hacía falta poner el `&` en ese segundo caso — el navegador ya lo interpreta como anidado sin necesitar escribirlo.
+
 ## Comandos útiles (VS Code)
 
 - **Comentar/descomentar selección**: `Cmd + /` (en `.css` lo envuelve en `/* ... */`).
