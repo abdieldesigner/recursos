@@ -301,8 +301,14 @@ body .colores-a2 {
 .blur2 {
    filter: blur(6px);
 }
+.opacity-7 {
+   opacity: 0.7;
+}
 .opacity-5 {
    opacity: 0.5;
+}
+.opacity-3 {
+   opacity: 0.3;
 }
 
 
@@ -452,9 +458,10 @@ body:has(.colores-abdiel, .colores-hub365) :is(
     color: var(--accent-color-custom);
 }
 
-body:has(.colores-abdiel, .colores-hub365) .main-heading-button:not(:is(.boton-degradado *, .exclusion-bt *, .btn-border *, .btn-link *, .boton-degradado-2 *)) {
-    color: var(--accent-color-custom);
+body:has(.colores-abdiel, .colores-hub365) :is(.main-heading-button, .button-icon-end):not(:is(.boton-degradado *, .exclusion-bt *, .btn-border *, .btn-link *, .boton-degradado-2 *)) {
+    color: var(--accent-color-custom) !important;
 }
+
 
 
 body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .boton-degradado *)::before   {
@@ -475,10 +482,7 @@ body:has(.colores-abdiel, .colores-hub365) .boton-degradado:hover {
     box-shadow: var(--resplandor-boton);
 }
 
-body:has(.colores-abdiel, .colores-hub365) .boton-degradado .button-icon-end::before {
-    color: var(--color-texto-boton, #fff) !important;
-}
-body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-button, .button-icon-end:before) {
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-button, .button-icon-end) {
     color: var(--color-texto-boton, #fff) !important;
     font-size: var(--size-font-btn, 14px) !important;
 }
@@ -2932,8 +2936,8 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     padding: var(--padding-btn, 15px 40px) !important;
 }
 
-.boton-degradado-2 :is(.main-heading-button, .button-icon-end:before) {
-    font-size: var(--size-font-btn, 14px) !important;    
+.boton-degradado-2 :is(.main-heading-button, .button-icon-end) {
+    font-size: var(--size-font-btn, 14px) !important;
     border-radius: var(--radius-principal);
 }
 
@@ -2952,15 +2956,11 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     border-radius: var(--radius-principal);
 }
 
-.btn-link :is(.main-heading-button, .button-icon-end:before) {
+.btn-link :is(.main-heading-button, .button-icon-end) {
     font-size: var(--size-font-btn, 14px) !important;
     letter-spacing: .2em !important;
     /* text-transform: uppercase !important; */
     color: var(--text-d) !important;
-}
-.btn-link .button-icon-end:before {
-    font-size: var(--size-font-btn, 14px) !important;
-    letter-spacing: .2em !important;
 }
 
 .btn-border, a.btn-border {
@@ -2978,7 +2978,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     border-radius: var(--radius-element, 100px) !important;
     padding: var(--padding-btn, 15px 40px) !important;
 }
-.btn-border :is(.main-heading-button, .button-icon-end:before) {
+.btn-border :is(.main-heading-button, .button-icon-end) {
     color: var(--text-d) !important;
     font-size: var(--size-font-btn, 14px) !important;
 }
@@ -2990,7 +2990,7 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover {
     box-shadow: inset 0 0 0 1px var(--accent-color-custom, #0d1b2a) !important;
 }
 
-body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-button, .button-icon-end:before) {
+body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-button, .button-icon-end) {
     color: var(--color-texto-boton, #fff) !important;
     -webkit-text-fill-color: var(--color-texto-boton, #fff) !important;
 }
@@ -3351,20 +3351,37 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .boton-
 }
 
 .form-custom-ab:is(#fake-id, .form-custom-ab) {
-    button {
-        background: var(--btn-form) !important;
-        border-radius: var(--radius-element) !important;
+    #_builder-form {
+        background-color: var(--bg-p-l) !important;
+        border-radius: var(--radius-principal) !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
 
-        p {
-            color: var(--text-btn-form) !important;
-        }
+    label {
+        margin-bottom: 0.1rem !important;
+    }
+
+    .menu-field-wrap {
+        margin-bottom: 10px !important;
+    }
+
+    * {
+        font-family: var(--contentfont) !important;
+        color: var(--text-d) !important;
     }
 
     a {
         color: var(--btn-form) !important;
     }
 
-    * {
-        font-family: var(--contentfont) !important;
+    button {
+        background: var(--btn-form) !important;
+        border-radius: var(--radius-element) !important;
+
+        p span {
+            color: var(--text-btn-form) !important;
+            font-family: var(--contentfont) !important;
+        }
     }
 }
