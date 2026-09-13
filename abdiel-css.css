@@ -469,24 +469,6 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
     padding-left: .15rem;
 }
 
-
-body:has(.colores-abdiel, .colores-hub365) .boton-degradado {
-    box-shadow: none;
-    background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
-    transition: all .4s;
-    border-radius: var(--radius-element, 100px) !important;
-    padding: var(--padding-btn, 15px 40px) !important;
-}
-
-body:has(.colores-abdiel, .colores-hub365) .boton-degradado:hover {
-    box-shadow: var(--resplandor-boton);
-}
-
-body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-button, .button-icon-end) {
-    color: var(--color-texto-boton, #fff) !important;
-    font-size: var(--size-font-btn, 14px) !important;
-}
-
 /* boton en menu 3 opciones */
 .mega-menu-container.boton-menu > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+1 of .menu-item:not(.cart-search-desktop))
 , .mega-menu-container.boton-menu-l2 > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+2 of .menu-item:not(.cart-search-desktop))
@@ -2924,6 +2906,13 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     border-radius: var(--radius-principal) !important;
 }
 
+/* Botones varios  */
+
+.btn-vp {
+    font-size: var(--size-font-btn, 14px) !important;
+    border-radius: var(--radius-principal);
+}
+
 .btn-footer :is(.main-heading-button, a, p, .button-icon-end) {
     font-size: 13px !important;
     font-weight: 400 !important;
@@ -2932,18 +2921,28 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     text-align: left !important;
 }
 
-.boton-degradado-2 {
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado {
+    box-shadow: none;
+    background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
+    transition: all .4s;
+    border-radius: var(--radius-element, 100px) !important;
     padding: var(--padding-btn, 15px 40px) !important;
 }
 
-.boton-degradado-2 :is(.main-heading-button, .button-icon-end) {
+
+:is(.boton-degradado, .boton-degradado-2) :is(.main-heading-button, .button-icon-end) {
+    color: var(--color-texto-boton, #fff) !important;
     font-size: var(--size-font-btn, 14px) !important;
-    border-radius: var(--radius-principal);
 }
 
-.btn-vp {
-    font-size: var(--size-font-btn, 14px) !important;
-    border-radius: var(--radius-principal);
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado:hover {
+    box-shadow: var(--resplandor-boton);
+}
+
+
+.boton-degradado-2 {
+    padding: var(--padding-btn, 15px 40px) !important;    
+    border-radius: var(--radius-element);
 }
 
 .btn-link {
@@ -2964,8 +2963,6 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 }
 
 .btn-border, a.btn-border {
-    /* box-shadow inset en vez de border: se ve igual pero no le suma
-       tamaño al botón (border sí lo hace) */
     box-shadow: inset 0 0 0 1px var(--accent-color-custom, #000) !important;
     background: none;    
     background-image: none;
