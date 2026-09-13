@@ -1010,7 +1010,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
 }
 
 .card-scale-grupo .c-column:hover {
-    transform: scale(1.1) !important;;
+    transform: scale(1.07) !important;;
  /* usa 'transform' en lugar de 'scale' directamente */
 }
 
@@ -2305,7 +2305,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
 }
 
 #__nuxt .contenedor-menu-ab {
-  
+  --a-e-delay: 0.1s;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
