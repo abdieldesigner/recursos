@@ -100,7 +100,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
     --eyebrow: 13px;
     --size-h2: clamp(32px, 7vw, 96px);
-    --size-h2-2: clamp(32px, 4vw, 48px);
+    --size-h2-2: clamp(24px, 4.5vw, 60px);
     --size-h3: clamp(16px, 2vw, 24px);
     --size-p: 16px;
     --size-font-btn: clamp(16px, 19.22px - 0.32vw, 18px);
@@ -123,13 +123,20 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --secondary-color-custom: var(--accent-color-custom-2);
     --accent-color-custom: var(--accent-color-custom-2);
 
-    .btn-border {
+    /* .btn-border {
         --text-d: var(--text-l);
     }
 
     .btn-border:hover {
         --color-texto-boton: var(--text-l);
-    }
+    } */
+}
+
+.v-dark {
+    --text-d: var(--text-l);
+}
+.v-luz {
+    --text-l: var(--text-d);
 }
 
 /* =============================================
@@ -159,6 +166,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
   /* Tamaños de texto */
     --eyebrow: 13px;
     --size-h2: clamp(32px, 4vw, 48px);
+    --size-h2-2: clamp(24px, 3vw, 36px);
     --size-h3: clamp(16px, 2vw, 24px);
     --size-p: 16px;    
     --size-font-btn: 14px;
@@ -476,7 +484,7 @@ body:has(.colores-abdiel, .colores-hub365) :is(.main-heading-button, .button-ico
 
 
 
-body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .boton-degradado *, .btn-degradado *)::before   {
+body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .algunaotraclase *)::before   {
     color: currentColor;
     padding-left: .15rem;
 }
@@ -493,12 +501,12 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
     padding: 5px 15px;
 }
 
-/* Solo .boton-menu: mantiene el mismo color de texto en hover (evita que
-   el navegador/GHL le aplique su color de hover por defecto) */
-.mega-menu-container.boton-menu > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+1 of .menu-item:not(.cart-search-desktop)):hover,
-.mega-menu-container.boton-menu > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+1 of .menu-item:not(.cart-search-desktop)):hover a {
+/* Solo .boton-menu: mantiene el mismo color de texto en hover */
+.mega-menu-container.boton-menu > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+1 of .menu-item:not(.cart-search-desktop)) .menu-item-title:hover {
     color: var(--color-texto-boton, #fff) !important;
 }
+
+
 
 
 /* =========================================
@@ -1108,6 +1116,20 @@ body:has(.hub365-ghl-not) #__nuxt * {
     mask-size: 100% 100% !important;
 }
 
+/* Igual que .difuminado-right pero solo en desktop */
+@media (min-width: 769px) {
+  .difuminado-right-pc {
+    -webkit-mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+  }
+}
+
+
 .difuminado-horizontal {
     -webkit-mask-image: linear-gradient(
         to right,
@@ -1460,6 +1482,11 @@ body:has(.hub365-ghl-not) #__nuxt * {
 @media (max-width: 768px) {
   .grid-2 > .inner, .grid-3 > .inner, .grid-4 > .inner , .grid-5 > .inner,  .grid-6 > .inner {
     grid-template-columns: 1fr !important; /* una sola columna en móvil */
+  }
+
+  /* Opt-in: agregar junto a cualquier .grid-N para que en móvil sean 2 columnas en vez de 1 */
+  .grid-movil-2:is(.grid-2, .grid-3, .grid-4, .grid-5, .grid-6) > .inner {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
@@ -2875,22 +2902,26 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     -webkit-font-smoothing: antialiased;
 }
 
+.text-box p {
+    font-size: calc(var(--size-p, 16px) * 0.7) !important;
+}
+
 .pre-titulo :is(*, h1, h2, h3, h4, p, span, a) {
     font-size: var(--eyebrow, 13px) !important;
     font-weight: 400 !important;
 }
 
-.title-h2 :is(*, h2, h3) {
+.title-h2 :is(h2, h3) {
     font-size: var(--size-h2, clamp(32px, 7vw, 96px)) !important;
     line-height: 1em;
 }
 
-.title-h2-2 :is(*, h2, h3) {
-    font-size: var(--size-h2-2, clamp(32px, 4vw, 48px)) !important;
+.title-h2-2 :is(h2, h3) {
+    font-size: var(--size-h2-2, clamp(24px, 4.5vw, 60px)) !important;
     line-height: 1em;
 }
 
-.title-h3 :is(*, h2, h3) {
+.title-h3 :is(h2, h3) {
     font-size: var(--size-h3, clamp(16px, 2vw, 24px)) !important;
     line-height: 1em;
 }
@@ -2929,7 +2960,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 
 body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado) {
     box-shadow: none;
-    background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
+    background: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
     transition: all .4s;
     border-radius: var(--radius-element, 100px) !important;
     padding: var(--padding-btn, 15px 40px) !important;
@@ -2947,11 +2978,14 @@ body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado)
 
 
 :is(.boton-degradado-2, .btn-degradado-2) {
+  box-shadow: none;
+    background: var(--degradado-boton-2, var(--accent-color-custom-2, #a8a8a8));
+    transition: all .4s;
     padding: var(--padding-btn, 15px 40px) !important;
     border-radius: var(--radius-element);
 }
 
-.btn-link {
+a.btn-link, .btn-link a {
     width: fit-content !important;
     background: transparent;
     background-color: transparent !important;
@@ -3382,9 +3416,18 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .btn-de
         background: var(--btn-form) !important;
         border-radius: var(--radius-element) !important;
 
-        p span {
+        p span, p {
             color: var(--text-btn-form) !important;
             font-family: var(--contentfont) !important;
         }
     }
+}
+
+/* =========================================
+   Arreglos nativos de GHL
+   ========================================= */
+
+   /* que el h1 de texto tiene un margin obligatorio */
+.c-rich-text h1 {
+    margin-bottom: 0 !important;
 }
