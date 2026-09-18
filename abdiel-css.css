@@ -3271,6 +3271,12 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .btn-de
     }
 }
 
+.col-full-img :is(img, .c-image, .image-container) {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+}
+
 /* =========================================
    TERMINA CSS: split-hero
    ========================================= */
