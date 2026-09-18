@@ -134,9 +134,13 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 .v-dark {
     --text-d: var(--text-l);
+    --bg-p-l: var(--bg-p-d);
+    --bg-s-l: var(--bg-s-d);
 }
 .v-luz {
     --text-l: var(--text-d);
+    --bg-p-d: var(--bg-p-l);
+    --bg-s-d: var(--bg-s-l);
 }
 
 /* =============================================
@@ -1093,17 +1097,29 @@ body:has(.hub365-ghl-not) #__nuxt * {
     mask-size: 100% 100% !important;
 }
 
-/* Igual que .difuminado-left pero solo en desktop */
-@media (min-width: 769px) {
-  .difuminado-left-pc {
-    -webkit-mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+/* Igual que .difuminado-left/.difuminado-right pero solo en desktop;
+   en móvil ambas caen a difuminado hacia abajo (--dir-pc) */
+.difuminado-left-pc {
+    --dir-pc: left;
+}
+.difuminado-right-pc {
+    --dir-pc: right;
+}
+@media (max-width: 768px) {
+  :is(.difuminado-left-pc, .difuminado-right-pc) {
+    --dir-pc: bottom;
+  }
+}
+
+.difuminado-left-pc,
+.difuminado-right-pc {
+    -webkit-mask-image: linear-gradient(to var(--dir-pc), black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
     -webkit-mask-repeat: no-repeat !important;
     -webkit-mask-size: 100% 100% !important;
 
-    mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-image: linear-gradient(to var(--dir-pc), black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
     mask-repeat: no-repeat !important;
     mask-size: 100% 100% !important;
-  }
 }
 
 .difuminado-right {
@@ -1114,19 +1130,6 @@ body:has(.hub365-ghl-not) #__nuxt * {
     mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
     mask-repeat: no-repeat !important;
     mask-size: 100% 100% !important;
-}
-
-/* Igual que .difuminado-right pero solo en desktop */
-@media (min-width: 769px) {
-  .difuminado-right-pc {
-    -webkit-mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
-    -webkit-mask-repeat: no-repeat !important;
-    -webkit-mask-size: 100% 100% !important;
-
-    mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
-    mask-repeat: no-repeat !important;
-    mask-size: 100% 100% !important;
-  }
 }
 
 
