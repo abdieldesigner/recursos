@@ -93,6 +93,7 @@
   var BTN_CLASSES = [
     'btn-link',
     'btn-border',
+    'btn-3d',
     'boton-degradado',
     'btn-degradado',
     'btn-vp',

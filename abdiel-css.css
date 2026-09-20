@@ -528,8 +528,9 @@ body:has(.colores-abdiel, .colores-hub365) :is(
     }
 }
 
-body:has(.colores-abdiel, .colores-hub365) :is(.main-heading-button, .button-icon-end):not(:is(.boton-degradado *, .btn-degradado *, .excluir-btn *, .exclusion-bt *, .btn-border *, .btn-link *, .boton-degradado-2 *, .btn-degradado-2 *)) {
-    color: var(--accent-color-custom) !important;
+body:has(.colores-abdiel, .colores-hub365) :is(.main-heading-button, .button-icon-end):not(:is(.boton-degradado *, .btn-degradado *, .excluir-btn *, .exclusion-bt *, .btn-border *, .btn-3d *, .btn-link *, .boton-degradado-2 *, .btn-degradado-2 *)) {
+    --text-d: var(--accent-color-custom);
+    color: var(--text-d) !important;
 }
 
 
@@ -3081,13 +3082,47 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
     -webkit-text-fill-color: var(--color-texto-boton, #fff) !important;
 }
 
+.btn-3d {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent !important;
+  border: 2px solid var(--text-d) !important;
+  border-radius: var(--radius-element, 50px) !important;
+  padding: var(--padding-btn, 18px 44px) !important;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0px 12px 1px var(--text-d, #141211) !important;
+  transition: all 200ms;
+  transform: translateY(0px);
+}
+
+.btn-3d :is(.main-heading-button, .button-icon-end) {
+  color: var(--text-d) !important;
+  font-family: var(--contentfont);
+  font-size: var(--size-font-btn, 18px);
+  letter-spacing: 1px;
+}
+
+/* hover: se hunde un poco */
+.btn-3d:hover {
+  transform: translateY(4px);
+  box-shadow: 0px 9px 1px var(--text-d, #141211) !important;
+}
+
+/* active: queda totalmente hundido */
+.btn-3d:active {
+  transform: translateY(12px);
+  box-shadow: 0 0 0 !important;
+}
+
 /* =========================================
    INICIA CSS: ANIMACION DE ENTRADA (scroll)
    El JS correspondiente está en abdiel-js.js
    ========================================= */
 
 /* Base común: duración + delay (defaults globales) */
-#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .btn-degradado, .boton-degradado-2, .btn-degradado-2, .btn-vp):not(.no-anim){
+#__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .btn-3d, .boton-degradado, .btn-degradado, .boton-degradado-2, .btn-degradado-2, .btn-vp):not(.no-anim){
   --animate-duration: var(--a-e-dur, 1.75s);
   animation-delay: var(--a-e-delay, 0.65s);
 }
@@ -3102,7 +3137,7 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
 /* Accesibilidad: si el usuario prefiere menos movimiento, nada se oculta
    ni se anima — todo el contenido queda visible de inmediato. */
 @media (prefers-reduced-motion: reduce) {
-  #__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .boton-degradado, .btn-degradado, .boton-degradado-2, .btn-degradado-2, .btn-vp),
+  #__nuxt :where(.a-e-flip-x, .a-e-flip-y, .a-e-fade, .a-e-fade-l, .a-e-fade-r, .a-e-fade-t, .a-e-fade-b, .a-e-zoom, .a-e-zoom-t, .animacion-e, .btn-link, .btn-border, .btn-3d, .boton-degradado, .btn-degradado, .boton-degradado-2, .btn-degradado-2, .btn-vp),
   .a-e-waiting {
     opacity: 1 !important;
     animation: none !important;
@@ -3110,7 +3145,7 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
 }
 
 /* Interruptor global: si existe .animate-btn-not en cualquier parte de la página */
-body:has(.animate-btn-not) :is(.btn-link, .btn-border, .boton-degradado, .btn-degradado, .boton-degradado-2, .btn-degradado-2, .btn-vp) {
+body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado, .btn-degradado, .boton-degradado-2, .btn-degradado-2, .btn-vp) {
   opacity: 1 !important;
   animation: none !important;
 }
