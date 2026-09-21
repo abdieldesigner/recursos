@@ -304,7 +304,7 @@ body .colores-a2 {
 /* =========================================
    formatear seccion de ghl
    ========================================= */
-#__nuxt .f-s-ghl, #__nuxt  .f-s-ghl > div, #__nuxt  .f-s-ghl > .inner, #__nuxt .f-s-ghl .c-column,.f-s-ghl .c-row {
+#__nuxt .f-s-ghl, #__nuxt .f-s-ghl > div, #__nuxt .f-s-ghl > .inner, .f-s-ghl > .inner > .c-row > .inner > .c-column, .f-s-ghl > .inner > .c-row {
     padding: 0px !important;
     margin: 0px !important;
     max-width: 100% !important;
@@ -3579,4 +3579,21 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     opacity: var(--opacity-textura, 0.6);
     mix-blend-mode: overlay;
     z-index: 0;
+}
+
+/* animacion que mueve un poco el elemento como si flotara */
+.floating {
+    animation: floating 3.5s ease-in-out infinite alternate;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0) rotate(-1deg) scale(1);
+    }
+
+    100% {
+        transform: translateY(-18px) rotate(1deg) scale(1.03);
+    }
 }
