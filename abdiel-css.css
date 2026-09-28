@@ -86,10 +86,17 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --fondo-menu-expandible: var(--bg-p-l);
 
   /* Brandboards */
+    
+    --brandboards-color_primary: var(--primary-color-custom);
+    --brandboards-color_secondary: var(--secondary-color-custom);
+    --brandboards-color_accent: var(--accent-color-custom);
+    --brandboards-color_accent_2: var(--accent-color-custom-2);
+
     --brandboards-text_d: var(--text-d);
     --brandboards-text_l: var(--text-l);
     --brandboards-bg_p_d: var(--bg-p-d);
     --brandboards-bg_p_l: var(--bg-p-l);
+    
     --divider-color: var(--bg-p-l);
     --white: #ffffff;
     --black: #000000;
@@ -183,6 +190,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --size-font-btn: 14px;
 
     /* Brandboards */
+
     --brandboards-text_d: var(--text-d);
     --brandboards-text_l: var(--text-l);
     --brandboards-bg_p_d: var(--bg-p-d);
@@ -318,6 +326,10 @@ body .colores-a2 {
 /* oculta cositas */
 .oculto {
     opacity: 0.4 !important;
+}
+
+.no-tocar {
+    pointer-events: none !important;
 }
 #__nuxt .oculto {
     display: none !important;
@@ -504,7 +516,9 @@ body:has(.colores-abdiel, .colores-hub365) :is(
     :is(h1, h2) strong,
     :is(.gradient-text, .text-degradado) :is(h1, h2, strong, .counter-value, .timer-box > .count), .boton-degradado
 ):is(.move-degradado, .move-degradado *) {
-   	--degradado-texto: var(--move-degradado);
+    --move-degradado: linear-gradient(105deg, var(--primary-color-custom), var(--secondary-color-custom), var(--accent-color-custom), var(--primary-color-custom));
+    --degradado-texto: var(--move-degradado);
+    --degradado-boton: var(--move-degradado);
     background-size: 500% auto;
     animation: degradado-texto-move 15s linear infinite;
 }
@@ -3413,30 +3427,34 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
    ========================================= */
 
 /* =========================================
-   INICIA CSS: sección que tapa (solo desktop)
+   INICIA CSS: sección que tapa
+   Este efecto se completa con JS en abdiel-js.js ("INICIA JS: sección que tapa")
    ========================================= */
-@media (min-width: 769px) {
-  /* El contenido de .seccion-que-va-fija debe caber siempre en una
-     sola pantalla (100vh) — al quedar pegada no hay scroll de página
-     que revele lo que sobresalga hacia abajo */
-  .seccion-que-va-fija {
-    position: sticky;
-    top: 0;
-    height: auto;
-    z-index: 0;
-    align-self: start;
-  }
+/* Sin @media: el efecto ahora aplica igual en móvil y escritorio. */
 
-  .seccion-que-la-tapa {
-    position: relative;
-    z-index: 2;
-    min-height: 100vh;
-    min-height: 100dvh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-  }
+.seccion-que-va-fija {
+  position: sticky;
+  top: 0;
+  height: auto;
+  z-index: 0;
+  align-self: start;
+  /* Importante: el contenido de esta sección debe caber siempre dentro
+     de una sola pantalla (100vh). Al estar "pegada" no hay scroll de
+     página que revele lo que sobresalga hacia abajo, así que no se le
+     puede poner overflow/max-height como tope (eso recortaría también
+     imágenes que sobresalen a propósito para el efecto visual, y rompe
+     animaciones que dependen del scroll normal de la página). */
+}
+
+.seccion-que-la-tapa {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  min-height: 100dvh; /* si el contenido real es más alto, crece igual: esto es solo el mínimo */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
 }
 /* =========================================
    TERMINA CSS: sección que tapa
@@ -3537,7 +3555,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 2;
+    /* z-index: 1; */
     pointer-events: none;
     background-image:
         linear-gradient(to right, rgba(0, 0, 0, .4) 1.5px, transparent 1px),
@@ -3596,4 +3614,9 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     100% {
         transform: translateY(-18px) rotate(1deg) scale(1.03);
     }
+}
+
+/* Desactiva los clics/toques en el elemento */
+.no-tocar {
+    pointer-events: none !important;
 }

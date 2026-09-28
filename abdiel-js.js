@@ -819,59 +819,72 @@ if (document.readyState === 'loading') {
    ============================================================ */
 
 /* ============================================================
-   INICIA JS: sección que tapa (solo desktop)
+   INICIA JS: sección que tapa
+   Este efecto se completa con CSS en abdiel-css.css ("INICIA CSS: sección que tapa")
    ============================================================ */
 (function () {
   'use strict';
-  var mq = window.matchMedia('(min-width: 769px)');
 
-  /* Empareja por orden de aparición: la 1a .seccion-que-va-fija con la
-     1a .seccion-que-la-tapa = grupo 1, la 2a con la 2a = grupo 2, etc. */
-  function initStickycover() {
+  /* En GHL, .seccion-que-va-fija y .seccion-que-la-tapa son hermanas, pero
+     comparten padre con TODAS las demás secciones de la página (no un
+     contenedor exclusivo de estas dos) — así que nunca le ponemos min-height
+     a ningún padre, ni movemos nodos del DOM (eso rompe la reactividad de
+     Vue/Nuxt). En vez de eso: dejamos que "position: sticky" haga su trabajo
+     normal, y solo usamos JS para SOLTAR la fija (sticky -> static) justo
+     cuando la tapa llega arriba de la pantalla, y volver a pegarla si el
+     usuario sube el scroll de nuevo. Como sticky nunca saca al elemento del
+     flujo normal (a diferencia de fixed), el espacio que ocupa no cambia al
+     alternar, así que no hay salto visual. */
+  function emparejar() {
     var fijas = document.querySelectorAll('.seccion-que-va-fija');
     var tapas = document.querySelectorAll('.seccion-que-la-tapa');
-    if (!fijas.length || !tapas.length) return false;
+    if (!fijas.length || !tapas.length) return null;
 
     var total = Math.min(fijas.length, tapas.length);
     var grupos = [];
     for (var i = 0; i < total; i++) {
-      grupos.push({ fija: fijas[i], tapa: tapas[i], padre: fijas[i].parentNode });
+      grupos.push({ fija: fijas[i], tapa: tapas[i] });
     }
+    return grupos;
+  }
 
-    function update() {
-      if (!mq.matches) {
-        var padres = new Set();
-        grupos.forEach(function (g) {
-          padres.add(g.padre);
-        });
-        padres.forEach(function (padre) {
-          padre.style.minHeight = '';
-        });
-        return;
+  var grupos = null;
+  var ticking = false;
+
+  function actualizar() {
+    ticking = false;
+    grupos.forEach(function (g) {
+      var tapaTop = g.tapa.getBoundingClientRect().top;
+      if (tapaTop <= 0) {
+        if (g.fija.style.position !== 'static') g.fija.style.position = 'static';
+      } else {
+        if (g.fija.style.position !== 'sticky') g.fija.style.position = 'sticky';
       }
-      var alturas = new Map();
-      grupos.forEach(function (g) {
-        var necesaria = g.fija.offsetHeight + g.tapa.offsetHeight;
-        var previa = alturas.get(g.padre) || 0;
-        if (necesaria > previa) alturas.set(g.padre, necesaria);
-      });
-      alturas.forEach(function (px, padre) {
-        padre.style.minHeight = px + 'px';
-      });
-    }
+    });
+  }
 
-    update();
-    window.addEventListener('resize', update);
-    mq.addEventListener('change', update);
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(actualizar);
+      ticking = true;
+    }
+  }
+
+  function init() {
+    grupos = emparejar();
+    if (!grupos) return false;
+    actualizar();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
     return true;
   }
 
   var observer = new MutationObserver(function () {
-    var listo = initStickycover();
-    if (listo) observer.disconnect();
+    if (init()) observer.disconnect();
   });
   observer.observe(document.body, { childList: true, subtree: true });
-  initStickycover();
+
+  init();
 })();
 /* ============================================================
    TERMINA JS: sección que tapa
