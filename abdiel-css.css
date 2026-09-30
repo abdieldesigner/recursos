@@ -106,6 +106,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --headlinefont: 'Economica';
     --contentfont: 'Manrope';
     --extrafont: 'Cormorant Garamond'; 
+    --btn-font: var(--contentfont);
     --title-scale: 1;
 
     --eyebrow: 13px;
@@ -128,10 +129,11 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 }
 .colores-2 {
     --degradado-texto: var(--degradado-texto-2);
-    --degradado-boton: linear-gradient(105deg, var(--accent-color-custom-2), var(--accent-color-custom-2));
-    --color-texto-boton: var(--primary-color-custom);
+    --degradado-boton: var(--degradado-texto-2);
+    /* --color-texto-boton: var(--primary-color-custom); */
     --secondary-color-custom: var(--accent-color-custom-2);
     --accent-color-custom: var(--accent-color-custom-2);
+    --resplandor-boton: 0 0 3rem var(--accent-color-custom-2);
 
     /* .btn-border {
         --text-d: var(--text-l);
@@ -756,62 +758,67 @@ body:has(.hub365-ghl-not) #__nuxt * {
    INICIA CSS: Dimenciones de imagenes
    ========================================= */
 
-   .img-1-1 img {
+   .img-1-1 img, img.img-1-1 {
        aspect-ratio: 1 / 1;
        object-fit: cover !important;
        object-position: center;
    }
-   .img-5-4 img {
+   .img-5-4 img, img.img-5-4 {
        aspect-ratio: 5 / 4;
        object-fit: cover !important;
        object-position: center;
    }
-   .img-4-5 img {
+   .img-4-5 img, img.img-4-5 {
        aspect-ratio: 4 / 5;
        object-fit: cover !important;
        object-position: center;
    }
 
-   .img-6-4 img {
+   .img-6-4 img, img.img-6-4 {
        aspect-ratio: 6 / 4;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-4-6 img {
+  .img-4-6 img, img.img-4-6 {
        aspect-ratio: 4 / 6;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-2-1 img {
+  .img-2-1 img, img.img-2-1 {
        aspect-ratio: 2 / 1;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-16-9 img {
+  .img-16-9 img, img.img-16-9 {
        aspect-ratio: 16 / 9;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-1-2 img {
+  .img-1-2 img, img.img-1-2 {
        aspect-ratio: 1 / 2;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-9-16 img {
+  .img-9-16 img, img.img-9-16 {
        aspect-ratio: 9 / 16;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-circular img {
-      border-radius: 1000px;
+  .img-circular img, img.img-circular {
+      border-radius: 1000px !important;
   }
 
+  .img-ventana img, img.img-ventana {
+      border-radius: 100% 100% 0 0 !important;
+  }
+
+/* Galeria Nativa GHL */
 .galeria-custom-ab :is(.photo-video-gallery-grid-item, .photo-video-gallery-grid-item-img){
     border-radius: var(--radius-element) !important;
 }
@@ -900,7 +907,8 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 /* Estilo del separador inyectado (ej. ✦) */
 .separator {
-  padding: 0 10px;       /* Respiración a ambos lados del separador */
+  padding: 0 30px;
+  font-size: 14px;
   display: inline-block;
 }
 
@@ -1703,7 +1711,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
    ========================================= */
 
 /* =========================================
-   COMIENZA CSS iconos sociales (widget nativo GHL) - recolor con mask
+   COMIENZA CSS iconos sociales (widget nativo GHL) - recolor con mask color custom
    Agregar "iconos-sociales-a" al contenedor padre
    ========================================= */
 
@@ -2970,7 +2978,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     font-size: calc(var(--size-p, 16px) * 0.7) !important;
 }
 
-.pre-titulo :is(*, h1, h2, h3, h4, p, span, a) {
+   {
     font-size: var(--eyebrow, 13px) !important;
     font-weight: 400 !important;
 }
@@ -3028,12 +3036,14 @@ body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado)
     transition: all .4s;
     border-radius: var(--radius-element, 100px) !important;
     padding: var(--padding-btn, 15px 40px) !important;
+    border: none;
 }
 
 
 :is(.boton-degradado, .btn-degradado, .boton-degradado-2, .btn-degradado-2) :is(.main-heading-button, .button-icon-end) {
     color: var(--color-texto-boton, #fff) !important;
     font-size: var(--size-font-btn, 14px) !important;
+    font-family: var(--btn-font) !important;
 }
 
 body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado):hover {
@@ -3047,6 +3057,7 @@ body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado)
     transition: all .4s;
     padding: var(--padding-btn, 15px 40px) !important;
     border-radius: var(--radius-element);
+    border: none;
 }
 
 a.btn-link, .btn-link a {
@@ -3064,6 +3075,7 @@ a.btn-link, .btn-link a {
     letter-spacing: .2em !important;
     /* text-transform: uppercase !important; */
     color: var(--text-d) !important;
+    font-family: var(--btn-font) !important;
 }
 
 .btn-border, a.btn-border {
@@ -3082,6 +3094,7 @@ a.btn-link, .btn-link a {
 .btn-border :is(.main-heading-button, .button-icon-end) {
     color: var(--text-d) !important;
     font-size: var(--size-font-btn, 14px) !important;
+    font-family: var(--btn-font) !important;
 }
 
 /* Interruptor: si existe .btn-border-not-effect e*/
@@ -3113,7 +3126,7 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
 
 .btn-3d :is(.main-heading-button, .button-icon-end) {
   color: var(--text-d) !important;
-  font-family: var(--contentfont);
+  font-family: var(--btn-font) !important;
   font-size: var(--size-font-btn, 18px);
   letter-spacing: 1px;
 }
@@ -3249,7 +3262,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
    INICIA CSS: divisores separadores flex/grid
    ========================================= */
 
-:is(.flex-divider-line, .grid-divider-line) > .inner > * {
+:is(. , .grid-divider-line) > .inner > * {
     border-right: 1px solid var(--accent-color-custom);
 }
 
@@ -3548,7 +3561,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 }
 
 /* Patrón de cuadritos (sin imagen, con gradientes) sobre el elemento que lo activa. */
-.patron-cuadros .bg::before {
+.patron-cuadros > .bg::before {
     content: '';
     width: 100%;
     height: 100%;
@@ -3565,7 +3578,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 }
 
 /* Textura de ruido sobre toda la página */
-.ruido .bg::after {
+.ruido > .bg::after {
     content: '';
     background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/ruido-abdiel.webp);
     background-size: 100px;
@@ -3582,7 +3595,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 
 
 /* Ruido animado: también en ::before, mismo motivo que .patron-cuadros */
-.ruido-move .bg::before {
+.ruido-move > .bg::before {
     border-radius: 10px;
     content: '';
     background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/GIF-texturas/ruido-animado-abdiel.gif);
