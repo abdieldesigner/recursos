@@ -386,6 +386,12 @@ body .colores-a2 {
 .flex-padding-20 > .inner > *, .padding-20 {
     padding: 20px !important;
 }
+.flex-padding-30 > .inner > *, .padding-30 {
+    padding: 30px !important;
+}
+.flex-padding-40-20 > .inner > *, .padding-40-20 {
+    padding: 40px 20px !important;
+}
 
 /* =========================================
    TERMINA CSS: EVITAR DESBORDE
@@ -652,6 +658,10 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
     border-color: var(--accent-color-custom) !important;
 }
 
+.border-s, .border-s .divider-element {
+    border-color: var(--secondary-color-custom) !important;
+}
+
 .text-divider {
     margin: 15px 0;
     display: flex;
@@ -721,6 +731,9 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
 .gap-0 > .inner {
   gap: 0px !important;  
 }
+.gap-5 > .inner {
+  gap: 5px !important;  
+}
 .gap-10 > .inner {
   gap: 10px !important;  
 }
@@ -733,8 +746,8 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
 .gap-40 > .inner {
   gap: 40px !important;  
 }
-.gap-5 > .inner {
-  gap: 5px !important;  
+.gap-50 > .inner {
+  gap: 50px !important;  
 }
 /* =========================================
    TERMINA CSS: SEPARACIÓN ENTRE ELEMENTOS
@@ -815,7 +828,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
   }
 
   .img-ventana img, img.img-ventana {
-      border-radius: 100% 100% 0 0 !important;
+      border-radius: 1000px 1000px 0 0 !important
   }
 
 /* Galeria Nativa GHL */
@@ -1613,7 +1626,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
       height: var(--abdiel-v2-size);
       min-width: var(--abdiel-v2-size);
       max-width: var(--abdiel-v2-size);
-      border-radius: var(--abdiel-v2-radius);
+      border-radius: min(var(--radius-element, 14px), 14px);
       display: inline-flex;
       align-items: center;
       justify-content: center;

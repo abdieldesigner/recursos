@@ -1,5 +1,5 @@
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Economica:wght@400;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Darker+Grotesque:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&family=Jost:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Orbitron:wght@400;700;900&family=Bebas+Neue&family=Caveat:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Economica:wght@400;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Darker+Grotesque:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&family=Jost:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Orbitron:wght@400;700;900&family=Bebas+Neue&family=Caveat:wght@400;600;700&family=Great+Vibes&family=Parisienne&family=Covered+By+Your+Grace&display=swap');
 
 /* Fuente propia (no es de Google Fonts) */
 @font-face {
@@ -86,6 +86,9 @@
   <button class="kcm-ts__btn" data-pal="azulMarca" aria-label="Brand blue"
     style="background:conic-gradient(#011114 0 25%,#0d2c47 25% 50%,#2471b9 50% 75%,#cee9fe 75% 100%)">
     <span class="kcm-ts__tip">Marea Noche</span></button>
+  <button class="kcm-ts__btn" data-pal="verdeMenta" aria-label="Fresh mint green"
+    style="background:conic-gradient(#0F2E1D 0 25%,#4A7856 25% 50%,#7ED957 50% 75%,#D4F4DD 75% 100%)">
+    <span class="kcm-ts__tip">Menta Fresca</span></button>
   <button class="kcm-ts__btn" data-pal="champagne" aria-label="Charcoal and champagne"
     style="background:conic-gradient(#1a1a1a 0 25%,#2b2926 25% 50%,#c9a86a 50% 75%,#e8d9b5 75% 100%)">
     <span class="kcm-ts__tip">Madera y Champagne</span></button>
@@ -137,6 +140,32 @@
       </optgroup>
     </select>
   </div>
+  <div class="kcm-ts__field">
+    <span class="kcm-ts__label">Extra</span>
+    <select class="kcm-ts__select" id="kcmFontExtra">
+      <optgroup label="Basics (sans)">
+        <option value="Manrope" style="font-family:'Manrope'">Manrope</option>
+        <option value="Montserrat" style="font-family:'Montserrat'">Montserrat</option>
+        <option value="Economica" style="font-family:'Economica'">Economica</option>
+        <option value="Garet Book" style="font-family:'Garet Book'">Garet Book</option>
+        <option value="Jost" style="font-family:'Jost'">Jost</option>
+      </optgroup>
+      <optgroup label="Decorated (serif / display)">
+        <option value="Cormorant Garamond" style="font-family:'Cormorant Garamond'">Cormorant Garamond</option>
+        <option value="Playfair Display" style="font-family:'Playfair Display'">Playfair Display</option>
+        <option value="Darker Grotesque" style="font-family:'Darker Grotesque'">Darker Grotesque</option>
+        <option value="Libre Baskerville" style="font-family:'Libre Baskerville'">Libre Baskerville</option>
+        <option value="Orbitron" style="font-family:'Orbitron'">Orbitron</option>
+        <option value="Bebas Neue" style="font-family:'Bebas Neue'">Bebas Neue</option>
+      </optgroup>
+      <optgroup label="Script">
+        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
+        <option value="Great Vibes" style="font-family:'Great Vibes'">Great Vibes</option>
+        <option value="Parisienne" style="font-family:'Parisienne'">Parisienne</option>
+        <option value="Covered By Your Grace" style="font-family:'Covered By Your Grace'">Covered By Your Grace</option>
+      </optgroup>
+    </select>
+  </div>
   <span class="kcm-ts__sep"></span>
   <div class="kcm-ts__field-stack">
     <span class="kcm-ts__label">H2</span>
@@ -176,6 +205,7 @@
   var PALETTES = {
     teal:      { '--primary-color-custom':'#06232b','--secondary-color-custom':'#0d4650','--accent-color-custom':'#1bcdcf','--accent-color-custom-2':'#9df0ef','--bg-p-d':'#04191f','--bg-s-d':'#072830','--bg-p-l':'#ffffff','--bg-s-l':'#e6f7f7','--text-l':'#eafafa','--text-d':'#06232b' },
     azulMarca: { '--primary-color-custom':'#011114','--secondary-color-custom':'#0d2c47','--accent-color-custom':'#2471b9','--accent-color-custom-2':'#cee9fe','--bg-p-d':'#011114','--bg-s-d':'#0a2233','--bg-p-l':'#ffffff','--bg-s-l':'#ebf5fe','--text-l':'#f5f9fd','--text-d':'#011114' },
+    verdeMenta: { '--primary-color-custom':'#0F2E1D','--secondary-color-custom':'#4A7856','--accent-color-custom':'#7ED957','--accent-color-custom-2':'#D4F4DD','--bg-p-d':'#0C2518','--bg-s-d':'#1C3B28','--bg-p-l':'#FFFDF8','--bg-s-l':'#EAF6EC','--text-l':'#F5FBF2','--text-d':'#0F2E1D' },
     champagne: { '--primary-color-custom':'#1a1a1a','--secondary-color-custom':'#2b2926','--accent-color-custom':'#c9a86a','--accent-color-custom-2':'#e8d9b5','--bg-p-d':'#141312','--bg-s-d':'#201e1b','--bg-p-l':'#ffffff','--bg-s-l':'#f4f1ea','--text-l':'#f5f2ea','--text-d':'#1a1a1a' },
     naranja:   { '--primary-color-custom':'#14100c','--secondary-color-custom':'#3a2416','--accent-color-custom':'#ff7a29','--accent-color-custom-2':'#ffb27d','--bg-p-d':'#14100c','--bg-s-d':'#241a12','--bg-p-l':'#ffffff','--bg-s-l':'#fdeee3','--text-l':'#fdf2ea','--text-d':'#14100c' }
   };
@@ -233,12 +263,28 @@
     };
   }
 
+  /* Lee los degradados reales que la página ya tiene declarados (tal cual,
+     sin intentar descomponerlos en 2 variables). Sirve para que "Default"
+     no invente una combinación propia — usa la de siempre hasta que el
+     usuario la edite a mano en el panel. */
+  function readCurrentGradients() {
+    return {
+      texto: resolveFontName('--degradado-texto', ''),
+      texto2: resolveFontName('--degradado-texto-2', ''),
+      boton: resolveFontName('--degradado-boton', ''),
+      botonMenu: resolveFontName('--degradado-boton-menu', ''),
+      fondo: resolveFontName('--degradado-fondo', '')
+    };
+  }
+
   var box = document.querySelector('.kcm-ts'); if (!box) return;
   document.body.appendChild(box);
   var styleEl = document.getElementById('kcm-pal-style');
   if (!styleEl) { styleEl = document.createElement('style'); styleEl.id = 'kcm-pal-style'; document.head.appendChild(styleEl); }
   var current = null; /* null = todavía no se tocaron los colores reales de la página */
   var solid = false;
+  var DEFAULT_GRADIENTS = readCurrentGradients(); /* degradados reales de la página, capturados una sola vez */
+  var defaultGradientsCustom = false; /* true en cuanto se edite a mano un slot de "Default" en el panel */
   /* ---------- Receta editable de --degradado-texto y --degradado-fondo ----------
      Por defecto usan la combinación de siempre (Primary+Accent / Secondary+BG Dark).
      Cada paleta puede cambiar qué 2 variables forman cada degradado, o salirse del
@@ -262,14 +308,41 @@
 
   function buildCss(name) {
     var p = PALETTES[name]; if (!p) return '';
-    var recipe = getRecipe(name);
     var css = 'html body{';
     for (var k in p) css += k + ':' + p[k] + ';';
-
-    var fondoA = resolveSlotValue(recipe.fondo.a, recipe.fondo.aCustom);
-    var fondoB = resolveSlotValue(recipe.fondo.b, recipe.fondo.bCustom);
-    css += '--degradado-fondo:linear-gradient(105deg,' + fondoA + ',' + fondoB + ');';
     css += '--resplandor-boton:0 0 3rem var(--accent-color-custom);';
+
+    /* "Default" sin editar: usa tal cual los degradados que la página ya
+       tenía, en vez de reconstruirlos con la receta genérica A→B. */
+    if (name === 'default' && !defaultGradientsCustom) {
+      if (solid) {
+        css += '--degradado-texto:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+        css += '--degradado-texto-2:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+        css += '--degradado-boton:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+        css += '--degradado-boton-menu:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+      } else {
+        if (DEFAULT_GRADIENTS.texto) css += '--degradado-texto:' + DEFAULT_GRADIENTS.texto + ';';
+        if (DEFAULT_GRADIENTS.texto2) css += '--degradado-texto-2:' + DEFAULT_GRADIENTS.texto2 + ';';
+        if (DEFAULT_GRADIENTS.boton) css += '--degradado-boton:' + DEFAULT_GRADIENTS.boton + ';';
+        if (DEFAULT_GRADIENTS.botonMenu) css += '--degradado-boton-menu:' + DEFAULT_GRADIENTS.botonMenu + ';';
+      }
+      if (solid) {
+        css += '--degradado-fondo:linear-gradient(105deg,var(--bg-p-d),var(--bg-p-d));';
+      } else if (DEFAULT_GRADIENTS.fondo) {
+        css += '--degradado-fondo:' + DEFAULT_GRADIENTS.fondo + ';';
+      }
+      css += '}';
+      return css;
+    }
+
+    var recipe = getRecipe(name);
+    if (solid) {
+      css += '--degradado-fondo:linear-gradient(105deg,var(--bg-p-d),var(--bg-p-d));';
+    } else {
+      var fondoA = resolveSlotValue(recipe.fondo.a, recipe.fondo.aCustom);
+      var fondoB = resolveSlotValue(recipe.fondo.b, recipe.fondo.bCustom);
+      css += '--degradado-fondo:linear-gradient(105deg,' + fondoA + ',' + fondoB + ');';
+    }
     if (solid) {
       css += '--degradado-texto:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
       css += '--degradado-texto-2:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
@@ -331,13 +404,18 @@
   /* Tipografía: arranca leyendo lo que la página ya tiene declarado */
   var fontSel = document.getElementById('kcmFont');
   var fontContentSel = document.getElementById('kcmFontContent');
+  var fontExtraSel = document.getElementById('kcmFontExtra');
   applyFontSelection(fontSel, resolveFontName('--headlinefont', 'Economica'));
   applyFontSelection(fontContentSel, resolveFontName('--contentfont', 'Manrope'));
+  applyFontSelection(fontExtraSel, resolveFontName('--extrafont', 'Cormorant Garamond'));
   fontSel.addEventListener('change', function () {
     document.body.style.setProperty('--headlinefont', "'" + fontSel.value + "'");
   });
   fontContentSel.addEventListener('change', function () {
     document.body.style.setProperty('--contentfont', "'" + fontContentSel.value + "'");
+  });
+  fontExtraSel.addEventListener('change', function () {
+    document.body.style.setProperty('--extrafont', "'" + fontExtraSel.value + "'");
   });
 
   /* Tamaños de texto: arrancan leyendo el valor real ya calculado en la página */
@@ -373,6 +451,7 @@
   /* Estado inicial: reafirma en línea los valores ya leídos (punto de partida editable) */
   document.body.style.setProperty('--headlinefont', "'" + fontSel.value + "'");
   document.body.style.setProperty('--contentfont', "'" + fontContentSel.value + "'");
+  document.body.style.setProperty('--extrafont', "'" + fontExtraSel.value + "'");
   document.body.style.setProperty('--size-h2', h2Inp.value + 'px');
   document.body.style.setProperty('--size-h2-2', h2bInp.value + 'px');
   document.body.style.setProperty('--size-h3', h3Inp.value + 'px');
@@ -492,6 +571,7 @@
     function commit() {
       recipe[slotName] = sel.value;
       if (sel.value === 'custom') recipe[slotName + 'Custom'] = customHex.value;
+      if (paletteKey === 'default') defaultGradientsCustom = true;
       refreshPreview();
       apply(paletteKey);
     }
