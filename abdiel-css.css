@@ -50,7 +50,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 /* NOTA: ".body-no" y ".theme-lock-no" son selectores intencionalmente inexistentes.
    Este bloque NO se aplica a ningún sitio real — es solo una plantilla de referencia
    para saber qué variables declarar (con "body" y ".theme-lock" reales) en cada web. */
-.body-no, [data-theme="dark"] .theme-lock-no  {
+:root-no, .body-no, [data-theme="dark"] .theme-lock-no  {
     /* === Variables globales === */
     --primary-color-custom: #06232b;
     --secondary-color-custom: #0d4650;
@@ -78,7 +78,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --radius-principal: 20px;
     --radius-element: 90px;
     --padding-seccion: 60px 0px;
-    --padding-btn: 15px 40px;
+    --padding-btn: clamp(10px, 1vw, 14px) clamp(20px, 2vw, 30px);
 
   /* Fondos */
     --bg-p-d: #04191f;
@@ -176,7 +176,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --radius-principal: 20px;
     --radius-element: 90px;
     --padding-seccion: 60px 0px;
-    --padding-btn: 15px 40px;
+    --padding-btn: clamp(10px, 1vw, 14px) clamp(20px, 2vw, 30px);
 
 
   /* Fondos */
@@ -610,6 +610,35 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
    Termina colores perosnalizados
    ========================================= */
 
+/* Scrollbar */
+html {
+    scrollbar-color: var(--accent-color-custom) var(--bg-p-l);
+    scrollbar-width: thin;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-p-l);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color-custom);
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: color-mix(
+        in srgb,
+        var(--accent-color-custom) 85%,
+        black 15%
+    );
+}
+
+
 .flex-l-scroll > .inner {
     display: flex !important;
     flex-direction: row !important;
@@ -707,6 +736,7 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
     border-radius: var(--radius-element, 100px);
     display: inline-block;
     padding: 5px 20px 3px 20px;
+    
 }
 .text-etiqueta {
     padding: 0px !important;
@@ -885,6 +915,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     width: 100%;
     object-fit: cover;
     object-position: top;
+    /* background-position: top !important; */
 }
 
 /* =========================================
@@ -3020,18 +3051,19 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     line-height: 1.5;
     font-size: var(--size-p, 16px);
     -webkit-font-smoothing: antialiased;
-    align-items: center;
-    display: inline-flex;
-    gap: 14px;
+    
 }
 
 .text-box p {
     font-size: calc(var(--size-p, 16px) * 0.7) !important;
 }
 
-   {
+.pre-titulo :is(*, h1, h2, h3, h4, p, span, a) {
     font-size: var(--eyebrow, 13px) !important;
     font-weight: 400 !important;
+    align-items: center;
+    display: inline-flex;
+    gap: 14px;
 }
 
 .title-h2 :is(h2, h3) {
@@ -3050,23 +3082,25 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 }
 
 
-.text-especial :is(strong, b, em, i) {
-  font-family: var(--extrafont), serif;
-  font-style: italic;
-  font-weight: 500;
-}
 
 .titulos-especial * {
   --headlinefont: var(--extrafont);
 }
 
-/* Tipografía extra: activar con .text-special-global (en cualquier ancestro) o con .text-special directo */
-#__nuxt:has(.text-special-global) :is(em, i), .text-special :is(strong, b, em, i) {
+/* Tipografía extra: activar con .text-especial-global (en cualquier ancestro) o con .text-especial directo */
+#__nuxt:has(.text-especial-global) :is(em, i), .text-especial :is(strong, b, em, i) {
     --headlinefont: var(--extrafont);
     font-family: var(--headlinefont), serif;
-    font-style: italic;
-    font-weight: 400;
+    font-style: normal;
+    /* font-weight: 400;  */   
     color: var(--accent-color-custom) !important;
+    display: inline-block;
+    background: linear-gradient(105deg, var(--accent-color-custom), color-mix(in srgb, var(--accent-color-custom) 75%, black 25%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 0.1em 0.1em;
+    line-height: 1.1em;
 }
 
 .radius-principal :is(img, video, .vjs-big-play-centered, figure.video-container div, iframe) {
@@ -3323,7 +3357,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
    INICIA CSS: divisores separadores flex/grid
    ========================================= */
 
-:is(. , .grid-divider-line) > .inner > * {
+:is(.flex-divider-line, .grid-divider-line) > .inner > * {
     border-right: 1px solid var(--accent-color-custom);
 }
 
