@@ -2516,13 +2516,18 @@ body:has(.hub365-ghl-not) #__nuxt * {
   transform: scale(0.95);
   transition: transform 0.3s ease !important;
 }
+@media (max-width: 768px) {
+  #__nuxt .contenedor-menu-ab > :is(div, section, .inner) {
+    width: 95% !important;
+  }
+}
 .contenedor-menu-ab.is-open > :is(div, section, .inner) {
   transform: scale(1) !important;
 }
 .ico-cerrar-menu-ab:is(#fake-id, .ico-cerrar-menu-ab) {
     position: absolute !important;
     top: -29px !important;
-    right: -13px;
+    right: clamp(-13px, calc(-1.8px - 0.8vw), -5px);
     border-radius: min(var(--radius-element, 10px), 10px) !important;
     z-index: 10 !important;
     padding: 10px !important;
@@ -3041,7 +3046,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
   color: var(--accent-color-custom); 
 
 }
-/* fin listas peronalizadas*/
+/* fin listas peronalizadas nativa*/
 /* TEXTOS */
 
 
