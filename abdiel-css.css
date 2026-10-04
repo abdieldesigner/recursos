@@ -3708,7 +3708,9 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     right: 0;
     bottom: 0;
     opacity: var(--opacity-textura, 0.6);
-    mix-blend-mode: overlay;
+    mix-blend-mode: overlay;    
+    mix-blend-mode: plus-lighter;
+    opacity: var(--opacity-textura, 0.15);
     z-index: 0;
 }
 
