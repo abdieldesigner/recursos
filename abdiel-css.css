@@ -110,7 +110,9 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --brandboards-text_d: var(--text-d);
     --brandboards-text_l: var(--text-l);
     --brandboards-bg_p_d: var(--bg-p-d);
+    --brandboards-bg_s_d: var(--bg-s-d);
     --brandboards-bg_p_l: var(--bg-p-l);
+    --brandboards-bg_s_l: var(--bg-s-l);
     
     --divider-color: var(--bg-p-l);
     --white: #ffffff;
@@ -247,6 +249,8 @@ body {
     --brandboards-text_l: var(--text-l);
     --brandboards-bg_p_d: var(--bg-p-d);
     --brandboards-bg_p_l: var(--bg-p-l);
+    --brandboards-bg_s_d: var(--bg-s-d);
+    --brandboards-bg_s_l: var(--bg-s-l);
     --brandboards-gris: var(--bg-s-l);
     --divider-color: var(--bg-p-l);
 }
@@ -3076,7 +3080,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     font-size: calc(var(--size-p, 16px) * 0.7) !important;
 }
 
-.pre-titulo :is(*, h1, h2, h3, h4, p, span, a) {
+.pre-titulo :is(h1, h2, h3, h4, p, span, a) {
     font-size: var(--eyebrow, 13px) !important;
     font-weight: 400 !important;
     align-items: center;
