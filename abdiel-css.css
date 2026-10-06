@@ -30,11 +30,24 @@ Notas:
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-css.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos/loader.css">
 
+
+
 <!-- JS vía jsDelivr -->
 <script src="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js" defer></script>
 
 CSS via css
 @import url("https://cdn.jsdelivr.net/gh/abdieldesigner/recursos/loader.css");
+
+@import url("https://cdn.jsdelivr.net/gh/Hub365ai/web-design-global-hub365-ai@main/loader.css");
+
+
+<!-- CSS vía jsDelivr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hub365ai/web-design-global-hub365-ai@main/loader.css">
+
+<!-- JS vía jsDelivr -->¡
+
+<script src="https://cdn.jsdelivr.net/gh/Hub365ai/web-design-global-hub365-ai@main/loader.js" defer></script>
+
 
 limpiar cache repositorio:
 
@@ -1056,7 +1069,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
    ========================================= */
 
 
-.bento {
+#__nuxt .bento {
     border-radius: var(--radius-element, 20px);
     overflow: hidden;
     transition: 0.5s ease;
@@ -3659,9 +3672,15 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 .opacidad-textura-1 {
     --opacity-textura: 1;
 }
+.opacidad-textura-07 {
+    --opacity-textura: 0.7;
+}
+.opacidad-textura-05 {
+    --opacity-textura: 0.5;
+}
 
 /* Patrón de cuadritos (sin imagen, con gradientes) sobre el elemento que lo activa. */
-.patron-cuadros > .bg::before {
+.patron-cuadros > .bg::before, .patron-cuadros-directo::after {
     content: '';
     width: 100%;
     height: 100%;
@@ -3678,7 +3697,23 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 }
 
 /* Textura de ruido sobre toda la página */
-.ruido > .bg::after {
+.ruido > .bg::after, .ruido-directo::after {
+    content: '';
+    background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/Ruido-fondo-dark-Jose-Abdiel.webp);
+    background-size: 120px;
+    background-repeat: repeat;
+    background-position: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: var(--opacity-textura, 0.70);
+    mix-blend-mode: plus-lighter;
+}
+
+/* Tentativo */
+.ruido-respaldo > .bg::after { 
     content: '';
     background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/ruido-abdiel.webp);
     background-size: 100px;
@@ -3695,7 +3730,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 
 
 /* Ruido animado: también en ::before, mismo motivo que .patron-cuadros */
-.ruido-move > .bg::before {
+.ruido-move > .bg::before, .ruido-move-directo::after  {
     border-radius: 10px;
     content: '';
     background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/GIF-texturas/ruido-animado-abdiel.gif);
