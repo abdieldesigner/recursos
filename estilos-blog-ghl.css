@@ -1,0 +1,199 @@
+/* =========================================================
+   FUENTES (HTML, no CSS) — pega esto en el <head> de la página,
+   ajustando las familias tipográficas según el proyecto:
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+
+   ========================================================= */
+
+/* =========================================================
+   PERSONALIZAR POR PÁGINA — reemplaza estos valores en cada
+   proyecto (colores, fuentes y tamaños varían por cliente)
+   ========================================================= */
+body {
+    --primary-color-custom: #2d1155;
+    --secondary-color-custom: #5b3a8c;
+    --accent-color-custom: #C9A24B;
+    --bg-p-d: #1A0A2E;
+    --bg-s-d: #2d1155;
+    --bg-p-l: #ffffff;
+    --bg-s-l: #f6f6ff;
+    --text-l: #fdfdfd;
+    --text-d: #2d1155;
+    --degradado-texto: linear-gradient(105deg, var(--primary-color-custom), var(--accent-color-custom));
+    --headlinefont: 'Cormorant Garamond';
+    --contentfont: 'Raleway';
+    --size-h2: clamp(32px, 4vw, 48px);
+    --size-h3: clamp(16px, 2vw, 24px);
+    --size-p: 16px;
+    --size-font-btn: 20px;
+    --icon-h2: "◆"
+}
+
+/* =========================================================
+   ESTILOS BASE — reutilizables tal cual, no deberían cambiar
+   de un proyecto a otro (solo usan las variables de arriba)
+   ========================================================= */
+
+/* Portada */
+.blog-html-container-single .blog-cover-image-container {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Titulo del post */
+.blog-html-container-single .header-title.blog-content-title {
+    font-family: var(--headlinefont), serif !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    background-image: var(--degradado-texto) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+/* Categoria, fecha, tiempo de lectura */
+.blog-html-container-single .meta-section-1,
+.blog-html-container-single .blog-date,
+.blog-html-container-single .blog-read-time,
+.blog-html-container-single .blog-info-dot {
+    font-family: var(--contentfont), system-ui, sans-serif !important;
+    color: color-mix(in srgb, var(--text-d) 60%, white 40%) !important;
+}
+.blog-html-container-single .blog-category a {
+    font-family: var(--contentfont), system-ui, sans-serif !important;
+    color: var(--accent-color-custom) !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+}
+
+/* Cuerpo del articulo */
+#blogPostContent {
+    font-family: var(--contentfont), system-ui, sans-serif !important;
+    color: var(--text-d) !important;
+    font-size: var(--size-p) !important;
+    line-height: 1.65 !important;
+}
+#blogPostContent h2,
+#blogPostContent h2 span,
+#blogPostContent h3,
+#blogPostContent h3 span {
+    font-family: var(--headlinefont), serif !important;
+    color: var(--primary-color-custom) !important;
+    font-weight: 700 !important;
+}
+#blogPostContent h2 {
+    font-size: var(--size-h2) !important;
+    margin-top: 2rem !important;
+    /* padding-top: 1rem !important;
+    border-top: 2px solid var(--accent-color-custom) !important; */
+}
+#blogPostContent h2::before {
+    content: var(--icon-h2, "◆");
+    color: var(--accent-color-custom);
+    margin-right: 0.5rem;
+}
+
+#blogPostContent h3 {
+    font-size: var(--size-h3) !important;
+}
+#blogPostContent a {
+    color: var(--accent-color-custom) !important;
+    font-weight: 600 !important;
+}
+#blogPostContent strong {
+    color: var(--primary-color-custom) !important;
+}
+#blogPostContent em {
+    color: var(--secondary-color-custom) !important;
+}
+
+
+/* Divisor */
+.blog-html-container-single hr {
+    border: none;
+    border-top: 2px solid var(--accent-color-custom) !important;
+    margin: 2rem 0;
+}
+
+/* Caja de TL;DR (el blockquote) */
+#blogPostContent blockquote {
+    background: var(--bg-s-l) !important;
+    border-left: 4px solid var(--accent-color-custom) !important;
+    border-radius: 8px !important;
+    padding: 1rem 1.5rem !important;
+    margin: 1.5rem 0 !important;
+}
+#blogPostContent blockquote h2 {
+    border-top: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Tabla comparativa */
+#blogPostContent table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+#blogPostContent table th {
+    background: var(--primary-color-custom) !important;
+    color: var(--text-l) !important;
+    font-family: var(--headlinefont), serif !important;
+    text-align: left !important;
+    padding: .6rem .8rem !important;
+}
+#blogPostContent table td {
+    border: 1px solid color-mix(in srgb, var(--secondary-color-custom) 30%, white 70%) !important;
+    padding: .6rem .8rem !important;
+}
+#blogPostContent table tr:nth-child(even) td {
+    background: var(--bg-s-l) !important;
+}
+
+/* Tags al final del post */
+.blog-html-container-single .blog-tags .tag {
+    display: inline-block !important;
+    font-family: var(--contentfont), system-ui, sans-serif !important;
+    color: var(--primary-color-custom) !important;
+    background: var(--bg-s-l) !important;
+    border: 1px solid color-mix(in srgb, var(--secondary-color-custom) 30%, white 70%) !important;
+    border-radius: 999px !important;
+    padding: 4px 14px !important;
+    text-decoration: none !important;
+    margin: 0 6px 6px 0 !important;
+}
+
+/* Tarjeta del autor */
+.blog-html-container-single .blog-author-details {
+    background: var(--bg-s-l) !important;
+    border-radius: 16px !important;
+    padding: 1rem !important;
+}
+.blog-html-container-single .blog-author-name {
+    font-family: var(--headlinefont), serif !important;
+    color: var(--primary-color-custom) !important;
+    font-weight: 700 !important;
+}
+.blog-html-container-single .blog-author-description {
+    font-family: var(--contentfont), system-ui, sans-serif !important;
+    color: color-mix(in srgb, var(--text-d) 60%, white 40%) !important;
+}
+
+/* Botones de navegacion */
+.blog-html-container-single .back-to-top {
+    background: var(--accent-color-custom) !important;
+    color: var(--primary-color-custom) !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    padding: 10px 20px !important;
+    font-family: var(--contentfont), system-ui, sans-serif !important;
+    font-size: var(--size-font-btn) !important;
+    font-weight: 700 !important;
+}
+.blog-html-container-single .blog-back-button {
+    color: var(--primary-color-custom) !important;
+    font-family: var(--contentfont), system-ui, sans-serif !important;
+}
