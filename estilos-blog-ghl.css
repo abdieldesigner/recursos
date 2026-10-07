@@ -16,6 +16,7 @@ body {
     --primary-color-custom: #2d1155;
     --secondary-color-custom: #5b3a8c;
     --accent-color-custom: #C9A24B;
+    --accent-color-custom-2: #C9A24B;
     --bg-p-d: #1A0A2E;
     --bg-s-d: #2d1155;
     --bg-p-l: #ffffff;
@@ -29,7 +30,9 @@ body {
     --size-h3: clamp(16px, 2vw, 24px);
     --size-p: 16px;
     --size-font-btn: 20px;
-    --icon-h2: "◆"
+    --icon-h2: "◆";
+    --icon-list: "✦";
+    /* ◆, ✦, ●, ▸, ➤ */
 }
 
 /* =========================================================
@@ -106,6 +109,10 @@ body {
 }
 #blogPostContent strong {
     color: var(--primary-color-custom) !important;
+}
+#blogPostContent ul li::marker {
+    content: var(--icon-list, "•");
+    color: var(--accent-color-custom);
 }
 #blogPostContent em {
     color: var(--secondary-color-custom) !important;
