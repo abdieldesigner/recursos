@@ -354,6 +354,23 @@ body .colores-a2 {
     }
 }
 
+/* Zoom directo: sin media query, para achicar un elemento puntual sin importar el ancho de pantalla */
+.zoom-50-directo {
+    zoom: 0.50;
+}
+
+.zoom-75-directo {
+    zoom: 0.75;
+}
+
+.zoom-80-directo {
+    zoom: 0.80;
+}
+
+.zoom-85-directo {
+    zoom: 0.85;
+}
+
 
 /* oculta cositas */
 .oculto {
@@ -1855,6 +1872,16 @@ body:has(.hub365-ghl-not) #__nuxt * {
 .iconos-sociales-a .social-icon:has(img[src*="tiktok-light-gray.svg"])::before {
     -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/tiktok-light-gray.svg");
     mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/tiktok-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="website-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/website-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/website-light-gray.svg");
+}
+
+.iconos-sociales-a .social-icon:has(img[src*="google-light-gray.svg"])::before {
+    -webkit-mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/google-light-gray.svg");
+    mask-image: url("https://stcdn.leadconnectorhq.com/funnel/icons/light-gray/google-light-gray.svg");
 }
 
 .iconos-sociales-a .social-icon {
