@@ -44,9 +44,24 @@ CSS via css
 <!-- CSS vía jsDelivr -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hub365ai/web-design-global-hub365-ai@main/loader.css">
 
-<!-- JS vía jsDelivr -->¡
+<!-- JS vía jsDelivr -->
 
 <script src="https://cdn.jsdelivr.net/gh/Hub365ai/web-design-global-hub365-ai@main/loader.js" defer></script>
+
+
+NUeva manera d eimprotar 2026:
+
+<!--  Via CSS directo:  -->
+@import url("https://resources.hub365.ai/css/webs");
+
+
+<!-- CSS & JS vía Libreria -->
+<link rel="preconnect" href="https://resources.hub365.ai">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+<link rel="stylesheet" href="https://resources.hub365.ai/css/webs">
+<script src="https://resources.hub365.ai/js/webs" defer></script>
+
 
 
 limpiar cache repositorio:
@@ -59,10 +74,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 */
 
 
-/* 🔥 Colores personalizados - usar colores-abdiel Para activar los colores personalizados */
-/* NOTA: ".body-no" y ".theme-lock-no" son selectores intencionalmente inexistentes.
-   Este bloque NO se aplica a ningún sitio real — es solo una plantilla de referencia
-   para saber qué variables declarar (con "body" y ".theme-lock" reales) en cada web. */
+/* 🔥 Colores personalizados - usar colores-abdiel Para activar los colores personalizados SOlo templato no se aplican directamente desde la libreria*/
 :root-no, .body-no, [data-theme="dark"] .theme-lock-no  {
     /* === Variables globales === */
     --primary-color-custom: #06232b;
@@ -215,10 +227,14 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --brandboards-text_d: var(--text-d);
     --brandboards-text_l: var(--text-l);
     --brandboards-bg_p_d: var(--bg-p-d);
+    --brandboards-bg_s_d: var(--bg-s-d);
     --brandboards-bg_p_l: var(--bg-p-l);
-    --divider-color: var(--bg-p-l);
+    --brandboards-bg_s_l: var(--bg-s-l);
     --white: #ffffff;
     --black: #000000;
+
+    /* Icono que representa mis codigo */
+    --icon-code: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M47.977,5.99c-4.416,0-8.414,1.792-11.308,4.686l-4.685,4.654l-4.686-4.654C24.406,7.782,20.408,5.99,15.992,5.99C7.161,5.99,0,13.15,0,21.982c0,4.416,2.85,8.539,5.747,11.432l23.41,23.414c1.562,1.562,4.092,1.562,5.653,0l23.349-23.352c2.896-2.893,5.81-7.078,5.81-11.494C63.969,13.15,56.808,5.99,47.977,5.99z'/%3E%3C/svg%3E");
 }
 
 /* Varibale fijas para formularios de compras  */
@@ -233,33 +249,6 @@ body {
 }
 /* finVaribale fija spara formularioa de compras  */
 
-
-/* intercambio de colores modo dark  */
-
- /* Variables — Modo Light (default) */
-[data-theme="dark"], .modo-dark, .cont-color-d:hover {
-  --bg-p-l: var(--bg-p-d);
-  --bg-s-l: var(--bg-s-d);
-  --text-d: var(--text-l);
-  --divider-color: var(--bg-p-d);
-  --brandboards-blanco_bordes: #00000047;
-  
-  /* Brandboards — asignar a las variables de GHL */
-    --brandboards-text_d: var(--text-d);
-    --brandboards-text_l: var(--text-l);
-    --brandboards-bg_p_d: var(--bg-p-d);
-    --brandboards-bg_p_l: var(--bg-p-l);
-    --brandboards-bg_s_d: var(--bg-s-d);
-    --brandboards-bg_s_l: var(--bg-s-l);
-    --brandboards-gris: var(--bg-s-l);
-    --divider-color: var(--bg-p-l);
-}
-
-/* Theme lock — DESPUÉS de dark y con especificidad para ganar */
-[data-theme="dark"] .color-lock {
-  --text-l: #fdfdfd;
-  --text-d: #0d0d0d;
-}
 
  /* convertir todos los colores de una sección a un color específico de mis variables */
 /* PRIMARY */
@@ -565,7 +554,6 @@ body:has(.colores-abdiel, .colores-hub365) :is(
     :is(h1, h2) strong,
     :is(.gradient-text, .text-degradado) :is(h1, h2, strong, .counter-value, .timer-box > .count), .boton-degradado
 ):is(.move-degradado, .move-degradado *) {
-    --move-degradado: linear-gradient(105deg, var(--primary-color-custom), var(--secondary-color-custom), var(--accent-color-custom), var(--primary-color-custom));
     --degradado-texto: var(--move-degradado);
     --degradado-boton: var(--move-degradado);
     background-size: 500% auto;
@@ -1892,6 +1880,46 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 .abdiel-suscripcion .subscribe-form-plain {
     margin: auto !important;
+    flex: 0% !important;
+}
+
+.abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) .subscribe-content-plain,
+.abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) .subscribe-wrapper-plain {
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) button.subscribe-button {
+    color: var(--color-texto-boton, #fff) !important;
+    background-color: #12303B !important;
+    padding: var(--padding-btn) !important;
+    background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
+    transition: all .4s;
+    border-radius: var(--radius-element, 100px) !important;
+}
+
+.abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion)
+:is(.subscribe-email-input, .blog-subscribe-form-group) {
+    border-radius: var(--radius-element, 100px) !important;
+    overflow: visible !important;
+}
+
+.abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) .subscribe-email-input {
+    padding: 10px !important;
+}
+
+.abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) .blog-subscribe-form-group {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) .blog-subscribe-form-group input.subscribe-email-input {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+}
+
+.abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) .blog-subscribe-form-group button.subscribe-button {
+    flex: 0 0 auto !important;
 }
 /* limpio total =========================================*/
 .abdiel-suscripcion2 .subscribe-icon-section,  .abdiel-suscripcion2 .subscribe-content-inner-wrapper {
@@ -1920,18 +1948,37 @@ body:has(.hub365-ghl-not) #__nuxt * {
    TERMINA CSS Suscripcion wiget y algo corto par ale boton d ela suscripcion
    ========================================= */
 
-.abdiel-suscripcion2:is(#force-override, .abdiel-suscripcion2) button.subscribe-button {
+.abdiel-suscripcion2:is(#fake-id, .abdiel-suscripcion2) button.subscribe-button {
     color: var(--color-texto-boton, #fff) !important;
     background-color: #12303B !important;
-    padding: 10px 28px !important;
+    padding: var(--padding-btn) !important;
     background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
     transition: all .4s;
     border-radius: var(--radius-element, 100px) !important;
 }
 
-.abdiel-suscripcion2:is(#force-override, .abdiel-suscripcion2)
+.abdiel-suscripcion2:is(#fake-id, .abdiel-suscripcion2)
 :is(.subscribe-email-input, .blog-subscribe-form-group) {
     border-radius: var(--radius-element, 100px) !important;
+    overflow: visible !important;
+}
+
+.abdiel-suscripcion2:is(#fake-id, .abdiel-suscripcion2) .blog-subscribe-form-group {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.abdiel-suscripcion2:is(#fake-id, .abdiel-suscripcion2) .blog-subscribe-form-group input.subscribe-email-input {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+}
+
+.abdiel-suscripcion2:is(#fake-id, .abdiel-suscripcion2) .blog-subscribe-form-group button.subscribe-button {
+    flex: 0 0 auto !important;
+}
+
+.abdiel-suscripcion2:is(#fake-id, .abdiel-suscripcion2) .subscribe-email-input {
+    padding: 10px !important;
 }
 
 
@@ -2383,6 +2430,10 @@ body:has(.hub365-ghl-not) #__nuxt * {
     100% {
         margin-left: 0;
     }
+}
+
+.divider-visible::after, .divider-visible::before {
+    z-index: 3 !important;
 }
 
 /* =========================================
@@ -3121,7 +3172,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    padding: 0.1em 0.1em;
+    padding: 0.1em 0.17em;
     line-height: 1.1em;
 }
 
@@ -3712,8 +3763,15 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     left: 0;
     right: 0;
     bottom: 0;
-    opacity: var(--opacity-textura, 0.70);
+    opacity: var(--opacity-textura, 0.80);
     mix-blend-mode: plus-lighter;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .ruido > .bg::after, .ruido-directo::after {
+    background-size: 220px;
+  }
 }
 
 /* Tentativo */
@@ -3730,6 +3788,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     bottom: 0;
     opacity: var(--opacity-textura, 0.5);
     mix-blend-mode: overlay;
+    pointer-events: none;
 }
 
 
@@ -3751,6 +3810,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     mix-blend-mode: plus-lighter;
     opacity: var(--opacity-textura, 0.15);
     z-index: 0;
+    pointer-events: none;
 }
 
 /* animacion que mueve un poco el elemento como si flotara */
