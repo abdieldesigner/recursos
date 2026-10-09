@@ -596,10 +596,11 @@ body:has(.colores-abdiel, .colores-hub365) :is(
     }
 }
 
-body:has(.colores-abdiel, .colores-hub365) :is(.main-heading-button, .button-icon-end):not(:is(.boton-degradado *, .btn-degradado *, .excluir-btn *, .exclusion-bt *, .btn-border *, .btn-3d *, .btn-link *, .boton-degradado-2 *, .btn-degradado-2 *)) {
+/* Ya no quiero aplicar esto automaticamente */
+/* body:has(.colores-abdiel, .colores-hub365) :is(.main-heading-button, .button-icon-end):not(:is(.boton-degradado *, .btn-degradado *, .excluir-btn *, .exclusion-bt *, .btn-border *, .btn-3d *, .btn-link *, .boton-degradado-2 *, .btn-degradado-2 *)) {
     --text-d: var(--accent-color-custom);
     color: var(--text-d) !important;
-}
+} */
 
 
 
@@ -3754,11 +3755,21 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 .opacidad-textura-1 {
     --opacity-textura: 1;
 }
+
+.opacidad-textura-08 {
+    --opacity-textura: 0.8;
+}
 .opacidad-textura-07 {
     --opacity-textura: 0.7;
 }
 .opacidad-textura-05 {
     --opacity-textura: 0.5;
+}
+.opacidad-textura-04 {
+    --opacity-textura: 0.4;
+}
+.opacidad-textura-03 {
+    --opacity-textura: 0.3;
 }
 
 /* Patrón de cuadritos (sin imagen, con gradientes) sobre el elemento que lo activa. */
@@ -3781,7 +3792,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 /* Textura de ruido sobre toda la página */
 .ruido > .bg::after, .ruido-directo::after {
     content: '';
-    background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/Ruido-fondo-dark-Jose-Abdiel.webp);
+    background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/texturas-planas/Ruido-estandar-Jose-Abdiel.webp);
     background-size: 120px;
     background-repeat: repeat;
     background-position: center center;
@@ -3801,8 +3812,8 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
   }
 }
 
-/* Tentativo */
-.ruido-respaldo > .bg::after { 
+/* respaldo */
+.ruido-v2 > .bg::after, .ruido-v2-directo::after { 
     content: '';
     background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/ruido-abdiel.webp);
     background-size: 100px;
@@ -3839,6 +3850,44 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     z-index: 0;
     pointer-events: none;
 }
+
+/* Textura de semitono */
+.semitono > .bg::after, .semitono-directo::after {
+    content: '';
+    background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/texturas-planas/textura-semitono-jose-abdiel.webp);
+    background-size: var(--size-textura, 90px);
+    background-repeat: repeat;
+    background-position: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: var(--opacity-textura, 0.5);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+}
+
+/* Textura plástica — se estira/deforma para cubrir el elemento completo, no se repite */
+.textura-plastica > .image-container::after, .textura-plastica-directo::after {
+    content: '';
+    background-image: url(https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/texturas-planas/textura-plastica-2-jose-abdiel.webp);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: var(--opacity-textura, 1);
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+.textura-plastica div.image-container {
+    padding: 0 !important;
+}
+
 
 /* animacion que mueve un poco el elemento como si flotara */
 .floating {
