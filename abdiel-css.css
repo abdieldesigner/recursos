@@ -3138,11 +3138,25 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 /* fin colapsable de seo 2*/
 
 .icon-list li::marker {
-  content: var(--icon-list, "◆");  
-  color: var(--accent-color-custom); 
+  content: var(--icon-list, "◆");
+  color: var(--accent-color-custom);
 
 }
 /* fin listas peronalizadas nativa*/
+
+/* Ícono vía mask-image: la forma la da --icon-code (SVG), el color viene de background-color */
+.icon-code {
+  width: var(--icon-corazon-size, 12px);
+  height: var(--icon-corazon-size, 12px);
+  display: inline-block;
+  background-color: var(--text-l);
+  -webkit-mask-image: var(--icon-code);
+  mask-image: var(--icon-code);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
 /* TEXTOS */
 
 
@@ -3256,6 +3270,49 @@ body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado)
     border: none;
 }
 
+.btn-magic {
+    position: relative;
+    background: radial-gradient(93.6% 163.98% at 50% 140.89%, var(--accent-color-custom-2) 0%, var(--accent-color-custom) 80%);
+    border-radius: var(--radius-element, 50px) !important;
+    border: none;
+    padding: var(--padding-btn, 15px 40px) !important;
+}
+
+:is(.btn-magic, .btn-border.btn-border-magic) {
+    box-shadow:
+        0 -1px 2px #fffffffa,
+        0 -3px 6.5px #fffffffa,
+        0 -6px 17.5px color-mix(in srgb, var(--accent-color-custom) 50%, transparent),
+        0 -7px 8.8px color-mix(in srgb, var(--accent-color-custom) 85%, transparent),
+        0 -14px 58.2px color-mix(in srgb, var(--accent-color-custom) 66%, transparent),
+        inset 0 1px 2.1px #ffffffd1,
+        inset 0 5px 8.6px #ffffffd1 !important;
+}
+
+/* Resplandor extra al hacer hover, en su propia capa para no pisar el brillo fijo de arriba */
+.btn-magic::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: var(--resplandor-boton);
+    opacity: 0;
+    transition: opacity .4s;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.btn-magic:hover::before {
+    opacity: 1;
+}
+
+.btn-magic :is(.main-heading-button, .button-icon-end) {
+    color: var(--color-texto-boton, #fff) !important;
+    font-size: var(--size-font-btn, 14px) !important;
+    font-family: var(--btn-font) !important;
+}
+
+
 a.btn-link, .btn-link a {
     width: fit-content !important;
     background: transparent;
@@ -3297,7 +3354,6 @@ a.btn-link, .btn-link a {
 body:not(:has(.btn-border-not-effect)) .btn-border:hover {
     background-color: var(--accent-color-custom, #0d1b2a) !important;
     background-image: none;
-    box-shadow: inset 0 0 0 1px var(--accent-color-custom, #0d1b2a) !important;
 }
 
 body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-button, .button-icon-end) {
@@ -3909,4 +3965,72 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 /* Desactiva los clics/toques en el elemento */
 .no-tocar {
     pointer-events: none !important;
+}
+
+/* Borde con degradado giratorio + resplandor (gira siempre, sin hover) */
+@property --angulo-borde {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes girarBorde {
+    to { --angulo-borde: 360deg; }
+}
+
+.borde-neon-v1 {
+    --border-size: 1px;
+    position: relative;
+    isolation: isolate;
+}
+
+.borde-neon-v1::before {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--border-size));
+    border-radius: inherit;
+    padding: var(--border-size);
+    pointer-events: none;
+    z-index: -1;
+    background: conic-gradient(
+        from var(--angulo-borde),
+        var(--borde-neon-color-1, var(--accent-color-custom, #ff53bb)) 0deg,
+        transparent 55deg 135deg,
+        var(--borde-neon-color-2, var(--accent-color-custom-2, #00f8d3)) 180deg,
+        transparent 235deg 310deg,
+        var(--borde-neon-color-1, var(--accent-color-custom, #ff53bb)) 360deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: girarBorde 6s linear infinite;
+}
+
+.borde-neon-v1::after {
+    content: '';
+    position: absolute;
+    inset: -25px;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: -2;
+    background: conic-gradient(
+        from var(--angulo-borde),
+        var(--borde-neon-color-1, var(--accent-color-custom, #ff53bb)) 0deg,
+        transparent 55deg 135deg,
+        var(--borde-neon-color-2, var(--accent-color-custom-2, #00f8d3)) 180deg,
+        transparent 235deg 310deg,
+        var(--borde-neon-color-1, var(--accent-color-custom, #ff53bb)) 360deg
+    );
+    filter: blur(32px);
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+    animation: girarBorde 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .borde-neon-v1::before,
+    .borde-neon-v1::after {
+        animation: none;
+    }
 }
