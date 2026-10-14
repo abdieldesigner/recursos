@@ -1,0 +1,60 @@
+<style>
+/* Vars de respaldo solo para probar este archivo suelto (fuera de la web real,
+   que ya trae abdiel-css.css con estas mismas variables declaradas). */
+:root {
+  --bg-p-l: #f2f0ee;
+  --bg-p-d: #141211;
+  --text-d: #141211;
+  --contentfont: 'Nunito Sans', system-ui, sans-serif;
+  --radius-element: 50px;
+  --padding-btn: 18px 44px;
+  --size-font-btn: clamp(16px, 19.22px - 0.32vw, 18px);
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-p-l);
+}
+
+/* ─── Botón 3D presionable ─── */
+.btn-3d {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent !important;
+  border: 2px solid var(--text-d) !important;
+  border-radius: var(--radius-element, 50px) !important;
+  padding: var(--padding-btn, 18px 44px) !important;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0px 12px 1px var(--text-d, #141211) !important;
+  transition: all 200ms;
+  transform: translateY(0px);
+}
+
+.btn-3d :is(.main-heading-button, .button-icon-end) {
+  color: var(--text-d) !important;
+  font-family: var(--contentfont);
+  font-size: var(--size-font-btn, 18px);
+  letter-spacing: 1px;
+}
+
+/* hover: se hunde un poco */
+.btn-3d:hover {
+  transform: translateY(4px);
+  box-shadow: 0px 9px 1px var(--text-d, #141211) !important;
+}
+
+/* active: queda totalmente hundido */
+.btn-3d:active {
+  transform: translateY(12px);
+  box-shadow: 0 0 0 !important;
+}
+</style>
+
+<a href="#" class="btn-3d">
+  <span class="main-heading-button">botón 3D</span>
+</a>

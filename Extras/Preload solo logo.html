@@ -1,0 +1,75 @@
+<style>
+/* ====== Logo — Preloader (pantalla completa), solo logo sin ícono ====== */
+.hub365-preload { display: none; }                 /* oculto hasta que el JS lo active */
+.hub365-preload.is-active { display: grid; }
+.hub365-preload {
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh; height: 100dvh;   /* cubre TODA la ventana */
+  z-index: 2147483647;                           /* por encima de todo */
+  place-items: center; align-content: center; gap: 1.8rem;
+  background: var(--bg-p-l, #ffffff);
+  color: var(--text-d, #0b2547);
+  font-family: var(--contentfont, 'Garet Book', system-ui, sans-serif);
+  transition: opacity .8s ease, visibility .8s ease;
+}
+.hub365-preload.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.hub365-preload__mark { text-align: center; }
+
+.hub365-preload__full {
+  width: 70vw;
+  height: auto;
+  opacity: 0;
+  animation: hub365FadeIn .8s ease forwards;
+}
+
+.hub365-preload__bar { width: 160px; height: 2px; background: rgba(11,37,71,.12); overflow: hidden; }
+.hub365-preload__bar i {
+  display: block; height: 100%; width: 0;
+  background: var(--degradado-texto, linear-gradient(105deg, #6ea8f0, #0b2547));
+  animation: hub365Load 2.2s .1s cubic-bezier(.22,.61,.36,1) forwards;
+}
+
+@keyframes hub365FadeIn { to { opacity: 1; } }
+@keyframes hub365Load   { to { width: 100%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hub365-preload__full { animation: none; opacity: 1; }
+  .hub365-preload__bar i { animation: none; width: 100%; }
+}
+</style>
+<div class="hub365-preload" role="status" aria-label="Loading">
+  <div class="hub365-preload__mark">
+    <img class="hub365-preload__full" src="{{custom_values.logo_light_h}}" alt="">
+  </div>
+  <div class="hub365-preload__bar"><i></i></div>
+</div>
+<script>
+(function () {
+  var pre = document.querySelector('.hub365-preload');
+  if (!pre) return;
+  /* Solo en tu sitio real (que tiene #__nuxt), no en el editor */
+  if (!document.getElementById('__nuxt')) return;
+
+  /* Si ya se mostró en esta sesión de navegación (misma pestaña/ventana,
+     aunque haya pasado por varias páginas), no lo repetimos.
+     Se borra solo al cerrar la pestaña/navegador -> ahí sí vuelve a aparecer. */
+  var SESSION_KEY = 'hub365PreloaderShown';
+  if (sessionStorage.getItem(SESSION_KEY)) return;
+  sessionStorage.setItem(SESSION_KEY, '1');
+
+  /* Lo saca del bloque donde lo pegaste y lo cuelga del <body>,
+     así 'position: fixed' cubre toda la pantalla sí o sí */
+  document.body.appendChild(pre);
+  pre.classList.add('is-active');
+  var MIN = 2600, start = Date.now();
+  function hide() {
+    pre.classList.add('is-hidden');
+    setTimeout(function () { pre.style.display = 'none'; }, 850);
+  }
+  function done() { setTimeout(hide, Math.max(0, MIN - (Date.now() - start))); }
+  if (document.readyState === 'complete') done();
+  else window.addEventListener('load', done);
+  setTimeout(hide, 6000);
+})();
+</script>

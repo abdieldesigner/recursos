@@ -1,0 +1,96 @@
+<style>
+  /* ─── CSS ─────────────────────────────────────── */
+  /* Sin @media: el efecto ahora aplica igual en móvil y escritorio. */
+
+  .seccion-que-va-fija {
+    position: sticky;
+    top: 0;
+    height: auto;
+    z-index: 0;
+    align-self: start;
+    /* Importante: el contenido de esta sección debe caber siempre dentro
+       de una sola pantalla (100vh). Al estar "pegada" no hay scroll de
+       página que revele lo que sobresalga hacia abajo, así que no se le
+       puede poner overflow/max-height como tope (eso recortaría también
+       imágenes que sobresalen a propósito para el efecto visual, y rompe
+       animaciones que dependen del scroll normal de la página). */
+  }
+
+  .seccion-que-la-tapa {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    min-height: 100dvh; /* si el contenido real es más alto, crece igual: esto es solo el mínimo */
+  
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;    
+    align-items: stretch;
+  }
+</style>
+
+<script>
+  /* ─── JS ──────────────────────────────────────── */
+
+  /* En GHL, .seccion-que-va-fija y .seccion-que-la-tapa son hermanas, pero
+     comparten padre con TODAS las demás secciones de la página (no un
+     contenedor exclusivo de estas dos) — así que nunca le ponemos min-height
+     a ningún padre, ni movemos nodos del DOM (eso rompe la reactividad de
+     Vue/Nuxt). En vez de eso: dejamos que "position: sticky" haga su trabajo
+     normal, y solo usamos JS para SOLTAR la fija (sticky -> static) justo
+     cuando la tapa llega arriba de la pantalla, y volver a pegarla si el
+     usuario sube el scroll de nuevo. Como sticky nunca saca al elemento del
+     flujo normal (a diferencia de fixed), el espacio que ocupa no cambia al
+     alternar, así que no hay salto visual. */
+  function emparejar() {
+    var fijas = document.querySelectorAll('.seccion-que-va-fija');
+    var tapas = document.querySelectorAll('.seccion-que-la-tapa');
+    if (!fijas.length || !tapas.length) return null;
+
+    var total = Math.min(fijas.length, tapas.length);
+    var grupos = [];
+    for (var i = 0; i < total; i++) {
+      grupos.push({ fija: fijas[i], tapa: tapas[i] });
+    }
+    return grupos;
+  }
+
+  var grupos = null;
+  var ticking = false;
+
+  function actualizar() {
+    ticking = false;
+    grupos.forEach(function (g) {
+      var tapaTop = g.tapa.getBoundingClientRect().top;
+      if (tapaTop <= 0) {
+        if (g.fija.style.position !== 'static') g.fija.style.position = 'static';
+      } else {
+        if (g.fija.style.position !== 'sticky') g.fija.style.position = 'sticky';
+      }
+    });
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(actualizar);
+      ticking = true;
+    }
+  }
+
+  function init() {
+    grupos = emparejar();
+    if (!grupos) return false;
+    actualizar();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    return true;
+  }
+
+  var observer = new MutationObserver(function () {
+    if (init()) observer.disconnect();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  init();
+</script>

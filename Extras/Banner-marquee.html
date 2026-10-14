@@ -1,0 +1,86 @@
+<style>
+  .aots-strip{
+    position:relative; width:100%;
+    background:var(--accent-color-custom);
+    overflow:hidden; font-family:var(--headlinefont);
+    height:78px; isolation:isolate;
+  }
+  .aots-strip::before{
+    content:"Real Estate Photography · Matterport 3D Tours · Aerial Drone · Video · Real Estate Photography · Matterport 3D Tours · Aerial Drone · Video";
+    position:absolute; inset:0; display:flex; align-items:center;
+    font-weight:700; font-size:86px; letter-spacing:.02em;
+    color:var(--primary-color-custom); opacity:.10;
+    white-space:nowrap; z-index:0;
+    animation:aots-ghost 84s linear infinite; pointer-events:none;
+  }
+  @keyframes aots-ghost{ from{transform:translateX(0)} to{transform:translateX(-25%)} }
+  .aots-strip-track{
+    position:relative; z-index:2; display:flex; align-items:center;
+    gap:0; width:max-content; height:100%;
+    animation:aots-roll 60s linear infinite;
+  }
+  @keyframes aots-roll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .aots-block{
+    display:inline-flex; align-items:center; height:100%;
+    padding:0 56px; font-weight:700; font-size:42px;
+    letter-spacing:.01em; line-height:1; white-space:nowrap;
+  }
+  .aots-block.brand{ color:var(--bg-p-d); padding-left:64px; padding-right:48px; }
+  .aots-block.brand .light{ font-weight:700; margin-left:14px; color:var(--text-l); }
+  .aots-block.tag{ color:var(--bg-p-d); padding:0 64px; }
+  .aots-block.month{
+    background:var(--primary-color-custom); color:var(--text-l);
+    padding:0 64px 0 80px; height:100%;
+    clip-path:polygon(36px 0, 100% 0, 100% 100%, 0 100%);
+    margin-left:-20px; position:relative; text-transform:uppercase;
+    font-family:var(--headlinefont); font-size:26px; font-weight:900;
+    letter-spacing:.08em; text-decoration:none;
+  }
+  .aots-block.month.coral {
+    background: var(--primary-color-custom);
+    color: var(--text-l);
+}
+  .aots-block.month.light{ background:var(--bg-p-l); color:var(--primary-color-custom); }
+  a.aots-block.month{ transition:filter .25s ease; }
+  a.aots-block.month:hover{ filter:brightness(1.12); }
+  .aots-strip:hover .aots-strip-track,
+  .aots-strip:hover::before{ animation-play-state:paused; }
+  @media (max-width: 768px){
+    .aots-strip{height:60px}
+    .aots-block{ font-size:32px; padding:0 36px; }
+    .aots-block.brand{ padding-left:32px; padding-right:28px; }
+    .aots-block.month{ font-size:18px; padding:0 36px 0 52px; clip-path:polygon(20px 0, 100% 0, 100% 100%, 0 100%); }
+    .aots-strip::before{ font-size:64px; opacity:.08; }
+  }
+  @media (max-width: 480px){
+    .aots-strip{height:52px}
+    .aots-block{ font-size:26px; padding:0 24px; }
+    .aots-block.month{ font-size:15px; padding:0 28px 0 42px; }
+    .aots-strip::before{ font-size:52px; opacity:.07; }
+  }
+</style>
+<div class="aots-strip">
+  <div class="aots-strip-track">
+    <!-- Set 1 -->
+    <span class="aots-block brand">South Florida <span class="light">Virtual Tour</span></span>
+    <span class="aots-block tag">Listings That Sell Faster, delivered In 24-48 Hours!</span>
+    <a class="aots-block month coral" href="{{custom_values.link_schedule}}">Book Now</a>
+    <span class="aots-block brand">Real Estate <span class="light">Photography</span></span>
+    <span class="aots-block tag">Matterport 3D tours, drone &amp; video, all in one order</span>
+    <a class="aots-block month" href="{{custom_values.link_schedule}}">Schedule a Shoot</a>
+    <span class="aots-block brand">MLS-Ready <span class="light">Media</span></span>
+    <span class="aots-block tag">One team · Photos, 3D, drone &amp; video · Delivered in 48 hours</span>
+    <a class="aots-block month light" href="{{custom_values.link_schedule}}">Get a Free Quote</a>
+
+    <!-- Set 2 (duplicado para el loop continuo) -->
+    <span class="aots-block brand">South Florida <span class="light">Virtual Tour</span></span>
+    <span class="aots-block tag">{{custom_values.delivery_time}}</span>
+    <a class="aots-block month coral" href="{{custom_values.link_schedule}}">Book Now</a>
+    <span class="aots-block brand">Real Estate <span class="light">Photography</span></span>
+    <span class="aots-block tag">Matterport 3D tours, drone &amp; video, all in one order</span>
+    <a class="aots-block month" href="{{custom_values.link_schedule}}">Schedule a Shoot</a>
+    <span class="aots-block brand">MLS-Ready <span class="light">Media</span></span>
+    <span class="aots-block tag">One team · Photos, 3D, drone &amp; video · Delivered in 48 hours</span>
+    <a class="aots-block month light" href="{{custom_values.link_schedule}}">Get a Free Quote</a>
+  </div>
+</div>

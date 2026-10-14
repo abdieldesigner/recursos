@@ -13,7 +13,18 @@
 .kcm-ts { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 99999;
   display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 999px;
   background: rgba(15,15,18,.72); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.14);
-  font-family: system-ui, sans-serif; }
+  font-family: system-ui, sans-serif;
+  zoom: 0.8; }
+@media (max-width: 768px) {
+  .kcm-ts {
+    max-width: 94vw;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .kcm-ts > * {
+    flex-shrink: 0;
+  }
+}
 .kcm-ts__sep { width: 1px; height: 26px; background: rgba(255,255,255,.18); }
 .kcm-ts__btn { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; padding: 0; position: relative;
   border: 2px solid rgba(255,255,255,.35); transition: transform .25s ease, border-color .25s ease; }

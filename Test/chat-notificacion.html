@@ -1,0 +1,178 @@
+<style>
+/* Vars de respaldo solo para probar este archivo suelto (fuera de la web real,
+   que ya trae abdiel-css.css con estas mismas variables declaradas). */
+:root {
+  --bg-p-l: #ffffff;
+  --bg-s-l: #f3f1f2;
+  --bg-p-d: #0d0d0d;
+  --bg-s-d: #202020;
+  --text-l: #fdfdfd;
+  --text-d: #0d0d0d;
+  --accent-color-custom: #1bcdcf;
+  --radius-principal: 20px;
+  --contentfont: 'Manrope', system-ui, sans-serif;
+}
+/* Mismo mecanismo de v-dark/v-luz que ya existe en abdiel-css.css */
+.v-dark {
+  --text-d: var(--text-l);
+  --bg-p-l: var(--bg-p-d);
+  --bg-s-l: var(--bg-s-d);
+}
+.v-luz {
+  --text-l: var(--text-d);
+  --bg-p-d: var(--bg-p-l);
+  --bg-s-d: var(--bg-s-l);
+}
+body {
+  padding: 60px;
+  background: #55506b;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* ─── Notificación de chat (avatar + burbuja) ─── */
+.chat-ab {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  font-family: var(--contentfont);
+  max-width: 300px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: chat-ab-entrada .4s ease forwards;
+}
+
+@keyframes chat-ab-entrada {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-ab-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+
+.chat-ab-burbuja {
+  border-radius: var(--radius-principal, 20px);
+  padding: 12px 16px;
+  min-width: 56px;
+  /* Siempre escrito en modo claro (--bg-s-l/--text-d); .v-dark invierte
+     esas mismas variables automáticamente si envuelve o está en el
+     mismo elemento que .chat-ab, sin necesitar una clase aparte. */
+  background: var(--bg-s-l);
+  color: var(--text-d);
+}
+
+/* Puntitos "escribiendo" */
+.chat-ab-escribiendo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+}
+
+.chat-ab-escribiendo span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .4;
+  animation: chat-ab-rebote 1.2s infinite ease-in-out;
+}
+.chat-ab-escribiendo span:nth-child(2) { animation-delay: .15s; }
+.chat-ab-escribiendo span:nth-child(3) { animation-delay: .3s; }
+
+@keyframes chat-ab-rebote {
+  0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Mensaje completo: oculto hasta que el JS agregue .chat-ab-activo */
+.chat-ab-mensaje {
+  display: none;
+}
+
+.chat-ab-nombre {
+  margin: 0 0 2px;
+  font-family: var(--contentfont);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent-color-custom);
+}
+
+.chat-ab-texto {
+  margin: 0;
+  font-family: var(--contentfont);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.chat-ab-hora {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--contentfont);
+  font-size: 11px;
+  opacity: .55;
+  text-align: right;
+}
+
+.chat-ab-activo .chat-ab-escribiendo { display: none; }
+.chat-ab-activo .chat-ab-mensaje {
+  display: block;
+  animation: chat-ab-revelar .35s ease;
+}
+
+@keyframes chat-ab-revelar {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Accesibilidad: sin animaciones si el usuario prefiere menos movimiento;
+   el mensaje aparece directo, sin esperar el "escribiendo". */
+@media (prefers-reduced-motion: reduce) {
+  .chat-ab { animation: none; opacity: 1; transform: none; }
+  .chat-ab-escribiendo span { animation: none; opacity: .7; }
+  .chat-ab-activo .chat-ab-mensaje { animation: none; }
+}
+</style>
+
+<div class="chat-ab">
+  <img class="chat-ab-avatar" src="https://assets.cdn.filesafe.space/rpfGXwQGWBN80QBxnzZh/media/6a9f2211355bf4eb55e1db26.webp" alt="">
+  <div class="chat-ab-burbuja">
+    <div class="chat-ab-escribiendo">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="chat-ab-mensaje">
+      <p class="chat-ab-nombre">Jhonny lubo</p>
+      <p class="chat-ab-texto">Con la mayoría eligiendo caminos básicos, tú puedes ser quien ilumine la escena con propuestas que rompan la monotonía.</p>
+      <span class="chat-ab-hora">ahora</span>
+    </div>
+  </div>
+</div>
+
+<div class="chat-ab v-dark">
+  <img class="chat-ab-avatar" src="https://assets.cdn.filesafe.space/rpfGXwQGWBN80QBxnzZh/media/6a9f2211355bf4eb55e1db26.webp" alt="">
+  <div class="chat-ab-burbuja">
+    <div class="chat-ab-escribiendo">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="chat-ab-mensaje">
+      <p class="chat-ab-nombre">Jhonny lubo</p>
+      <p class="chat-ab-texto">Con la mayoría eligiendo caminos básicos, tú puedes ser quien ilumine la escena con propuestas que rompan la monotonía.</p>
+      <span class="chat-ab-hora">ahora</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.chat-ab').forEach(function (el) {
+    setTimeout(function () {
+      el.classList.add('chat-ab-activo');
+    }, 1800);
+  });
+</script>

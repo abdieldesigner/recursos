@@ -23,6 +23,7 @@ body {
     --bg-s-l: #f6f6ff;
     --text-l: #fdfdfd;
     --text-d: #2d1155;
+    --color-texto-boton: var(--text-d);
     --degradado-texto: linear-gradient(105deg, var(--primary-color-custom), var(--accent-color-custom));
     --headlinefont: 'Cormorant Garamond';
     --contentfont: 'Raleway';
@@ -192,7 +193,7 @@ body {
 /* Botones de navegacion */
 .blog-html-container-single .back-to-top {
     background: var(--accent-color-custom) !important;
-    color: var(--primary-color-custom) !important;
+    color: var(--color-texto-boton, #fff) !important;
     border: 0 !important;
     border-radius: 999px !important;
     padding: 10px 20px !important;
@@ -203,4 +204,11 @@ body {
 .blog-html-container-single .blog-back-button {
     color: var(--primary-color-custom) !important;
     font-family: var(--contentfont), system-ui, sans-serif !important;
+}
+
+.blog-author img.blog-author-image-post  {
+       aspect-ratio: 1 / 1 !important;
+       object-fit: cover !important;
+       object-position: center !important;
+       border-radius: 999px !important;
 }

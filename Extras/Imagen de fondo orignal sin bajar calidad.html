@@ -1,0 +1,23 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const elements = document.querySelectorAll(".bg");
+
+    elements.forEach(el => {
+      const bgImage = getComputedStyle(el).backgroundImage;
+
+      // Solo si es una url válida
+      if (bgImage && bgImage.includes("leadconnectorhq.com") && bgImage.includes("u_")) {
+        // Extraer la parte de la URL original (después de u_)
+        const match = bgImage.match(/u_(https.+\.webp)/);
+
+        if (match && match[1]) {
+          // Decodificar la URL original (por si tiene %20 u otros)
+          const originalUrl = decodeURIComponent(match[1]);
+
+          // Reemplazar el background con la imagen original
+          el.style.backgroundImage = `url('${originalUrl}')`;
+        }
+      }
+    });
+  });
+</script>

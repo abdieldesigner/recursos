@@ -1,0 +1,152 @@
+<!-- ============================================
+     ESTILOS DEL TOGGLE
+     ============================================ -->
+<style>
+/* Variables — Modo Light (default) */
+
+[data-theme="dark"] {
+  --bg-p-l: var(--bg-p-d);
+  --bg-s-l: var(--bg-s-d);
+  --text-d: var(--text-l);
+  --primary-color-custom: var(--accent-color-custom);
+  --divider-color: var(--bg-p-d);
+  --brandboards-blanco_bordes: #00000047;
+}
+
+/* Theme lock — DESPUÉS de dark y con especificidad para ganar */
+[data-theme="dark"] .theme-lock {
+  --text-l: #fdfdfd;
+  --text-d: #0d0d0d;
+}
+
+/* Botón flotante */
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-p-d);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+[data-theme="dark"] .theme-toggle {
+  background-color: #fff;
+  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.15);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  width: 22px;
+  height: 22px;
+  transition: opacity 0.3s ease, transform 0.4s ease;
+  position: absolute;
+}
+
+.icon-moon {
+  fill: var(--bg-p-l);
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.icon-sun {
+  fill: #0d0d0d;
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+[data-theme="dark"] .icon-moon {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+[data-theme="dark"] .icon-sun {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+</style>
+
+<!-- ============================================
+     HTML DEL BOTÓN
+     ============================================ -->
+<button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+  <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.75 15.5a9.72 9.72 0 0 1-13.25-13.25A10 10 0 1 0 21.75 15.5Z"/>
+  </svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- ============================================
+     JAVASCRIPT DEL TOGGLE
+     ============================================ -->
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme');
+
+  // Logo — URLs
+// Logo — Custom Values GHL
+const logoDark = '{{custom_values.logo_light_h}}';
+const logoOriginal = '{{custom_values.logo_dark_h}}';
+  
+function cambiarLogo(url) {
+  const logos = document.querySelectorAll('img.logo-d');
+  logos.forEach(img => {
+    img.setAttribute('src', url);
+    const picture = img.closest('picture');
+    if (picture) {
+      picture.querySelectorAll('source').forEach(source => {
+        const srcset = source.getAttribute('srcset');
+        if (srcset) {
+          const nuevo = srcset.replace(/media\/[^.]+\.svg/, url.match(/media\/[^.]+\.svg/)[0]);
+          source.setAttribute('srcset', nuevo);
+        }
+      });
+    }
+  });
+}
+
+  // Si ya estaba en dark al cargar
+  if (saved === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+    cambiarLogo(logoDark);
+  }
+
+  // Toggle click
+  toggle.addEventListener('click', () => {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.body.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      cambiarLogo(logoOriginal);
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      cambiarLogo(logoDark);
+    }
+  });
+</script>

@@ -1,0 +1,48 @@
+INFO — Notas técnicas del repo "recursos"
+==========================================
+
+--------------------------------------------------
+COdigos para llamar estos archivos en Hub365.ai
+--------------------------------------------------
+
+cabecera individual:
+
+@import url("https://cdn.jsdelivr.net/gh/Hub365ai/web-design-global-hub365-ai@main/loader.css");
+
+
+en el footer global:
+
+<!-- CSS vía jsDelivr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hub365ai/web-design-global-hub365-ai@main/loader.css">
+
+<!-- JS vía jsDelivr -->¡
+
+<script src="https://cdn.jsdelivr.net/gh/Hub365ai/web-design-global-hub365-ai@main/loader.js" defer></script>
+
+
+
+--------------------------------------------------
+Guardián de seguridad: body:has(.colores-abdiel, .colores-hub365)
+--------------------------------------------------
+
+Muchas reglas de color en abdiel-css.css (sección "colores personalizados")
+empiezan con:
+
+  body:has(.colores-abdiel, .colores-hub365) { ... }
+
+Por qué existe:
+abdiel-css.css es una librería GLOBAL que se carga automáticamente en
+TODAS las páginas (nuevas y viejas). Cuando pasó a funcionar así, existía
+el riesgo de que páginas viejas —que no tienen las variables CSS de
+color bien configuradas— se rompieran visualmente al recibir estas
+reglas de golpe. Por eso se agregó esta condición: las reglas de color
+solo se activan si la página tiene la clase .colores-abdiel o
+.colores-hub365 puesta a propósito en el body. Las páginas viejas sin
+esa clase quedan protegidas/sin afectar.
+
+Nota a futuro:
+Si algún día TODAS las webs originales/viejas terminan siendo migradas
+o actualizadas para tener las variables de color bien configuradas,
+en ese punto SÍ se podría considerar eliminar esta condición de
+seguridad (body:has(...)) de las reglas, ya que dejaría de ser
+necesaria. Hasta entonces, debe mantenerse.

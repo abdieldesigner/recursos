@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Prueba: divisor por máscara (sustractivo) vs. actual (aditivo)</title>
+<style>
+  :root {
+    --divider-mask: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/Shapes/mountains.svg");
+    --divider-mask-invertido: url("mountains-invertido.svg");
+    --divider-height: 70px;
+    --divider-color: #fff;
+  }
+  body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #14212b;
+    color: #fff;
+  }
+  h2 {
+    text-align: center;
+    padding: 20px 0 0;
+    font-weight: 600;
+  }
+  p.nota {
+    text-align: center;
+    opacity: .7;
+    margin: 4px 0 20px;
+    font-size: 14px;
+  }
+
+  /* Fondo NO plano a propósito, para forzar el problema que describiste */
+  .seccion-fondo-complejo {
+    height: 320px;
+    position: relative;
+    background: linear-gradient(135deg, #ff7a59 0%, #ffd166 35%, #06d6a0 70%, #118ab2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(0,0,0,.55);
+    overflow: visible;
+  }
+
+  /* Lo que se "revela" detrás cuando el corte funciona bien */
+  .fondo-detras {
+    height: 140px;
+    background: #14212b;
+  }
+
+  /* ============ VERSIÓN 1: la actual (aditiva, con color sólido) ============ */
+  .divider-bottom-ab-viejo {
+    position: relative;
+  }
+  .divider-bottom-ab-viejo::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: var(--divider-height);
+    background: var(--divider-color);
+    -webkit-mask-image: var(--divider-mask);
+    mask-image: var(--divider-mask);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-position: center;
+    mask-position: center;
+    transform-origin: center;
+    transform: scaleY(-1);
+    z-index: 1;
+  }
+
+  /* ============ VERSIÓN 2: la propuesta (sustractiva, con mask-composite) ============ */
+  .divider-bottom-ab-nuevo {
+    -webkit-mask-image:
+      linear-gradient(#000, #000),
+      var(--divider-mask);
+    mask-image:
+      linear-gradient(#000, #000),
+      var(--divider-mask);
+
+    -webkit-mask-size:
+      100% calc(100% - var(--divider-height)),
+      100% var(--divider-height);
+    mask-size:
+      100% calc(100% - var(--divider-height)),
+      100% var(--divider-height);
+
+    -webkit-mask-position: top, bottom;
+    mask-position: top, bottom;
+
+    -webkit-mask-repeat: no-repeat, repeat-x;
+    mask-repeat: no-repeat, repeat-x;
+
+    -webkit-mask-composite: source-over; /* equivalente webkit legacy de "add" */
+    mask-composite: add; /* estándar: la capa 2 se compone sumada sobre la 1 */
+  }
+
+  /* Corte arriba: misma idea, capas invertidas */
+  .divider-top-ab-nuevo {
+    -webkit-mask-image:
+      linear-gradient(#000, #000),
+      var(--divider-mask);
+    mask-image:
+      linear-gradient(#000, #000),
+      var(--divider-mask);
+
+    -webkit-mask-size:
+      100% calc(100% - var(--divider-height)),
+      100% var(--divider-height);
+    mask-size:
+      100% calc(100% - var(--divider-height)),
+      100% var(--divider-height);
+
+    -webkit-mask-position: bottom, top;
+    mask-position: bottom, top;
+
+    -webkit-mask-repeat: no-repeat, repeat-x;
+    mask-repeat: no-repeat, repeat-x;
+
+    -webkit-mask-composite: source-over;
+    mask-composite: add;
+  }
+
+  /* Igual que .divider-top-ab-nuevo, pero usando la forma volteada que
+     calcula el script al final del archivo (--divider-mask-invertido) */
+  .divider-top-ab-auto {
+    -webkit-mask-image:
+      linear-gradient(#000, #000),
+      var(--divider-mask-invertido);
+    mask-image:
+      linear-gradient(#000, #000),
+      var(--divider-mask-invertido);
+
+    -webkit-mask-size:
+      100% calc(100% - var(--divider-height)),
+      100% var(--divider-height);
+    mask-size:
+      100% calc(100% - var(--divider-height)),
+      100% var(--divider-height);
+
+    -webkit-mask-position: bottom, top;
+    mask-position: bottom, top;
+
+    -webkit-mask-repeat: no-repeat, repeat-x;
+    mask-repeat: no-repeat, repeat-x;
+
+    -webkit-mask-composite: source-over;
+    mask-composite: add;
+  }
+</style>
+</head>
+<body>
+
+<p class="nota" style="max-width:700px;margin:16px auto;opacity:.85;line-height:1.5">
+  ⚠️ Nota: en esta prueba la forma del svg queda tal cual (sin invertir). En la
+  técnica actual, el divisor de abajo usa <code>transform: scaleY(-1)</code>
+  sobre el propio pseudo-elemento (que solo tiene un color sólido, así que
+  invertirlo no se nota). Acá la máscara va directo sobre la sección con
+  contenido real, así que NO se puede voltear la sección entera sin voltear
+  también el contenido de adentro. Falta resolver ese detalle (probablemente
+  necesitando una versión ya invertida del SVG) — pero primero probemos si el
+  truco de <code>mask-composite</code> en sí funciona.
+</p>
+
+<h2>Divisor ABAJO — versión actual (aditiva, color sólido)</h2>
+<p class="nota">Nota cómo el color plano del divisor no combina con el degradado de fondo — se ve el parche.</p>
+<div class="seccion-fondo-complejo divider-bottom-ab-viejo">
+  Sección con fondo degradado (no plano)
+</div>
+<div class="fondo-detras"></div>
+
+<h2>Divisor ABAJO — versión propuesta (sustractiva, mask-composite)</h2>
+<p class="nota">El corte revela lo que hay detrás real, sin importar qué tan complejo sea el fondo de la sección.</p>
+<div class="seccion-fondo-complejo divider-bottom-ab-nuevo">
+  Sección con el mismo fondo degradado
+</div>
+<div class="fondo-detras"></div>
+
+<h2>Divisor ARRIBA — versión propuesta (sustractiva, mask-composite)</h2>
+<p class="nota">Mismo truco, capas invertidas — el corte queda en el borde superior.</p>
+<div class="fondo-detras"></div>
+<div class="seccion-fondo-complejo divider-top-ab-nuevo">
+  Sección con el mismo fondo degradado
+</div>
+
+<h2>Divisor ARRIBA — con el SVG ya volteado (archivo real, mountains-invertido.svg)</h2>
+<p class="nota">--divider-mask-invertido apunta directo al archivo volteado, sin trucos de JS.</p>
+<div class="fondo-detras"></div>
+<div class="seccion-fondo-complejo divider-top-ab-auto">
+  Sección con el mismo fondo degradado
+</div>
+
+</body>
+</html>

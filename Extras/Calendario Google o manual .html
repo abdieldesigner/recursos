@@ -1,0 +1,348 @@
+<!-- ===== Calendario : chips, meses en cajas, modal con descripción y links ===== -->
+<style>
+  :root{ --accent1:#8e73c2; --accent2:#b6a1e1; --ink:#17151f; --muted:#8c8a96; }
+  .nr-wrap{max-width:1200px;margin:0 auto;padding:24px 16px;font-family:var(--contentfont)}
+  .nr-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+  .nr-title{font-family:var(--headlinefont);font-size:clamp(20px,2.4vw,28px);font-weight:700;color:var(--accent1);margin-right:auto}
+  .nr-chip{border:1px solid var(--accent1);color:var(--accent1);background:#fff;padding:8px 12px;border-radius:999px;cursor:pointer;font-size:14px;transition:.18s}
+  .nr-chip.is-active{background:var(--accent1);color:#fff;box-shadow:0 0 0 2px var(--accent2) inset}
+  .nr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:980px){ .nr-grid{grid-template-columns:1fr} }
+
+  .nr-month{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;box-shadow:0 8px 28px rgba(0,0,0,.06);padding:16px}
+  .nr-month h3{font-family:var(--headlinefont);font-size:18px;margin:0 0 12px}
+  .nr-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .nr-wd{text-align:center;font-size:12px;color:var(--muted);padding:4px 0;font-family:var(--contentfont)}
+  .nr-cell{aspect-ratio:1/1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--ink);position:relative}
+  .nr-cell.muted{opacity:.35}
+  .nr-cell.has-ev{cursor:pointer}
+  .nr-cell.has-ev:focus{outline:2px solid var(--accent2)}
+  .nr-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px}
+  .nr-cell.has-ev .nr-num{color:#fff}
+
+  .nr-summary{margin-top:12px;border-top:1px dashed rgba(0,0,0,.12);padding-top:10px}
+  .nr-summary li{font-size:13px;display:flex;gap:8px;align-items:center;padding:4px 0;font-family:var(--contentfont)}
+  .nr-pill{padding:3px 8px;border-radius:999px;background:var(--accent2);font-size:11px;color:#2b2550}
+
+  /* Modal centrado + overlay */
+  .nr-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:9998}
+  .nr-modal{position:fixed;inset:0;display:none;z-index:9999;align-items:center;justify-content:center;padding:20px}
+  .nr-modal__card{width:min(640px, 94vw);background:#fff;color:#111;border-radius:16px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);padding:18px;font-family:var(--contentfont)}
+  .nr-modal__head{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .nr-modal__title{font-family:var(--headlinefont);font-size:18px;font-weight:700;margin:0;color:#111}
+  .nr-modal__close{background:#111;color:#fff;border:none;width:32px;height:32px;border-radius:999px;cursor:pointer;font-size:18px;line-height:1}
+  .nr-modal__meta{font-size:13px;color:#444;margin-bottom:8px}
+  .nr-modal__body{font-size:14px;color:#222}
+  .nr-modal__body a{color:#111;text-decoration:underline}
+
+  /* Botones del modal (más pequeños y en fila) */
+  .nr-modal__actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .nr-btn{display:inline-flex;align-items:center;justify-content:center;
+    padding:8px 12px;border-radius:12px;font-weight:600;font-size:13px;text-decoration:none;line-height:1}
+  .nr-btn--primary{background:#111;color:#fff;border:1px solid #111}
+  .nr-btn--ghost{background:transparent;color:#111;border:1px solid #111}
+  
+  /* Etiquetas - botones de cada evento */
+#nr-chips {
+  display: flex;     
+  flex-wrap: wrap;         
+  gap: 10px;               
+}
+  
+ @media (max-width: 768px) {
+/* ajustar tamaño de calendario en movil */
+  .nr-month {
+    margin-left: -30px;
+    scale: 0.95;
+  }
+}
+  
+</style>
+
+<div class="nr-wrap">
+  <div class="nr-head">
+    <div class="nr-title">Agenda</div>
+    <div id="nr-chips"></div>
+  </div>
+  <div id="nr-months" class="nr-grid"></div>
+</div>
+
+<div id="nr-overlay" class="nr-overlay" aria-hidden="true"></div>
+<div id="nr-modal" class="nr-modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="nr-modal__card">
+    <div class="nr-modal__head">
+      <h4 class="nr-modal__title"></h4>
+      <button class="nr-modal__close" aria-label="Cerrar">×</button>
+    </div>
+    <div class="nr-modal__meta"></div>
+    <div class="nr-modal__body"></div>
+    <div class="nr-modal__actions">
+      <a class="nr-btn nr-btn--primary" id="nr-btn-evento" target="_blank" rel="noopener">Evento</a>
+      <a class="nr-btn nr-btn--ghost" id="nr-btn-gcal" target="_blank" rel="noopener">Ver en Google Calendar</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(async function(){
+  // === CONFIG ===
+  const API_KEY    = 'AIzaSyDpQTDTz1uArXjiYeY9Gu01mzKpPkYh6ds';
+  const CAL_ID     = 'f19addf065c8823230e3567c6150870cc14263b949e44462f94df9270f109134@group.calendar.google.com';
+  const RANGE_MONTHS = 12;
+
+  const brandColors = ['#6a46c2','#16a34a','#facc15','#38bdf8','#ef4444','#f97316','#22c55e','#a855f7','#14b8a6'];
+  const colorOf = (name) => { let h=0; for (const ch of name) h=(h*31+ch.charCodeAt(0))>>>0; return brandColors[h%brandColors.length]; };
+
+  const pad=n=>String(n).padStart(2,'0');
+  const fmt=(d,opts)=> new Intl.DateTimeFormat('es-VE',opts).format(d);
+
+  // --- SANITIZADOR: permite solo etiquetas seguras y <a href="...">
+  function sanitizeHTML(html=''){
+    html = html.replace(/(https?:\/\/[^\s<>"']+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    const allowed = new Set(['A','BR','STRONG','B','EM','I','UL','OL','LI','P']);
+    const tpl = document.createElement('template');
+    tpl.innerHTML = html;
+    const walk = (node)=>{
+      [...node.childNodes].forEach(n=>{
+        if(n.nodeType===1){
+          if(!allowed.has(n.tagName)){
+            n.replaceWith(...n.childNodes);
+          }else{
+            [...n.attributes].forEach(a=>{
+              if(n.tagName==='A' && a.name.toLowerCase()==='href'){
+                const href=n.getAttribute('href')||'';
+                if(!/^https?:\/\//i.test(href) && !/^mailto:/i.test(href)){ n.removeAttribute('href'); }
+                n.setAttribute('target','_blank'); n.setAttribute('rel','noopener');
+              }else if(n.tagName!=='A'){
+                n.removeAttribute(a.name);
+              }
+            });
+          }
+          walk(n);
+        }
+      });
+    };
+    walk(tpl.content);
+    return tpl.innerHTML;
+  }
+
+  // Extrae "link: https://..." de la descripción (texto plano o HTML)
+  function extractEventoLink(desc=''){
+    if(!desc) return '';
+    // elimina etiquetas para inspección simple
+    const tmp = desc.replace(/<[^>]+>/g,' ');
+    const m = /link:\s*(https?:\/\/[^\s]+)/i.exec(tmp);
+    return m ? m[1] : '';
+  }
+
+  function normalize(item){
+    const allDay = !!item.start?.date;
+    const start = new Date(item.start?.dateTime || (item.start?.date + 'T00:00:00'));
+    const endRaw = item.end?.dateTime || (item.end?.date ? item.end.date + 'T00:00:00' : null);
+    const end = endRaw ? new Date(allDay ? new Date(endRaw).getTime()-86400000 : endRaw) : start;
+    return {
+      id: item.id,
+      title: item.summary || '(Sin título)',
+      location: item.location || '',
+      description: item.description || '',
+      htmlLink: item.htmlLink || '',
+      start, end, allDay
+    };
+  }
+
+  function monthKey(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1); }
+  function groupByMonth(list){
+    const map={}; list.forEach(e=>{ const k=monthKey(e.start); (map[k] ||= []).push(e); });
+    for(const k in map) map[k].sort((a,b)=>a.start-b.start);
+    return Object.entries(map).sort(([a],[b])=>a.localeCompare(b));
+  }
+
+  function buildChips(titles){
+    const box=document.getElementById('nr-chips'); box.innerHTML='';
+    const mk=(text,val,active=false)=>{
+      const b=document.createElement('button');
+      b.className='nr-chip'+(active?' is-active':''); b.textContent=text; b.dataset.value=val;
+      if(val!=='__all__'){ const c=colorOf(val); b.style.borderColor=c; b.style.color=c; }
+      box.appendChild(b);
+    };
+    mk('Todo','__all__',true);
+    titles.forEach(t=>mk(t,t,false));
+    box.addEventListener('click',ev=>{
+      const btn=ev.target.closest('.nr-chip'); if(!btn) return;
+      document.querySelectorAll('.nr-chip').forEach(x=>x.classList.remove('is-active'));
+      btn.classList.add('is-active'); currentFilter=btn.dataset.value; render();
+    });
+  }
+
+  // Modal helpers
+  const overlay=document.getElementById('nr-overlay');
+  const modal=document.getElementById('nr-modal');
+  const mTitle=modal.querySelector('.nr-modal__title');
+  const mMeta =modal.querySelector('.nr-modal__meta');
+  const mBody =modal.querySelector('.nr-modal__body');
+  const btnEvento =document.getElementById('nr-btn-evento');
+  const btnGCal   =document.getElementById('nr-btn-gcal');
+
+  const closeModal=()=>{ 
+    overlay.style.display='none'; modal.style.display='none';
+    overlay.setAttribute('aria-hidden','true'); modal.setAttribute('aria-hidden','true');
+  };
+  overlay.addEventListener('click', closeModal);
+  modal.querySelector('.nr-modal__close').addEventListener('click', closeModal);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+  function openModal(evList, dayLabel){
+    const first = evList[0];
+    const baseColor = colorOf(first.title);
+    mTitle.textContent = dayLabel + (evList.length>1 ? ` — ${evList.length} eventos` : ` — ${first.title}`);
+
+    mMeta.innerHTML = evList.map(x=>{
+      const s = x.allDay ? fmt(x.start,{day:'2-digit',month:'long'}) : fmt(x.start,{day:'2-digit',month:'long',hour:'2-digit',minute:'2-digit'});
+      const e = x.end ? (x.allDay ? fmt(x.end,{day:'2-digit',month:'long'}) : fmt(x.end,{day:'2-digit',month:'long',hour:'2-digit',minute:'2-digit'})) : '';
+      const range = (e && e!==s) ? `${s} – ${e}` : s;
+      const loc = x.location ? ` · ${x.location}` : '';
+      return `<div style="margin:2px 0"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:${baseColor};margin-right:6px"></span><strong>${x.title}</strong> — ${range}${loc}</div>`;
+    }).join('');
+
+    // Descripción (concat si hay varias)
+    const descHTML = evList.map(x=>{
+      const raw = x.description?.trim() || '';
+      if(!raw) return '';
+      const html = /<\w+[\s>]/.test(raw) ? raw : raw.replace(/\n/g,'<br>');
+      return `<div style="margin:8px 0 0">${sanitizeHTML(html)}</div>`;
+    }).join('');
+    mBody.innerHTML = descHTML || '<p style="opacity:.8">Sin descripción.</p>';
+
+    // Botón secundario: Google Calendar (htmlLink del primero)
+    if(first.htmlLink){ btnGCal.href = first.htmlLink; btnGCal.style.display='inline-flex'; }
+    else { btnGCal.style.display='none'; }
+
+    // Botón principal: "Evento" -> busca "link:" en la descripción del primero
+    const eventoURL = extractEventoLink(first.description || '');
+    if(eventoURL){ btnEvento.href = eventoURL; btnEvento.style.display='inline-flex'; }
+    else { btnEvento.style.display='none'; }
+
+    overlay.style.display='block'; modal.style.display='flex';
+    overlay.setAttribute('aria-hidden','false'); modal.setAttribute('aria-hidden','false');
+  }
+
+  function render(){
+    const host=document.getElementById('nr-months'); host.innerHTML='';
+    const list=(currentFilter==='__all__') ? events : events.filter(e=>e.title===currentFilter);
+
+    // Meses a mostrar
+    let monthDates=[];
+    if(currentFilter==='__all__'){
+      const now=new Date();
+      for(let i=0;i<RANGE_MONTHS;i++) monthDates.push(new Date(now.getFullYear(), now.getMonth()+i, 1));
+    }else{
+      const keys=Array.from(new Set(list.map(e=>monthKey(e.start)))).sort();
+      monthDates = keys.map(k=>new Date(Number(k.slice(0,4)), Number(k.slice(5,7))-1, 1));
+      if(!monthDates.length){ host.innerHTML='<div>No hay eventos para este filtro.</div>'; return; }
+    }
+
+    const byMonth=groupByMonth(list);
+    const colorCurrent=(currentFilter==='__all__')?null:colorOf(currentFilter);
+
+    monthDates.forEach(mDate=>{
+      const ymKey=monthKey(mDate);
+      const monthEvs=(byMonth.find(([k])=>k===ymKey)?.[1])||[];
+
+      const box=document.createElement('div'); box.className='nr-month';
+      const h3=document.createElement('h3'); h3.textContent=fmt(mDate,{month:'long',year:'numeric'}); box.appendChild(h3);
+
+      const cal=document.createElement('div'); cal.className='nr-cal';
+      ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].forEach(w=>{ const d=document.createElement('div'); d.className='nr-wd'; d.textContent=w; cal.appendChild(d); });
+
+      const first=new Date(mDate.getFullYear(), mDate.getMonth(), 1);
+      const startIdx=(first.getDay()+6)%7;
+      const daysInMonth=new Date(mDate.getFullYear(), mDate.getMonth()+1, 0).getDate();
+
+      for(let i=0;i<startIdx;i++){ const c=document.createElement('div'); c.className='nr-cell muted'; cal.appendChild(c); }
+
+      for(let d=1; d<=daysInMonth; d++){
+        const date=new Date(mDate.getFullYear(), mDate.getMonth(), d);
+        const dayKey=date.toISOString().slice(0,10);
+        const dayEvs=monthEvs.filter(ev=>{
+          const s=ev.start.toISOString().slice(0,10);
+          const e=(ev.end||ev.start).toISOString().slice(0,10);
+          return (dayKey>=s && dayKey<=e);
+        });
+
+        const cell=document.createElement('div'); cell.className='nr-cell'+(dayEvs.length?' has-ev':'');
+        cell.tabIndex=dayEvs.length?0:-1;
+        const num=document.createElement('div'); num.className='nr-num'; num.textContent=d;
+
+        if(dayEvs.length){
+          const color=colorCurrent || colorOf(dayEvs[0].title);
+          num.style.background=color;
+          cell.addEventListener('click', ()=>{
+            const label=fmt(date,{weekday:'long', day:'2-digit', month:'long'});
+            openModal(dayEvs, label);
+          });
+          cell.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); cell.click(); }});
+        }
+
+        cell.appendChild(num); cal.appendChild(cell);
+      }
+
+      box.appendChild(cal);
+
+      if(monthEvs.length){
+        const sum=document.createElement('ul'); sum.className='nr-summary';
+        monthEvs.slice(0,3).forEach(ev=>{
+          const s=fmt(ev.start,{day:'2-digit',month:'short'});
+          const e=ev.end?fmt(ev.end,{day:'2-digit',month:'short'}):'';
+          const r=(e && e!==s)?`${s}–${e}`:s;
+          const li=document.createElement('li'); li.innerHTML=`<span class="nr-pill">${r}</span> <span>${ev.title}</span>`;
+          sum.appendChild(li);
+        });
+        box.appendChild(sum);
+      }
+
+      host.appendChild(box);
+    });
+  }
+
+  // --- Eventos por defecto si la API falla o no devuelve nada ---
+  const FALLBACK_EVENTS = [
+    {
+      summary: 'Xtraordinary Humans 2026 Miami',
+      location: 'Miami',
+      description: 'link: https://miami.exmaglobal.com/',
+      start: { date: '2026-12-04' },
+      end:   { date: '2026-12-06' } // exclusivo: cubre 4 y 5 dic
+    },
+    {
+      summary: 'Xtraordinary Humans 2026 México',
+      location: 'México',
+      description: 'link: https://exma.com.mx/',
+      start: { date: '2026-11-10' },
+      end:   { date: '2026-11-12' } // exclusivo: cubre 10 y 11 nov
+    }
+  ];
+
+  // === Fetch Google Calendar ===
+  const now=new Date();
+  const timeMin=new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+  const timeMax=new Date(now.getFullYear(), now.getMonth()+RANGE_MONTHS+6, 0, 23,59,59).toISOString();
+
+  const url=new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events`);
+  url.search=new URLSearchParams({ key:API_KEY, singleEvents:'true', orderBy:'startTime', timeMin, timeMax, maxResults:'2500' });
+
+  let data=null;
+  try{ data = await fetch(url).then(r=>r.json()); }catch(err){ data=null; }
+  let events=(data?.items||[]).filter(x=>x.status!=='cancelled').map(normalize);
+  if(!events.length){ events = FALLBACK_EVENTS.map(normalize); }
+
+  const uniqueTitles = Array.from(new Set(events.map(e=>e.title))).slice(0,40);
+  let currentFilter='__all__';
+
+  buildChips(uniqueTitles);
+  render();
+})();
+</script>
+
+<!- Uso exclusivo de HUB365 -->
+

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Prueba: .btn-discreto (versión final)</title>
+<style>
+/* Vars de respaldo solo para probar este archivo suelto (fuera de la web real,
+   que ya trae abdiel-css.css con estas mismas variables declaradas). */
+:root {
+  --bg-p-l: #ffffff;
+  --bg-s-l: #f3f1f2;
+  --bg-p-d: #0d0d0d;
+  --bg-s-d: #252525;
+  --text-d: #0d0d0d;
+  --text-l: #fdfdfd;
+  --radius-element: 90px;
+  --padding-btn: 15px 40px;
+  --size-font-btn: 16px;
+}
+
+/* Copia simplificada de .v-dark tal cual está en abdiel-css.css, para probar
+   el cambio automático de contexto sin cargar el archivo completo. */
+.v-dark {
+  --text-d: var(--text-l);
+  --bg-p-l: var(--bg-p-d);
+  --bg-s-l: var(--bg-s-d);
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+.franja {
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.franja h2 { margin: 0; font-size: 18px; }
+.franja p.nota { margin: 0 0 20px; font-size: 13px; opacity: .65; }
+
+.claro { background: var(--bg-p-l); color: #333; }
+.oscuro.v-dark { background: var(--bg-p-d); color: #fdfdfd; }
+
+/* ============ .btn-discreto — versión final ============ */
+.btn-discreto {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: var(--padding-btn, 1rem 2rem) !important;
+    border-radius: var(--radius-element, 9999px) !important;
+    background: linear-gradient(
+        to bottom,
+        var(--bg-p-l),
+        color-mix(in srgb, var(--bg-p-l) 85%, var(--text-d) 15%)
+    );
+    border: 1px solid color-mix(in srgb, var(--bg-p-l) 80%, var(--text-d) 20%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .5), 0 10px 20px rgba(0, 0, 0, .15) !important;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-discreto :is(.main-heading-button, .button-icon-end) {
+    color: var(--text-d) !important;
+    font-weight: bold;
+    font-size: var(--size-font-btn, 1.1rem);
+}
+
+.btn-discreto:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .6), 0 12px 24px rgba(0, 0, 0, .2) !important;
+}
+
+.btn-discreto:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 32%), 0 3px 4px rgba(0, 0, 0, 0.4) !important
+}
+</style>
+</head>
+<body>
+
+<div class="franja claro">
+  <h2>Fondo claro (por defecto)</h2>
+  <p class="nota">Pasá el mouse por encima para ver el hover, hacé clic para ver el active.</p>
+  <button class="btn-discreto">Register Now</button>
+</div>
+
+<div class="franja oscuro v-dark">
+  <h2>Fondo oscuro (clase .v-dark)</h2>
+  <p class="nota">Mismo botón, mismas clases — el contexto .v-dark invierte las variables solo.</p>
+  <button class="btn-discreto">Register Now</button>
+</div>
+
+</body>
+</html>

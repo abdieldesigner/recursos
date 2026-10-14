@@ -1,0 +1,109 @@
+<style>
+/* Vars de respaldo solo para probar este archivo suelto (fuera de la web real,
+   que ya trae abdiel-css.css con estas mismas variables declaradas). */
+:root {
+  --bg-p-l: #e7e4ea;
+  --bg-p-d: #141211;
+  --text-d: #222222;
+  --text-l: #fdfdfd;
+  --white: #ffffff;
+  --black: #000000;
+  --contentfont: 'Nunito Sans', system-ui, sans-serif;
+  --radius-element: 30px;
+  --padding-btn: 24px 48px;
+  --size-font-btn: clamp(16px, 19.22px - 0.32vw, 18px);
+}
+.v-dark {
+  --text-d: var(--text-l);
+  --bg-p-l: var(--bg-p-d);
+}
+:is([data-theme="dark"], .modo-dark, .cont-color-d:hover, .v-dark) .btn-neumorfismo,
+.btn-neumorfismo:is([data-theme="dark"], .modo-dark, .cont-color-d:hover, .v-dark) {
+  --neu-sombra: color-mix(in srgb, var(--bg-p-l) 70%, var(--black) 30%);
+  --neu-brillo: color-mix(in srgb, var(--bg-p-l) 96%, var(--white) 4%);
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background: #999;
+  padding: 40px;
+}
+.demo-fondo {
+  padding: 60px;
+  border-radius: 20px;
+  background: var(--bg-p-l);
+}
+
+/* ─── Botón neumorfismo ─── */
+.btn-neumorfismo {
+  --neu-sombra: color-mix(in srgb, var(--bg-p-l) 85%, var(--black) 15%);
+  --neu-brillo: color-mix(in srgb, var(--bg-p-l) 90%, var(--white) 10%);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, var(--bg-p-l) 96%, black 4%) !important;
+  text-decoration: none;
+  border-radius: var(--radius-element, 30px) !important;
+  padding: var(--padding-btn, 24px 48px) !important;
+  border: none !important;
+  box-shadow:
+    12px 12px 16px 0 var(--neu-sombra),
+    -12px -12px 16px 0 var(--neu-brillo),
+    inset 0 0 0 0 transparent;
+  transition: box-shadow 200ms, transform 300ms cubic-bezier(.2, 2, 1, 1);
+  cursor: pointer;
+}
+
+.btn-neumorfismo::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+  background: linear-gradient(to bottom, var(--neu-brillo), var(--neu-sombra));
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.btn-neumorfismo :is(.main-heading-button, .button-icon-end) {
+  color: var(--text-d) !important;
+  font-family: var(--contentfont);
+  font-size: var(--size-font-btn, 24px);
+  letter-spacing: 2px;
+}
+
+/* hover */
+.btn-neumorfismo:hover :is(.main-heading-button, .button-icon-end) {
+  color: color-mix(in srgb, var(--text-d) 75%, transparent) !important;
+}
+
+/* estado presionado */
+.btn-neumorfismo:active {
+  box-shadow:
+    0 0 0 transparent,
+    0 0 0 transparent,
+    inset 8px 8px 12px 0 color-mix(in srgb, var(--neu-sombra) 90%, transparent),
+    inset -8px -8px 12px 0 color-mix(in srgb, var(--neu-brillo) 90%, transparent);
+  transform: scale(.99);
+}
+</style>
+
+<div class="demo-fondo">
+  <a href="#" class="btn-neumorfismo">
+    <span class="main-heading-button">Botón Neumorfismo</span>
+  </a>
+</div>
+
+<div class="demo-fondo v-dark">
+  <a href="#" class="btn-neumorfismo">
+    <span class="main-heading-button">Botón Neumorfismo</span>
+  </a>
+</div>

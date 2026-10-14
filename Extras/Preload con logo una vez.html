@@ -1,0 +1,133 @@
+<style>
+/* ====== Logo — Preloader (pantalla completa) ====== */
+.hub365-preload { display: none; }                 /* oculto hasta que el JS lo active */
+.hub365-preload.is-active { display: grid; }
+.hub365-preload {
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh; height: 100dvh;   /* cubre TODA la ventana */
+  z-index: 2147483647;                           /* por encima de todo */
+  place-items: center; align-content: center; gap: 1.8rem;
+  background: var(--bg-p-l, #ffffff);
+  color: var(--text-d, #0b2547);
+  font-family: var(--contentfont, 'Garet Book', system-ui, sans-serif);
+  transition: opacity .8s ease, visibility .8s ease;
+}
+.hub365-preload.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.hub365-preload__mark { text-align: center; }
+
+/* Contenedor que fija la altura para que ícono y logo completo
+   compartan exactamente el mismo alto y queden centrados uno sobre el otro */
+.hub365-preload__logos {
+  position: relative;
+  height: clamp(128px, 24vw, 220px);
+  width: clamp(320px, 66vw, 480px);
+  margin: 0 auto;
+}
+
+.hub365-preload__icon,
+.hub365-preload__full {
+  position: absolute;
+  top: 0; left: 50%;
+  height: 100%; width: auto; max-width: 100%;
+}
+
+/* 1) El ícono nace pequeño (opacity 0, scale .3) y crece a su tamaño final */
+.hub365-preload__icon {
+  opacity: 0;
+  transform: translateX(-50%) scale(.3);
+  animation-name: hub365Grow, hub365FadeOut;
+  animation-duration: 1s, .6s;
+  animation-delay: 0s, 1.3s;
+  animation-timing-function: cubic-bezier(.16,1,.3,1), ease;
+  animation-fill-mode: forwards, forwards;
+}
+
+/* 2) El logo completo empieza invisible y aparece con crossfade
+      justo cuando el ícono termina de encogerse/desvanecerse */
+.hub365-preload__full {
+  opacity: 0;
+  transform: translateX(-50%) scale(1);
+  animation: hub365FadeIn .6s ease 1.3s forwards;
+}
+
+.hub365-preload__mark .hub365-preload__tagline {
+  margin-top: 1.2rem;
+  opacity: 0; transform: translateY(14px);
+  animation: hub365Up .9s 1.5s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hub365-preload__mark .hub365-preload__tagline strong {
+  display: block; font-style: normal; font-weight: 800;
+  font-size: clamp(1.1rem, 3.2vw, 1.6rem); letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-d, #0b2547);
+  line-height: 1.15;
+}
+.hub365-preload__mark .hub365-preload__tagline span {
+  display: block; font-style: normal; font-weight: 400;
+  font-size: clamp(.65rem, 1.8vw, .85rem); letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--accent-color-custom, #74787e);
+  margin-top: .35rem;
+}
+
+.hub365-preload__bar { width: 160px; height: 2px; background: rgba(11,37,71,.12); overflow: hidden; }
+.hub365-preload__bar i {
+  display: block; height: 100%; width: 0;
+  background: var(--degradado-texto, linear-gradient(105deg, #6ea8f0, #0b2547));
+  animation: hub365Load 2.2s .1s cubic-bezier(.22,.61,.36,1) forwards;
+}
+
+@keyframes hub365Grow    { to   { opacity: 1; transform: translateX(-50%) scale(1); } }
+@keyframes hub365FadeOut { to   { opacity: 0; } }
+@keyframes hub365FadeIn  { to   { opacity: 1; } }
+@keyframes hub365Up      { to   { opacity: 1; transform: none; } }
+@keyframes hub365Load    { to   { width: 100%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hub365-preload__icon, .hub365-preload__full, .hub365-preload__mark em { animation: none; opacity: 1; transform: none; }
+  .hub365-preload__bar i { animation: none; width: 100%; }
+}
+</style>
+<div class="hub365-preload" role="status" aria-label="Loading">
+  <div class="hub365-preload__mark">
+    <div class="hub365-preload__logos">
+      <img class="hub365-preload__icon" src="https://assets.cdn.filesafe.space/wjOtIjL0cLPNxQiK9YtU/media/6a7491d5888087201961a76a.svg" alt="">
+      <img class="hub365-preload__full" src="https://assets.cdn.filesafe.space/wjOtIjL0cLPNxQiK9YtU/media/6a723bb802c9b7a48b9f9418.svg" alt="SFVT">
+    </div>
+    <p class="hub365-preload__tagline">
+      <strong>Real Estate Media</strong>
+      <span>South Florida Virtual Tour</span>
+    </p>
+  </div>
+  <div class="hub365-preload__bar"><i></i></div>
+</div>
+<script>
+(function () {
+  var pre = document.querySelector('.hub365-preload');
+  if (!pre) return;
+  /* Solo en tu sitio real (que tiene #__nuxt), no en el editor */
+  if (!document.getElementById('__nuxt')) return;
+
+  /* Si ya se mostró en esta sesión de navegación (misma pestaña/ventana,
+     aunque haya pasado por varias páginas), no lo repetimos.
+     Se borra solo al cerrar la pestaña/navegador -> ahí sí vuelve a aparecer. */
+  var SESSION_KEY = 'hub365PreloaderShown';
+  if (sessionStorage.getItem(SESSION_KEY)) return;
+  sessionStorage.setItem(SESSION_KEY, '1');
+
+  /* Lo saca del bloque donde lo pegaste y lo cuelga del <body>,
+     así 'position: fixed' cubre toda la pantalla sí o sí */
+  document.body.appendChild(pre);
+  pre.classList.add('is-active');
+  var MIN = 2600, start = Date.now();
+  function hide() {
+    pre.classList.add('is-hidden');
+    setTimeout(function () { pre.style.display = 'none'; }, 850);
+  }
+  function done() { setTimeout(hide, Math.max(0, MIN - (Date.now() - start))); }
+  if (document.readyState === 'complete') done();
+  else window.addEventListener('load', done);
+  setTimeout(hide, 6000);
+})();
+</script>

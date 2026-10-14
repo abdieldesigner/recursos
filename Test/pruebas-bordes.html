@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Pruebas de bordes — estructura real de GHL</title>
+<style>
+  body { margin: 0; }
+
+  :root, body {
+    --primary-color-custom: #06232b;
+    --secondary-color-custom: #0d4650;
+    --accent-color-custom: #dd8448;
+    --accent-color-custom-2: #f0b088;
+    --bg-p-d: #0a0a0a;
+    --bg-s-d: #141211;
+    --bg-p-l: #ffffff;
+    --bg-s-l: #e6f7f7;
+    --text-l: #eafafa;
+    --text-d: #06232b;
+    --radius-principal: 20px;
+    --radius-element: 24px;
+  }
+
+  #__nuxt {
+    background: #1a1512;
+    padding: 60px 40px;
+    font-family: system-ui, sans-serif;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .caja-demo {
+    width: 350px;
+    padding: 30px;
+    color: var(--text-l);
+    background: var(--bg-p-d);
+  }
+
+  .etiqueta-version {
+    color: #aaa;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div id="__nuxt">
+
+  <!-- ============== VERSIÓN A: solo CSS, 2 capas (::before/::after) ============== -->
+  <div>
+    <div class="etiqueta-version">Versión A — solo CSS</div>
+    <div id="col-demo1" class="true c-column c-wrapper col-demo1 borde-electrico-simple caja-demo">
+      <div class="vertical inner">
+        <h2>Electric Border</h2>
+        <p>Versión 100% CSS, sin JS — parpadeo de opacidad en vez de turbulencia real.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== VERSIÓN B: completa, con JS que arma las capas + filtro SVG ============== -->
+  <div>
+    <div class="etiqueta-version">Versión B — con JS (turbulencia real)</div>
+    <div id="col-demo2" class="true c-column c-wrapper col-demo2 borde-electrico caja-demo">
+      <div class="vertical inner">
+        <h2>Electric Border</h2>
+        <p>Versión completa, con el filtro de turbulencia animado real.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== VERSIÓN C: tarjeta de vidrio con resplandor de neón en las esquinas ============== -->
+  <div>
+    <div class="etiqueta-version">Versión C — Glass Neon (con JS)</div>
+    <div id="col-demo3" class="true c-column c-wrapper col-demo3 borde-glass-neon caja-demo">
+      <div class="vertical inner">
+        <h2>Neon Glass</h2>
+        <p>Resplandor en la esquina superior derecha e inferior izquierda, con fondo de vidrio.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== VERSIÓN C2: misma idea, solo CSS (sin JS) ============== -->
+  <div>
+    <div class="etiqueta-version">Versión C2 — Glass Neon (solo CSS)</div>
+    <div id="col-demo4" class="true c-column c-wrapper col-demo4 borde-glass-neon-simple caja-demo">
+      <div class="vertical inner">
+        <h2>Neon Glass</h2>
+        <p>Degradado cónico alrededor del borde + resplandor difuminado, sin capas extra.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== VERSIÓN D: borde giratorio, solo CSS con @property ============== -->
+  <div>
+    <div class="etiqueta-version">Versión D — Glow Border (rotación, solo CSS)</div>
+    <div id="col-demo5" class="true c-column c-wrapper col-demo5 borde-giratorio caja-demo">
+      <div class="vertical inner">
+        <h2>Glow Border</h2>
+        <p>Degradado cónico que gira de verdad, con @property — una sola clase, sin JS.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== VERSIÓN E: borde neón, gira al hover, solo CSS (sin @property) ============== -->
+  <div>
+    <div class="etiqueta-version">Versión E — Neon Hover (gira al pasar el mouse)</div>
+    <div id="col-demo6" class="true c-column c-wrapper col-demo6 borde-neon-simple caja-demo">
+      <div class="vertical inner">
+        <h2>Neon Hover</h2>
+        <p>Pasa el mouse encima — el degradado gira, sin @property, mismo truco de máscara.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  /* =========================================
+     VERSIÓN A — solo CSS (::before + ::after)
+     Clase: .borde-electrico-simple
+     ========================================= */
+  .borde-electrico-simple {
+    position: relative;
+    border-radius: var(--radius-element, 24px);
+  }
+
+  .borde-electrico-simple::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid var(--accent-color-custom, #dd8448);
+    box-shadow: 0 0 6px var(--accent-color-custom, #dd8448), 0 0 12px var(--accent-color-custom, #dd8448);
+    animation: bordeElectricoFlicker 2.5s infinite;
+    pointer-events: none;
+  }
+
+  .borde-electrico-simple::after {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border-radius: inherit;
+    background: var(--accent-color-custom, #dd8448);
+    filter: blur(28px);
+    opacity: 0.3;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  @keyframes bordeElectricoFlicker {
+    0%, 100% { opacity: 1; }
+    10% { opacity: 0.75; }
+    20% { opacity: 1; }
+    35% { opacity: 0.55; }
+    45% { opacity: 1; }
+    60% { opacity: 0.8; }
+    75% { opacity: 1; }
+    85% { opacity: 0.65; }
+    95% { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .borde-electrico-simple::before {
+      animation: none;
+    }
+  }
+
+
+  /* =========================================
+     VERSIÓN B — completa (JS arma las capas)
+     Clase: .borde-electrico
+     ========================================= */
+  .borde-electrico-host {
+    position: relative;
+    border-radius: var(--radius-element, 24px);
+    overflow: visible;
+  }
+
+  /* Borde estático de referencia, igual al .border-outer original —
+     le da un "ancla" visual al borde con turbulencia, que si no, se ve
+     flotando/desalineado del contorno real de la caja. */
+  .be-border-outer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid color-mix(in srgb, var(--accent-color-custom, #dd8448) 50%, transparent);
+    pointer-events: none;
+  }
+
+  .be-main-card {
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    border: 2px solid var(--accent-color-custom, #dd8448);
+    filter: url(#turbulent-displace);
+    pointer-events: none;
+  }
+
+  .be-glow-layer-1 {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid color-mix(in srgb, var(--accent-color-custom, #dd8448) 60%, transparent);
+    filter: blur(1px);
+    pointer-events: none;
+  }
+
+  .be-glow-layer-2 {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid var(--accent-color-custom, #dd8448);
+    filter: blur(4px);
+    pointer-events: none;
+  }
+
+  .be-background-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    filter: blur(32px);
+    transform: scale(1.1);
+    opacity: 0.3;
+    z-index: -1;
+    background: var(--accent-color-custom, #dd8448);
+    pointer-events: none;
+  }
+
+
+  /* =========================================
+     VERSIÓN C — Glass Neon (JS arma las 6 capas)
+     Clase: .borde-glass-neon
+     ========================================= */
+  .borde-glass-neon {
+    --hue1: 265;
+    --hue2: 222;
+    --border: 1px;
+    --border-color: hsl(var(--hue2), 12%, 20%);
+    --radius-neon: var(--radius-element, 22px);
+
+    position: relative;
+    overflow: visible;
+    border-radius: var(--radius-neon);
+    border: var(--border) solid var(--border-color);
+    background:
+      linear-gradient(235deg, hsl(var(--hue1) 50% 10% / 0.8), hsl(var(--hue1) 50% 10% / 0) 33%),
+      linear-gradient(45deg, hsl(var(--hue2) 50% 10% / 0.8), hsl(var(--hue2) 50% 10% / 0) 33%),
+      linear-gradient(hsl(220deg 25% 4.8% / 0.66));
+    backdrop-filter: blur(12px);
+    box-shadow: hsl(var(--hue2) 50% 2%) 0px 10px 16px -8px, hsl(var(--hue2) 50% 4%) 0px 20px 36px -14px;
+  }
+
+  .bgn-shine,
+  .bgn-shine::before,
+  .bgn-shine::after {
+    pointer-events: none;
+    border-radius: 0;
+    border-top-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+    border: 1px solid transparent;
+    width: var(--glow-size, 180px);
+    height: var(--glow-size, 180px);
+    min-height: 0px;
+    display: block;
+    position: absolute;
+    right: calc(var(--border) * -1);
+    top: calc(var(--border) * -1);
+    left: auto;
+    z-index: 1;
+    --start: 12%;
+    background: conic-gradient(
+      from var(--conic, -45deg) at center in oklch,
+      transparent var(--start, 0%), hsl(var(--hue), var(--sat, 80%), var(--lit, 60%)), transparent var(--end, 50%)
+    ) border-box;
+    mask: linear-gradient(transparent), linear-gradient(black);
+    mask-repeat: no-repeat;
+    mask-clip: padding-box, border-box;
+    mask-composite: subtract;
+  }
+
+  .bgn-shine { --hue: var(--hue1); }
+
+  .bgn-shine::before,
+  .bgn-shine::after {
+    content: "";
+    width: auto;
+    inset: -2px;
+    mask: none;
+  }
+
+  .bgn-shine::after {
+    z-index: 2;
+    --start: 17%;
+    --end: 33%;
+    background: conic-gradient(
+      from var(--conic, -45deg) at center in oklch,
+      transparent var(--start, 0%), hsl(var(--hue), var(--sat, 80%), var(--lit, 85%)), transparent var(--end, 50%)
+    );
+  }
+
+  .bgn-shine-bottom {
+    --hue: var(--hue2);
+    --conic: 135deg;
+    top: auto;
+    bottom: calc(var(--border) * -1);
+    left: calc(var(--border) * -1);
+    right: auto;
+  }
+
+  .bgn-glow {
+    pointer-events: none;
+    border-top-right-radius: calc(var(--radius-neon) * 2.5);
+    border-bottom-left-radius: calc(var(--radius-neon) * 2.5);
+    border: calc(var(--radius-neon) * 1.25) solid transparent;
+    top: calc(var(--radius-neon) * -2);
+    right: calc(var(--radius-neon) * -2);
+    width: var(--glow-size, 180px);
+    height: var(--glow-size, 180px);
+    min-height: 0px;
+    display: block;
+    position: absolute;
+    left: auto;
+    bottom: auto;
+    --hue: var(--hue1);
+    opacity: 1;
+    filter: blur(12px) saturate(1.25) brightness(0.5);
+    mix-blend-mode: plus-lighter;
+    z-index: 3;
+  }
+
+  .bgn-glow::before,
+  .bgn-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: inherit;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--conic, -45deg) at center in oklch,
+      transparent var(--start, 0%), hsl(var(--hue), var(--sat, 95%), var(--lit, 60%)), transparent var(--end, 50%)
+    ) border-box;
+    mask: linear-gradient(transparent), linear-gradient(black);
+    mask-repeat: no-repeat;
+    mask-clip: padding-box, border-box;
+    mask-composite: subtract;
+    filter: saturate(2) brightness(1);
+  }
+
+  .bgn-glow::after {
+    --lit: 70%;
+    --sat: 100%;
+    --start: 15%;
+    --end: 35%;
+    border-width: calc(var(--radius-neon) * 1.75);
+    border-radius: calc(var(--radius-neon) * 2.75);
+    inset: calc(var(--radius-neon) * -0.25);
+    z-index: 4;
+    opacity: 0.75;
+  }
+
+  .bgn-glow-bottom {
+    --hue: var(--hue2);
+    --conic: 135deg;
+    inset: calc(var(--radius-neon) * -2);
+    top: auto;
+    right: auto;
+  }
+
+  .bgn-glow-bright {
+    --hue: var(--hue1);
+    --lit: 80%;
+    --sat: 100%;
+    --start: 13%;
+    --end: 37%;
+    border-width: 5px;
+    border-radius: calc(var(--radius-neon) + 2px);
+    inset: -7px;
+    left: auto;
+    filter: blur(2px) brightness(0.66);
+  }
+
+  .bgn-glow-bright::after {
+    content: none;
+  }
+
+  .bgn-glow-bright.bgn-glow-bottom {
+    --hue: var(--hue2);
+    inset: -7px;
+    right: auto;
+    top: auto;
+  }
+
+
+  /* =========================================
+     VERSIÓN C2 — Glass Neon, solo CSS (::before/::after)
+     Clase: .borde-glass-neon-simple
+     ========================================= */
+  .borde-glass-neon-simple {
+    --hue1: 265;
+    --hue2: 222;
+    --radius-neon: var(--radius-element, 22px);
+
+    position: relative;
+    border-radius: var(--radius-neon);
+    background: linear-gradient(hsl(220deg 25% 4.8% / 0.66));
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--hue2), 12%, 20%);
+  }
+
+  /* Línea de degradado cónico sobre el borde (morado a azul) */
+  .borde-glass-neon-simple::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from -45deg,
+      transparent 0%,
+      hsl(var(--hue1) 80% 60%) 15%,
+      transparent 35%,
+      transparent 65%,
+      hsl(var(--hue2) 80% 60%) 85%,
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Resplandor difuminado detrás, mismo degradado */
+  .borde-glass-neon-simple::after {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from -45deg,
+      transparent 0%,
+      hsl(var(--hue1) 80% 60% / 0.5) 15%,
+      transparent 35%,
+      transparent 65%,
+      hsl(var(--hue2) 80% 60% / 0.5) 85%,
+      transparent 100%
+    );
+    filter: blur(30px);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+
+  /* =========================================
+     VERSIÓN D — Glow Border giratorio, solo CSS
+     Clase: .borde-giratorio
+     ========================================= */
+  @property --angulo-borde {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  /* El "borde" sale de dos fondos en el mismo elemento (sin pseudo-elemento):
+     uno sólido que solo cubre el interior (padding-box) y el degradado que
+     cubre toda la caja (border-box) — donde el sólido no llega, se ve el
+     degradado, formando el anillo. */
+  .borde-giratorio {
+    position: relative;
+    z-index: 0;
+    border-radius: var(--radius-element, 10px);
+    border: var(--borde-ancho, 3px) solid transparent;
+    background:
+      linear-gradient(var(--bg-s-d, #292a2e), var(--bg-s-d, #292a2e)) padding-box,
+      conic-gradient(
+        from var(--angulo-borde),
+        transparent,
+        var(--accent-color-custom, #1976ed),
+        transparent 25%
+      ) border-box;
+    /* Resplandor ambiental fijo (parejo, no se mueve — box-shadow no admite degradados) */
+    box-shadow: 0 0 16px 1px color-mix(in srgb, var(--accent-color-custom, #1976ed) 35%, transparent);
+    animation: girarBorde 4s linear infinite;
+  }
+
+  /* Resplandor que SÍ se mueve con la luz: mismo degradado, pegado justo al borde
+     (mismo grosor que --borde-ancho) para que no quede un espacio/anillo separado */
+  .borde-giratorio::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    padding: var(--borde-ancho, 3px);
+    box-sizing: border-box;
+    background: conic-gradient(
+      from var(--angulo-borde),
+      transparent,
+      var(--accent-color-custom, #1976ed),
+      transparent 25%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    filter: blur(8px);
+    pointer-events: none;
+    animation: girarBorde 4s linear infinite;
+  }
+
+  @keyframes girarBorde {
+    to {
+      --angulo-borde: 360deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .borde-giratorio,
+    .borde-giratorio::after {
+      animation: none;
+    }
+  }
+
+
+  /* =========================================
+     VERSIÓN E — Glow Box (adaptado tal cual de glow-box-final.html)
+     Clase: .borde-neon-simple
+     ========================================= */
+  .borde-neon-simple {
+    --box-bg: var(--bg-s-d, #20202b);
+    --border-size: 1px;
+    position: relative;
+    isolation: isolate;
+    background: var(--box-bg);
+  }
+
+  .borde-neon-simple::before {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--border-size));
+    border-radius: inherit;
+    padding: var(--border-size);
+    pointer-events: none;
+    z-index: -1;
+    background: conic-gradient(
+      from var(--angulo-borde),
+      var(--borde-neon-color-1, var(--accent-color-custom, #ff53bb)) 0deg,
+      transparent 55deg 135deg,
+      var(--borde-neon-color-2, var(--accent-color-custom-2, #00f8d3)) 180deg,
+      transparent 235deg 310deg,
+      var(--borde-neon-color-1, var(--accent-color-custom, #ff53bb)) 360deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: girarBorde 6s linear infinite;
+  }
+
+  .borde-neon-simple::after {
+    content: '';
+    position: absolute;
+    inset: -25px;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: -2;
+    background: conic-gradient(
+      from var(--angulo-borde),
+      var(--borde-neon-color-1, var(--accent-color-custom, #ff53bb)) 0deg,
+      transparent 55deg 135deg,
+      var(--borde-neon-color-2, var(--accent-color-custom-2, #00f8d3)) 180deg,
+      transparent 235deg 310deg,
+      var(--borde-neon-color-1, var(--accent-color-custom, #ff53bb)) 360deg
+    );
+    filter: blur(32px);
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+    animation: girarBorde 6s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .borde-neon-simple::before,
+    .borde-neon-simple::after {
+      animation: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .borde-neon-simple:hover {
+      animation-play-state: paused;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  function inyectarFiltro() {
+    if (document.getElementById('electric-border-filter-defs')) return;
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('id', 'electric-border-filter-defs');
+    svg.setAttribute('width', '0');
+    svg.setAttribute('height', '0');
+    svg.style.position = 'absolute';
+    svg.innerHTML =
+      '<defs>' +
+      '<filter id="turbulent-displace" color-interpolation-filters="sRGB" x="-20%" y="-20%" width="140%" height="140%">' +
+      '<feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise1" seed="1" />' +
+      '<feOffset in="noise1" dx="0" dy="0" result="offsetNoise1"><animate attributeName="dy" values="700; 0" dur="6s" repeatCount="indefinite" calcMode="linear" /></feOffset>' +
+      '<feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise2" seed="1" />' +
+      '<feOffset in="noise2" dx="0" dy="0" result="offsetNoise2"><animate attributeName="dy" values="0; -700" dur="6s" repeatCount="indefinite" calcMode="linear" /></feOffset>' +
+      '<feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise1" seed="2" />' +
+      '<feOffset in="noise1" dx="0" dy="0" result="offsetNoise3"><animate attributeName="dx" values="490; 0" dur="6s" repeatCount="indefinite" calcMode="linear" /></feOffset>' +
+      '<feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise2" seed="2" />' +
+      '<feOffset in="noise2" dx="0" dy="0" result="offsetNoise4"><animate attributeName="dx" values="0; -490" dur="6s" repeatCount="indefinite" calcMode="linear" /></feOffset>' +
+      '<feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />' +
+      '<feComposite in="offsetNoise3" in2="offsetNoise4" result="part2" />' +
+      '<feBlend in="part1" in2="part2" mode="color-dodge" result="combinedNoise" />' +
+      '<feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="30" xChannelSelector="R" yChannelSelector="B" />' +
+      '</filter>' +
+      '</defs>';
+    document.body.appendChild(svg);
+  }
+
+  function armarCapas(el) {
+    if (el.dataset.electricBuilt) return;
+    el.dataset.electricBuilt = 'true';
+    el.classList.add('borde-electrico-host');
+
+    var bgGlow = document.createElement('div');
+    bgGlow.className = 'be-background-glow';
+    var borderOuter = document.createElement('div');
+    borderOuter.className = 'be-border-outer';
+    var mainCard = document.createElement('div');
+    mainCard.className = 'be-main-card';
+    var glow1 = document.createElement('div');
+    glow1.className = 'be-glow-layer-1';
+    var glow2 = document.createElement('div');
+    glow2.className = 'be-glow-layer-2';
+
+    el.appendChild(bgGlow);
+    el.appendChild(borderOuter);
+    el.appendChild(mainCard);
+    el.appendChild(glow1);
+    el.appendChild(glow2);
+  }
+
+  function armarGlassNeon(el) {
+    if (el.dataset.neonBuilt) return;
+    el.dataset.neonBuilt = 'true';
+
+    // Tamaño normal del resplandor: 180px (igual que antes). Solo se achica
+    // si la caja real es más chica que eso, para que nunca se salga de ella.
+    var lado = Math.min(el.offsetWidth, el.offsetHeight);
+    var tamanoGlow = Math.max(60, Math.round(Math.min(180, lado * 0.9)));
+    el.style.setProperty('--glow-size', tamanoGlow + 'px');
+
+    var capas = [
+      'bgn-shine',
+      'bgn-shine bgn-shine-bottom',
+      'bgn-glow',
+      'bgn-glow bgn-glow-bottom',
+      'bgn-glow bgn-glow-bright',
+      'bgn-glow bgn-glow-bright bgn-glow-bottom'
+    ];
+    capas.forEach(function (clases) {
+      var span = document.createElement('span');
+      span.className = clases;
+      el.appendChild(span);
+    });
+  }
+
+  function init() {
+    var electricos = document.querySelectorAll('.borde-electrico:not([data-electric-built])');
+    if (electricos.length) {
+      inyectarFiltro();
+      electricos.forEach(armarCapas);
+    }
+
+    var neones = document.querySelectorAll('.borde-glass-neon:not([data-neon-built])');
+    neones.forEach(armarGlassNeon);
+  }
+
+  init();
+  // reintento por si el contenido de GHL carga/renderiza tarde
+  var intentos = 0;
+  var intervalo = setInterval(function () {
+    intentos++;
+    init();
+    if (intentos > 20) clearInterval(intervalo);
+  }, 300);
+})();
+</script>
+
+</body>
+</html>

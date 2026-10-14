@@ -1,0 +1,299 @@
+
+<style>
+  
+  .divider-bottom-ab::after {
+    --divider-height: 0px;
+    height: 0px !important;
+}
+  
+  svg.ico {
+    margin: 0 auto 20px;
+    color: var(--secondary-color-custom) !important;
+}
+
+  
+  
+  /* ============================================
+   CSS UNIFICADO Y DEDUPLICADO
+   ============================================ */
+
+/* --- Tipografía / títulos --- */
+
+  #__nuxt .contenedor-menu-ab.m-m-r-ab > :is(div, section, .inner) {
+    width: min(680px, 94vw) !important;
+}
+
+.title-n p {
+    font-family: var(--headlinefont);
+    font-size: 50px !important;
+    color: var(--secondary-color-custom) !important;
+    display: block;
+    margin-bottom: 14px !important;
+    line-height: 1.5em;
+}
+
+.kicker p, .pre-titulo :is(*, h1, h2, h3, h4, p, span, a)  {
+    font-family: var(--contentfont);
+    font-weight: 400 !important;
+    font-size: 11px !important;
+    letter-spacing: .34em !important;
+    text-transform: uppercase !important;
+    color: var(--secondary-color-custom) !important;
+  margin-bottom: 0px !important;
+}
+
+/* Color de itálicas */
+em, i {
+    color: var(--secondary-color-custom) !important;
+    -webkit-text-fill-color: var(--secondary-color-custom) !important;
+}
+
+/* Titulares en itálica -> fuente elegante */
+:is(em, i), .headline-italic b, .text-special :is(strong, b), .title-h2 strong {
+    font-family: var(--headlinefont), serif;
+    font-style: italic;
+    font-weight: 500;
+}
+
+
+.text-box p {
+    font-weight: 300;
+    line-height: 1.75;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.menu-item-title {
+    font-weight: 300 !important;
+    line-height: 1.75 !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.title-h2 h2 {
+    font-size: clamp(calc(32px * var(--title-scale)), calc(4.4vw * var(--title-scale)), calc(52px * var(--title-scale))) !important;
+    font-weight: 400;
+    margin: 12px 0 22px;
+    line-height: 1.12;
+    color: var(--degradado-texto);
+    -webkit-text-fill-color: transparent;
+    background-image: var(--degradado-texto);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.title-h2-2 h2 {
+    font-size: clamp(32px, 4vw, 48px) !important;
+    line-height: 1em;
+}
+
+.title-h3 h3 {
+    font-size: 24px !important;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--degradado-texto);
+}
+
+/* --- Hero --- */
+.hero {
+    position: relative;
+    min-height: clamp(70vh, 60vh + 8vw, 88vh);
+    display: flex;
+    align-items: center;
+}
+
+/* --- Botones / links --- */
+.btn-link {
+    width: fit-content !important;
+    background: transparent;
+    background-color: transparent !important;
+    font-family: var(--contentfont) !important;
+    font-size: 11px;
+    letter-spacing: .2em !important;
+    text-transform: uppercase !important;
+    color: var(--text-d) !important;
+    border-bottom: 1px solid var(--secondary-color-custom) !important;
+    padding: 0px !important;
+    padding-bottom: 4px !important;
+    border-radius: var(--radius-element) !important;
+}
+
+.btn-link .main-heading-button, .btn-link .button-icon-end:before {
+    font-size: 11px;
+    letter-spacing: .2em !important;
+    text-transform: uppercase !important;
+    color: var(--text-d) !important;
+}
+
+.btn-menu a {
+    padding: 9px 0 !important;
+    border-bottom: 1px solid var(--secondary-color-custom) !important;
+    transition: margin-left .3s, color .2s !important;
+}
+
+.btn-menu .main-heading-button, .btn-menu .button-icon-end:before {
+    font-size: 26px !important;
+    font-weight: 400;
+    color: var(--text-d) !important;
+}
+  
+  .btn-menu .boton-degradado .main-heading-group .main-heading-button {
+    font-family: var(--contentfont);
+    font-weight: 300;
+    color: white !important;
+    font-size: 19px !important;
+}
+  .btn-menu a.boton-degradado {
+padding: clamp(10px, 1vw, 15px) clamp(15px, 1.6vw, 30px) !important;
+}
+  .btn-menu .main-heading-button {
+    font-family: var(--headlinefont);    
+    font-size: clamp(19px, 2vw, 26px) !important;
+}
+  .btn-menu .button-icon-end:before {
+    font-size: clamp(19px, 2vw, 26px) !important;
+}
+
+.btn-menu a:hover {
+    margin-left: 10px !important;
+}
+
+.btn-footer .main-heading-button, .btn-footer a, .btn-footer p {
+    font-size: 13px !important;
+    font-weight: 300 !important;
+    line-height: 1.75 !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.boton-degradado {
+    border-radius: var(--radius-element) !important;
+}
+
+.boton-degradado-2, #menu-item-OJBw7gjkGT {
+    border-radius: var(--radius-element) !important;
+}
+
+.radius-principal-s,
+.radius-principal :is(img, video, .vjs-big-play-centered) {
+    border-radius: var(--radius-principal) !important;
+}
+
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado {
+    box-shadow: none;
+    background-image: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
+    transition: all .4s;
+    border-radius: var(--radius-element, 100px) !important;
+}
+
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado:hover {
+    box-shadow: var(--resplandor-boton);
+}
+
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado .button-icon-end::before {
+    color: var(--color-texto-boton, #fff) !important;
+}
+
+body:has(.colores-abdiel, .colores-hub365) .boton-degradado :is(.main-heading-button, .button-icon-end:before) {
+    color: var(--color-texto-boton, #fff) !important;
+    font-size: var(--size-font-btn, 14px) !important;
+}
+
+body:has(.colores-abdiel) .boton-degradado-2 {
+    box-shadow: none;
+    background: var(--bg-s-l, #a8a8a8);
+    transition: all .4s;
+    color: var(--text-d, #000);
+    border: 1px solid var(--bg-p-d, #010510);
+    border-radius: var(--radius-element) !important;
+}
+
+body:has(.colores-abdiel) .boton-degradado-2 .button-icon-end::before,
+.boton-degradado-2 .main-heading-button {
+    color: var(--text-d, #000) !important;
+    -webkit-text-fill-color: var(--text-d, #000) !important;
+}
+
+.btn-border {
+    box-shadow: none;
+    background: none;
+    background-image: none;
+    transition: all .4s;
+    color: var(--text-d, #fff);
+    /* border: var(--accent-color-custom, #000) 1px solid !important;*/
+    border-radius: var(--radius-element, 100px) !important;  
+    background-color: transparent !important;
+}
+  
+
+.btn-border :is(.main-heading-button, .button-icon-end:before) {
+    color: var(--text-d) !important;
+}
+
+
+body:not(:has(.btn-border-not-effect)) .btn-border:hover {
+    background-color: var(--primary-color-custom, #0d1b2a) !important;
+    background-image: none;
+    box-shadow: inset 0 0 0 1px var(--primary-color-custom, #0d1b2a) !important;
+}
+
+body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-button, .button-icon-end:before) {
+    color: var(--color-texto-boton, #fff) !important;
+    -webkit-text-fill-color: var(--color-texto-boton, #fff) !important;
+}
+
+/* --- Layout / secciones --- */
+.bg-t-l {
+    background-color: var(--bg-t-l, #f3f1f2) !important;
+}
+
+.border-t, .border-t .divider-element {
+    border-color: var(--bg-t-l, #f3f1f2) !important;
+}
+
+.padding-s {
+    padding: 112px 0 !important;
+}
+
+.img-scale img:hover {
+    transform: scale(1.05);
+}
+
+.img-scale img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    transition: transform 1.1s ease;
+}
+
+.faq-separated-child {
+    border: none !important;
+    border-bottom: 1.5px solid var(--secondary-color-custom) !important;
+    border-radius: 0px !important;
+}
+
+.footer-pri {
+    z-index: 100 !important;
+}
+  
+  .colores-2 {
+    --degradado-texto: var(--degradado-texto-2);
+    --degradado-boton: linear-gradient(105deg, var(--accent-color-custom-2), var(--accent-color-custom-2));
+    --color-texto-boton: var(--primary-color-custom);
+    --secondary-color-custom: var(--accent-color-custom-2);
+    --accent-color-custom: var(--accent-color-custom-2);
+  
+  & .btn-border {
+        --text-d: var(--text-l);
+    }
+  
+  & .btn-border:hover {
+        --color-texto-boton: var(--text-d);
+    }
+
+	& body:not(:has(.btn-border-not-effect)) .btn-border:hover {
+        background-color: var(--accent-color-custom, #0d1b2a) !important;
+        background-image: none;
+        box-shadow: inset 0 0 0 1px var(--accent-color-custom, #0d1b2a) !important;
+    }
+}
+
+</style>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Efecto: el texto crece hasta convertirse en el fondo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  /*
+    VERSIÓN COMBINADA - lo mejor de los dos intentos anteriores:
+
+    - De la versión con "transform: scale()": toda la palabra "HUB365"
+      crece junta (se siente grande, no solo una letra aislada), anclada
+      con transformOrigin cerca de la "B" - así la B queda como
+      protagonista mientras el resto de la palabra se escapa del cuadro.
+      El punto de anclaje NO se calcula con getExtentOfChar ni canvas -
+      se ajustó A OJO (mirar el resultado, corregir el número), como en
+      el ejemplo del MacBook Air. Calcularlo con precisión no valía la
+      pena porque la palabra/tipografía no cambian en este archivo.
+
+    - De la versión con font-size + reveal: cerca del final del scroll
+      (70% a 100%), se revela un cuadro de color SÓLIDO por debajo
+      (.lz-reveal) que tapa cualquier borde que el anclaje a ojo no
+      haya cubierto perfecto. Así no dependemos de que el punto elegido
+      sea matemáticamente exacto - solo tiene que estar "cerca" para que
+      el resto del scroll lo termine de tapar.
+  */
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* Nota: el color del texto (.lz-word, .lz-reveal, .lz-caption) y el fondo de
+     .intro-section usan las mismas dos variables globales del proyecto
+     (--accent-color-custom / --bg-p-l) directamente, sin variables locales
+     intermedias — el color del texto y el de la sección siguiente deben
+     seguir siendo iguales entre sí (.lz-word, .lz-reveal y .lz-caption). */
+
+  body { font-family: var(--contentfont, system-ui, sans-serif); overflow-x: hidden; }
+
+  .intro-section {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-p-l, #fdfdfd);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lz-word {
+    font: 900 4vw var(--headlinefont, system-ui, sans-serif);
+    color: var(--accent-color-custom, #EF15FC);
+    white-space: nowrap;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Empieza invisible - se revela cerca del final del scroll para tapar
+     cualquier borde imperfecto del texto ya gigante. */
+  .lz-reveal {
+    position: absolute;
+    inset: 0;
+    background: var(--accent-color-custom, #EF15FC);
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .lz-caption {
+    position: absolute;
+    bottom: 6vh;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-color-custom, #EF15FC);
+    opacity: 0.6;
+    z-index: 3;
+  }
+
+  /* Ya NO es una sección aparte después del pin - vive DENTRO de
+     .intro-section, encima de .lz-reveal, y aparece con un fade
+     mientras todavía está pinneado. Así en cuanto el color termina de
+     cubrir la pantalla, este texto ya está ahí - sin necesitar
+     "scrollear una pantalla completa más" para llegar a él (eso era el
+     scroll que se sentía innecesario: no era el pin, era el alto propio
+     de una sección normal después del pin). */
+  .lz-next {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    color: var(--text-l, #fff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--headlinefont, system-ui, sans-serif);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 2rem;
+    opacity: 0;
+  }
+</style>
+</head>
+<body>
+
+  <div class="intro-section">
+    <div class="lz-reveal"></div>
+    <h1 class="lz-word">HUB365 FRASE DE PRUEBA</h1>
+    <p class="lz-caption">Scroll para ver el efecto</p>
+    <div class="lz-next">
+      Esto es lo que había después - el texto se convirtió en este fondo.
+    </div>
+  </div>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".intro-section",
+        start: "top top",
+        end: "+=120%", // cuánto scroll dura todo el efecto - ya no necesita descontar una pantalla completa para "next", así que puede ser generoso sin sentirse largo
+        scrub: true,
+        pin: true,
+      },
+    });
+
+    // Cada .to() necesita su "duration" puesta a mano - sin eso, GSAP usa
+    // 0.5 por default y desalinea las proporciones (ver historial de este
+    // archivo). Con 0.6 + 0.25 + 0.15 (suman 1 exacto), el timeline
+    // completo coincide con el 100% del scroll - cero tramos muertos Y
+    // cero scroll extra después de terminar (ver por qué .lz-next se movió
+    // arriba, dentro de .intro-section, en el comentario de esa clase).
+
+    // 0% a 60%: la palabra crece, anclada cerca de la "B" (a ojo).
+    tl.to(".lz-word", { scale: 70, rotation: -60, transformOrigin: "44% 50%", ease: "none", duration: 0.6 }, 0);
+    // 60% a 85%: el color sólido tapa cualquier borde imperfecto.
+    tl.to(".lz-reveal", { opacity: 1, ease: "none", duration: 0.25 }, 0.6);
+    // 85% a 100%: el texto de "next" aparece - TODAVÍA pinneado, sin
+    // necesitar scroll adicional para llegar a él.
+    tl.to(".lz-next", { opacity: 1, ease: "none", duration: 0.15 }, 0.85);
+  </script>
+
+</body>
+</html>

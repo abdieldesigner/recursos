@@ -1,0 +1,198 @@
+<style>
+/* NOTA: esto NO repite nada de abdiel-css.css (.card-carrusel, .inner,
+   .singler-card-carrusel, .carru-col-N, etc.) — todo eso ya existe y
+   se carga solo. Aquí van ÚNICAMENTE las reglas nuevas del efecto.
+
+   IMPORTANTE: a propósito NO se crea ni se mueve ningún elemento del
+   DOM (nada de wrappers nuevos) — el sitio es Vue/Nuxt, y mover un
+   elemento que Vue administra a un contenedor nuevo rompe su árbol
+   virtual en la siguiente actualización reactiva. Todo el efecto se
+   logra solo cambiando estilos sobre elementos que YA existen tal
+   cual en el HTML de GHL (la sección y su .inner nativo). */
+
+/* Todo este bloque queda envuelto en desktop-only a propósito: el JS ya
+   solo activa el efecto con matchMedia('min-width: 769px'), pero esto
+   es un respaldo extra en el propio CSS — así, pase lo que pase, en
+   móvil ningún carrusel con .scroll-pin se ve afectado y se comporta
+   como el carrusel normal de siempre (arrastre táctil, flechas, dots). */
+@media (min-width: 769px) {
+  /* La SECCIÓN completa (título + texto + carrusel) se queda pineada y
+     centrada verticalmente como un solo bloque mientras se recorre el
+     carril horizontal de las tarjetas */
+  #__nuxt .section-scroll-pin.section-scroll-pin-active > .inner {
+    /* !important necesario: .divider-top-ab/.divider-bottom-ab fuerzan
+       position: relative !important en el .inner de la sección — sin
+       esto, el divider siempre ganaba y la sección nunca se pineaba */
+    position: sticky !important;
+    top: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* La fila de tarjetas adentro: SOLO se traslada horizontalmente, sin
+     estirarse ni cambiar de tamaño — conserva su alto natural. Esto SÍ
+     aplica a todo carrusel con .scroll-pin (es parte del efecto base) */
+  #__nuxt .section-scroll-pin.section-scroll-pin-active .card-carrusel.scroll-pin > .inner {
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+    align-items: flex-start !important;
+    will-change: transform;
+  }
+
+  /* En desktop no hacen falta flechas/dots — el avance es por scroll de
+     página. En móvil el efecto nunca se activa, así que ahí se quedan
+     normales (no se tocan aquí, solo desaparecen cuando SÍ está pineado) */
+  #__nuxt .section-scroll-pin.section-scroll-pin-active .card-carrusel.scroll-pin .carrusel-arrows-overlay,
+  #__nuxt .section-scroll-pin.section-scroll-pin-active .card-carrusel.scroll-pin .carrusel-dots {
+    display: none !important;
+  }
+
+  /* Clase AISLADA — opt-in, no forma parte del efecto scroll-pin base.
+     El recorte vive ÚNICAMENTE bajo esta clase, así que solo afecta al
+     carrusel donde la agregues explícitamente. Los demás carruseles con
+     .scroll-pin que NO tengan esta clase se quedan sin recortar, tal
+     como están ahora. Por ahora SOLO el recorte — el desvanecido lo
+     dejamos pendiente.
+
+     clip-path en vez de overflow:hidden: overflow recorta los 4 lados
+     de la caja siempre, no existe una versión "solo un lado". Con
+     clip-path sí se puede recortar SOLO el izquierdo (inset: arriba
+     derecha abajo izquierda) — un valor negativo grande en un lado
+     significa "no recortar ahí", y 0 significa "recortar justo en
+     el borde". Arriba/derecha/abajo quedan completamente libres. */
+  .difuminado-left-scroll {
+    clip-path: inset(-9999px -9999px -9999px 0);
+    border-left: solid 3px var(--accent-color-custom) !important;
+  }
+
+  /* Clase opcional: en vez de mover las tarjetas de forma continua,
+     las muestra de UNA en UNA a pantalla completa — cada tarjeta se
+     mantiene quieta un tramo del scroll, y al seguir scrolleando salta
+     a la siguiente. Combínala con carru-col-1 para que cada tarjeta
+     ocupe todo el ancho (sin fragmento de la próxima asomando). */
+  #__nuxt .section-scroll-pin.section-scroll-pin-active .card-carrusel.scroll-pin.scroll-pin-paso > .inner {
+    transition: transform .35s ease;
+  }
+
+  .scroll-pin-paso {
+    -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #0000001f 6px,
+    #00000047 9px,
+    black 18px,
+    black calc(100% - 18px),
+    #00000047 calc(100% - 9px),
+    #0000001f calc(100% - 6px),
+    transparent 100%
+) !important;
+-webkit-mask-repeat: no-repeat !important;
+-webkit-mask-size: 100% 100% !important;
+
+mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #0000001f 6px,
+    #00000047 9px,
+    black 18px,
+    black calc(100% - 18px),
+    #00000047 calc(100% - 9px),
+    #0000001f calc(100% - 6px),
+    transparent 100%
+) !important;
+mask-repeat: no-repeat !important;
+mask-size: 100% 100% !important;
+
+}
+
+</style>
+<script>
+(function(){
+  "use strict";
+  var VELOCIDAD = 1.15; // más alto = carril más largo/lento, más bajo = más rápido
+
+  function initSectionScrollPin(section) {
+    var frame = section.querySelector(':scope > .inner');
+    if (!frame) return;
+    var carrusel = section.querySelector('.card-carrusel.scroll-pin');
+    var inner = carrusel ? carrusel.querySelector(':scope > .inner') : null;
+    if (!inner) return;
+
+    var esPorPasos = carrusel.classList.contains('scroll-pin-paso');
+    var tarjetas = inner.querySelectorAll(':scope > .singler-card-carrusel');
+
+    var mq = window.matchMedia('(min-width: 769px)');
+    var activo = false, onScroll = null, onResize = null;
+
+    function recalcAltura() {
+      var distancia = Math.max(inner.scrollWidth - inner.clientWidth, 0);
+      section.style.height = (window.innerHeight + distancia * VELOCIDAD) + 'px';
+    }
+
+    function activar() {
+      if (activo) return;
+      activo = true;
+      section.classList.add('section-scroll-pin-active');
+      recalcAltura();
+      // Reintentos: con carruseles muy anchos (ej. carru-col-1, cada
+      // tarjeta al 100%) el navegador puede no haber terminado de
+      // acomodar todo el contenido en el primer cálculo — se vuelve a
+      // medir un par de veces más para corregir el alto del carril si
+      // la medida inicial quedó corta
+      setTimeout(recalcAltura, 300);
+      setTimeout(recalcAltura, 1000);
+
+      var ticking = false;
+      onScroll = function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          var total = section.offsetHeight - window.innerHeight;
+          if (total <= 0) { inner.style.transform = ''; return; }
+          var rect = section.getBoundingClientRect();
+          var progreso = Math.min(Math.max(-rect.top / total, 0), 1);
+
+          if (esPorPasos && tarjetas.length) {
+            // En vez de una posición continua, se redondea al índice de
+            // tarjeta más cercano — así cada tarjeta se queda quieta un
+            // tramo del scroll y salta a la siguiente de un solo golpe
+            // (el "salto" se ve suave gracias a la transition del CSS)
+            var indice = Math.round(progreso * (tarjetas.length - 1));
+            indice = Math.min(Math.max(indice, 0), tarjetas.length - 1);
+            var destino = tarjetas[indice].offsetLeft;
+            inner.style.transform = 'translateX(' + (-destino) + 'px)';
+          } else {
+            var distancia = Math.max(inner.scrollWidth - inner.clientWidth, 0);
+            inner.style.transform = 'translateX(' + (-progreso * distancia) + 'px)';
+          }
+        });
+      };
+      onResize = function () { recalcAltura(); onScroll(); };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onResize);
+      onScroll();
+    }
+
+    function desactivar() {
+      if (!activo) return;
+      activo = false;
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      inner.style.transform = '';
+      section.style.height = '';
+      section.classList.remove('section-scroll-pin-active');
+    }
+
+    function sync() { mq.matches ? activar() : desactivar(); }
+    mq.addEventListener('change', sync);
+    sync();
+  }
+
+  document.querySelectorAll('.section-scroll-pin').forEach(initSectionScrollPin);
+})();
+</script>

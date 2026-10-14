@@ -1,0 +1,826 @@
+
+/* Cargar Fuentes Personalizadas */ 
+    @font-face {
+        font-family: 'kenyan coffee';
+        font-style: normal;
+        font-weight: normal;
+        font-display: auto;
+        src: url('https://joseabdiel.com/wp-content/uploads/2024/08/kenyan-coffee-rg.woff') format('woff');
+    }
+    @font-face {
+        font-family: 'kenyan coffee';
+        font-style: normal;
+        font-weight: bold;
+        font-display: auto;
+        src: url('https://joseabdiel.com/wp-content/uploads/2024/08/kenyan-coffee-bd.woff') format('woff');
+    }
+
+    @font-face {
+	font-family: 'Garet';
+	font-style: normal;
+	font-weight: normal;
+	font-display: auto;
+	src: url('https://joseabdiel.com/wp-content/uploads/2026/09/Garet-Book.woff2') format('woff2');
+    }     
+    @font-face {
+        font-family: 'Garet';
+        font-style: normal;
+        font-weight: 500;
+        font-display: auto;
+        src: url('https://joseabdiel.com/wp-content/uploads/2026/09/Garet-Regular.woff2') format('woff2');
+    }
+    @font-face {
+        font-family: 'Garet';
+        font-style: normal;
+        font-weight: 600;
+        font-display: auto;
+        src: url('https://joseabdiel.com/wp-content/uploads/2026/09/Garet-Bold.woff2') format('woff2');
+    }
+    @font-face {
+        font-family: 'Garet';
+        font-style: normal;
+        font-weight: 800;
+        font-display: auto;
+        src: url('https://joseabdiel.com/wp-content/uploads/2026/09/Garet-Heavy.woff2') format('woff2');
+    }
+    @font-face {
+        font-family: 'Takota';
+        font-style: normal;
+        font-weight: 400;
+        font-display: auto;
+        src: url('https://joseabdiel.com/wp-content/uploads/2022/12/Takota.woff2') format('woff2');
+    }
+    
+body, .elementor-kit-3346, [data-theme="dark"] .theme-lock-no  {
+    /* === Variables globales === */
+    --primary-color-custom: #0C3630;
+    --secondary-color-custom: #009472;
+    --accent-color-custom: #00e000;
+    --accent-color-custom-2: #009472;
+
+
+    --degradado-texto: linear-gradient(105deg, var(--secondary-color-custom), var(--accent-color-custom));
+    --degradado-texto-2: linear-gradient(105deg, var(--accent-color-custom), color-mix(in srgb, var(--accent-color-custom-2) 75%, white 25%));
+    --move-degradado: linear-gradient(105deg, var(--secondary-color-custom), var(--accent-color-custom), var(--secondary-color-custom));
+    --degradado-fondo: linear-gradient(105deg, var(--secondary-color-custom), var(--bg-p-d));
+    --degradado-boton: linear-gradient(105deg, var(--accent-color-custom), var(--primary-color-custom)); 
+    --resplandor-boton: 0 0 3rem var(--accent-color-custom);
+    --degradado-boton-menu: linear-gradient(105deg, var(--accent-color-custom), var(--primary-color-custom));
+
+    --color-texto-boton: var(--bg-p-d);
+    --seo-text: var(--text-d);
+    
+    --divider-mask: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/Shapes/triangle.svg");
+    --divider-color: var(--bg-p-l);
+    --divider-height: 70px;
+
+    --radius-principal: 10px;
+    --radius-element: 100px 50px;
+    --padding-seccion: 60px 0px;
+    --padding-btn: 15px 40px;
+
+  /* Fondos */
+    --bg-p-d: #0C3630;
+    --bg-s-d: #005944;
+    --bg-p-l: #ffffff;
+    --bg-s-l: #E6F4F1;
+    --fondo-menu-expandible: var(--bg-p-l);
+
+  /* Brandboards NATIVO Ajustado*/
+    --e-global-color-primary: var(--primary-color-custom);
+    --e-global-color-secondary: var(--secondary-color-custom);
+    --e-global-color-accent: var(--accent-color-custom);
+    --e-global-color-accent-color-custom-2: var(--accent-color-custom-2);
+
+    --e-global-color-bg-p-d: var(--bg-p-d);
+    --e-global-color-bg-p-l: var(--bg-p-l);
+
+    --e-global-color-text: var(--text-d);
+    --e-global-color-text-d: var(--text-d);
+    --e-global-color-text-l: var(--text-l);
+
+    --e-global-typography-primary-font-family: var(--headlinefont);
+    --e-global-typography-text-font-family: var(--contentfont);
+
+    --e-global-color-black: var(--black);
+    --e-global-color-white: var(--white);
+
+    --white: #ffffff;
+    --black: #000000;
+    
+
+    /* Fuentes Tipografía */
+    --headlinefont: 'kenyan coffee';
+    --contentfont: 'Garet';
+    --extrafont: 'Takota';
+    --btn-font: var(--contentfont);
+    --title-scale: 1;
+
+    --eyebrow: 13px;
+    --size-h2: clamp(28px, 24.48px + 0.94vw, 38px);
+    --size-h2-2: clamp(22px, 19.89px + 0.56vw, 28px);
+    --size-h3: clamp(16px, 14.59px + 0.38vw, 20px);
+    --size-p: 16px;
+    --size-font-btn: clamp(16px, 19.22px - 0.32vw, 18px);
+
+      
+    --text-l: #FFFFFF;
+    --text-d: #0D0D0D;
+
+    /* Animaciones */
+    --a-e-dur: 1.7s;
+    --a-e-delay: 0.65s;   
+
+    --a-e-anim: animate__fadeInUp;
+    --animate-btn: animate__fadeIn;
+}
+.colores-2 {
+    --degradado-texto: var(--degradado-texto-2);
+    --degradado-boton: linear-gradient(105deg, var(--accent-color-custom-2), var(--accent-color-custom-2));
+    --color-texto-boton: var(--primary-color-custom);
+    --secondary-color-custom: var(--accent-color-custom-2);
+    --accent-color-custom: var(--accent-color-custom-2);
+
+    /* .btn-border {
+        --text-d: var(--text-l);
+    }
+
+    .btn-border:hover {
+        --color-texto-boton: var(--text-l);
+    } */
+}
+
+.v-dark {
+    --text-d: var(--text-l);
+    --bg-p-l: var(--bg-p-d);
+    --bg-s-l: var(--bg-s-d);
+    --white: var(--black);
+}
+.v-luz {
+    --text-l: var(--text-d);
+    --bg-p-d: var(--bg-p-l);
+    --bg-s-d: var(--bg-s-l);
+    --black: var(--white);
+}
+
+
+.elementor {
+        overflow-x: clip;
+        overflow-y: visible;
+}
+
+/* Desactiva los clics/toques en el elemento, excepto dentro del editor de Elementor */
+body:not(.elementor-editor-active) .no-tocar {
+    pointer-events: none !important;
+}
+
+/* ================= TEXTOS: clases básicas (copiadas de abdiel-css.css) ================= */
+
+p:not(.excluir-p, .excluir-p p, .pre-titulo p), [data-widget_type="text-editor.default"], .elementor-widget-text-editor {
+    font-weight: 500 !important;
+    line-height: 1.5;
+    font-size: var(--size-p, 16px);
+    -webkit-font-smoothing: antialiased;
+    font-family: var(--contentfont) !important;
+}
+
+.text-box p {
+    font-size: calc(var(--size-p, 16px) * 0.7) !important;
+}
+
+.pre-titulo :is(*, h1, h2, h3, h4, p, span, a) {
+    font-size: var(--eyebrow, 13px) !important;
+    font-weight: 400 !important;
+}
+
+.title-h2 :is(h2, h3) {
+    font-size: var(--size-h2, clamp(28px, 24.48px + 0.94vw, 38px)) !important;
+    font-weight: 800 !important;
+    line-height: 1em;
+}
+
+.title-h2-2 :is(h2, h3) {
+    font-size: var(--size-h2-2, clamp(22px, 19.89px + 0.56vw, 28px)) !important;
+    font-weight: 800 !important;
+    line-height: 1em;
+}
+
+.title-h3 :is(h2, h3) {
+    font-size: var(--size-h3, clamp(16px, 14.59px + 0.38vw, 20px)) !important;
+    font-weight: 600 !important;
+    line-height: 1em;
+}
+
+.text-especial :is(strong, b, em, i) {
+  font-family: var(--extrafont), serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.titulos-especial * {
+  --headlinefont: var(--extrafont);
+}
+
+/* font-titulo-all: el elemento mismo y todo lo de adentro | font-titulo: solo h1-h4 (el elemento mismo o los que estén adentro) */
+:is(.font-titulo-all, .font-titulo-all *),
+:is(.font-titulo, .font-titulo *):is(h1, h2, h3, h4) {
+    font-family: var(--headlinefont);
+}
+
+b, strong {
+    font-weight: 600;
+}
+
+.negrita-discreta :is(em, i) {
+        font-style: normal !important;
+        font-weight: 600;
+        color: var(--accent-color-custom) 
+    }
+
+.text-etiqueta :is(h2, span) {
+    background: color-mix(in srgb, var(--accent-color-custom) 12%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--accent-color-custom) 20%, transparent);
+    border-radius: var(--radius-element, 100px);
+    display: inline-block;
+    padding: 5px 20px 3px 20px;
+    line-height: 1rem !important; 
+}
+
+/* ================= COLORES: clases básicas (copiadas de abdiel-css.css) ================= */
+
+/* convertir todos los colores de una sección a un color específico de mis variables */
+/* PRIMARY */
+body .colores-p {
+  --secondary-color-custom: var(--primary-color-custom);
+  --accent-color-custom: var(--primary-color-custom);
+  --accent-color-custom-2: var(--primary-color-custom);
+
+  --degradado-texto: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--primary-color-custom) 85%, white),
+    var(--primary-color-custom),
+    color-mix(in srgb, var(--primary-color-custom) 70%, black)
+  );
+}
+
+/* SECONDARY */
+body .colores-s {
+  --primary-color-custom: var(--secondary-color-custom);
+  --accent-color-custom: var(--secondary-color-custom);
+  --accent-color-custom-2: var(--secondary-color-custom);
+
+  --degradado-texto: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--secondary-color-custom) 85%, white),
+    var(--secondary-color-custom),
+    color-mix(in srgb, var(--secondary-color-custom) 70%, black)
+  );
+}
+
+/* ACCENT */
+body .colores-a {
+  --primary-color-custom: var(--accent-color-custom);
+  --secondary-color-custom: var(--accent-color-custom);
+  --accent-color-custom-2: var(--accent-color-custom);
+
+  --degradado-texto: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent-color-custom) 85%, white),
+    var(--accent-color-custom),
+    color-mix(in srgb, var(--accent-color-custom) 70%, black)
+  );
+}
+
+/* ACCENT 2 */
+body .colores-a2 {
+  --primary-color-custom: var(--accent-color-custom-2);
+  --secondary-color-custom: var(--accent-color-custom-2);
+  --accent-color-custom: var(--accent-color-custom-2);
+
+  --degradado-texto: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent-color-custom-2) 85%, white),
+    var(--accent-color-custom-2),
+    color-mix(in srgb, var(--accent-color-custom-2) 70%, black)
+  );
+}
+
+.ct-p * {
+    color: var(--primary-color-custom);
+}
+
+.ct-s * {
+    color: var(--secondary-color-custom);
+}
+
+.ct-a * {
+    color: var(--accent-color-custom);
+}
+
+.bg-p-d {
+    background-color: var(--bg-p-d, #0d0d0d) !important;
+}
+.bg-s-d {
+    background-color: var(--bg-s-d, #202020) !important;
+}
+.bg-p-l {
+    background-color: var(--bg-p-l, #ffffff) !important;
+}
+.bg-s-l {
+    background-color: var(--bg-s-l, #f3f1f2) !important;
+}
+
+/* ================= GRADIENTE DE TEXTO (copiado de abdiel-css.css) ================= */
+
+:is(
+    :is(h1, h2) :is(strong, b),
+    .text-degradado :is(h1, h2, strong, b, .counter-value, .timer-box > .count)
+  ) {
+    color: var(--text-d);
+    -webkit-text-fill-color: transparent;
+    background: var(--degradado-texto);
+    padding-right: .15rem;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-weight: 900;
+}
+
+:is(
+    :is(h1, h2) :is(strong, b),
+    .text-degradado :is(h1, h2, strong, b, .counter-value, .timer-box > .count)
+)::before {
+    color: var(--accent-color-custom);
+}
+
+/* Interruptor: agregar .move-degradado (misma etiqueta o ancestro) para
+   animar el degradado de texto de arriba en vez de dejarlo estático */
+:is(
+    :is(h1, h2) :is(strong, b),
+    .text-degradado :is(h1, h2, strong, b, .counter-value, .timer-box > .count)
+):is(.move-degradado, .move-degradado *) {
+    --degradado-texto: var(--move-degradado);
+    --degradado-boton: var(--move-degradado);
+    background-size: 500% auto;
+    animation: degradado-texto-move 15s linear infinite;
+}
+
+@keyframes degradado-texto-move {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 500% 50%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :is(
+        :is(h1, h2) :is(strong, b),
+        .text-degradado :is(h1, h2, strong, b, .counter-value, .timer-box > .count)
+    ):is(.move-degradado, .move-degradado *) {
+        animation: none;
+    }
+}
+
+/* ================= BOTONES (copiado de abdiel-css.css) ================= */
+
+.btn-degradado a {
+    box-shadow: none;
+    background: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
+    transition: all .4s;
+    border-radius: var(--radius-element, 100px) !important;
+    padding: var(--padding-btn, 15px 40px) !important;
+}
+
+.btn-degradado :is(.elementor-button-text, .fab) {
+    color: var(--color-texto-boton, #fff) !important;
+    font-size: var(--size-font-btn, 14px) !important;
+}
+
+.btn-degradado .elementor-button-text {
+    font-family: var(--btn-font) !important;
+}
+
+.btn-degradado a:hover {
+    box-shadow: var(--resplandor-boton);
+}
+
+.btn-magic a {
+    position: relative;
+    background: radial-gradient(93.6% 163.98% at 50% 140.89%, var(--accent-color-custom-2) 0%, var(--accent-color-custom) 80%);
+    border-radius: var(--radius-element, 50px) !important;
+    border: none;
+    padding: var(--padding-btn, 15px 40px) !important;
+}
+
+:is(.btn-magic, .btn-border.btn-border-magic) a{
+    box-shadow:
+        0 -1px 2px #fffffffa,
+        0 -3px 6.5px #fffffffa,
+        0 -6px 17.5px color-mix(in srgb, var(--accent-color-custom) 50%, transparent),
+        0 -7px 8.8px color-mix(in srgb, var(--accent-color-custom) 85%, transparent),
+        0 -14px 58.2px color-mix(in srgb, var(--accent-color-custom) 66%, transparent),
+        inset 0 1px 2.1px #ffffffd1,
+        inset 0 5px 8.6px #ffffffd1 !important;
+}
+
+/* Resplandor extra al hacer hover, en su propia capa para no pisar el brillo fijo de arriba */
+.btn-magic a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: var(--resplandor-boton);
+    opacity: 0;
+    transition: opacity .4s;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.btn-magic a:hover::before {
+    opacity: 1;
+}
+
+.btn-magic :is(.elementor-button-text, .fab) {
+    color: var(--color-texto-boton, #fff) !important;
+    font-size: var(--size-font-btn, 14px) !important;
+}
+
+.btn-magic .elementor-button-text {
+    font-family: var(--btn-font) !important;
+}
+
+a.btn-link, .btn-link a {
+    width: fit-content !important;
+    background: transparent;
+    background-color: transparent !important;
+    border-bottom: 1px solid var(--secondary-color-custom) !important;
+    padding: 0px !important;
+    padding-bottom: 4px !important;
+    border-radius: var(--radius-principal);
+}
+
+.btn-link :is(.elementor-button-text, .fab) {
+    font-size: var(--size-font-btn, 14px) !important;
+    letter-spacing: .2em !important;
+    color: var(--text-d) !important;
+}
+
+.btn-link .elementor-button-text {
+    font-family: var(--btn-font) !important;
+}
+
+.btn-border a {
+    box-shadow: inset 0 0 0 1px var(--accent-color-custom, #000) !important;
+    background: none;
+    background-image: none;
+    background-color: transparent !important;
+    backdrop-filter: blur(4px);
+    transition: all .4s;
+    color: var(--text-d, #212121);
+    border: none !important;
+    border-radius: var(--radius-element, 100px) !important;
+    padding: var(--padding-btn, 15px 40px) !important;
+}
+.btn-border :is(.elementor-button-text, .fab) {
+    color: var(--text-d) !important;
+    font-size: var(--size-font-btn, 14px) !important;
+}
+
+.btn-border .elementor-button-text {
+    font-family: var(--btn-font) !important;
+}
+
+/* Interruptor: si existe .btn-border-not-effect en el body, se desactiva este hover */
+body:not(:has(.btn-border-not-effect)) .btn-border a:hover {
+    background-color: var(--accent-color-custom, #0d1b2a) !important;
+    background-image: none;
+}
+
+body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-text, .fab) {
+    color: var(--color-texto-boton, #fff) !important;
+    -webkit-text-fill-color: var(--color-texto-boton, #fff) !important;
+}
+
+.btn-3d a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent !important;
+  border: 2px solid var(--text-d) !important;
+  border-radius: var(--radius-element, 50px) !important;
+  padding: var(--padding-btn, 18px 44px) !important;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0px 12px 1px var(--text-d, #141211) !important;
+  transition: all 200ms;
+  transform: translateY(0px);
+}
+
+.btn-3d :is(.elementor-button-text, .fab) {
+  color: var(--text-d) !important;
+  font-size: var(--size-font-btn, 18px);
+  letter-spacing: 1px;
+}
+
+.btn-3d .elementor-button-text {
+  font-family: var(--btn-font) !important;
+}
+
+/* hover: se hunde un poco */
+.btn-3d a:hover {
+  transform: translateY(4px);
+  box-shadow: 0px 9px 1px var(--text-d, #141211) !important;
+}
+
+/* active: queda totalmente hundido */
+.btn-3d a:active {
+  transform: translateY(12px);
+  box-shadow: 0 0 0 !important;
+}
+
+
+.elemento-luz .elementor-grid-item i {
+  transition: color .4s;
+}
+.elemento-luz .elementor-grid-item i:before {
+  transition: opacity .4s, filter .4s;
+}
+
+.elemento-luz .elementor-grid-item:hover i {
+    color: var(--text-l) !important;
+
+}
+.elemento-luz .elementor-grid-item:hover i:before {
+    opacity: .9;
+    filter: drop-shadow(0 0 19.821px rgb(255 255 255 / .6)) drop-shadow(0 0 5.663px rgb(255 255 255 / .6)) drop-shadow(0 0 2.832px rgb(255 255 255 / .6));
+}
+
+.text-luz a, .icon-luz .elementor-grid-item i {
+  transition: all .5s;
+}
+.text-luz:hover a, .icon-luz .elementor-grid-item:hover i {
+    fill: #fff !important;
+    stroke: #fff;
+    color: white !important;
+    filter: drop-shadow(0 0 19.821px rgb(255 255 255 / .6)) drop-shadow(0 0 5.663px rgb(255 255 255 / .6)) drop-shadow(0 0 2.832px rgb(255 255 255 / .6));
+}
+
+/* =========================================
+   EMPIEZA CSS difuminado o desvanecidos abajo 
+   ========================================= */
+
+.elemento-difuminado-bottom, .difuminado-bottom {
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important
+    ;
+    -webkit-mask-repeat: no-repeat !important;
+    ;
+    -webkit-mask-size: 100% 100% !important;
+    ;
+    mask-image: linear-gradient(to bottom, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important
+    ;
+    mask-repeat: no-repeat !important;
+    ;
+    mask-size: 100% 100% !important;
+    ;
+}
+
+.difuminado-top {
+    -webkit-mask-image: linear-gradient(to top, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-image: linear-gradient(to top, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+    mask-size: 100% 100% !important;
+}
+
+.difuminado-left {
+    -webkit-mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(to left, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
+/* Igual que .difuminado-left/.difuminado-right pero solo en desktop;
+   en móvil ambas caen a difuminado hacia abajo (--dir-pc) */
+.difuminado-left-pc {
+    --dir-pc: left;
+}
+.difuminado-right-pc {
+    --dir-pc: right;
+}
+@media (max-width: 768px) {
+  :is(.difuminado-left-pc, .difuminado-right-pc) {
+    --dir-pc: bottom;
+  }
+}
+
+.difuminado-left-pc,
+.difuminado-right-pc {
+    -webkit-mask-image: linear-gradient(to var(--dir-pc), black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(to var(--dir-pc), black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
+.difuminado-right {
+    -webkit-mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
+
+.difuminado-horizontal {
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #0000001f 7%,
+        #00000047 10%,
+        black 20%,
+        black 80%,
+        #00000047 90%,
+        #0000001f 93%,
+        transparent 100%
+    ) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #0000001f 7%,
+        #00000047 10%,
+        black 20%,
+        black 80%,
+        #00000047 90%,
+        #0000001f 93%,
+        transparent 100%
+    ) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
+.difuminado-vertical {
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #0000001f 7%,
+        #00000047 10%,
+        black 20%,
+        black 80%,
+        #00000047 90%,
+        #0000001f 93%,
+        transparent 100%
+    ) !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-size: 100% 100% !important;
+
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #0000001f 7%,
+        #00000047 10%,
+        black 20%,
+        black 80%,
+        #00000047 90%,
+        #0000001f 93%,
+        transparent 100%
+    ) !important;
+    mask-repeat: no-repeat !important;
+    mask-size: 100% 100% !important;
+}
+
+
+/* =========================================
+   TERMINA CSS difuminado abajo 
+   ========================================= */
+
+
+.ruido {
+  position: relative;               /* necesario para la capa */
+  background-color: #707070;        /* tu color base */
+  overflow: hidden;                 /* opcional, recorta el ruido */
+}
+
+.ruido::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("https://joseabdiel.com/wp-content/uploads/2024/12/ruido-abdiel.webp");
+  background-size: 200px;          /* tamaño del grano (bájalo = más fino) */
+  background-repeat: repeat;       /* mosaico que se repite */
+  opacity: 1;                   /* intensidad del ruido */
+  mix-blend-mode: soft-light;      /* respeta el color, solo añade grano */
+  pointer-events: none;
+}
+
+/* =========================================
+   COMIENZA CSS REFLEJO (igual que .bento, pero sin inclinar/escalar
+   el elemento en hover — solo el destello que lo cubre)
+   ========================================= */
+
+.reflejo {
+    border-radius: var(--radius-element, 20px);
+    overflow: hidden;
+    transition: 0.5s ease;
+    position: relative
+}
+
+.reflejo:hover::before {
+    content: "";
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100%;
+    width: 80px;
+    opacity: 0;
+    filter: blur(25px);
+    -webkit-filter: blur(25px);
+    background: #fff;
+    box-shadow: 0 0 30px 20px #fffa;
+    transform: skewX(-30deg);
+    mix-blend-mode: overlay;
+    z-index: 2;
+    pointer-events: none
+}
+
+@media (min-width: 767px) {
+    .reflejo:hover::before {
+        animation: brilho 1s ease-in-out
+    }
+}
+@keyframes brilho {
+    0% {
+        opacity: 1;
+        left: -50%
+    }
+
+    100% {
+        opacity: 1;
+        left: 150%
+    }
+}
+
+
+
+.slider-continuo-abdiel .swiper-wrapper {
+      -webkit-transition-timing-function: linear !important;
+      transition-timing-function: linear !important;
+    }
+
+.slider-continuo-abdiel .swiper-slide{
+        overflow: visible;
+    }
+
+ .e-n-carousel.swiper.swiper-initialized.swiper-horizontal.swiper-pointer-events.swiper-backface-hidden{
+        overflow: visible;
+    }
+
+
+    /* ajuste de tamaño para todo el diseño en pantallas más chicas o estándar */
+
+@media (min-width: 995px) and (max-width: 1450px) {
+
+    #__nuxt:has(.body-zoom-75),
+    #__nuxt:not(:has(.body-zoom-75)) .zoom-75 {
+        zoom: 0.75;
+    }
+
+    #__nuxt:has(.body-zoom-80),
+    #__nuxt:not(:has(.body-zoom-80)) .zoom-80 {
+        zoom: 0.80;
+    }
+
+    #__nuxt:has(.body-zoom-85),
+    #__nuxt:not(:has(.body-zoom-85)) .zoom-85 {
+        zoom: 0.85;
+    }
+}
+
+/* Zoom directo: sin media query, para achicar un elemento puntual sin importar el ancho de pantalla */
+.zoom-50-directo {
+    zoom: 0.50;
+}
+
+.zoom-75-directo {
+    zoom: 0.75;
+}
+
+.zoom-80-directo {
+    zoom: 0.80;
+}
+
+.zoom-85-directo {
+    zoom: 0.85;
+}

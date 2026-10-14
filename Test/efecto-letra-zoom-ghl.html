@@ -1,0 +1,195 @@
+<!--
+  ============================================================
+  CÓMO ARMAR ESTO EN GHL (leer antes de pegar el código)
+  ============================================================
+
+  Versión sin GSAP, con position:sticky en vez de "pin", y con
+  .lz-next-ab como SECCIÓN APARTE (no adentro de intro-section-ab) —
+  para que el contenido revelado pueda ser tan alto como haga falta,
+  sin límite de una sola pantalla, con scroll normal.
+
+  Estructura en el editor de GHL — son 2 SECCIONES DISTINTAS, una
+  justo después de la otra (hermanas al nivel de página, no una
+  adentro de la otra):
+
+  Sección 1 (clase: intro-section-ab)
+   └── Fila → Columna → Encabezado (clase: lz-word-ab)  <- la palabra
+
+  Sección 2 (clase: lz-next-ab), puesta INMEDIATAMENTE DESPUÉS de la
+  Sección 1 en la página — adentro va todo lo que quieras (título,
+  párrafo, imagen, botón...), sin ningún límite de alto.
+
+  Si ya tenías la fila vacía de "lz-reveal-ab" de una versión anterior,
+  se puede borrar — ya no se usa. Tampoco hace falta que "lz-next-ab"
+  esté adentro de "intro-section-ab": tiene que ser su propia Sección.
+
+  IMPORTANTE: la Sección 1 necesita tener bastante alto para poder
+  scrollear "dentro" del efecto — con este CSS ya queda en 220vh fijo,
+  no hace falta configurar nada de alto en el editor de GHL.
+-->
+
+<style>
+  .intro-section-ab {
+    position: relative;
+    min-height: 220vh;
+    background: var(--bg-p-l, #fdfdfd);
+  }
+
+  /* GHL envuelve el contenido de toda sección en su propio div.inner —
+     lo aprovechamos como la "ventana" de 100vh que queda pegada
+     (sticky) mientras se scrollea el resto del alto de la sección. */
+  .intro-section-ab > .inner {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Capa de revelado: reemplaza a la vieja fila "lz-reveal-ab" — es un
+     ::after de la SECCIÓN COMPLETA (no de .inner), para que cubra el
+     ancho/alto real de intro-section-ab sin importar qué padding le
+     ponga GHL a .inner por dentro (así no queda ningún borde sin
+     cubrir). Como .intro-section-ab mide 220vh, este ::after también
+     mide 220vh, pero solo se ve la porción de 100vh que está en
+     pantalla en cada momento (gracias al sticky de .inner) — el resto
+     tiene la misma opacidad, simplemente no está a la vista todavía.
+     Su color NO sale de --accent-color-custom: el JS lee el color real
+     que vos le pusiste al texto (.lz-word-ab) y lo guarda acá en
+     --reveal-color-ab, así siempre combinan sin tener que configurar
+     nada aparte. */
+  .intro-section-ab::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--reveal-color-ab, transparent);
+    opacity: var(--reveal-opacity-ab, 0);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .lz-word-ab {
+    font: 900 4vw var(--headlinefont, system-ui, sans-serif);
+    white-space: nowrap;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    transform: scale(var(--word-scale-ab, 1)) rotate(var(--word-rotate-ab, 0deg));
+    transform-origin: 44% 50%;
+  }
+
+  /* GHL mete a .lz-word-ab dentro de varias cajas propias (fila >
+     columna > wrapper del encabezado) que pueden traer su propio
+     overflow:hidden o dejar el texto pegado a la izquierda. Con :has()
+     alcanzamos a esas cajas intermedias SIN tocar el overflow:hidden
+     de ".inner" (que sí necesitamos, para recortar la palabra en el
+     borde de los 100vh) — por eso el selector empieza en "> .inner",
+     no incluye a ".inner" mismo. */
+  .intro-section-ab > .inner :has(.lz-word-ab) {
+    overflow: visible !important;
+    text-align: center;
+  }
+
+  /* Sección aparte, normal — sin límite de alto. El fondo es el mismo
+     color que reveló intro-section-ab, para que la transición entre
+     las dos secciones se vea continua, sin costura visible.
+     margin:0 + el pequeño solape es por si el navegador redondea el
+     220vh/100vh a píxeles reales y deja una línea entre las dos.
+     El FONDO de la sección está visible siempre, desde el principio —
+     nunca espera a nada. Lo que se revela con un fade es el CONTENIDO
+     de adentro (.inner), no la sección completa — así nunca se ve el
+     fondo blanco de la página de golpe, siempre hay color. */
+  .intro-section-ab,
+  .lz-next-ab {
+    margin: 0;
+  }
+  .lz-next-ab {
+    background: var(--reveal-color-ab, transparent) !important;
+    margin-top: -2px;
+    padding-top: 2px;
+  }
+  .lz-next-ab > .inner {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .lz-next-ab.lz-next-activo-ab > .inner {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  (function () {
+    function iniciar() {
+      var seccion = document.querySelector('.intro-section-ab');
+      var inner = seccion ? seccion.querySelector(':scope > .inner') : null;
+      var word = document.querySelector('.lz-word-ab');
+      var next = document.querySelector('.lz-next-ab');
+      if (!seccion || !inner || !word || !next) {
+        return setTimeout(iniciar, 200);
+      }
+
+      // Lee el color real del texto (el que le pusiste en GHL, sea
+      // como sea que lo hayas configurado) y lo usa para el fondo de
+      // revelado — así siempre combinan, sin variables que sincronizar.
+      // El fondo de lz-next-ab ya no depende de esto para verse (está
+      // visible siempre) — esto solo asigna el color, sin condicionar
+      // nada más.
+      function asignarColor() {
+        var colorPalabra = getComputedStyle(word).color;
+        seccion.style.setProperty('--reveal-color-ab', colorPalabra);
+        next.style.setProperty('--reveal-color-ab', colorPalabra);
+      }
+      asignarColor(); // primera lectura, apenas existen los elementos
+
+      // La vuelve a leer y asignar cuando la página YA TERMINÓ de
+      // cargar del todo (fuentes, imágenes, y que GHL ya haya aplicado
+      // su propio color al texto) — por si la primera lectura de
+      // arriba fue antes de que GHL terminara de aplicar su color.
+      if (document.readyState === 'complete') {
+        asignarColor();
+      } else {
+        window.addEventListener('load', asignarColor);
+      }
+
+      // Efecto pegado (sticky) + progreso de scroll: SOLO para la
+      // palabra y el revelado de color — ya no involucra a lz-next-ab.
+      function actualizar() {
+        var rect = seccion.getBoundingClientRect();
+        var alturaScrollable = seccion.offsetHeight - window.innerHeight; // ~120vh de "tela" de scroll
+        if (alturaScrollable <= 0) return;
+
+        var avanzado = -rect.top; // cuánto ya se scrolleó dentro de la sección
+        var progreso = Math.min(Math.max(avanzado / alturaScrollable, 0), 1);
+
+        // 0% a 100%: la palabra crece y rota (de escala 1 a 70, de 0° a -60°)
+        var pWord = Math.min(progreso, 1);
+        word.style.setProperty('--word-scale-ab', 1 + pWord * 69);
+        word.style.setProperty('--word-rotate-ab', (pWord * -60) + 'deg');
+
+        // 60% a 100%: el color sólido revela
+        var pReveal = Math.min(Math.max((progreso - 0.6) / 0.4, 0), 1);
+        seccion.style.setProperty('--reveal-opacity-ab', pReveal);
+      }
+
+      window.addEventListener('scroll', actualizar, { passive: true });
+      window.addEventListener('resize', actualizar);
+      actualizar();
+
+      // El contenido de lz-next-ab (.inner) hace un simple fade al
+      // entrar en pantalla — el fondo de la sección ya está puesto
+      // desde antes, así que esto solo afecta al contenido.
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            next.classList.add('lz-next-activo-ab');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      io.observe(next);
+    }
+    iniciar();
+  })();
+</script>
