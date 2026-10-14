@@ -88,6 +88,7 @@ body {
     font-family: var(--headlinefont), serif !important;
     color: var(--primary-color-custom) !important;
     font-weight: 700 !important;
+    line-height: 1em !important;
 }
 #blogPostContent h2 {
     font-size: var(--size-h2) !important;

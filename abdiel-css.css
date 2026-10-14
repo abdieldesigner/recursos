@@ -446,10 +446,10 @@ body .colores-a2 {
 
 
 
-body:has(.colores-abdiel, .colores-hub365) .bg-degradado, 
+body:has(.colores-abdiel, .colores-hub365) .bg-degradado,
 .faq-degradado .hl-faq-child-heading.active {
     box-shadow: none;
-    background-image: var(--degradado-fondo);
+    background: var(--degradado-fondo);
     transition: all .4s;
 }
 
@@ -3449,6 +3449,27 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
 .btn-3d:active {
   transform: translateY(12px);
   box-shadow: 0 0 0 !important;
+}
+
+
+
+/* Cambia el fondo de la tarjeta al pasar el mouse */
+.grid-card-color .c-column:hover, .card-color:hover  {
+    background: var(--card-color, var(--bg-s-l));
+}
+
+/* Borde invisible que aparece al pasar el mouse (no reserva espacio) */
+.grid-card-border .c-column, .card-border {
+    box-shadow: inset 0 0 0 1px transparent, 0 0 0 0 transparent;
+    transition: box-shadow 0.3s ease;
+}
+
+.grid-card-border .c-column:hover, .card-border:hover {
+    box-shadow:
+    inset 0 0 0 1px var(--card-border-color, var(--accent-color-custom)),
+    var(--resplandor-boton);
+    /* Para desactivar el resplandor: :is(.grid-card-border, .card-border) {--resplandor-boton: 0 0 0rem var(--accent-color-custom);} */
+    
 }
 
 /* =========================================
