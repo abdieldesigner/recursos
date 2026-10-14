@@ -236,27 +236,28 @@
      Clase: .borde-glass-neon
      ========================================= */
   .borde-glass-neon {
-    --hue1: 265;
-    --hue2: 222;
     --border: 1px;
-    --border-color: hsl(var(--hue2), 12%, 20%);
-    --radius-neon: var(--radius-element, 22px);
+    --border-color: hsl(from var(--glass-neon-color-2, var(--accent-color-custom-2, #f0b088)) h 12% 20%);
+    --radius-neon: var(--radius-principal, 22px);
+    /* El resplandor (.bgn-glow) usa multiplicadores pensados para radios chicos;
+       si el radio real es grande (ej. 60px) se dispara fuera de la caja, y si es
+       0 (esquinas rectas) desaparece porque deja de salirse del borde. Por eso
+       se limita entre un mínimo y un máximo, sin importar el radio real de la
+       caja. El trazo fino (.bgn-shine) sigue el radio real sin límite porque
+       usa "inherit", no esta variable. */
+    --radius-glow-calc: clamp(16px, var(--radius-neon), 26px);
 
     position: relative;
     overflow: visible;
     border-radius: var(--radius-neon);
     border: var(--border) solid var(--border-color);
-    background:
-      linear-gradient(235deg, hsl(var(--hue1) 50% 10% / 0.8), hsl(var(--hue1) 50% 10% / 0) 33%),
-      linear-gradient(45deg, hsl(var(--hue2) 50% 10% / 0.8), hsl(var(--hue2) 50% 10% / 0) 33%),
-      linear-gradient(hsl(220deg 25% 4.8% / 0.66));
     backdrop-filter: blur(12px);
-    box-shadow: hsl(var(--hue2) 50% 2%) 0px 10px 16px -8px, hsl(var(--hue2) 50% 4%) 0px 20px 36px -14px;
+    box-shadow:
+      hsl(from var(--glass-neon-color-2, var(--accent-color-custom-2, #f0b088)) h 50% 2%) 0px 10px 16px -8px,
+      hsl(from var(--glass-neon-color-2, var(--accent-color-custom-2, #f0b088)) h 50% 4%) 0px 20px 36px -14px;
   }
 
-  .bgn-shine,
-  .bgn-shine::before,
-  .bgn-shine::after {
+  .bgn-shine {
     pointer-events: none;
     border-radius: 0;
     border-top-right-radius: inherit;
@@ -274,7 +275,7 @@
     --start: 12%;
     background: conic-gradient(
       from var(--conic, -45deg) at center in oklch,
-      transparent var(--start, 0%), hsl(var(--hue), var(--sat, 80%), var(--lit, 60%)), transparent var(--end, 50%)
+      transparent var(--start, 0%), hsl(from var(--color) h var(--sat, 80%) var(--lit, 60%)), transparent var(--end, 50%)
     ) border-box;
     mask: linear-gradient(transparent), linear-gradient(black);
     mask-repeat: no-repeat;
@@ -282,28 +283,10 @@
     mask-composite: subtract;
   }
 
-  .bgn-shine { --hue: var(--hue1); }
-
-  .bgn-shine::before,
-  .bgn-shine::after {
-    content: "";
-    width: auto;
-    inset: -2px;
-    mask: none;
-  }
-
-  .bgn-shine::after {
-    z-index: 2;
-    --start: 17%;
-    --end: 33%;
-    background: conic-gradient(
-      from var(--conic, -45deg) at center in oklch,
-      transparent var(--start, 0%), hsl(var(--hue), var(--sat, 80%), var(--lit, 85%)), transparent var(--end, 50%)
-    );
-  }
+  .bgn-shine { --color: var(--glass-neon-color-1, var(--accent-color-custom, #dd8448)); }
 
   .bgn-shine-bottom {
-    --hue: var(--hue2);
+    --color: var(--glass-neon-color-2, var(--accent-color-custom-2, #f0b088));
     --conic: 135deg;
     top: auto;
     bottom: calc(var(--border) * -1);
@@ -313,11 +296,11 @@
 
   .bgn-glow {
     pointer-events: none;
-    border-top-right-radius: calc(var(--radius-neon) * 2.5);
-    border-bottom-left-radius: calc(var(--radius-neon) * 2.5);
-    border: calc(var(--radius-neon) * 1.25) solid transparent;
-    top: calc(var(--radius-neon) * -2);
-    right: calc(var(--radius-neon) * -2);
+    border-top-right-radius: calc(var(--radius-glow-calc) * 2.5);
+    border-bottom-left-radius: calc(var(--radius-glow-calc) * 2.5);
+    border: calc(var(--radius-glow-calc) * 1.25) solid transparent;
+    top: calc(var(--radius-glow-calc) * -2);
+    right: calc(var(--radius-glow-calc) * -2);
     width: var(--glow-size, 180px);
     height: var(--glow-size, 180px);
     min-height: 0px;
@@ -325,7 +308,7 @@
     position: absolute;
     left: auto;
     bottom: auto;
-    --hue: var(--hue1);
+    --color: var(--glass-neon-color-1, var(--accent-color-custom, #dd8448));
     opacity: 1;
     filter: blur(12px) saturate(1.25) brightness(0.5);
     mix-blend-mode: plus-lighter;
@@ -341,7 +324,7 @@
     border-radius: inherit;
     background: conic-gradient(
       from var(--conic, -45deg) at center in oklch,
-      transparent var(--start, 0%), hsl(var(--hue), var(--sat, 95%), var(--lit, 60%)), transparent var(--end, 50%)
+      transparent var(--start, 0%), hsl(from var(--color) h var(--sat, 95%) var(--lit, 60%)), transparent var(--end, 50%)
     ) border-box;
     mask: linear-gradient(transparent), linear-gradient(black);
     mask-repeat: no-repeat;
@@ -355,23 +338,23 @@
     --sat: 100%;
     --start: 15%;
     --end: 35%;
-    border-width: calc(var(--radius-neon) * 1.75);
-    border-radius: calc(var(--radius-neon) * 2.75);
-    inset: calc(var(--radius-neon) * -0.25);
+    border-width: calc(var(--radius-glow-calc) * 1.75);
+    border-radius: calc(var(--radius-glow-calc) * 2.75);
+    inset: calc(var(--radius-glow-calc) * -0.25);
     z-index: 4;
     opacity: 0.75;
   }
 
   .bgn-glow-bottom {
-    --hue: var(--hue2);
+    --color: var(--glass-neon-color-2, var(--accent-color-custom-2, #f0b088));
     --conic: 135deg;
-    inset: calc(var(--radius-neon) * -2);
+    inset: calc(var(--radius-glow-calc) * -2);
     top: auto;
     right: auto;
   }
 
   .bgn-glow-bright {
-    --hue: var(--hue1);
+    --color: var(--glass-neon-color-1, var(--accent-color-custom, #dd8448));
     --lit: 80%;
     --sat: 100%;
     --start: 13%;
@@ -388,7 +371,7 @@
   }
 
   .bgn-glow-bright.bgn-glow-bottom {
-    --hue: var(--hue2);
+    --color: var(--glass-neon-color-2, var(--accent-color-custom-2, #f0b088));
     inset: -7px;
     right: auto;
     top: auto;
@@ -649,10 +632,11 @@
     el.appendChild(glow2);
   }
 
-  function armarGlassNeon(el) {
-    if (el.dataset.neonBuilt) return;
-    el.dataset.neonBuilt = 'true';
+  function tieneCapasNeon(el) {
+    return el.querySelector(':scope > .bgn-shine, :scope > .bgn-glow') !== null;
+  }
 
+  function construirCapasNeon(el) {
     // Tamaño normal del resplandor: 180px (igual que antes). Solo se achica
     // si la caja real es más chica que eso, para que nunca se salga de ella.
     var lado = Math.min(el.offsetWidth, el.offsetHeight);
@@ -674,6 +658,20 @@
     });
   }
 
+  function armarGlassNeon(el) {
+    if (!tieneCapasNeon(el)) construirCapasNeon(el);
+
+    // GHL puede reconstruir el contenido de la columna (animación de entrada,
+    // reactividad de Vue) y borrar las capas inyectadas sin avisar. Si eso
+    // pasa, este observer las vuelve a crear.
+    if (!el.dataset.neonObserved) {
+      el.dataset.neonObserved = 'true';
+      new MutationObserver(function () {
+        if (!tieneCapasNeon(el)) construirCapasNeon(el);
+      }).observe(el, { childList: true });
+    }
+  }
+
   function init() {
     var electricos = document.querySelectorAll('.borde-electrico:not([data-electric-built])');
     if (electricos.length) {
@@ -681,7 +679,7 @@
       electricos.forEach(armarCapas);
     }
 
-    var neones = document.querySelectorAll('.borde-glass-neon:not([data-neon-built])');
+    var neones = document.querySelectorAll('.borde-glass-neon');
     neones.forEach(armarGlassNeon);
   }
 

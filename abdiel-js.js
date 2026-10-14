@@ -889,3 +889,59 @@ if (document.readyState === 'loading') {
 /* ============================================================
    TERMINA JS: sección que tapa
    ============================================================ */
+
+/* ============================================================
+   INICIA JS: borde-glass-neon (el CSS está en abdiel-css.css,
+   sección ".borde-glass-neon")
+   ============================================================ */
+(function () {
+  function tieneCapasNeon(el) {
+    return el.querySelector(':scope > .bgn-shine, :scope > .bgn-glow') !== null;
+  }
+
+  function construirCapasNeon(el) {
+    var lado = Math.min(el.offsetWidth, el.offsetHeight);
+    var tamanoGlow = Math.max(60, Math.round(Math.min(180, lado * 0.9)));
+    el.style.setProperty('--glow-size', tamanoGlow + 'px');
+
+    var capas = [
+      'bgn-shine',
+      'bgn-shine bgn-shine-bottom',
+      'bgn-glow',
+      'bgn-glow bgn-glow-bottom',
+      'bgn-glow bgn-glow-bright',
+      'bgn-glow bgn-glow-bright bgn-glow-bottom'
+    ];
+    capas.forEach(function (clases) {
+      var span = document.createElement('span');
+      span.className = clases;
+      el.appendChild(span);
+    });
+  }
+
+  function armarGlassNeon(el) {
+    if (!tieneCapasNeon(el)) construirCapasNeon(el);
+
+    if (!el.dataset.neonObserved) {
+      el.dataset.neonObserved = 'true';
+      new MutationObserver(function () {
+        if (!tieneCapasNeon(el)) construirCapasNeon(el);
+      }).observe(el, { childList: true });
+    }
+  }
+
+  function init() {
+    document.querySelectorAll('.borde-glass-neon').forEach(armarGlassNeon);
+  }
+
+  init();
+  var intentos = 0;
+  var intervalo = setInterval(function () {
+    intentos++;
+    init();
+    if (intentos > 20) clearInterval(intervalo);
+  }, 300);
+})();
+/* ============================================================
+   TERMINA JS: borde-glass-neon
+   ============================================================ */
