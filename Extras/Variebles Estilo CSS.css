@@ -193,6 +193,13 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p), [data-widget_type="text-editor.d
     font-weight: 400 !important;
 }
 
+/* Ícono antes del texto, complementa a .pre-titulo o text-etiqueta) */
+.icon-text :is(h1, h2, h3, h4, p, span, a)::before{
+    content: var(--icon-text, "✦"); 
+    /* ★ ✦ ✶ ✰ ✪ ☆ ✱ ♡ ❂ ❋ ❆ ♥︎ ❤︎ 𓆩♡𓆪 ⊗ ◉ ● ● • ∙ ○ ◎ ◦ ∘ ☢ ♛ ♚ ♔ ❀ ✿  ⚡ 🗲 ☀️ ☁︎ 💀 ☠ ✈︎ ✈️ ✒ 🤿 🐟 🐠 */
+    color: var(--accent-color-custom) !important;
+}
+
 .title-h2 :is(h2, h3) {
     font-size: var(--size-h2, clamp(28px, 24.48px + 0.94vw, 38px)) !important;
     font-weight: 800 !important;
@@ -237,7 +244,7 @@ b, strong {
         color: var(--accent-color-custom) 
     }
 
-.text-etiqueta :is(h2, span) {
+.text-etiqueta :is(h2, h3, span) {
     background: color-mix(in srgb, var(--accent-color-custom) 12%, transparent);
     border: 1.5px solid color-mix(in srgb, var(--accent-color-custom) 20%, transparent);
     border-radius: var(--radius-element, 100px);
@@ -541,11 +548,37 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-t
 }
 
 
+
+/* iconos sociales similar a las etiquetas */
+.iconos-redes-sociales a.elementor-social-icon {
+    background: color-mix(in srgb, var(--accent-color-custom) 12%, transparent) !important;
+    border: 1.5px solid color-mix(in srgb, var(--accent-color-custom) 20%, transparent);
+    border-radius: var(--radius-element, 100px) !important;
+
+    i {
+        color: var(--accent-color-custom) !important;
+    }
+}
+
+
+/* iconos sociales que brillan */
 .elemento-luz .elementor-grid-item i {
-  transition: color .4s;
+  transition: color  0.5s;
 }
 .elemento-luz .elementor-grid-item i:before {
-  transition: opacity .4s, filter .4s;
+
+  transition: opacity  0.5s, filter  0.5s;
+}
+
+
+.elemento-luz .elementor-social-icon {
+    background: var(--accent-color-custom) !important;
+    border-radius: var(--radius-element, 100px) !important;
+    transition: background-color 0.5s;
+}
+.elemento-luz .elementor-social-icon:hover {
+    background-color: transparent !important;
+    border: none !important;
 }
 
 .elemento-luz .elementor-grid-item:hover i {
@@ -554,13 +587,13 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-t
 }
 .elemento-luz .elementor-grid-item:hover i:before {
     opacity: .9;
-    filter: drop-shadow(0 0 19.821px rgb(255 255 255 / .6)) drop-shadow(0 0 5.663px rgb(255 255 255 / .6)) drop-shadow(0 0 2.832px rgb(255 255 255 / .6));
+    filter: drop-shadow(0 0 19.821px rgb(255 255 255 / .9)) drop-shadow(0 0 5.663px rgb(255 255 255 / .8)) drop-shadow(0 0 2.832px rgb(255 255 255 / .8))
 }
 
-.text-luz a, .icon-luz .elementor-grid-item i {
+.text-luz a, .enlace-luz a, .icon-luz .elementor-grid-item i {
   transition: all .5s;
 }
-.text-luz:hover a, .icon-luz .elementor-grid-item:hover i {
+.text-luz:hover a, .enlace-luz a:hover, .icon-luz .elementor-grid-item:hover i {
     fill: #fff !important;
     stroke: #fff;
     color: white !important;
@@ -638,6 +671,7 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-t
     mask-image: linear-gradient(to right, black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
     mask-repeat: no-repeat !important;
     mask-size: 100% 100% !important;
+    
 }
 
 
@@ -824,3 +858,5 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-t
 .zoom-85-directo {
     zoom: 0.85;
 }
+
+

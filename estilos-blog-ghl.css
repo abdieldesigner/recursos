@@ -141,6 +141,9 @@ body {
     margin-top: 0 !important;
     padding-top: 0 !important;
 }
+#blogPostContent blockquote p {
+    margin-bottom: 0 !important;
+}
 
 /* Tabla comparativa */
 #blogPostContent table {

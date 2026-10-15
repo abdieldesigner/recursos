@@ -73,6 +73,8 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
 */
 
+/* opciones para iconos text ★ ✦ ✶ ✰ ✪ ☆ ✱ ♡ ❂ ❋ ❆ ♥︎ ❤︎ 𓆩♡𓆪 ⊗ ◉ ● ● • ∙ ○ ◎ ◦ ∘ ☢ ♛ ♚ ♔ ❀ ✿  ⚡ 🗲 ☀️ ☁︎ 💀 ☠ ✈︎ ✈️ ✒ 🤿 🐟 🐠 */
+
 
 /* 🔥 Colores personalizados - usar colores-abdiel Para activar los colores personalizados SOlo templato no se aplican directamente desde la libreria*/
 :root-no, .body-no, [data-theme="dark"] .theme-lock-no  {
@@ -3237,6 +3239,12 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     gap: 14px;
 }
 
+/* Ícono antes del texto, complementa a .pre-titulo o text-etiqueta) */
+.icon-text :is(h1, h2, h3, h4, p, span, a)::before{
+    content: var(--icon-text, "◆");
+    color: var(--accent-color-custom) !important;
+}
+
 .title-h2 :is(h2, h3) {
     font-size: var(--size-h2, clamp(32px, 7vw, 96px)) !important;
     line-height: 1em;
@@ -3856,6 +3864,9 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     * {
         font-family: var(--contentfont) !important;
         color: var(--text-d) !important;
+        line-height: 1.3em;
+        font-size: 12px;
+        font-weight: normal;
     }
 
     a {
@@ -3865,10 +3876,13 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     button {
         background: var(--btn-form) !important;
         border-radius: var(--radius-element) !important;
+        width: fit-content !important;
+        padding: var(--padding-btn, 15px 40px) !important;
 
         p span, p {
             color: var(--text-btn-form) !important;
             font-family: var(--contentfont) !important;
+            font-size: var(--size-font-btn, 14px);
         }
     }
 }
