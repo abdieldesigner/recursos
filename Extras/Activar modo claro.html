@@ -1,0 +1,156 @@
+<!-- ============================================
+     ESTILOS DEL TOGGLE
+     ============================================ -->
+<style>
+/* Variables — Modo Dark (default) */
+
+[data-theme="light"] {
+  --bg-p-d: var(--bg-p-l);
+  --bg-s-d: var(--bg-s-l);
+  --text-l: var(--text-d);
+  --primary-color-custom: var(--accent-color-custom-2);
+  --degradado-texto: var(--degradado-texto-2);
+  --degradado-boton: var(--degradado-texto-2);
+  --divider-color: var(--bg-p-d);
+}
+
+/* Theme lock — DESPUÉS de light y con especificidad para ganar */
+[data-theme="light"] .theme-lock {
+  --text-l: #fdfdfd;
+  --text-d: #0d0d0d;
+}
+
+/* Botón flotante */
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-p-l);
+  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.15);
+  transition: background-color 0.4s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+[data-theme="light"] .theme-toggle {
+  background-color: #0d0d0d;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  width: 22px;
+  height: 22px;
+  transition: opacity 0.3s ease, transform 0.4s ease;
+  position: absolute;
+}
+
+.icon-moon {
+  fill: #0d0d0d;
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.icon-sun {
+  fill: #fdfdfd;
+  color: #fdfdfd;
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+[data-theme="light"] .icon-moon {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+[data-theme="light"] .icon-sun {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+</style>
+
+<!-- ============================================
+     HTML DEL BOTÓN
+     ============================================ -->
+<button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+  <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.75 15.5a9.72 9.72 0 0 1-13.25-13.25A10 10 0 1 0 21.75 15.5Z"/>
+  </svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- ============================================
+     JAVASCRIPT DEL TOGGLE
+     ============================================ -->
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const saved = sessionStorage.getItem('theme');
+
+  // Logo — Custom Values GHL
+  const logoForDark = '{{custom_values.logo_light_h}}';
+  const logoForLight = '{{custom_values.logo_dark_h}}';
+
+  function cambiarLogo(url) {
+    /* Extensión agnóstica: logoForDark y logoForLight pueden ser archivos de
+       formato distinto (ej. .webp vs .svg), así que el patrón no puede asumir .svg */
+    const MEDIA_RE = /media\/[^/]+\.[A-Za-z0-9]+/;
+    const urlMedia = url.match(MEDIA_RE);
+    const logos = document.querySelectorAll('img.logo-d');
+    logos.forEach(img => {
+      img.setAttribute('src', url);
+      const picture = img.closest('picture');
+      if (picture && urlMedia) {
+        picture.querySelectorAll('source').forEach(source => {
+          const srcset = source.getAttribute('srcset');
+          if (srcset) {
+            source.setAttribute('srcset', srcset.replace(MEDIA_RE, urlMedia[0]));
+          }
+        });
+      }
+    });
+  }
+
+  // Si ya estaba en light al cargar
+  if (saved === 'light') {
+    document.body.setAttribute('data-theme', 'light');
+    cambiarLogo(logoForLight);
+  }
+
+  // Toggle click
+  toggle.addEventListener('click', () => {
+    const isLight = document.body.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.body.removeAttribute('data-theme');
+      sessionStorage.setItem('theme', 'dark');
+      cambiarLogo(logoForDark);
+    } else {
+      document.body.setAttribute('data-theme', 'light');
+      sessionStorage.setItem('theme', 'light');
+      cambiarLogo(logoForLight);
+    }
+  });
+</script>

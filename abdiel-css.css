@@ -192,7 +192,7 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
    Colores personaliza de cada web — debo declara las variebles antes.
    ============================================= */
 
-  :root {
+  :root, body {
 
     --move-degradado: linear-gradient(105deg, var(--secondary-color-custom), var(--accent-color-custom), var(--secondary-color-custom));
 
@@ -225,6 +225,11 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --size-font-btn: clamp(14px, 1.7vw, 18px);
 
     /* Brandboards */
+    --brandboards-color_primary: var(--primary-color-custom);
+    --brandboards-color_secondary: var(--secondary-color-custom);
+    --brandboards-color_accent: var(--accent-color-custom);
+    --brandboards-color_accent_2: var(--accent-color-custom-2);
+
 
     --brandboards-text_d: var(--text-d);
     --brandboards-text_l: var(--text-l);
@@ -232,12 +237,23 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --brandboards-bg_s_d: var(--bg-s-d);
     --brandboards-bg_p_l: var(--bg-p-l);
     --brandboards-bg_s_l: var(--bg-s-l);
+    
     --white: #ffffff;
     --black: #000000;
 
     /* Icono que representa mis codigo */
     --icon-code: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M47.977,5.99c-4.416,0-8.414,1.792-11.308,4.686l-4.685,4.654l-4.686-4.654C24.406,7.782,20.408,5.99,15.992,5.99C7.161,5.99,0,13.15,0,21.982c0,4.416,2.85,8.539,5.747,11.432l23.41,23.414c1.562,1.562,4.092,1.562,5.653,0l23.349-23.352c2.896-2.893,5.81-7.078,5.81-11.494C63.969,13.15,56.808,5.99,47.977,5.99z'/%3E%3C/svg%3E");
 }
+
+/* Variebles de calendario */
+:root .appointment_widgets--revamp--container {
+    --appointment_widgets-primary-color: var(--accent-color-custom) !important;
+    .selectable {
+    --appointment_widgets-background-color: var(--color-texto-boton) !important;
+}
+}
+
+
 
 /* Varibale fijas para formularios de compras  */
 body {
@@ -354,6 +370,10 @@ body .colores-a2 {
     #__nuxt:not(:has(.body-zoom-85)) .zoom-85 {
         zoom: 0.85;
     }
+    #__nuxt:has(.body-zoom-90),
+    #__nuxt:not(:has(.body-zoom-90)) .zoom-90 {
+        zoom: 0.90;
+    }
 }
 
 /* Zoom directo: sin media query, para achicar un elemento puntual sin importar el ancho de pantalla */
@@ -371,6 +391,9 @@ body .colores-a2 {
 
 .zoom-85-directo {
     zoom: 0.85;
+}
+.zoom-90-directo {
+    zoom: 0.90;
 }
 
 
@@ -736,6 +759,14 @@ html {
     border-color: var(--accent-color-custom) !important;
 }
 
+.border-t-l, .border-t-l .divider-element {
+    border-color: color-mix(in srgb, var(--text-l) 25%, transparent) !important;
+}
+
+.border-t-d, .border-t-d .divider-element {
+    border-color: color-mix(in srgb, var(--text-d) 25%, transparent) !important;
+}
+
 .border-s, .border-s .divider-element {
     border-color: var(--secondary-color-custom) !important;
 }
@@ -760,7 +791,7 @@ html {
     border: 1.5px solid color-mix(in srgb, var(--accent-color-custom) 20%, transparent);
     border-radius: var(--radius-element, 100px);
     display: inline-block;
-    padding: 5px 20px 3px 20px;
+    padding: 5px 20px 5px 20px;
     
 }
 .text-etiqueta {
@@ -3813,13 +3844,17 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 /* =========================================
    INICIA CSS: ícono de WhatsApp/teléfono en menú 
    ========================================= */
-.ico-ws-menu a.mega-menu-link[href^="tel:"] {
+.ico-ws-menu a.mega-menu-link[href^="tel:"],
+.ico-ws-menu a.mega-menu-link[href*="wa.me"],
+.ico-ws-menu a.mega-menu-link[href*="whatsapp"] {
     display: inline-flex;
     align-items: center;
     gap: 6px;
 }
 
-.ico-ws-menu a.mega-menu-link[href^="tel:"]::before {
+.ico-ws-menu a.mega-menu-link[href^="tel:"]::before,
+.ico-ws-menu a.mega-menu-link[href*="wa.me"]::before,
+.ico-ws-menu a.mega-menu-link[href*="whatsapp"]::before {
   content: "";
   display: inline-block;
   width: 16px;

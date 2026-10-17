@@ -106,7 +106,7 @@
      ============================================ -->
 <script>
   const toggle = document.getElementById('themeToggle');
-  const saved = localStorage.getItem('theme');
+  const saved = sessionStorage.getItem('theme');
 
   // Logo — URLs
 // Logo — Custom Values GHL
@@ -130,10 +130,26 @@ function cambiarLogo(url) {
   });
 }
 
+  // Intercambia .todo-blanco <-> .todo-negro según el tema que se active
+  function aplicarFiltroIconos(haciaOscuro) {
+    if (haciaOscuro) {
+      document.querySelectorAll('.todo-negro').forEach(el => {
+        el.classList.remove('todo-negro');
+        el.classList.add('todo-blanco');
+      });
+    } else {
+      document.querySelectorAll('.todo-blanco').forEach(el => {
+        el.classList.remove('todo-blanco');
+        el.classList.add('todo-negro');
+      });
+    }
+  }
+
   // Si ya estaba en dark al cargar
   if (saved === 'dark') {
     document.body.setAttribute('data-theme', 'dark');
     cambiarLogo(logoDark);
+    aplicarFiltroIconos(true);
   }
 
   // Toggle click
@@ -141,12 +157,14 @@ function cambiarLogo(url) {
     const isDark = document.body.getAttribute('data-theme') === 'dark';
     if (isDark) {
       document.body.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
+      sessionStorage.setItem('theme', 'light');
       cambiarLogo(logoOriginal);
+      aplicarFiltroIconos(false);
     } else {
       document.body.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
+      sessionStorage.setItem('theme', 'dark');
       cambiarLogo(logoDark);
+      aplicarFiltroIconos(true);
     }
   });
 </script>

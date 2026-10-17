@@ -95,20 +95,20 @@
     <span class="kcm-ts__tip">Ver mi web real (cancelar)</span>✕</button>
 
   <button class="kcm-ts__btn" data-pal="verdeMenta" aria-label="Fresh mint green"
-    style="background:conic-gradient(#0F2E1D 0 25%,#4A7856 25% 50%,#7ED957 50% 75%,#D4F4DD 75% 100%)">
+    style="background:conic-gradient(#0F2E1D 0 25%,#4A7856 25% 50%,#7ED957 50% 75%,#01da10 75% 100%)">
     <span class="kcm-ts__tip">Menta Fresca</span></button>
-  <button class="kcm-ts__btn" data-pal="verdeOlivo" aria-label="Olive and avocado green"
-    style="background:conic-gradient(#2B3618 0 25%,#6B7B3F 25% 50%,#A8C33E 50% 75%,#DCE8C0 75% 100%)">
-    <span class="kcm-ts__tip">Olivo Aguacate</span></button>
+  <button class="kcm-ts__btn" data-pal="rojoDorado" aria-label="Red and gold"
+    style="background:conic-gradient(#4A0E0E 0 25%,#7A1F1F 25% 50%,#C9A24B 50% 75%,#E63946 75% 100%)">
+    <span class="kcm-ts__tip">Rojo y Dorado</span></button>
   <button class="kcm-ts__btn" data-pal="champagne" aria-label="Charcoal and champagne"
-    style="background:conic-gradient(#1a1a1a 0 25%,#2b2926 25% 50%,#c9a86a 50% 75%,#e8d9b5 75% 100%)">
+    style="background:conic-gradient(#1a1a1a 0 25%,#2b2926 25% 50%,#c9a86a 50% 75%,#9a7432 75% 100%)">
     <span class="kcm-ts__tip">Madera y Champagne</span></button>
   
   <button class="kcm-ts__btn" data-pal="naranja" aria-label="Vibrant orange"
-    style="background:conic-gradient(#14100c 0 25%,#3a2416 25% 50%,#ff7a29 50% 75%,#ffb27d 75% 100%)">
+    style="background:conic-gradient(#14100c 0 25%,#3a2416 25% 50%,#ff7a29 50% 75%,#eb5e00 75% 100%)">
     <span class="kcm-ts__tip">Naranja</span></button>
     <button class="kcm-ts__btn" data-pal="teal" aria-label="Bright teal"
-    style="background:conic-gradient(#06232b 0 25%,#0d4650 25% 50%,#1bcdcf 50% 75%,#9df0ef 75% 100%)">
+    style="background:conic-gradient(#06232b 0 25%,#0d4650 25% 50%,#1bcdcf 50% 75%,#0EA5E9 75% 100%)">
     <span class="kcm-ts__tip">Blue Aqua</span></button>
   <button class="kcm-ts__btn kcm-ts__btn--icon" id="kcmAddPal" aria-label="Create custom palette from the active one">
     <span class="kcm-ts__tip">Crear paleta personalizada</span>+</button>
@@ -158,12 +158,12 @@
   <div class="kcm-ts__field">
     <span class="kcm-ts__label">Extra</span>
     <select class="kcm-ts__select" id="kcmFontExtra">
-      <optgroup label="Basics (sans)">
-        <option value="Manrope" style="font-family:'Manrope'">Manrope</option>
-        <option value="Montserrat" style="font-family:'Montserrat'">Montserrat</option>
-        <option value="Economica" style="font-family:'Economica'">Economica</option>
-        <option value="Garet Book" style="font-family:'Garet Book'">Garet Book</option>
-        <option value="Jost" style="font-family:'Jost'">Jost</option>
+      <option value="" selected>— Vacío (hereda Título) —</option>
+      <optgroup label="Script">
+        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
+        <option value="Great Vibes" style="font-family:'Great Vibes'">Great Vibes</option>
+        <option value="Parisienne" style="font-family:'Parisienne'">Parisienne</option>
+        <option value="Covered By Your Grace" style="font-family:'Covered By Your Grace'">Covered By Your Grace</option>
       </optgroup>
       <optgroup label="Decorated (serif / display)">
         <option value="Cormorant Garamond" style="font-family:'Cormorant Garamond'">Cormorant Garamond</option>
@@ -173,11 +173,12 @@
         <option value="Orbitron" style="font-family:'Orbitron'">Orbitron</option>
         <option value="Bebas Neue" style="font-family:'Bebas Neue'">Bebas Neue</option>
       </optgroup>
-      <optgroup label="Script">
-        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
-        <option value="Great Vibes" style="font-family:'Great Vibes'">Great Vibes</option>
-        <option value="Parisienne" style="font-family:'Parisienne'">Parisienne</option>
-        <option value="Covered By Your Grace" style="font-family:'Covered By Your Grace'">Covered By Your Grace</option>
+      <optgroup label="Basics (sans)">
+        <option value="Manrope" style="font-family:'Manrope'">Manrope</option>
+        <option value="Montserrat" style="font-family:'Montserrat'">Montserrat</option>
+        <option value="Economica" style="font-family:'Economica'">Economica</option>
+        <option value="Garet Book" style="font-family:'Garet Book'">Garet Book</option>
+        <option value="Jost" style="font-family:'Jost'">Jost</option>
       </optgroup>
     </select>
   </div>
@@ -218,11 +219,11 @@
 <script>
 (function () {
   var PALETTES = {
-    teal:      { '--primary-color-custom':'#06232b','--secondary-color-custom':'#0d4650','--accent-color-custom':'#1bcdcf','--accent-color-custom-2':'#9df0ef','--bg-p-d':'#04191f','--bg-s-d':'#072830','--bg-p-l':'#ffffff','--bg-s-l':'#e6f7f7','--text-l':'#eafafa','--text-d':'#06232b' },
-    verdeMenta: { '--primary-color-custom':'#0F2E1D','--secondary-color-custom':'#4A7856','--accent-color-custom':'#7ED957','--accent-color-custom-2':'#D4F4DD','--bg-p-d':'#0C2518','--bg-s-d':'#1C3B28','--bg-p-l':'#FFFDF8','--bg-s-l':'#EAF6EC','--text-l':'#F5FBF2','--text-d':'#0F2E1D' },
-    verdeOlivo: { '--primary-color-custom':'#2B3618','--secondary-color-custom':'#6B7B3F','--accent-color-custom':'#A8C33E','--accent-color-custom-2':'#DCE8C0','--bg-p-d':'#232C13','--bg-s-d':'#3A4420','--bg-p-l':'#FFF8EC','--bg-s-l':'#F3EFD9','--text-l':'#FAF6E8','--text-d':'#2B3618' },
-    champagne: { '--primary-color-custom':'#1a1a1a','--secondary-color-custom':'#2b2926','--accent-color-custom':'#c9a86a','--accent-color-custom-2':'#e8d9b5','--bg-p-d':'#141312','--bg-s-d':'#201e1b','--bg-p-l':'#ffffff','--bg-s-l':'#f4f1ea','--text-l':'#f5f2ea','--text-d':'#1a1a1a' },
-    naranja:   { '--primary-color-custom':'#14100c','--secondary-color-custom':'#3a2416','--accent-color-custom':'#ff7a29','--accent-color-custom-2':'#ffb27d','--bg-p-d':'#14100c','--bg-s-d':'#241a12','--bg-p-l':'#ffffff','--bg-s-l':'#fdeee3','--text-l':'#fdf2ea','--text-d':'#14100c' }
+    teal:      { '--primary-color-custom':'#06232b','--secondary-color-custom':'#0d4650','--accent-color-custom':'#1bcdcf','--accent-color-custom-2':'#0EA5E9','--bg-p-d':'#04191f','--bg-s-d':'#072830','--bg-p-l':'#ffffff','--bg-s-l':'#e6f7f7','--text-l':'#eafafa','--text-d':'#06232b' },
+    verdeMenta: { '--primary-color-custom':'#0F2E1D','--secondary-color-custom':'#4A7856','--accent-color-custom':'#7ED957','--accent-color-custom-2':'#01da10','--bg-p-d':'#0C2518','--bg-s-d':'#1C3B28','--bg-p-l':'#FFFDF8','--bg-s-l':'#EAF6EC','--text-l':'#F5FBF2','--text-d':'#0F2E1D' },
+    rojoDorado: { '--primary-color-custom':'#4A0E0E','--secondary-color-custom':'#7A1F1F','--accent-color-custom':'#C9A24B','--accent-color-custom-2':'#E63946','--bg-p-d':'#1A0505','--bg-s-d':'#2B0D0D','--bg-p-l':'#FFFBF5','--bg-s-l':'#F5E9D6','--text-l':'#FDF6EC','--text-d':'#1A0505' },
+    champagne: { '--primary-color-custom':'#1a1a1a','--secondary-color-custom':'#2b2926','--accent-color-custom':'#c9a86a','--accent-color-custom-2':'#9a7432','--bg-p-d':'#141312','--bg-s-d':'#201e1b','--bg-p-l':'#ffffff','--bg-s-l':'#f4f1ea','--text-l':'#f5f2ea','--text-d':'#1a1a1a' },
+    naranja:   { '--primary-color-custom':'#14100c','--secondary-color-custom':'#3a2416','--accent-color-custom':'#ff7a29','--accent-color-custom-2':'#eb5e00','--bg-p-d':'#14100c','--bg-s-d':'#241a12','--bg-p-l':'#ffffff','--bg-s-l':'#fdeee3','--text-l':'#fdf2ea','--text-d':'#14100c' }
   };
 
   /* ---------- Lectura dinámica de los valores reales de la página ---------- */
@@ -298,6 +299,19 @@
   if (!styleEl) { styleEl = document.createElement('style'); styleEl.id = 'kcm-pal-style'; document.head.appendChild(styleEl); }
   var current = null; /* null = todavía no se tocaron los colores reales de la página */
   var solid = false;
+  /* ============================================================
+     CONFIGURA ESTO SEGÚN EL PROYECTO — cámbialo tú mismo, no hay
+     selector en pantalla (para no olvidarte de elegirlo).
+
+     'dark'  = tu sitio es oscuro cuando NO tiene ningún data-theme
+               (tu estado normal, sin atributo). --degradado-texto-2
+               (el que se activa en el modo contrario) se combina con
+               NEGRO, porque ese modo contrario es el claro.
+     'light' = tu sitio es claro por defecto sin atributo. En ese caso
+               --degradado-texto-2 se combina con BLANCO, porque el
+               modo contrario (el que se activa) es el oscuro.
+     ============================================================ */
+  var defaultTheme = 'dark';
   var DEFAULT_GRADIENTS = readCurrentGradients(); /* degradados reales de la página, capturados una sola vez */
   var defaultGradientsCustom = false; /* true en cuanto se edite a mano un slot de "Default" en el panel */
   /* ---------- Receta editable de --degradado-texto y --degradado-fondo ----------
@@ -330,49 +344,107 @@
     /* "Default" sin editar: usa tal cual los degradados que la página ya
        tenía, en vez de reconstruirlos con la receta genérica A→B. */
     if (name === 'default' && !defaultGradientsCustom) {
+      var textoVal1, texto2Val1, botonVal1, botonMenuVal1, fondoVal1;
       if (solid) {
-        css += '--degradado-texto:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
-        css += '--degradado-texto-2:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
-        css += '--degradado-boton:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
-        css += '--degradado-boton-menu:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+        textoVal1 = texto2Val1 = botonVal1 = botonMenuVal1 = 'linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom))';
       } else {
-        if (DEFAULT_GRADIENTS.texto) css += '--degradado-texto:' + DEFAULT_GRADIENTS.texto + ';';
-        if (DEFAULT_GRADIENTS.texto2) css += '--degradado-texto-2:' + DEFAULT_GRADIENTS.texto2 + ';';
-        if (DEFAULT_GRADIENTS.boton) css += '--degradado-boton:' + DEFAULT_GRADIENTS.boton + ';';
-        if (DEFAULT_GRADIENTS.botonMenu) css += '--degradado-boton-menu:' + DEFAULT_GRADIENTS.botonMenu + ';';
+        textoVal1 = DEFAULT_GRADIENTS.texto;
+        texto2Val1 = DEFAULT_GRADIENTS.texto2;
+        botonVal1 = DEFAULT_GRADIENTS.boton;
+        botonMenuVal1 = DEFAULT_GRADIENTS.botonMenu;
       }
+      if (textoVal1) css += '--degradado-texto:' + textoVal1 + ';';
+      if (texto2Val1) css += '--degradado-texto-2:' + texto2Val1 + ';';
+      if (botonVal1) css += '--degradado-boton:' + botonVal1 + ';';
+      if (botonMenuVal1) css += '--degradado-boton-menu:' + botonMenuVal1 + ';';
       if (solid) {
-        css += '--degradado-fondo:linear-gradient(105deg,var(--bg-p-d),var(--bg-p-d));';
+        fondoVal1 = 'linear-gradient(105deg,var(--bg-p-d),var(--bg-p-d))';
+        css += '--degradado-fondo:' + fondoVal1 + ';';
       } else if (DEFAULT_GRADIENTS.fondo) {
-        css += '--degradado-fondo:' + DEFAULT_GRADIENTS.fondo + ';';
+        fondoVal1 = DEFAULT_GRADIENTS.fondo;
+        css += '--degradado-fondo:' + fondoVal1 + ';';
       }
+      css += '}';
+      /* .theme-lock fija estas variables (texto y colores de marca) con más
+         especificidad que html body; se repiten aquí con la misma paleta
+         para que .theme-lock también cambie de tema, sin tocar tu archivo real. */
+      css += 'body[data-theme="dark"] .theme-lock,body[data-theme="light"] .theme-lock{';
+      css += '--text-l:' + p['--text-l'] + ' !important;--text-d:' + p['--text-d'] + ' !important;';
+      css += '--primary-color-custom:' + p['--primary-color-custom'] + ' !important;';
+      css += '--secondary-color-custom:' + p['--secondary-color-custom'] + ' !important;';
+      css += '--accent-color-custom:' + p['--accent-color-custom'] + ' !important;';
+      css += '--accent-color-custom-2:' + p['--accent-color-custom-2'] + ' !important;';
+      if (textoVal1) css += '--degradado-texto:' + textoVal1 + ' !important;';
+      if (texto2Val1) css += '--degradado-texto-2:' + texto2Val1 + ' !important;';
+      if (botonVal1) css += '--degradado-boton:' + botonVal1 + ' !important;';
+      css += '}';
+      /* Solo --degradado-texto-2 y --degradado-fondo van aquí: --degradado-texto-2
+         es la "fuente" a la que apuntan tus propias redirecciones (--degradado-texto,
+         --degradado-boton, --degradado-boton-2, etc. en modo claro/oscuro), así que
+         basta con que ESTA tenga el color correcto — si además forzáramos aquí
+         --degradado-texto/--degradado-boton, bloquearíamos tu propia redirección y
+         se quedarían fijos en vez de cambiar al activar el modo contrario. */
+      css += 'body[data-theme="dark"],body[data-theme="light"]{';
+      if (texto2Val1) css += '--degradado-texto-2:' + texto2Val1 + ' !important;';
+      if (fondoVal1) css += '--degradado-fondo:' + fondoVal1 + ' !important;';
       css += '}';
       return css;
     }
 
     var recipe = getRecipe(name);
+    var fondoVal2, textoVal2, texto2Val2, botonVal2, botonMenuVal2;
     if (solid) {
-      css += '--degradado-fondo:linear-gradient(105deg,var(--bg-p-d),var(--bg-p-d));';
+      fondoVal2 = 'linear-gradient(105deg,var(--bg-p-d),var(--bg-p-d))';
     } else {
       var fondoA = resolveSlotValue(recipe.fondo.a, recipe.fondo.aCustom);
       var fondoB = resolveSlotValue(recipe.fondo.b, recipe.fondo.bCustom);
-      css += '--degradado-fondo:linear-gradient(105deg,' + fondoA + ',' + fondoB + ');';
+      fondoVal2 = 'linear-gradient(105deg,' + fondoA + ',' + fondoB + ')';
     }
+    css += '--degradado-fondo:' + fondoVal2 + ';';
     if (solid) {
-      css += '--degradado-texto:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
-      css += '--degradado-texto-2:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
-      css += '--degradado-boton:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
-      css += '--degradado-boton-menu:linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom));';
+      textoVal2 = texto2Val2 = botonVal2 = botonMenuVal2 = 'linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom))';
     } else {
-      var textoA = resolveSlotValue(recipe.texto.a, recipe.texto.aCustom);
-      var textoB = resolveSlotValue(recipe.texto.b, recipe.texto.bCustom);
-      var botonA = resolveSlotValue(recipe.boton.a, recipe.boton.aCustom);
-      var botonB = resolveSlotValue(recipe.boton.b, recipe.boton.bCustom);
-      css += '--degradado-texto:linear-gradient(105deg,' + textoA + ',' + textoB + ');';
-      css += '--degradado-texto-2:linear-gradient(105deg,var(--accent-color-custom),color-mix(in srgb,var(--accent-color-custom-2) 75%,white 25%));';
-      css += '--degradado-boton:linear-gradient(105deg,' + botonA + ',' + botonB + ');';
-      css += '--degradado-boton-menu:linear-gradient(105deg,var(--accent-color-custom),var(--primary-color-custom));';
+      /* Regla de contraste modo oscuro/claro: el degradado "normal" (--degradado-texto,
+         el que se ve en el estado por defecto) debe ACLARAR con white si el sitio es
+         oscuro por defecto (contrasta mejor contra fondo oscuro). El que usa el toggle
+         al activar modo claro (--degradado-texto-2) debe OSCURECER con black (contrasta
+         mejor contra fondo claro). Si el sitio fuera claro por defecto, es al revés —
+         por eso se decide con "defaultTheme", configurado arriba. --degradado-boton y
+         --degradado-boton-menu siguen exactamente la misma lógica que --degradado-texto. */
+      var mixColorTexto = defaultTheme === 'dark' ? 'white' : 'black';
+      var mixColorTexto2 = defaultTheme === 'dark' ? 'black' : 'white';
+      textoVal2 = 'linear-gradient(105deg,var(--accent-color-custom),color-mix(in srgb,var(--accent-color-custom) 75%,' + mixColorTexto + ' 25%))';
+      texto2Val2 = 'linear-gradient(105deg,var(--accent-color-custom-2),color-mix(in srgb,var(--accent-color-custom-2) 75%,' + mixColorTexto2 + ' 25%))';
+      botonVal2 = textoVal2;
+      botonMenuVal2 = textoVal2;
     }
+    css += '--degradado-texto:' + textoVal2 + ';';
+    css += '--degradado-texto-2:' + texto2Val2 + ';';
+    css += '--degradado-boton:' + botonVal2 + ';';
+    css += '--degradado-boton-menu:' + botonMenuVal2 + ';';
+    css += '}';
+    /* .theme-lock fija estas variables (texto y colores de marca) con más
+       especificidad que html body; se repiten aquí con la misma paleta
+       para que .theme-lock también cambie de tema, sin tocar tu archivo real. */
+    css += 'body[data-theme="dark"] .theme-lock,body[data-theme="light"] .theme-lock{';
+    css += '--text-l:' + p['--text-l'] + ' !important;--text-d:' + p['--text-d'] + ' !important;';
+    css += '--primary-color-custom:' + p['--primary-color-custom'] + ' !important;';
+    css += '--secondary-color-custom:' + p['--secondary-color-custom'] + ' !important;';
+    css += '--accent-color-custom:' + p['--accent-color-custom'] + ' !important;';
+    css += '--accent-color-custom-2:' + p['--accent-color-custom-2'] + ' !important;';
+    css += '--degradado-texto:' + textoVal2 + ' !important;';
+    css += '--degradado-texto-2:' + texto2Val2 + ' !important;';
+    css += '--degradado-boton:' + botonVal2 + ' !important;';
+    css += '}';
+    /* Solo --degradado-texto-2 y --degradado-fondo van aquí: --degradado-texto-2
+       es la "fuente" a la que apuntan tus propias redirecciones (--degradado-texto,
+       --degradado-boton, --degradado-boton-2, etc. en modo claro/oscuro), así que
+       basta con que ESTA tenga el color correcto — si además forzáramos aquí
+       --degradado-texto/--degradado-boton, bloquearíamos tu propia redirección y
+       se quedarían fijos en vez de cambiar al activar el modo contrario. */
+    css += 'body[data-theme="dark"],body[data-theme="light"]{';
+    css += '--degradado-fondo:' + fondoVal2 + ' !important;';
+    css += '--degradado-texto-2:' + texto2Val2 + ' !important;';
     css += '}';
     return css;
   }
@@ -422,7 +494,7 @@
   var fontExtraSel = document.getElementById('kcmFontExtra');
   applyFontSelection(fontSel, resolveFontName('--headlinefont', 'Economica'));
   applyFontSelection(fontContentSel, resolveFontName('--contentfont', 'Manrope'));
-  applyFontSelection(fontExtraSel, resolveFontName('--extrafont', 'Cormorant Garamond'));
+  applyFontSelection(fontExtraSel, resolveFontName('--extrafont', ''));
   fontSel.addEventListener('change', function () {
     document.body.style.setProperty('--headlinefont', "'" + fontSel.value + "'");
   });
@@ -430,7 +502,11 @@
     document.body.style.setProperty('--contentfont', "'" + fontContentSel.value + "'");
   });
   fontExtraSel.addEventListener('change', function () {
-    document.body.style.setProperty('--extrafont', "'" + fontExtraSel.value + "'");
+    if (fontExtraSel.value) {
+      document.body.style.setProperty('--extrafont', "'" + fontExtraSel.value + "'");
+    } else {
+      document.body.style.removeProperty('--extrafont'); /* "Vacío" = vuelve a heredar del Título */
+    }
   });
 
   /* Tamaños de texto: arrancan leyendo el valor real ya calculado en la página */
@@ -466,10 +542,12 @@
     document.body.style.setProperty('--radius-element', (radiusInp.value || 0) + 'px');
   });
 
-  /* Estado inicial: reafirma en línea los valores ya leídos (punto de partida editable) */
+  /* Estado inicial: reafirma en línea los valores ya leídos (punto de partida editable).
+     --extrafont NO se reafirma aquí a propósito: si tu CSS real la deja sin declarar
+     para que un fallback tipo var(--extrafont, var(--headlinefont)) decida en vivo,
+     forzarla aquí rompería esa prueba. Se declara recién cuando tocas el selector "Extra". */
   document.body.style.setProperty('--headlinefont', "'" + fontSel.value + "'");
   document.body.style.setProperty('--contentfont', "'" + fontContentSel.value + "'");
-  document.body.style.setProperty('--extrafont', "'" + fontExtraSel.value + "'");
   document.body.style.setProperty('--size-h2', h2Inp.value + 'px');
   document.body.style.setProperty('--size-h2-2', h2bInp.value + 'px');
   document.body.style.setProperty('--size-h3', h3Inp.value + 'px');
@@ -518,7 +596,7 @@
     updateSolidBtn();
     applyFontSelection(fontSel, resolveFontName('--headlinefont', 'Economica'));
     applyFontSelection(fontContentSel, resolveFontName('--contentfont', 'Manrope'));
-    applyFontSelection(fontExtraSel, resolveFontName('--extrafont', 'Cormorant Garamond'));
+    applyFontSelection(fontExtraSel, resolveFontName('--extrafont', ''));
     h2Inp.value = resolvePx('fontSize', '--size-h2', 48);
     h2bInp.value = resolvePx('fontSize', '--size-h2-2', 40);
     h3Inp.value = resolvePx('fontSize', '--size-h3', 24);
@@ -706,8 +784,6 @@
     divider.className = 'kcm-panel__divider';
     divider.textContent = 'Degradados';
     panelBody.appendChild(divider);
-    panelBody.appendChild(buildGradientRow(paletteKey, 'Texto', 'texto'));
-    panelBody.appendChild(buildGradientRow(paletteKey, 'Botón', 'boton'));
     panelBody.appendChild(buildGradientRow(paletteKey, 'Fondo', 'fondo'));
 
     panel.classList.add('is-open');
@@ -818,3 +894,5 @@
   });
 })();
 </script>
+
+
