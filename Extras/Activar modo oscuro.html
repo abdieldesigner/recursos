@@ -4,11 +4,17 @@
 <style>
 /* Variables — Modo Light (default) */
 
+/* Transición leve para que el cambio de tema (manual o automático por hora)
+   no se sienta como un corte brusco de colores */
+body, body * {
+  transition: background-color .6s ease, color .6s ease, border-color .6s ease;
+}
+
 [data-theme="dark"] {
   --bg-p-l: var(--bg-p-d);
   --bg-s-l: var(--bg-s-d);
-  --text-d: var(--text-l);
-  --primary-color-custom: var(--accent-color-custom);
+  --text-d: var(--text-l);/* 
+  --primary-color-custom: var(--accent-color-custom); */
   --divider-color: var(--bg-p-d);
   --brandboards-blanco_bordes: #00000047;
 }
@@ -114,16 +120,19 @@ const logoDark = '{{custom_values.logo_light_h}}';
 const logoOriginal = '{{custom_values.logo_dark_h}}';
   
 function cambiarLogo(url) {
+  /* Extensión agnóstica: logoDark y logoOriginal pueden ser archivos de
+     formato distinto (ej. .webp vs .svg), así que el patrón no puede asumir .svg */
+  const MEDIA_RE = /media\/[^/]+\.[A-Za-z0-9]+/;
+  const urlMedia = url.match(MEDIA_RE);
   const logos = document.querySelectorAll('img.logo-d');
   logos.forEach(img => {
     img.setAttribute('src', url);
     const picture = img.closest('picture');
-    if (picture) {
+    if (picture && urlMedia) {
       picture.querySelectorAll('source').forEach(source => {
         const srcset = source.getAttribute('srcset');
         if (srcset) {
-          const nuevo = srcset.replace(/media\/[^.]+\.svg/, url.match(/media\/[^.]+\.svg/)[0]);
-          source.setAttribute('srcset', nuevo);
+          source.setAttribute('srcset', srcset.replace(MEDIA_RE, urlMedia[0]));
         }
       });
     }
@@ -145,11 +154,22 @@ function cambiarLogo(url) {
     }
   }
 
-  // Si ya estaba en dark al cargar
+  // Si el usuario ya eligió manualmente esta sesión, se respeta esa elección
   if (saved === 'dark') {
     document.body.setAttribute('data-theme', 'dark');
     cambiarLogo(logoDark);
     aplicarFiltroIconos(true);
+  } else if (!saved) {
+    // Sin elección manual todavía: decide según la hora local.
+    // Oscuro automático de 7:00 PM a 6:00 AM; el resto del día queda
+    // en claro (default) hasta que el usuario lo cambie a mano.
+    var hora = new Date().getHours();
+    var esHorarioOscuro = hora >= 19 || hora < 6;
+    if (esHorarioOscuro) {
+      document.body.setAttribute('data-theme', 'dark');
+      cambiarLogo(logoDark);
+      aplicarFiltroIconos(true);
+    }
   }
 
   // Toggle click

@@ -1,0 +1,200 @@
+<!-- ============================================
+     RUEDA DE IMÁGENES 3D — gira sola, se arrastra, acelera con el scroll
+     ============================================ -->
+<style>
+.rw3d-viewport {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  perspective: 1400px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, #1a1a1a, #060606 70%);
+}
+
+.rw3d-tilt {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  /* Inclinación fija tipo ruleta: ajusta estos dos ángulos a gusto */
+  transform: rotateX(10deg) rotate(-12deg);
+}
+
+.rw3d-ring {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  transform-style: preserve-3d;
+  cursor: grab;
+  touch-action: none;
+}
+
+.rw3d-ring.is-dragging {
+  cursor: grabbing;
+}
+
+.rw3d-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--rw3d-size, 160px);
+  height: var(--rw3d-size, 160px);
+  margin: calc(var(--rw3d-size, 160px) / -2) 0 0 calc(var(--rw3d-size, 160px) / -2);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  /* La posición de cada tarjeta alrededor del cilindro: fija, nunca cambia.
+     Girar todo el anillo (.rw3d-ring) es lo que hace que la rueda se mueva. */
+  transform: rotateY(calc(var(--i) * (360deg / var(--rw3d-count)))) translateZ(var(--rw3d-radius, 320px));
+}
+
+.rw3d-card img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+@media (max-width: 768px) {
+  .rw3d-viewport { height: 360px; }
+  .rw3d-card { --rw3d-size: 110px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rw3d-ring { transition: none; }
+}
+</style>
+
+<div class="rw3d-viewport" id="rw3dViewport">
+  <div class="rw3d-tilt">
+    <div class="rw3d-ring" id="rw3dRing"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* Reemplaza estas URLs por tus propias imágenes */
+  var IMAGENES = [
+    'https://framerusercontent.com/images/GjvoTAZBS3bbZCkT9BvgvSP3Tio.jpg?width=450&height=450',
+    'https://framerusercontent.com/images/jsKLc6lXoHjCysrAHeG3ghcriI.jpg?width=450&height=450',
+    'https://framerusercontent.com/images/9fmhLlnuVij5WJGb7AKAPHd8K4.jpg?width=450&height=450',
+    'https://framerusercontent.com/images/noTZrAnaWnle2PIeZvXS66nzXG4.jpg?width=450&height=450',
+    'https://framerusercontent.com/images/7hSz2Jc01Ilj9LZpJlZ7RcYh0Q.jpg?width=450&height=450',
+    'https://framerusercontent.com/images/uDdBqfuYdrKTwMfwVUNHXY3FtJk.jpg?width=450&height=450',
+    'https://framerusercontent.com/images/hlpxQq1a2zZi2B0UH9nlvggCYZY.jpg?width=450&height=450',
+    'https://framerusercontent.com/images/FnIAILjnZeFuwBoETfTs4DaTubU.jpg?width=450&height=450'
+  ];
+
+  var RADIO = 320;           // qué tan ancho es el círculo (px)
+  var VELOCIDAD_BASE = 0.045; // grados por frame cuando nadie interactúa
+  var SENSIBILIDAD_ARRASTRE = 0.35; // grados por px arrastrado
+  var reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var ring = document.getElementById('rw3dRing');
+  if (!ring) return;
+
+  ring.style.setProperty('--rw3d-count', IMAGENES.length);
+  ring.style.setProperty('--rw3d-radius', RADIO + 'px');
+
+  var cards = IMAGENES.map(function (src, i) {
+    var card = document.createElement('div');
+    card.className = 'rw3d-card';
+    card.style.setProperty('--i', i);
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.draggable = false;
+    card.appendChild(img);
+    ring.appendChild(card);
+    return card;
+  });
+
+  var angulo = 0;
+  var impulso = 0;       // empuje extra temporal (arrastre soltado / scroll)
+  var arrastrando = false;
+  var puntoXInicial = 0;
+  var anguloInicial = 0;
+  var ultimoX = 0;
+  var ultimoTiempo = 0;
+  var velocidadArrastre = 0;
+
+  function aplicarProfundidad() {
+    var paso = 360 / IMAGENES.length;
+    cards.forEach(function (card, i) {
+      var anguloActual = ((i * paso + angulo) % 360 + 360) % 360;
+      var profundidad = Math.cos(anguloActual * Math.PI / 180); // 1 = de frente, -1 = atrás del todo
+      var desenfoque = (1 - profundidad) * 1.6;
+      var opacidad = 0.55 + 0.45 * ((profundidad + 1) / 2);
+      card.style.filter = 'blur(' + desenfoque.toFixed(2) + 'px)';
+      card.style.opacity = opacidad.toFixed(2);
+    });
+  }
+
+  function render() {
+    if (!arrastrando) {
+      if (!reducirMovimiento) angulo += VELOCIDAD_BASE + impulso;
+      impulso *= 0.94; // el impulso extra se va apagando solo
+    }
+    ring.style.transform = 'rotateY(' + angulo + 'deg)';
+    aplicarProfundidad();
+    requestAnimationFrame(render);
+  }
+
+  /* ---------- Arrastrar con mouse/touch para girar a mano ---------- */
+  function onPointerDown(e) {
+    arrastrando = true;
+    ring.classList.add('is-dragging');
+    puntoXInicial = e.clientX;
+    anguloInicial = angulo;
+    ultimoX = e.clientX;
+    ultimoTiempo = performance.now();
+    velocidadArrastre = 0;
+    ring.setPointerCapture(e.pointerId);
+  }
+
+  function onPointerMove(e) {
+    if (!arrastrando) return;
+    var dx = e.clientX - puntoXInicial;
+    angulo = anguloInicial + dx * SENSIBILIDAD_ARRASTRE;
+
+    var ahora = performance.now();
+    var dt = ahora - ultimoTiempo;
+    if (dt > 0) {
+      velocidadArrastre = ((e.clientX - ultimoX) * SENSIBILIDAD_ARRASTRE) / dt * 16; // grados por frame aprox
+    }
+    ultimoX = e.clientX;
+    ultimoTiempo = ahora;
+  }
+
+  function onPointerUp(e) {
+    if (!arrastrando) return;
+    arrastrando = false;
+    ring.classList.remove('is-dragging');
+    impulso = velocidadArrastre; // sigue girando con inercia y se va frenando
+    try { ring.releasePointerCapture(e.pointerId); } catch (err) {}
+  }
+
+  ring.addEventListener('pointerdown', onPointerDown);
+  ring.addEventListener('pointermove', onPointerMove);
+  ring.addEventListener('pointerup', onPointerUp);
+  ring.addEventListener('pointercancel', onPointerUp);
+
+  /* ---------- Acelera con el scroll de la página ---------- */
+  var scrollAnterior = window.scrollY;
+  window.addEventListener('scroll', function () {
+    var delta = window.scrollY - scrollAnterior;
+    scrollAnterior = window.scrollY;
+    impulso += Math.max(Math.min(delta * 0.06, 4), -4); // limita el empuje máximo por evento
+  }, { passive: true });
+
+  requestAnimationFrame(render);
+})();
+</script>

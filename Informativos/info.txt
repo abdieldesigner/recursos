@@ -46,3 +46,57 @@ o actualizadas para tener las variables de color bien configuradas,
 en ese punto SÍ se podría considerar eliminar esta condición de
 seguridad (body:has(...)) de las reglas, ya que dejaría de ser
 necesaria. Hasta entonces, debe mantenerse.
+
+--------------------------------------------------
+Carrusel con scroll-pin (avanza solo con el scroll de la página)
+--------------------------------------------------
+
+Qué hace:
+Convierte el scroll vertical normal de la página en el movimiento
+horizontal de un carrusel — mientras se scrollea esa sección, el
+carrusel se desliza solo, sin que el usuario arrastre ni toque flechas.
+
+Clases necesarias (van en DOS elementos distintos, no en el mismo):
+
+1. En la SECCIÓN de GHL que envuelve todo (título, texto, carrusel):
+     section-scroll-pin
+   Esta es la clase que el JS busca para activar el efecto:
+     document.querySelectorAll('.section-scroll-pin').forEach(...)
+   Si falta aquí, el efecto NUNCA se activa — aunque el carrusel
+   adentro tenga bien puesta su propia clase.
+
+2. En el carrusel mismo (el contenedor .card-carrusel):
+     scroll-pin
+   Opcional: agregar también "scroll-pin-paso" para que las tarjetas
+   avancen de una en una (con salto) en vez de deslizarse continuo.
+
+Error común (ya visto en una página real):
+Poner "scroll-pin" solo en el carrusel y olvidar "section-scroll-pin"
+en la Sección. Resultado: el carrusel funciona normal (flechas, swipe),
+porque ese es otro script aparte que solo necesita .card-carrusel, pero
+el scroll-pin nunca arranca porque el JS no encuentra ninguna sección
+con la clase que busca.
+
+Dónde está el código:
+abdiel-css.css → sección "INICIA CSS: scroll-pin carrusel"
+abdiel-js.js   → sección "INICIA JS: scroll-pin carrusel"
+
+--------------------------------------------------
+No indexar sitios de prueba (noindex)
+--------------------------------------------------
+
+Para cuando un sitio completo todavía está en etapa de prueba (dominio
+de test, nada definitivo todavía): va en el head GLOBAL del sitio
+(nunca en abdiel-css.css/abdiel-js.js, es código de página, no CSS/JS).
+
+<!-- TEMPORAL: sitio de prueba — eliminar esta línea cuando pase al dominio definitivo y se haga público -->
+<meta name="robots" content="noindex, nofollow">
+
+Si en cambio es solo una o varias páginas sueltas de prueba (Test, etc.)
+dentro de un sitio que ya es público, la misma línea va en el head
+INDIVIDUAL de cada una de esas páginas, no en el global — si se pone
+en el global ahí sí desindexa el sitio entero por error.
+
+Al pasar al dominio definitivo y hacerlo público: borrar esa línea
+(del head global o de cada página, según cuál se haya usado) y
+cambiar el dominio.

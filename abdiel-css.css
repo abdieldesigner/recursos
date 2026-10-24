@@ -640,7 +640,7 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
 , .mega-menu-container.boton-menu-l3 > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+3 of .menu-item:not(.cart-search-desktop)) {
     background: var(--degradado-boton-menu, var(--degradado-boton, #a8a8a8));
     color: var(--color-texto-boton, #fff);
-    font-weight: 800;
+    /* font-weight: 800; */
     font-family: inherit;
     border-radius: var(--radius-element, 100px);
     padding: 5px 15px;
@@ -649,6 +649,21 @@ body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-e
 /* Solo .boton-menu: mantiene el mismo color de texto en hover */
 .mega-menu-container.boton-menu > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(-n+1 of .menu-item:not(.cart-search-desktop)) .menu-item-title:hover {
     color: var(--color-texto-boton, #fff) !important;
+}
+
+/* boton en menu — se aplica solo al penúltimo elemento del menú */
+.mega-menu-container.boton-menu-2 > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(2 of .menu-item:not(.cart-search-desktop)) {
+    background: var(--degradado-texto-2, var(--degradado-boton, #a8a8a8));
+    color: var(--text-d, #0d0d0d);
+    /* font-weight: 800; */
+    font-family: inherit;
+    border-radius: var(--radius-element, 100px);
+    padding: 5px 15px;
+}
+
+/* Solo .boton-menu-2: mantiene el mismo color de texto en hover */
+.mega-menu-container.boton-menu-2 > .nav-menu-desktop > li.menu-item:not(.cart-search-desktop):nth-last-child(2 of .menu-item:not(.cart-search-desktop)) .menu-item-title:hover {
+    color: var(--text-d, #0d0d0d) !important;
 }
 
 
@@ -771,6 +786,10 @@ html {
     border-color: var(--secondary-color-custom) !important;
 }
 
+.border-desvanecido {
+    border-image: linear-gradient(to right,transparent, var(--accent-color-custom),transparent) 1;
+}
+
 .text-divider {
     margin: 15px 0;
     display: flex;
@@ -881,63 +900,63 @@ body:has(.hub365-ghl-not) #__nuxt * {
    INICIA CSS: Dimenciones de imagenes
    ========================================= */
 
-   .img-1-1 img, img.img-1-1 {
+   .img-1-1 img:not(.excluir-img), img.img-1-1 {
        aspect-ratio: 1 / 1;
        object-fit: cover !important;
        object-position: center;
    }
-   .img-5-4 img, img.img-5-4 {
+   .img-5-4 img:not(.excluir-img), img.img-5-4 {
        aspect-ratio: 5 / 4;
        object-fit: cover !important;
        object-position: center;
    }
-   .img-4-5 img, img.img-4-5 {
+   .img-4-5 img:not(.excluir-img), img.img-4-5 {
        aspect-ratio: 4 / 5;
        object-fit: cover !important;
        object-position: center;
    }
 
-   .img-6-4 img, img.img-6-4 {
+   .img-6-4 img:not(.excluir-img), img.img-6-4 {
        aspect-ratio: 6 / 4;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-4-6 img, img.img-4-6 {
+  .img-4-6 img:not(.excluir-img), img.img-4-6 {
        aspect-ratio: 4 / 6;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-2-1 img, img.img-2-1 {
+  .img-2-1 img:not(.excluir-img), img.img-2-1 {
        aspect-ratio: 2 / 1;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-16-9 img, img.img-16-9 {
+  .img-16-9 img:not(.excluir-img), img.img-16-9 {
        aspect-ratio: 16 / 9;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-1-2 img, img.img-1-2 {
+  .img-1-2 img:not(.excluir-img), img.img-1-2 {
        aspect-ratio: 1 / 2;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-9-16 img, img.img-9-16 {
+  .img-9-16 img:not(.excluir-img), img.img-9-16 {
        aspect-ratio: 9 / 16;
        object-fit: cover !important;
        object-position: center;
    }
 
-  .img-circular img, img.img-circular {
+  .img-circular img:not(.excluir-img), img.img-circular {
       border-radius: 1000px !important;
   }
 
-  .img-ventana img, img.img-ventana {
+  .img-ventana img:not(.excluir-img), img.img-ventana {
       border-radius: 1000px 1000px 0 0 !important
   }
 
@@ -1602,7 +1621,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
    ========================================= */
 
 
-.mantener-horiontal > div {
+.mantener-horiontal > div, .mantener-horizontal > div {
     flex-direction: row !important;
 }
 
@@ -3276,7 +3295,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     color: var(--accent-color-custom) !important;
 }
 
-.title-h2 :is(h2, h3) {
+.title-h2 :is(h2, h3), .fake-title-h2 :is(p, span) {
     font-size: var(--size-h2, clamp(32px, 7vw, 96px)) !important;
     line-height: 1em;
 }
@@ -3286,7 +3305,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     line-height: 1em;
 }
 
-.title-h3 :is(h2, h3) {
+.title-h3 :is(h2, h3), .fake-title-h3 :is(p, span) {
     font-size: var(--size-h3, clamp(16px, 2vw, 24px)) !important;
     line-height: 1em;
 }
@@ -3321,6 +3340,10 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 }
 
 /* Botones varios  */
+/* Oculta los íconos de un botón para evitar que crezca cuando no existen */
+.btn-iconless :is(.button-icon-start, .button-icon-end) {
+    display: none;
+}
 
 .btn-vp {
     font-size: var(--size-font-btn, 14px) !important;
@@ -3622,6 +3645,44 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     opacity: 0.07 !important;
 }
 
+/* Desplazar un poco la imagen de fondo de una sección */
+.fondo-movil-posicion-80 .full-center {
+    background-position: 80% !important;
+    background-repeat: repeat !important;
+    background-size: cover !important;
+}
+
+/* similar a la de arriba pero mejor según yo */
+
+@media (min-width: 769px) {
+    .fondo-posicion-85 .bg {
+        left: unset !important;
+        right: 0px !important;
+        height: 100% !important;
+        width: 85% !important;
+    }
+    .fondo-posicion-85 .bg  {
+        --dir-pc: left;
+    }
+
+    .fondo-posicion-85 .bg  {
+        -webkit-mask-image: linear-gradient(to var(--dir-pc), black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+        -webkit-mask-repeat: no-repeat !important;
+        -webkit-mask-size: 100% 100% !important;
+
+        mask-image: linear-gradient(to var(--dir-pc), black 80%, #00000047 90%, #0000001f 93%, transparent 100%) !important;
+        mask-repeat: no-repeat !important;
+        mask-size: 100% 100% !important;
+    }
+}
+
+.fondo-posicion-85 .bg {
+    background-position: 80% !important;
+    background-repeat: repeat !important;
+    background-size: cover !important;
+}
+
+
 /* =========================================
    TERMINA CSS: capa de fondo degradada
    ========================================= */
@@ -3668,6 +3729,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
   border-left: 1px solid var(--accent-color-custom);
 }
 
+/* .grid-divider-line cuadro completos individuales entre si */
 .divider-box-line > .inner > * {
   border: 1px solid var(--accent-color-custom);
   border-radius: min(var(--radius-element, 12px), 20px);
@@ -3752,6 +3814,49 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     height: 100% !important;
     padding: 0 !important;
 }
+
+
+
+/* =========================================
+   INICIA CSS: poner una imagen que simula el fondo completo de una sección combinarla con bg-capa. Para un mejor resultado. Son dos clases una vez la sección completa y la otra en la columna que lleva la imagen de fondo
+   ========================================= */
+
+@media (min-width: 769px) {
+    .seccion-fondo-img {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+    }
+
+    #__nuxt .img-fondo-seccion, .seccion-fondo-img > .inner > .c-row {
+        position: static !important;
+        overflow: visible !important;
+    }
+
+    .img-fondo-seccion:is(img, .c-image),
+  .img-fondo-seccion :is(img, .c-image) {
+        position: absolute !important;
+        /* inset: 0; */
+        width: auto !important;
+        height: 100% !important;
+        max-width: none !important;
+        object-fit: cover;
+        z-index: -1;
+        pointer-events: none;
+        right: 0;
+        top: 0;
+        overflow: visible !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .img-fondo-seccion :is(img, .c-image, .image-container) {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important;
+    }
+}
+
 
 /* =========================================
    TERMINA CSS: split-hero
@@ -3849,7 +3954,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 .ico-ws-menu a.mega-menu-link[href*="whatsapp"] {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 1px;
 }
 
 .ico-ws-menu a.mega-menu-link[href^="tel:"]::before,

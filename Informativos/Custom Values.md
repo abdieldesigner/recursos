@@ -180,13 +180,15 @@
 	  { name: "terms_of_use", value: "url" },
 	  { name: "privacy_policy", value: "url" },
 	  { name: "cookies_policy", value: "url" },
+	  { name: "return_policy", value: "url" },
+	  { name: "disclaimers", value: "url" },
+
 
 	  // Otros
 	  { name: "timezone", value: "America/New_York" },
 
 	];
 
-terms_of_use, privacy_policy, cookies_policy
 
 
 

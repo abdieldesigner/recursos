@@ -54,6 +54,12 @@ Observado en vivo, no es una regla obligatoria, solo para entender por qué a ve
 
 No hacía falta poner el `&` en ese segundo caso — el navegador ya lo interpreta como anidado sin necesitar escribirlo.
 
+## Archivo de notas (ideas pendientes)
+
+Ideas para considerar más adelante: [notas.md](notas.md)
+
+Cuando Abdiel diga que no hay nada pendiente, o que tiene algo por hacer pero no tiene ideas, revisar `notas.md` y proponerle qué retomar. Las ideas nuevas se agregan ahí cuando él lo pida.
+
 ## Comandos útiles (VS Code)
 
 - **Comentar/descomentar selección**: `Cmd + /` (en `.css` lo envuelve en `/* ... */`).

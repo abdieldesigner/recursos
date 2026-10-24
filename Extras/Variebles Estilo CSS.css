@@ -817,9 +817,9 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-t
         overflow: visible;
     }
 
- .e-n-carousel.swiper.swiper-initialized.swiper-horizontal.swiper-pointer-events.swiper-backface-hidden{
+ /* .e-n-carousel.swiper.swiper-initialized.swiper-horizontal.swiper-pointer-events.swiper-backface-hidden{
         overflow: visible;
-    }
+    } */
 
 
     /* ajuste de tamaño para todo el diseño en pantallas más chicas o estándar */
