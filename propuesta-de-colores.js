@@ -1,0 +1,1099 @@
+/* ============================================================
+   Librería "Propuesta de colores" — motor compartido.
+
+   Cómo se usa en cada proyecto (ver snippet en
+   Extras/invocar-propuesta-de-colores.html):
+
+   <script>
+     window.KCM_PALETTES = { ...tus paletas de ese cliente... };
+     window.KCM_PALETTE_LABELS = { ...nombre bonito por paleta... };
+     window.KCM_DEFAULT_THEME = 'dark'; // opcional, 'dark' por defecto
+   </script>
+   <script src="RUTA/A/propuesta-de-colores.js"></script>
+
+   Este archivo NO trae ninguna paleta propia — las lee de
+   window.KCM_PALETTES, así cada cliente pone las suyas sin tocar
+   este archivo. Todo lo demás (Default, degradados A→B, el mix
+   ±100, clonar/crear/eliminar paletas personalizadas, tipografía,
+   tamaños, radius, descargar) funciona exactamente igual que en
+   propuesta-de-colores-editable.html.
+   ============================================================ */
+(function () {
+
+  /* ---------- CSS base de la barra y el panel ---------- */
+  var CSS_TEXT = `
+@import url('https://fonts.googleapis.com/css2?family=Economica:wght@400;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Darker+Grotesque:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&family=Jost:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Orbitron:wght@400;700;900&family=Bebas+Neue&family=Caveat:wght@400;600;700&family=Great+Vibes&family=Parisienne&family=Covered+By+Your+Grace&display=swap');
+
+/* Fuente propia (no es de Google Fonts) */
+@font-face {
+  font-family: 'Garet Book';
+  src: url('https://assets.cdn.filesafe.space/wjOtIjL0cLPNxQiK9YtU/media/6a727363ee7ca3d1c422e9a4.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.kcm-ts { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 99999;
+  display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 999px;
+  background: rgba(15,15,18,.72); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.14);
+  font-family: system-ui, sans-serif;
+  zoom: 0.8;  }
+@media (max-width: 768px) {
+  .kcm-ts {
+    max-width: 94vw;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .kcm-ts > * {
+    flex-shrink: 0;
+  }
+}
+/* Escritorio angosto (laptops chicas, ventana no maximizada): la barra se
+   encoge completa (tipografías, paddings, swatches, todo vía zoom) para no
+   desbordarse del ancho de la pantalla. No toca el comportamiento en móvil
+   (bloque de arriba, que usa scroll horizontal en vez de encogerse). */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .kcm-ts { zoom: 0.65; }
+}
+@media (min-width: 769px) and (max-width: 900px) {
+  .kcm-ts { zoom: 0.5; }
+}
+.kcm-ts__sep { width: 1px; height: 26px; background: rgba(255,255,255,.18); }
+.kcm-ts__btn { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; padding: 0; position: relative;
+  border: 2px solid rgba(255,255,255,.35); transition: transform .25s ease, border-color .25s ease; }
+.kcm-ts__btn:hover { transform: translateY(-4px) scale(1.08); }
+.kcm-ts__btn.is-active { border-color: #fff; }
+.kcm-ts__tip { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  background: #111; color: #fff; font-size: 11px; padding: 5px 9px; border-radius: 6px; opacity: 0;
+  pointer-events: none; transition: opacity .25s ease; }
+.kcm-ts__btn:hover .kcm-ts__tip { opacity: 1; }
+.kcm-ts__field { display: flex; align-items: center; gap: 6px; }
+.kcm-ts__label { color: rgba(255,255,255,.7); font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
+.kcm-ts__select, .kcm-ts__num { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2);
+  border-radius: 8px; font-size: 12px; padding: 6px 8px; font-family: system-ui, sans-serif; cursor: pointer; }
+.kcm-ts__num { width: 58px; text-align: center; }
+.kcm-ts__select option, .kcm-ts__select optgroup { color: #111; }
+/* Campo compacto: etiqueta arriba, número abajo, poco margen (para no ensanchar la barra) */
+.kcm-ts__field-stack { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.kcm-ts__field-stack .kcm-ts__label { font-size: 8px; line-height: 1; }
+.kcm-ts__field-stack .kcm-ts__num { width: 38px; padding: 3px 2px; font-size: 11px; }
+/* Botones de ícono (+ y descargar): sin degradado, solo un glifo centrado */
+.kcm-ts__btn--icon { background: rgba(255,255,255,.1); display: flex; align-items: center;
+  justify-content: center; font-size: 16px; color: #fff; line-height: 1; }
+/* Insignias de editar/eliminar: viven DENTRO del círculo "Custom" al que pertenecen,
+   y solo se muestran cuando ese círculo está activo (misma clase .is-active de siempre).
+   Los círculos originales nunca las tienen, así que ahí nunca aparece nada. */
+.kcm-ts__badge { display: none; position: absolute; width: 16px; height: 16px; border-radius: 50%;
+  background: #111; color: #fff; font-size: 10px; align-items: center; justify-content: center;
+  cursor: pointer; border: 1px solid rgba(255,255,255,.45); z-index: 2; }
+.kcm-ts__btn.is-active .kcm-ts__badge { display: flex; }
+.kcm-ts__badge--edit { top: -6px; left: -6px; }
+.kcm-ts__badge--delete { top: -6px; right: -6px; }
+.kcm-ts__badge:hover { background: #333; }
+/* Panel lateral de edición manual de colores */
+.kcm-panel { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 100000;
+  background: rgba(15,15,18,.9); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px; padding: 14px 16px; width: 210px; display: none;
+  max-height: 80vh; flex-direction: column;
+  font-family: system-ui, sans-serif; }
+.kcm-panel.is-open { display: flex; }
+/* El header con la "X" se queda fijo arriba; solo el contenido de abajo
+   scrollea en pantallas cortas (laptops chicas), para no taparse ni
+   perder acceso al botón de cerrar */
+.kcm-panel__body { overflow-y: auto; min-height: 0; }
+.kcm-panel__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+  color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; flex: none; }
+.kcm-panel__close { background: none; border: none; color: #fff; font-size: 18px; line-height: 1;
+  cursor: pointer; padding: 0 4px; }
+.kcm-panel__row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.kcm-panel__label { flex: 1 1 auto; color: rgba(255,255,255,.75); font-size: 11px; }
+.kcm-panel__swatch { width: 26px; height: 26px; padding: 0; border: 1px solid rgba(255,255,255,.25);
+  border-radius: 6px; background: none; cursor: pointer; }
+.kcm-panel__hex { width: 68px; background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px; font-size: 11px; padding: 4px 6px; text-align: center; font-family: system-ui, sans-serif; }
+/* Sección de degradados editables (--degradado-texto / --degradado-fondo) */
+.kcm-panel__divider { color: rgba(255,255,255,.5); font-size: 10px; text-transform: uppercase;
+  letter-spacing: .06em; margin: 10px 0 6px; border-top: 1px solid rgba(255,255,255,.15); padding-top: 8px; }
+.kcm-panel__gradrow { margin-bottom: 10px; }
+.kcm-panel__gradlabel { color: rgba(255,255,255,.8); font-size: 11px; margin-bottom: 4px; }
+.kcm-panel__gradslots { display: flex; flex-direction: column; gap: 4px; }
+.kcm-panel__slot { display: flex; align-items: center; gap: 4px; }
+.kcm-panel__select { flex: 1 1 auto; min-width: 0; background: rgba(255,255,255,.08); color: #fff;
+  border: 1px solid rgba(255,255,255,.2); border-radius: 6px; font-size: 10px; padding: 3px 4px; cursor: pointer; }
+.kcm-panel__select option { color: #111; }
+.kcm-panel__swatch--sm { width: 20px; height: 20px; flex: 0 0 auto; }
+.kcm-panel__hex--sm { width: 48px; flex: 0 0 auto; }
+.kcm-panel__mix { width: 36px; flex: 0 0 auto; background: rgba(255,255,255,.08); color: #fff;
+  border: 1px solid rgba(255,255,255,.2); border-radius: 6px; font-size: 10px; padding: 3px 2px; text-align: center; }
+.kcm-panel__preview { width: 14px; height: 14px; border-radius: 4px; flex: 0 0 auto;
+  border: 1px solid rgba(255,255,255,.35); }
+`;
+
+  /* ---------- Markup de la barra y el panel ----------
+     Igual que el HTML estático del archivo original, salvo que los
+     círculos de paleta (teal, naranja, etc.) ya NO van aquí fijos:
+     se generan más abajo a partir de window.KCM_PALETTES. */
+  var HTML_TEXT = `
+<div class="kcm-ts" role="group" aria-label="Theme switcher">
+  <button class="kcm-ts__btn" data-pal="default" id="kcmDefaultPal" aria-label="Page's current colors">
+    <span class="kcm-ts__tip">Default</span></button>
+  <button class="kcm-ts__btn kcm-ts__btn--icon" id="kcmCancelPal" aria-label="Quitar todo y ver la web real">
+    <span class="kcm-ts__tip">Ver mi web real (cancelar)</span>✕</button>
+  <button class="kcm-ts__btn kcm-ts__btn--icon" id="kcmAddPal" aria-label="Create custom palette from the active one">
+    <span class="kcm-ts__tip">Crear paleta personalizada</span>+</button>
+  <span class="kcm-ts__sep"></span>
+  <button class="kcm-ts__btn" id="kcmSolid" aria-label="Toggle solid / gradient">
+    <span class="kcm-ts__tip">Solid / Gradient</span></button>
+  <span class="kcm-ts__sep"></span>
+  <div class="kcm-ts__field">
+    <span class="kcm-ts__label">Title</span>
+    <select class="kcm-ts__select" id="kcmFont">
+      <optgroup label="Basics (sans)">
+        <option value="Economica" style="font-family:'Economica'">Economica</option>
+        <option value="Montserrat" style="font-family:'Montserrat'">Montserrat</option>
+        <option value="Garet Book" style="font-family:'Garet Book'">Garet Book</option>
+        <option value="Jost" style="font-family:'Jost'">Jost</option>
+      </optgroup>
+      <optgroup label="Decorated (serif / display)">
+        <option value="Playfair Display" style="font-family:'Playfair Display'">Playfair Display</option>
+        <option value="Darker Grotesque" style="font-family:'Darker Grotesque'">Darker Grotesque</option>
+        <option value="Libre Baskerville" style="font-family:'Libre Baskerville'">Libre Baskerville</option>
+        <option value="Orbitron" style="font-family:'Orbitron'">Orbitron</option>
+        <option value="Bebas Neue" style="font-family:'Bebas Neue'">Bebas Neue</option>
+        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="kcm-ts__field">
+    <span class="kcm-ts__label">Content</span>
+    <select class="kcm-ts__select" id="kcmFontContent">
+      <optgroup label="Basics (sans)">
+        <option value="Manrope" style="font-family:'Manrope'">Manrope</option>
+        <option value="Montserrat" style="font-family:'Montserrat'">Montserrat</option>
+        <option value="Economica" style="font-family:'Economica'">Economica</option>
+        <option value="Garet Book" style="font-family:'Garet Book'">Garet Book</option>
+        <option value="Jost" style="font-family:'Jost'">Jost</option>
+      </optgroup>
+      <optgroup label="Decorated (serif / display)">
+        <option value="Playfair Display" style="font-family:'Playfair Display'">Playfair Display</option>
+        <option value="Darker Grotesque" style="font-family:'Darker Grotesque'">Darker Grotesque</option>
+        <option value="Libre Baskerville" style="font-family:'Libre Baskerville'">Libre Baskerville</option>
+        <option value="Orbitron" style="font-family:'Orbitron'">Orbitron</option>
+        <option value="Bebas Neue" style="font-family:'Bebas Neue'">Bebas Neue</option>
+        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="kcm-ts__field">
+    <span class="kcm-ts__label">Extra</span>
+    <select class="kcm-ts__select" id="kcmFontExtra">
+      <option value="" selected>— Vacío (hereda Título) —</option>
+      <optgroup label="Script">
+        <option value="Caveat" style="font-family:'Caveat'">Caveat</option>
+        <option value="Great Vibes" style="font-family:'Great Vibes'">Great Vibes</option>
+        <option value="Parisienne" style="font-family:'Parisienne'">Parisienne</option>
+        <option value="Covered By Your Grace" style="font-family:'Covered By Your Grace'">Covered By Your Grace</option>
+      </optgroup>
+      <optgroup label="Decorated (serif / display)">
+        <option value="Cormorant Garamond" style="font-family:'Cormorant Garamond'">Cormorant Garamond</option>
+        <option value="Playfair Display" style="font-family:'Playfair Display'">Playfair Display</option>
+        <option value="Darker Grotesque" style="font-family:'Darker Grotesque'">Darker Grotesque</option>
+        <option value="Libre Baskerville" style="font-family:'Libre Baskerville'">Libre Baskerville</option>
+        <option value="Orbitron" style="font-family:'Orbitron'">Orbitron</option>
+        <option value="Bebas Neue" style="font-family:'Bebas Neue'">Bebas Neue</option>
+      </optgroup>
+      <optgroup label="Basics (sans)">
+        <option value="Manrope" style="font-family:'Manrope'">Manrope</option>
+        <option value="Montserrat" style="font-family:'Montserrat'">Montserrat</option>
+        <option value="Economica" style="font-family:'Economica'">Economica</option>
+        <option value="Garet Book" style="font-family:'Garet Book'">Garet Book</option>
+        <option value="Jost" style="font-family:'Jost'">Jost</option>
+      </optgroup>
+    </select>
+  </div>
+  <span class="kcm-ts__sep"></span>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">H2</span>
+    <input class="kcm-ts__num" id="kcmH2" type="number" min="10" max="120" step="1">
+  </div>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">H2-2</span>
+    <input class="kcm-ts__num" id="kcmH2b" type="number" min="10" max="120" step="1">
+  </div>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">H3</span>
+    <input class="kcm-ts__num" id="kcmH3" type="number" min="10" max="80" step="1">
+  </div>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">P</span>
+    <input class="kcm-ts__num" id="kcmP" type="number" min="10" max="40" step="1">
+  </div>
+  <span class="kcm-ts__sep"></span>
+  <div class="kcm-ts__field-stack">
+    <span class="kcm-ts__label">Radius</span>
+    <input class="kcm-ts__num" id="kcmRadius" type="number" min="0" max="100" step="1">
+  </div>
+  <span class="kcm-ts__sep"></span>
+  <button class="kcm-ts__btn kcm-ts__btn--icon" id="kcmDownload" aria-label="Download current configuration">
+    <span class="kcm-ts__tip">Descargar valores</span>⬇</button>
+</div>
+
+<div class="kcm-panel" id="kcmPanel">
+  <div class="kcm-panel__header">
+    <span>Editar paleta</span>
+    <button class="kcm-panel__close" id="kcmPanelClose" aria-label="Cerrar">×</button>
+  </div>
+  <div class="kcm-panel__body" id="kcmPanelBody"></div>
+</div>
+`;
+
+  var styleTag = document.createElement('style');
+  styleTag.id = 'kcm-base-style';
+  styleTag.textContent = CSS_TEXT;
+  document.head.appendChild(styleTag);
+  document.body.insertAdjacentHTML('beforeend', HTML_TEXT);
+
+  /* ---------- Paletas: vienen del proyecto, no de esta librería ---------- */
+  var PALETTES = {};
+  var CONFIG_PALETTES = window.KCM_PALETTES || {};
+  for (var pk in CONFIG_PALETTES) PALETTES[pk] = CONFIG_PALETTES[pk];
+  var PALETTE_LABELS = window.KCM_PALETTE_LABELS || {};
+
+  /* ---------- Lectura dinámica de los valores reales de la página ---------- */
+
+  /* Resuelve una variable de longitud (font-size, border-radius, etc.) a un número en px,
+     dejando que el navegador haga la cascada + el cálculo de clamp()/vw por su cuenta. */
+  function resolvePx(cssProp, varName, fallback) {
+    var probe = document.createElement('div');
+    probe.style.position = 'absolute';
+    probe.style.visibility = 'hidden';
+    probe.style.pointerEvents = 'none';
+    probe.style[cssProp] = 'var(' + varName + ', ' + fallback + 'px)';
+    document.body.appendChild(probe);
+    var resolved = parseFloat(getComputedStyle(probe)[cssProp]);
+    document.body.removeChild(probe);
+    return isNaN(resolved) ? fallback : Math.round(resolved);
+  }
+
+  /* Lee el nombre real de una variable de fuente (quita comillas si las tiene) */
+  function resolveFontName(varName, fallback) {
+    var raw = getComputedStyle(document.body).getPropertyValue(varName).trim();
+    raw = raw.replace(/^['"]|['"]$/g, '');
+    return raw || fallback;
+  }
+
+  /* Selecciona una fuente en el <select>; si no está en la lista, la agrega
+     sobre la marcha (ej. una fuente propia de esa página que no conocíamos) */
+  function applyFontSelection(selectEl, value) {
+    if (!value) return;
+    var exists = Array.prototype.some.call(selectEl.options, function (o) { return o.value === value; });
+    if (!exists) {
+      var opt = document.createElement('option');
+      opt.value = value;
+      opt.textContent = value + ' (detectada)';
+      selectEl.appendChild(opt);
+    }
+    selectEl.value = value;
+  }
+
+  /* Arma la paleta "default" leyendo los colores reales que la página ya tiene */
+  function readCurrentPalette() {
+    return {
+      '--primary-color-custom':   resolveFontName('--primary-color-custom', '#000000'),
+      '--secondary-color-custom': resolveFontName('--secondary-color-custom', '#000000'),
+      '--accent-color-custom':    resolveFontName('--accent-color-custom', '#ffffff'),
+      '--accent-color-custom-2':  resolveFontName('--accent-color-custom-2', '#ffffff'),
+      '--bg-p-d': resolveFontName('--bg-p-d', '#000000'),
+      '--bg-s-d': resolveFontName('--bg-s-d', '#111111'),
+      '--bg-p-l': resolveFontName('--bg-p-l', '#ffffff'),
+      '--bg-s-l': resolveFontName('--bg-s-l', '#f0f0f0'),
+      '--text-l': resolveFontName('--text-l', '#ffffff'),
+      '--text-d': resolveFontName('--text-d', '#000000')
+    };
+  }
+
+  /* Lee los degradados reales que la página ya tiene declarados (tal cual,
+     sin intentar descomponerlos en 2 variables). Sirve para que "Default"
+     no invente una combinación propia — usa la de siempre hasta que el
+     usuario la edite a mano en el panel. */
+  function readCurrentGradients() {
+    return {
+      texto: resolveFontName('--degradado-texto', ''),
+      texto2: resolveFontName('--degradado-texto-2', ''),
+      boton: resolveFontName('--degradado-boton', ''),
+      botonMenu: resolveFontName('--degradado-boton-menu', ''),
+      fondo: resolveFontName('--degradado-fondo', '')
+    };
+  }
+
+  var box = document.querySelector('.kcm-ts'); if (!box) return;
+  document.body.appendChild(box);
+  var styleEl = document.getElementById('kcm-pal-style');
+  if (!styleEl) { styleEl = document.createElement('style'); styleEl.id = 'kcm-pal-style'; document.head.appendChild(styleEl); }
+  var current = null; /* null = todavía no se tocaron los colores reales de la página */
+  var solid = false;
+  /* 'dark' = el sitio es oscuro sin ningún data-theme (estado normal).
+     'light' = el sitio es claro por defecto. Se configura por proyecto
+     con window.KCM_DEFAULT_THEME; si no se define, asume 'dark'. */
+  var defaultTheme = window.KCM_DEFAULT_THEME || 'dark';
+  var DEFAULT_GRADIENTS = readCurrentGradients(); /* degradados reales de la página, capturados una sola vez */
+  /* ---------- Receta editable de Texto/Botón/Fondo ----------
+     Por defecto, Texto/Botón usan la fórmula automática de contraste y Fondo
+     usa Secondary+BG Dark. Cada paleta puede cambiar qué 2 variables forman
+     cada degradado, o salirse del esquema con un color "Custom" libre. Se
+     guarda aparte de PALETTES para no interferir con el for..in que arma las
+     variables base en buildCss(). */
+  var GRADIENT_RECIPES = {};
+  function defaultGradientRecipe() {
+    return {
+      texto: { a: '--primary-color-custom', b: '--accent-color-custom', aCustom: '#ffffff', bCustom: '#ffffff', aMix: 0, bMix: 0 },
+      boton: { a: '--accent-color-custom', b: '--primary-color-custom', aCustom: '#ffffff', bCustom: '#ffffff', aMix: 0, bMix: 0 },
+      fondo: { a: '--secondary-color-custom', b: '--bg-p-d', aCustom: '#ffffff', bCustom: '#ffffff', aMix: 0, bMix: 0 }
+    };
+  }
+  function getRecipe(key) {
+    if (!GRADIENT_RECIPES[key]) GRADIENT_RECIPES[key] = defaultGradientRecipe();
+    return GRADIENT_RECIPES[key];
+  }
+  /* Copia un slot de degradado (texto/boton/fondo) tal cual: si apunta a una
+     variable o usa un color "Custom" suelto, y si estaba editado a mano o no */
+  function cloneGradientSlot(slot) {
+    return { a: slot.a, b: slot.b, aCustom: slot.aCustom, bCustom: slot.bCustom,
+      aMix: slot.aMix || 0, bMix: slot.bMix || 0, edited: slot.edited };
+  }
+
+  var KNOWN_RECIPE_VARS = ['--primary-color-custom','--secondary-color-custom','--accent-color-custom',
+    '--accent-color-custom-2','--bg-p-d','--bg-s-d','--bg-p-l','--bg-s-l','--text-l','--text-d'];
+
+  /* Separa los argumentos de nivel superior de un linear-gradient(...), sin
+     cortar comas que estén DENTRO de funciones anidadas como color-mix() */
+  function splitTopLevelArgs(str) {
+    var parts = [], depth = 0, last = 0;
+    for (var i = 0; i < str.length; i++) {
+      var ch = str[i];
+      if (ch === '(') depth++;
+      else if (ch === ')') depth--;
+      else if (ch === ',' && depth === 0) { parts.push(str.slice(last, i)); last = i + 1; }
+    }
+    parts.push(str.slice(last));
+    return parts.map(function (s) { return s.trim(); });
+  }
+
+  /* De una parada de degradado (ej. "color-mix(in srgb, var(--primary-color-custom)
+     75%, black 25%)") extrae la variable base si aparece, IGNORANDO el color-mix
+     que la envuelve — así se mantiene el vínculo dinámico con esa variable en vez
+     de congelar un color fijo. Si no hay ninguna variable reconocible, cae a un
+     hex o palabra clave (white/black/transparent) como color "Custom". Si el stop
+     viene envuelto en color-mix(..., white|black N%), también extrae ese N% como
+     "mix" (positivo = blanco, negativo = negro) para clonar la mezcla exacta. */
+  function resolveGradientStop(stopText) {
+    var mix = 0;
+    var searchText = stopText;
+    var mixMatch = stopText.match(/color-mix\(([\s\S]*)\)/i);
+    if (mixMatch) {
+      searchText = mixMatch[1];
+      var pctMatch = searchText.match(/\b(white|black)\s+(\d+(?:\.\d+)?)%/i);
+      if (pctMatch) {
+        var pct = Math.round(parseFloat(pctMatch[2]));
+        mix = /white/i.test(pctMatch[1]) ? pct : -pct;
+      }
+    }
+    for (var i = 0; i < KNOWN_RECIPE_VARS.length; i++) {
+      if (searchText.indexOf(KNOWN_RECIPE_VARS[i]) !== -1) {
+        return { value: KNOWN_RECIPE_VARS[i], custom: '#ffffff', mix: mix };
+      }
+    }
+    var hexMatch = searchText.match(/#[0-9a-f]{3,8}/i);
+    if (hexMatch) return { value: 'custom', custom: hexMatch[0], mix: mix };
+    if (!mixMatch) {
+      var kwMatch = searchText.match(/\b(white|black|transparent)\b/i);
+      if (kwMatch) return { value: 'custom', custom: kwMatch[0].toLowerCase(), mix: 0 };
+    }
+    return { value: 'custom', custom: '#ffffff', mix: mix };
+  }
+
+  /* Convierte un degradado REAL (string tal cual lo devuelve la página, ej. de
+     DEFAULT_GRADIENTS) en una receta A→B editable. Si el degradado real tiene
+     3+ colores, se queda solo con el primero y el último (limitación conocida
+     del sistema A→B, que solo soporta 2 paradas). */
+  function parseGradientToRecipe(gradientStr) {
+    if (!gradientStr) return null;
+    var inner = gradientStr.replace(/^[a-z-]+gradient\(/i, '').replace(/\)\s*$/, '');
+    var parts = splitTopLevelArgs(inner);
+    if (parts.length && /^(\d+(\.\d+)?deg|to\s+\w+(\s+\w+)?)$/i.test(parts[0])) parts.shift();
+    if (!parts.length) return null;
+    var a = resolveGradientStop(parts[0]);
+    var b = resolveGradientStop(parts[parts.length - 1]);
+    return { a: a.value, b: b.value, aCustom: a.custom, bCustom: b.custom, aMix: a.mix, bMix: b.mix, edited: true };
+  }
+
+  /* getComputedStyle() devuelve una variable CSS YA RESUELTA: si tu CSS real
+     dice var(--accent-color-custom), lo que llega aquí es directamente el
+     hex final (ej. #C8102E) — el navegador sustituye la variable antes de
+     que podamos leerla, y ese rastro se pierde. Para conservar la variable
+     real hay que leer el texto TAL CUAL está escrito en la hoja de estilos
+     (sin resolver), buscando directo en document.styleSheets la regla que
+     realmente aplica a <body> en este momento (respeta @media y selectores
+     tipo [data-theme="..."] vía .matches()). Se ignoran nuestras propias
+     hojas inyectadas (#kcm-pal-style y #kcm-base-style) para no leernos a
+     nosotros mismos. */
+  function findRawBodyValue(varName) {
+    var found = null;
+    function scanRules(rules) {
+      for (var i = 0; i < rules.length; i++) {
+        var rule = rules[i];
+        if (rule.type === CSSRule.MEDIA_RULE) {
+          if (window.matchMedia(rule.media.mediaText).matches) scanRules(rule.cssRules);
+          continue;
+        }
+        if (rule.type !== CSSRule.STYLE_RULE) continue;
+        var raw = rule.style.getPropertyValue(varName);
+        if (!raw) continue;
+        try {
+          if (!document.body.matches(rule.selectorText)) continue;
+        } catch (e) { continue; }
+        found = raw.trim(); /* la última regla que coincide gana, como en la cascada real */
+      }
+    }
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var sheet = document.styleSheets[s];
+      if (sheet.ownerNode && (sheet.ownerNode.id === 'kcm-pal-style' || sheet.ownerNode.id === 'kcm-base-style')) continue;
+      var rules;
+      try { rules = sheet.cssRules || sheet.rules; } catch (e) { continue; }
+      if (rules) scanRules(rules);
+    }
+    return found;
+  }
+
+  function resolveSlotValue(slot, customValue, mixPercent) {
+    var base = slot === 'custom' ? customValue : 'var(' + slot + ')';
+    var pct = Math.round(parseFloat(mixPercent)) || 0;
+    if (!pct) return base;
+    var abs = Math.min(Math.abs(pct), 100);
+    var mixWith = pct > 0 ? 'white' : 'black';
+    return 'color-mix(in srgb,' + base + ' ' + (100 - abs) + '%,' + mixWith + ' ' + abs + '%)';
+  }
+
+  function buildCss(name) {
+    var p = PALETTES[name]; if (!p) return '';
+    var css = 'html body{';
+    for (var k in p) css += k + ':' + p[k] + ';';
+    css += '--resplandor-boton:0 0 3rem var(--accent-color-custom);';
+
+    var recipe = getRecipe(name);
+    var isDefault = (name === 'default');
+    var fondoVal, textoVal, texto2Val, botonVal, botonMenuVal;
+
+    /* "Default" sin editar ESTE degradado puntual: mantiene tu valor real
+       leído de la página (sea cual sea su fórmula/colores), en vez de caer
+       en la receta/fórmula genérica — así ajustar UNO solo (ej. Texto) no
+       te cambia de golpe los otros (ej. Fondo) que quizás usan algo
+       distinto a la receta base (Accent+Accent-2, hexadecimales sueltos). */
+    if (solid) {
+      fondoVal = 'linear-gradient(105deg,var(--bg-p-d),var(--bg-p-d))';
+    } else if (isDefault && !recipe.fondo.edited && DEFAULT_GRADIENTS.fondo) {
+      fondoVal = DEFAULT_GRADIENTS.fondo;
+    } else {
+      fondoVal = 'linear-gradient(105deg,' + resolveSlotValue(recipe.fondo.a, recipe.fondo.aCustom, recipe.fondo.aMix) + ',' + resolveSlotValue(recipe.fondo.b, recipe.fondo.bCustom, recipe.fondo.bMix) + ')';
+    }
+    css += '--degradado-fondo:' + fondoVal + ';';
+
+    if (solid) {
+      textoVal = texto2Val = botonVal = botonMenuVal = 'linear-gradient(105deg,var(--accent-color-custom),var(--accent-color-custom))';
+    } else {
+      /* Regla de contraste modo oscuro/claro: el degradado "normal" (--degradado-texto,
+         el que se ve en el estado por defecto) debe ACLARAR con white si el sitio es
+         oscuro por defecto (contrasta mejor contra fondo oscuro). El que usa el toggle
+         al activar modo claro (--degradado-texto-2) debe OSCURECER con black (contrasta
+         mejor contra fondo claro). Si el sitio fuera claro por defecto, es al revés —
+         por eso se decide con "defaultTheme", configurado por proyecto. --degradado-boton y
+         --degradado-boton-menu siguen esta misma lógica, A MENOS que se editen a mano
+         en el panel (recipe.texto.edited / recipe.boton.edited). */
+      var mixColorTexto = defaultTheme === 'dark' ? 'white' : 'black';
+      var mixColorTexto2 = defaultTheme === 'dark' ? 'black' : 'white';
+
+      texto2Val = (isDefault && !recipe.texto.edited && DEFAULT_GRADIENTS.texto2)
+        ? DEFAULT_GRADIENTS.texto2
+        : 'linear-gradient(105deg,var(--accent-color-custom-2),color-mix(in srgb,var(--accent-color-custom-2) 75%,' + mixColorTexto2 + ' 25%))';
+
+      if (recipe.texto.edited) {
+        textoVal = 'linear-gradient(105deg,' + resolveSlotValue(recipe.texto.a, recipe.texto.aCustom, recipe.texto.aMix) + ',' + resolveSlotValue(recipe.texto.b, recipe.texto.bCustom, recipe.texto.bMix) + ')';
+      } else if (isDefault && DEFAULT_GRADIENTS.texto) {
+        textoVal = DEFAULT_GRADIENTS.texto;
+      } else {
+        textoVal = 'linear-gradient(105deg,var(--accent-color-custom),color-mix(in srgb,var(--accent-color-custom) 75%,' + mixColorTexto + ' 25%))';
+      }
+
+      if (recipe.boton.edited) {
+        botonVal = 'linear-gradient(105deg,' + resolveSlotValue(recipe.boton.a, recipe.boton.aCustom, recipe.boton.aMix) + ',' + resolveSlotValue(recipe.boton.b, recipe.boton.bCustom, recipe.boton.bMix) + ')';
+      } else if (isDefault && DEFAULT_GRADIENTS.boton) {
+        botonVal = DEFAULT_GRADIENTS.boton;
+      } else {
+        botonVal = textoVal;
+      }
+
+      botonMenuVal = (isDefault && !recipe.boton.edited && DEFAULT_GRADIENTS.botonMenu) ? DEFAULT_GRADIENTS.botonMenu : botonVal;
+    }
+    css += '--degradado-texto:' + textoVal + ';';
+    css += '--degradado-texto-2:' + texto2Val + ';';
+    css += '--degradado-boton:' + botonVal + ';';
+    css += '--degradado-boton-menu:' + botonMenuVal + ';';
+    css += '}';
+    /* .theme-lock fija estas variables (texto y colores de marca) con más
+       especificidad que html body; se repiten aquí con la misma paleta
+       para que .theme-lock también cambie de tema, sin tocar tu archivo real. */
+    css += 'body[data-theme="dark"] .theme-lock,body[data-theme="light"] .theme-lock{';
+    css += '--text-l:' + p['--text-l'] + ' !important;--text-d:' + p['--text-d'] + ' !important;';
+    css += '--primary-color-custom:' + p['--primary-color-custom'] + ' !important;';
+    css += '--secondary-color-custom:' + p['--secondary-color-custom'] + ' !important;';
+    css += '--accent-color-custom:' + p['--accent-color-custom'] + ' !important;';
+    css += '--accent-color-custom-2:' + p['--accent-color-custom-2'] + ' !important;';
+    css += '--degradado-texto:' + textoVal + ' !important;';
+    css += '--degradado-texto-2:' + texto2Val + ' !important;';
+    css += '--degradado-boton:' + botonVal + ' !important;';
+    css += '}';
+    /* Solo --degradado-texto-2 y --degradado-fondo van aquí: --degradado-texto-2
+       es la "fuente" a la que apuntan tus propias redirecciones (--degradado-texto,
+       --degradado-boton, --degradado-boton-2, etc. en modo claro/oscuro), así que
+       basta con que ESTA tenga el color correcto — si además forzáramos aquí
+       --degradado-texto/--degradado-boton, bloquearíamos tu propia redirección y
+       se quedarían fijos en vez de cambiar al activar el modo contrario. */
+    css += 'body[data-theme="dark"],body[data-theme="light"]{';
+    css += '--degradado-fondo:' + fondoVal + ' !important;';
+    css += '--degradado-texto-2:' + texto2Val + ' !important;';
+    css += '}';
+    return css;
+  }
+  var solidBtn = document.getElementById('kcmSolid');
+  function updateSolidBtn() {
+    solidBtn.style.background = solid
+      ? 'var(--accent-color-custom)'
+      : 'linear-gradient(105deg,var(--accent-color-custom),var(--primary-color-custom))';
+    solidBtn.classList.toggle('is-active', solid);
+  }
+  function apply(name) {
+    current = name;
+    styleEl.textContent = buildCss(name);
+    document.body.setAttribute('data-pal', name);
+    box.querySelectorAll('.kcm-ts__btn[data-pal]').forEach(function (b) {
+      b.classList.toggle('is-active', b.dataset.pal === name);
+    });
+    updateSolidBtn();
+  }
+  /* Selecciona una paleta y, si el panel de edición ya está abierto, lo mantiene
+     sincronizado: si la nueva paleta es personalizada, el panel pasa a editarla;
+     si es una de las paletas fijas (no editables), el panel se cierra solo. */
+  function selectPalette(key) {
+    apply(key);
+    if (panel && panel.classList.contains('is-open')) {
+      if (key.indexOf('custom') === 0) {
+        openPanel(key);
+      } else {
+        panel.classList.remove('is-open');
+        editingKey = null;
+      }
+    }
+  }
+
+  function swatchGradient(p) {
+    return 'conic-gradient(' +
+      p['--primary-color-custom'] + ' 0 25%,' +
+      p['--secondary-color-custom'] + ' 25% 50%,' +
+      p['--accent-color-custom'] + ' 50% 75%,' +
+      p['--accent-color-custom-2'] + ' 75% 100%)';
+  }
+
+  /* ---------- Círculos de paleta configurados por el proyecto ----------
+     Se generan aquí, antes del "+", a partir de window.KCM_PALETTES — no
+     son fijos como en la versión de un solo archivo, porque cada cliente
+     puede traer una cantidad distinta de paletas. */
+  var addBtnRef = document.getElementById('kcmAddPal');
+  Object.keys(PALETTES).forEach(function (key) {
+    var labelText = PALETTE_LABELS[key] || key;
+    var btn = document.createElement('button');
+    btn.className = 'kcm-ts__btn';
+    btn.dataset.pal = key;
+    btn.setAttribute('aria-label', labelText);
+    btn.style.background = swatchGradient(PALETTES[key]);
+    var tip = document.createElement('span');
+    tip.className = 'kcm-ts__tip';
+    tip.textContent = labelText;
+    btn.appendChild(tip);
+    addBtnRef.parentNode.insertBefore(btn, addBtnRef);
+  });
+
+  /* Los perfiles de color siguen siendo 100% manuales (esto lo decide el
+     proyecto vía window.KCM_PALETTES, no se lee de la página) */
+  box.querySelectorAll('.kcm-ts__btn[data-pal]').forEach(function (b) {
+    b.addEventListener('click', function () { selectPalette(b.dataset.pal); });
+  });
+  solidBtn.addEventListener('click', function () {
+    solid = !solid;
+    if (current) apply(current); /* si aún no se eligió paleta, no hay nada que reconstruir */
+  });
+
+  /* Tipografía: arranca leyendo lo que la página ya tiene declarado */
+  var fontSel = document.getElementById('kcmFont');
+  var fontContentSel = document.getElementById('kcmFontContent');
+  var fontExtraSel = document.getElementById('kcmFontExtra');
+  applyFontSelection(fontSel, resolveFontName('--headlinefont', 'Economica'));
+  applyFontSelection(fontContentSel, resolveFontName('--contentfont', 'Manrope'));
+  applyFontSelection(fontExtraSel, resolveFontName('--extrafont', ''));
+  fontSel.addEventListener('change', function () {
+    document.body.style.setProperty('--headlinefont', "'" + fontSel.value + "'");
+  });
+  fontContentSel.addEventListener('change', function () {
+    document.body.style.setProperty('--contentfont', "'" + fontContentSel.value + "'");
+  });
+  fontExtraSel.addEventListener('change', function () {
+    if (fontExtraSel.value) {
+      document.body.style.setProperty('--extrafont', "'" + fontExtraSel.value + "'");
+    } else {
+      document.body.style.removeProperty('--extrafont'); /* "Vacío" = vuelve a heredar del Título */
+    }
+  });
+
+  /* Tamaños de texto: arrancan leyendo el valor real ya calculado en la página */
+  var h2Inp = document.getElementById('kcmH2');
+  var h2bInp = document.getElementById('kcmH2b');
+  var h3Inp = document.getElementById('kcmH3');
+  var pInp = document.getElementById('kcmP');
+  h2Inp.value = resolvePx('fontSize', '--size-h2', 48);
+  h2bInp.value = resolvePx('fontSize', '--size-h2-2', 40);
+  h3Inp.value = resolvePx('fontSize', '--size-h3', 24);
+  pInp.value = resolvePx('fontSize', '--size-p', 16);
+  h2Inp.addEventListener('input', function () {
+    document.body.style.setProperty('--size-h2', (h2Inp.value || 0) + 'px');
+  });
+  h2bInp.addEventListener('input', function () {
+    document.body.style.setProperty('--size-h2-2', (h2bInp.value || 0) + 'px');
+  });
+  h3Inp.addEventListener('input', function () {
+    document.body.style.setProperty('--size-h3', (h3Inp.value || 0) + 'px');
+  });
+  pInp.addEventListener('input', function () {
+    document.body.style.setProperty('--size-p', (pInp.value || 0) + 'px');
+  });
+
+  /* Radius: un solo campo asigna el mismo valor a las 2 variables
+     (--radius-principal y --radius-element), siempre, desde el primer
+     momento en que carga el panel — igual que con los colores: un valor
+     declarado, no una lectura separada de cada una. */
+  var radiusInp = document.getElementById('kcmRadius');
+  radiusInp.value = resolvePx('borderRadius', '--radius-principal', 40);
+  radiusInp.addEventListener('input', function () {
+    document.body.style.setProperty('--radius-principal', (radiusInp.value || 0) + 'px');
+    document.body.style.setProperty('--radius-element', (radiusInp.value || 0) + 'px');
+  });
+
+  /* Estado inicial: reafirma en línea los valores ya leídos (punto de partida editable).
+     --extrafont NO se reafirma aquí a propósito: si tu CSS real la deja sin declarar
+     para que un fallback tipo var(--extrafont, var(--headlinefont)) decida en vivo,
+     forzarla aquí rompería esa prueba. Se declara recién cuando tocas el selector "Extra". */
+  document.body.style.setProperty('--headlinefont', "'" + fontSel.value + "'");
+  document.body.style.setProperty('--contentfont', "'" + fontContentSel.value + "'");
+  document.body.style.setProperty('--size-h2', h2Inp.value + 'px');
+  document.body.style.setProperty('--size-h2-2', h2bInp.value + 'px');
+  document.body.style.setProperty('--size-h3', h3Inp.value + 'px');
+  document.body.style.setProperty('--size-p', pInp.value + 'px');
+  document.body.style.setProperty('--radius-principal', radiusInp.value + 'px');
+  document.body.style.setProperty('--radius-element', radiusInp.value + 'px');
+
+  /* Colores: se arma la paleta "Default" a partir de los colores reales de la
+     página (sin importar si coinciden o no con alguna de las configuradas), se
+     pinta el botón con esos colores, y queda activo por defecto SIN reescribir
+     el CSS (la página ya tiene estos mismos valores declarados por su cuenta). */
+  PALETTES.default = readCurrentPalette();
+  var defaultBtn = document.getElementById('kcmDefaultPal');
+  if (defaultBtn) defaultBtn.style.background = swatchGradient(PALETTES.default);
+  current = 'default';
+  box.querySelectorAll('.kcm-ts__btn[data-pal]').forEach(function (b) {
+    b.classList.toggle('is-active', b.dataset.pal === 'default');
+  });
+  updateSolidBtn();
+
+  /* Botón "✕": quita todo lo que el panel haya forzado (colores, degradados,
+     fuentes, tamaños, radio) y deja la página con sus valores reales. No cierra
+     el panel: con tocar cualquier control se vuelve a aplicar normal. */
+  var cancelBtn = document.getElementById('kcmCancelPal');
+  cancelBtn.addEventListener('click', function () {
+    styleEl.textContent = '';
+    document.body.removeAttribute('data-pal');
+    ['--headlinefont', '--contentfont', '--extrafont',
+     '--size-h2', '--size-h2-2', '--size-h3', '--size-p',
+     '--radius-principal', '--radius-element'].forEach(function (v) {
+      document.body.style.removeProperty(v);
+    });
+    current = null;
+    solid = false;
+    box.querySelectorAll('.kcm-ts__btn[data-pal]').forEach(function (b) {
+      b.classList.remove('is-active');
+    });
+    updateSolidBtn();
+    applyFontSelection(fontSel, resolveFontName('--headlinefont', 'Economica'));
+    applyFontSelection(fontContentSel, resolveFontName('--contentfont', 'Manrope'));
+    applyFontSelection(fontExtraSel, resolveFontName('--extrafont', ''));
+    h2Inp.value = resolvePx('fontSize', '--size-h2', 48);
+    h2bInp.value = resolvePx('fontSize', '--size-h2-2', 40);
+    h3Inp.value = resolvePx('fontSize', '--size-h3', 24);
+    pInp.value = resolvePx('fontSize', '--size-p', 16);
+    radiusInp.value = resolvePx('borderRadius', '--radius-principal', 40);
+  });
+
+  /* ---------- Crear paleta personalizada a partir de la activa ---------- */
+
+  var VAR_LABELS = [
+    { key: '--primary-color-custom',   label: 'Primary' },
+    { key: '--secondary-color-custom', label: 'Secondary' },
+    { key: '--accent-color-custom',    label: 'Accent' },
+    { key: '--accent-color-custom-2',  label: 'Accent 2' },
+    { key: '--bg-p-d', label: 'BG Dark' },
+    { key: '--bg-s-d', label: 'BG Dark 2' },
+    { key: '--bg-p-l', label: 'BG Light' },
+    { key: '--bg-s-l', label: 'BG Light 2' },
+    { key: '--text-l', label: 'Text Light' },
+    { key: '--text-d', label: 'Text Dark' }
+  ];
+
+  var panel = document.getElementById('kcmPanel');
+  var panelBody = document.getElementById('kcmPanelBody');
+  var panelClose = document.getElementById('kcmPanelClose');
+  var editingKey = null;
+
+  function refreshCircle(key) {
+    var btn = box.querySelector('.kcm-ts__btn[data-pal="' + key + '"]');
+    if (btn) btn.style.background = swatchGradient(PALETTES[key]);
+  }
+
+  function updateEditingVar(key, value) {
+    if (!editingKey) return;
+    PALETTES[editingKey][key] = value;
+    refreshCircle(editingKey);
+    apply(editingKey);
+  }
+
+  /* Mezcla un hex con blanco (pct>0) o negro (pct<0) para el preview del swatch,
+     replicando en RGB lo que color-mix(in srgb, ...) haría en el navegador. */
+  function mixHex(hex, pct) {
+    var p = Math.round(parseFloat(pct)) || 0;
+    if (!p) return hex;
+    var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i.exec(hex);
+    if (!m) return hex;
+    var amt = Math.min(Math.abs(p), 100) / 100;
+    var target = p > 0 ? 255 : 0;
+    function ch(h) {
+      var v = Math.round(parseInt(h, 16) * (1 - amt) + target * amt);
+      return ('0' + v.toString(16)).slice(-2);
+    }
+    return '#' + ch(m[1]) + ch(m[2]) + ch(m[3]);
+  }
+
+  /* Construye un selector A o B para un degradado: elige entre las 10 variables
+     base, o "Custom..." para escribir/elegir un color libre fuera del esquema. */
+  function buildGradientSlot(paletteKey, gradName, slotName) {
+    var recipe = getRecipe(paletteKey)[gradName];
+    var wrap = document.createElement('div');
+    wrap.className = 'kcm-panel__slot';
+
+    /* Cuadrito con el color de la opción actualmente elegida (indicio visual) */
+    var preview = document.createElement('span');
+    preview.className = 'kcm-panel__preview';
+
+    var sel = document.createElement('select');
+    sel.className = 'kcm-panel__select';
+    VAR_LABELS.forEach(function (item) {
+      var opt = document.createElement('option');
+      opt.value = item.key;
+      opt.textContent = item.label;
+      sel.appendChild(opt);
+    });
+    var customOpt = document.createElement('option');
+    customOpt.value = 'custom';
+    customOpt.textContent = 'Custom…';
+    sel.appendChild(customOpt);
+    sel.value = recipe[slotName];
+
+    var customColor = document.createElement('input');
+    customColor.type = 'color';
+    customColor.className = 'kcm-panel__swatch kcm-panel__swatch--sm';
+    var customHex = document.createElement('input');
+    customHex.type = 'text';
+    customHex.className = 'kcm-panel__hex kcm-panel__hex--sm';
+    var startVal = recipe[slotName + 'Custom'] || '#ffffff';
+    customColor.value = startVal;
+    customHex.value = startVal;
+
+    /* Mezcla con blanco/negro (-100 a 100) sobre el color ya elegido arriba,
+       vía color-mix() en la fórmula real (ver resolveSlotValue). */
+    var mixInput = document.createElement('input');
+    mixInput.type = 'number';
+    mixInput.min = '-100';
+    mixInput.max = '100';
+    mixInput.step = '1';
+    mixInput.className = 'kcm-panel__mix';
+    mixInput.title = 'Mezcla con blanco (+) o negro (-), de -100 a 100';
+    mixInput.value = recipe[slotName + 'Mix'] || 0;
+
+    function refreshPreview() {
+      var base = (sel.value === 'custom')
+        ? (recipe[slotName + 'Custom'] || '#ffffff')
+        : (PALETTES[paletteKey][sel.value] || '#ffffff');
+      preview.style.background = mixHex(base, recipe[slotName + 'Mix'] || 0);
+    }
+
+    function refreshVisibility() {
+      var isCustom = sel.value === 'custom';
+      customColor.style.display = isCustom ? '' : 'none';
+      customHex.style.display = isCustom ? '' : 'none';
+      refreshPreview();
+    }
+    refreshVisibility();
+
+    function commit() {
+      recipe[slotName] = sel.value;
+      if (sel.value === 'custom') recipe[slotName + 'Custom'] = customHex.value;
+      recipe.edited = true; /* esta paleta deja de usar la fórmula automática para ESTE degradado */
+      refreshPreview();
+      apply(paletteKey);
+    }
+
+    sel.addEventListener('change', function () { refreshVisibility(); commit(); });
+    customColor.addEventListener('input', function () {
+      customHex.value = customColor.value;
+      commit();
+    });
+    customHex.addEventListener('input', function () {
+      var v = customHex.value.trim();
+      if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)) {
+        customColor.value = (v.length === 4) ? '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3] : v;
+        commit();
+      }
+    });
+    mixInput.addEventListener('input', function () {
+      var v = Math.max(-100, Math.min(100, Math.round(parseFloat(mixInput.value)) || 0));
+      recipe[slotName + 'Mix'] = v;
+      commit();
+    });
+
+    wrap.appendChild(preview);
+    wrap.appendChild(sel);
+    wrap.appendChild(customColor);
+    wrap.appendChild(customHex);
+    wrap.appendChild(mixInput);
+    return wrap;
+  }
+
+  function buildGradientRow(paletteKey, label, gradName) {
+    var row = document.createElement('div');
+    row.className = 'kcm-panel__gradrow';
+
+    var title = document.createElement('div');
+    title.className = 'kcm-panel__gradlabel';
+    title.textContent = label + ' (A → B)';
+    row.appendChild(title);
+
+    var slots = document.createElement('div');
+    slots.className = 'kcm-panel__gradslots';
+    slots.appendChild(buildGradientSlot(paletteKey, gradName, 'a'));
+    slots.appendChild(buildGradientSlot(paletteKey, gradName, 'b'));
+    row.appendChild(slots);
+
+    return row;
+  }
+
+  function openPanel(paletteKey) {
+    editingKey = paletteKey;
+    panelBody.innerHTML = '';
+    VAR_LABELS.forEach(function (item) {
+      var row = document.createElement('div');
+      row.className = 'kcm-panel__row';
+
+      var label = document.createElement('span');
+      label.className = 'kcm-panel__label';
+      label.textContent = item.label;
+
+      var colorInp = document.createElement('input');
+      colorInp.type = 'color';
+      colorInp.className = 'kcm-panel__swatch';
+      colorInp.value = PALETTES[paletteKey][item.key];
+
+      var hexInp = document.createElement('input');
+      hexInp.type = 'text';
+      hexInp.className = 'kcm-panel__hex';
+      hexInp.value = PALETTES[paletteKey][item.key];
+
+      colorInp.addEventListener('input', function () {
+        hexInp.value = colorInp.value;
+        updateEditingVar(item.key, colorInp.value);
+      });
+      hexInp.addEventListener('input', function () {
+        var v = hexInp.value.trim();
+        if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)) {
+          colorInp.value = (v.length === 4)
+            ? '#' + v[1] + v[1] + v[2] + v[2] + v[3] + v[3]
+            : v;
+          updateEditingVar(item.key, v);
+        }
+      });
+
+      row.appendChild(label);
+      row.appendChild(colorInp);
+      row.appendChild(hexInp);
+      panelBody.appendChild(row);
+    });
+
+    var divider = document.createElement('div');
+    divider.className = 'kcm-panel__divider';
+    divider.textContent = 'Degradados';
+    panelBody.appendChild(divider);
+    panelBody.appendChild(buildGradientRow(paletteKey, 'Texto', 'texto'));
+    panelBody.appendChild(buildGradientRow(paletteKey, 'Botón', 'boton'));
+    panelBody.appendChild(buildGradientRow(paletteKey, 'Fondo', 'fondo'));
+
+    panel.classList.add('is-open');
+  }
+
+  panelClose.addEventListener('click', function () {
+    panel.classList.remove('is-open');
+    editingKey = null;
+  });
+
+  /* Elimina una paleta personalizada (pide confirmación primero, para evitar
+     que se borre por accidente al hacer clic en la X). Nunca se llama con una
+     de las paletas configuradas por el proyecto, porque esas no tienen la
+     insignia de eliminar. */
+  function deleteCustomPalette(key) {
+    var confirmado = window.confirm('¿Eliminar esta paleta personalizada? Esta acción no se puede deshacer.');
+    if (!confirmado) return;
+    var btn = box.querySelector('.kcm-ts__btn[data-pal="' + key + '"]');
+    if (btn) btn.remove();
+    delete PALETTES[key];
+    delete GRADIENT_RECIPES[key];
+    if (editingKey === key) {
+      panel.classList.remove('is-open');
+      editingKey = null;
+    }
+    if (current === key) apply('default');
+  }
+
+  var customCount = 0;
+  var addBtn = document.getElementById('kcmAddPal');
+  addBtn.addEventListener('click', function () {
+    customCount++;
+    var newKey = 'custom' + customCount;
+    var base = PALETTES[current] || PALETTES.default;
+    PALETTES[newKey] = {};
+    for (var k in base) PALETTES[newKey][k] = base[k];
+
+    /* La receta de degradados (variable o color "Custom", editada o no) se
+       copia tal cual de la paleta base, en vez de arrancar siempre en la
+       fórmula automática — así una paleta nueva hereda la combinación real
+       que tenía la paleta de la que partió. */
+    var baseKey = current || 'default';
+    var baseRecipe = getRecipe(baseKey);
+    var baseIsDefault = (baseKey === 'default');
+    /* Si ese degradado fue editado a mano, su receta ya es la fuente de verdad
+       exacta (variable o "Custom", tal cual se eligió) — se clona directo.
+
+       Si NO fue editado, el camino depende de la paleta base:
+       - "Default": su verdad vive en el CSS real de la página, no en ninguna
+         receta (la receta genérica ni siquiera refleja lo que se ve) — hay
+         que leer el degradado real (ignorando nuestras propias hojas inyectadas)
+         y extraer de ahí la variable, para no perder el vínculo dinámico.
+       - Cualquier otra paleta (configurada o personalizada): su receta interna SÍ
+         es la fuente de verdad exacta de lo que se está mostrando ahora
+         mismo (fórmula automática o A→B editada) — leer el DOM aquí sería
+         contraproducente, porque en ese momento el propio switcher ya tiene
+         su override activo y excluirlo haría que se colara el CSS nativo
+         de la página en su lugar, mezclando las dos capas. */
+    var liveGradients = readCurrentGradients();
+    var RAW_VAR_NAMES = { texto: '--degradado-texto', boton: '--degradado-boton', fondo: '--degradado-fondo' };
+    function recipeForClone(gradName) {
+      if (baseRecipe[gradName].edited) return cloneGradientSlot(baseRecipe[gradName]);
+      if (!baseIsDefault) return cloneGradientSlot(baseRecipe[gradName]);
+      /* Solo para "Default": primero intenta el texto crudo (conserva la
+         variable real); si no encuentra ninguna regla aplicable, cae al
+         valor ya resuelto. */
+      var raw = findRawBodyValue(RAW_VAR_NAMES[gradName]) || liveGradients[gradName];
+      var parsed = parseGradientToRecipe(raw);
+      return parsed || cloneGradientSlot(baseRecipe[gradName]);
+    }
+    GRADIENT_RECIPES[newKey] = {
+      texto: recipeForClone('texto'),
+      boton: recipeForClone('boton'),
+      fondo: recipeForClone('fondo')
+    };
+
+    var newBtn = document.createElement('button');
+    newBtn.className = 'kcm-ts__btn';
+    newBtn.dataset.pal = newKey;
+    newBtn.setAttribute('aria-label', 'Custom palette ' + customCount);
+    newBtn.style.background = swatchGradient(PALETTES[newKey]);
+
+    var tip = document.createElement('span');
+    tip.className = 'kcm-ts__tip';
+    tip.textContent = 'Custom ' + customCount;
+    newBtn.appendChild(tip);
+
+    /* Insignia de editar: solo visible cuando este círculo está activo (ver CSS) */
+    var editBadge = document.createElement('span');
+    editBadge.className = 'kcm-ts__badge kcm-ts__badge--edit';
+    editBadge.setAttribute('aria-label', 'Editar esta paleta');
+    editBadge.textContent = '⚙';
+    editBadge.addEventListener('click', function (e) {
+      e.stopPropagation();
+      openPanel(newKey);
+    });
+    newBtn.appendChild(editBadge);
+
+    /* Insignia de eliminar: idem, solo visible cuando este círculo está activo */
+    var deleteBadge = document.createElement('span');
+    deleteBadge.className = 'kcm-ts__badge kcm-ts__badge--delete';
+    deleteBadge.setAttribute('aria-label', 'Eliminar esta paleta');
+    deleteBadge.textContent = '×';
+    deleteBadge.addEventListener('click', function (e) {
+      e.stopPropagation();
+      deleteCustomPalette(newKey);
+    });
+    newBtn.appendChild(deleteBadge);
+
+    newBtn.addEventListener('click', function () { selectPalette(newKey); });
+    addBtn.parentNode.insertBefore(newBtn, addBtn);
+
+    apply(newKey);
+    openPanel(newKey);
+  });
+
+  /* ---------- Descargar la configuración actual ---------- */
+
+  var downloadBtn = document.getElementById('kcmDownload');
+  downloadBtn.addEventListener('click', function () {
+    var lines = ['body {'];
+    VAR_LABELS.forEach(function (item) {
+      lines.push('  ' + item.key + ': ' + resolveFontName(item.key, '') + ';');
+    });
+    /* Se exportan ya resueltos, por si la combinación A/B no es la de siempre */
+    lines.push('  --degradado-texto: ' + resolveFontName('--degradado-texto', '') + ';');
+    lines.push('  --degradado-boton: ' + resolveFontName('--degradado-boton', '') + ';');
+    lines.push('  --degradado-fondo: ' + resolveFontName('--degradado-fondo', '') + ';');
+    lines.push('  --headlinefont: \'' + fontSel.value + '\';');
+    lines.push('  --contentfont: \'' + fontContentSel.value + '\';');
+    lines.push('  --size-h2: ' + h2Inp.value + 'px;');
+    lines.push('  --size-h2-2: ' + h2bInp.value + 'px;');
+    lines.push('  --size-h3: ' + h3Inp.value + 'px;');
+    lines.push('  --size-p: ' + pInp.value + 'px;');
+    lines.push('  --radius-principal: ' + radiusInp.value + 'px;');
+    lines.push('  --radius-element: ' + radiusInp.value + 'px;');
+    lines.push('}');
+
+    var blob = new Blob([lines.join('\n')], { type: 'text/css' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'configuracion-colores.css';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+})();
