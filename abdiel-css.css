@@ -3270,7 +3270,7 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
 
 
 p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
-    font-weight: 400;
+    font-weight: var(--font-weight-p, 400);
     line-height: 1.5;
     font-size: var(--size-p, 16px);
     -webkit-font-smoothing: antialiased;
@@ -3283,9 +3283,9 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 
 .pre-titulo :is(h1, h2, h3, h4, p, span, a) {
     font-size: var(--eyebrow, 13px) !important;
-    font-weight: 400 !important;
+    font-weight: var(--font-weight-pretitulo, 400) !important;
     align-items: center;
-    display: inline-flex;
+    display: flex;
     gap: 14px;
 }
 
@@ -3298,16 +3298,32 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 .title-h2 :is(h2, h3), .fake-title-h2 :is(p, span) {
     font-size: var(--size-h2, clamp(32px, 7vw, 96px)) !important;
     line-height: 1em;
+    font-weight: var(--font-weight-h2, revert);
+
+    & :is(b, strong) {
+        font-weight: var(--font-weight-h2, revert);
+    }
 }
+
 
 .title-h2-2 :is(h2, h3) {
     font-size: var(--size-h2-2, clamp(24px, 4.5vw, 60px)) !important;
     line-height: 1em;
+    font-weight: var(--font-weight-h2-2, revert);
+
+    & :is(b, strong) {
+        font-weight: var(--font-weight-h2-2, revert);
+    }
 }
 
 .title-h3 :is(h2, h3), .fake-title-h3 :is(p, span) {
     font-size: var(--size-h3, clamp(16px, 2vw, 24px)) !important;
     line-height: 1em;
+    font-weight: var(--font-weight-h3, revert);
+
+    & :is(b, strong) {
+        font-weight: var(--font-weight-h3, revert);
+    }
 }
 
 
@@ -3321,7 +3337,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     --headlinefont: var(--extrafont);
     font-family: var(--headlinefont), serif;
     font-style: normal;
-    /* font-weight: 400;  */   
+    font-weight: var(--font-weight-especial, revert);
     color: var(--accent-color-custom) !important;
     display: inline-block;
     background: linear-gradient(105deg, var(--accent-color-custom), color-mix(in srgb, var(--accent-color-custom) 75%, black 25%));
@@ -3346,8 +3362,12 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 }
 
 .btn-vp {
-    font-size: var(--size-font-btn, 14px) !important;
     border-radius: var(--radius-principal);
+}
+
+.btn-vp :is(.main-heading-button, .button-icon-end) {
+    font-size: var(--size-font-btn, 14px) !important;
+    font-weight: var(--font-weight-btn, revert);
 }
 
 .btn-footer :is(.main-heading-button, a, p, .button-icon-end) {

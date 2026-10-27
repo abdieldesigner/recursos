@@ -74,9 +74,21 @@
 .kcm-ts__num { width: 58px; text-align: center; }
 .kcm-ts__select option, .kcm-ts__select optgroup { color: #111; }
 /* Campo compacto: etiqueta arriba, número abajo, poco margen (para no ensanchar la barra) */
-.kcm-ts__field-stack { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.kcm-ts__field-stack { display: flex; flex-direction: column; align-items: center; gap: 1px; position: relative; }
 .kcm-ts__field-stack .kcm-ts__label { font-size: 8px; line-height: 1; }
 .kcm-ts__field-stack .kcm-ts__num { width: 38px; padding: 3px 2px; font-size: 11px; }
+/* Engranaje de opciones extra (hoy: peso de fuente) por campo H2/H2-2/H3/P */
+.kcm-ts__gear { position: absolute; top: -8px; right: -6px; background: none; border: none;
+  color: rgba(255,255,255,.7); font-size: 14px; cursor: pointer; padding: 0; line-height: 1; }
+.kcm-ts__gear:hover { color: #fff; }
+.kcm-ts__popover { display: none; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
+  background: rgba(15,15,18,.95); border: 1px solid rgba(255,255,255,.18); border-radius: 10px;
+  padding: 8px 10px; white-space: nowrap; z-index: 100001; }
+.kcm-ts__popover.is-open { display: block; }
+.kcm-ts__popover label { display: flex; flex-direction: column; gap: 2px; color: rgba(255,255,255,.7);
+  font-size: 9px; text-transform: uppercase; letter-spacing: .05em; }
+.kcm-ts__popover input { width: 50px; background: rgba(255,255,255,.08); color: #fff;
+  border: 1px solid rgba(255,255,255,.2); border-radius: 6px; font-size: 11px; padding: 3px 4px; text-align: center; }
 /* Botones de ícono (+ y descargar): sin degradado, solo un glifo centrado */
 .kcm-ts__btn--icon { background: rgba(255,255,255,.1); display: flex; align-items: center;
   justify-content: center; font-size: 16px; color: #fff; line-height: 1; }
@@ -215,18 +227,34 @@
   <div class="kcm-ts__field-stack">
     <span class="kcm-ts__label">H2</span>
     <input class="kcm-ts__num" id="kcmH2" type="number" min="10" max="120" step="1">
+    <button class="kcm-ts__gear" id="kcmH2Gear" type="button" aria-label="Más opciones H2">⚙</button>
+    <div class="kcm-ts__popover" id="kcmH2Popover">
+      <label>Peso<input type="number" id="kcmH2Weight" min="100" max="900" step="100" placeholder="auto"></label>
+    </div>
   </div>
   <div class="kcm-ts__field-stack">
     <span class="kcm-ts__label">H2-2</span>
     <input class="kcm-ts__num" id="kcmH2b" type="number" min="10" max="120" step="1">
+    <button class="kcm-ts__gear" id="kcmH2bGear" type="button" aria-label="Más opciones H2-2">⚙</button>
+    <div class="kcm-ts__popover" id="kcmH2bPopover">
+      <label>Peso<input type="number" id="kcmH2bWeight" min="100" max="900" step="100" placeholder="auto"></label>
+    </div>
   </div>
   <div class="kcm-ts__field-stack">
     <span class="kcm-ts__label">H3</span>
     <input class="kcm-ts__num" id="kcmH3" type="number" min="10" max="80" step="1">
+    <button class="kcm-ts__gear" id="kcmH3Gear" type="button" aria-label="Más opciones H3">⚙</button>
+    <div class="kcm-ts__popover" id="kcmH3Popover">
+      <label>Peso<input type="number" id="kcmH3Weight" min="100" max="900" step="100" placeholder="auto"></label>
+    </div>
   </div>
   <div class="kcm-ts__field-stack">
     <span class="kcm-ts__label">P</span>
     <input class="kcm-ts__num" id="kcmP" type="number" min="10" max="40" step="1">
+    <button class="kcm-ts__gear" id="kcmPGear" type="button" aria-label="Más opciones P">⚙</button>
+    <div class="kcm-ts__popover" id="kcmPPopover">
+      <label>Peso<input type="number" id="kcmPWeight" min="100" max="900" step="100" placeholder="auto"></label>
+    </div>
   </div>
   <span class="kcm-ts__sep"></span>
   <div class="kcm-ts__field-stack">
@@ -675,6 +703,47 @@
     document.body.style.setProperty('--size-p', (pInp.value || 0) + 'px');
   });
 
+  /* Engranaje de opciones extra por campo (H2/H2-2/H3/P): hoy solo trae el
+     peso de fuente, pero queda preparado para sumar más campos a futuro
+     sin ensanchar la barra. El campo arranca mostrando el valor real que
+     ya tengas declarado (ej. en :root, body); si no hay ninguno, queda
+     vacío ("auto") y no fuerza nada hasta que escribas un número. */
+  function readWeight(cssVar) {
+    return getComputedStyle(document.body).getPropertyValue(cssVar).trim();
+  }
+  var FONT_WEIGHT_VARS = [
+    { gear: 'kcmH2Gear', popover: 'kcmH2Popover', input: 'kcmH2Weight', cssVar: '--font-weight-h2' },
+    { gear: 'kcmH2bGear', popover: 'kcmH2bPopover', input: 'kcmH2bWeight', cssVar: '--font-weight-h2-2' },
+    { gear: 'kcmH3Gear', popover: 'kcmH3Popover', input: 'kcmH3Weight', cssVar: '--font-weight-h3' },
+    { gear: 'kcmPGear', popover: 'kcmPPopover', input: 'kcmPWeight', cssVar: '--font-weight-p' }
+  ];
+  var weightInputs = [];
+  FONT_WEIGHT_VARS.forEach(function (cfg) {
+    var gearBtn = document.getElementById(cfg.gear);
+    var popoverEl = document.getElementById(cfg.popover);
+    var weightInp = document.getElementById(cfg.input);
+    weightInp.value = readWeight(cfg.cssVar);
+    weightInputs.push(weightInp);
+    gearBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var wasOpen = popoverEl.classList.contains('is-open');
+      document.querySelectorAll('.kcm-ts__popover.is-open').forEach(function (p) { p.classList.remove('is-open'); });
+      if (!wasOpen) popoverEl.classList.add('is-open');
+    });
+    popoverEl.addEventListener('click', function (e) { e.stopPropagation(); });
+    weightInp.addEventListener('input', function () {
+      var v = weightInp.value.trim();
+      if (v === '') {
+        document.body.style.removeProperty(cfg.cssVar);
+      } else {
+        document.body.style.setProperty(cfg.cssVar, v);
+      }
+    });
+  });
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.kcm-ts__popover.is-open').forEach(function (p) { p.classList.remove('is-open'); });
+  });
+
   /* Radius: un solo campo asigna el mismo valor a las 2 variables
      (--radius-principal y --radius-element), siempre, desde el primer
      momento en que carga el panel — igual que con los colores: un valor
@@ -721,8 +790,12 @@
     document.body.removeAttribute('data-pal');
     ['--headlinefont', '--contentfont', '--extrafont',
      '--size-h2', '--size-h2-2', '--size-h3', '--size-p',
-     '--radius-principal', '--radius-element'].forEach(function (v) {
+     '--radius-principal', '--radius-element',
+     '--font-weight-h2', '--font-weight-h2-2', '--font-weight-h3', '--font-weight-p'].forEach(function (v) {
       document.body.style.removeProperty(v);
+    });
+    FONT_WEIGHT_VARS.forEach(function (cfg) {
+      document.getElementById(cfg.input).value = readWeight(cfg.cssVar);
     });
     current = null;
     solid = false;
