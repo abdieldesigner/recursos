@@ -2658,7 +2658,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: wrap !important;
-    gap: 10px !important;
+    /* gap: 10px !important; */
 }
 
 .estructura-menu-expandible div.c-svg, .svg-descontrolado div.c-svg {
@@ -2671,7 +2671,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
   }
 }
 
-.estructura-menu-expandible .c-column {
+#__nuxt .estructura-menu-expandible .c-column {
     width: fit-content !important;
 }
 
