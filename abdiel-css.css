@@ -3365,7 +3365,7 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     border-radius: var(--radius-principal);
 }
 
-.btn-vp :is(.main-heading-button, .button-icon-end) {
+.btn-vp :is(.main-heading-button, .button-icon-end):not(.excluir-btn *) {
     font-size: var(--size-font-btn, 14px) !important;
     font-weight: var(--font-weight-btn, revert);
 }
@@ -3458,7 +3458,7 @@ a.btn-link, .btn-link a {
     border-bottom: 1px solid var(--secondary-color-custom) !important;
     padding: 0px !important;
     padding-bottom: 4px !important;
-    border-radius: var(--radius-principal);
+    border-radius: 0 !important;
 }
 
 .btn-link :is(.main-heading-button, .button-icon-end) {
