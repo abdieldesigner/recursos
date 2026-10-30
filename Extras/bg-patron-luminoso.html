@@ -1,0 +1,158 @@
+<!-- ============================================================
+  BG PATRÓN LUMINOSO · fondo interactivo (copiar y pegar completo, sin cambios)
+  USO: ponle la clase  bg-patron-luminoso  al contenedor (sección, fila, columna…).
+  El script crea un <canvas> como primer hijo de ese contenedor.
+  NO cambia el color de fondo: el fondo lo pones tú. Los textos quedan encima.
+  Opcional, por contenedor, con atributos data-fx-*  (todos opcionales):
+    data-fx-color="14,230,207"   color al encenderse (R,G,B). Si no lo pones, usa la variable --accent-color-custom
+    data-fx-idle="255,255,255"   color en reposo (R,G,B)
+    data-fx-idle-alpha="0.07"    visibilidad en reposo (0 a 1)
+    data-fx-gap="30"             separación entre símbolos (px)
+    data-fx-radius="190"         radio de luz del cursor (px)
+    data-fx-glow="0.13"          luz suave que sigue al cursor (0 = sin luz)
+    data-fx-shape="plus"         plus (cruz que gira a ×) o dot (punto)
+    data-fx-wave="true"          onda expansiva al hacer clic (false = sin onda)
+  Ejemplo: <section class="bg-patron-luminoso" data-fx-color="8,197,235" data-fx-gap="26">
+============================================================ -->
+<script>
+(function () {
+  var SEL = '.bg-patron-luminoso';
+  var DEF = { color: '58,29,137', idle: '255,255,255', idleAlpha: .07, gap: 30, radius: 190, glow: .13, shape: 'plus', wave: true };
+
+  // sin efecto en pantallas táctiles ni si el usuario pidió menos movimiento
+  if (matchMedia('(hover: none)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var rgb = function (s, d) {
+    var a = String(s || d).split(',').map(function (n) { return parseFloat(n); });
+    return a.length === 3 && a.every(function (n) { return !isNaN(n); }) ? a : String(d).split(',').map(Number);
+  };
+
+  // lee --accent-color-custom del sitio (acepta hex, rgb() y nombres de color) y la pasa a [R,G,B]
+  function fromVar(el) {
+    var v = getComputedStyle(el).getPropertyValue('--accent-color-custom').trim();
+    if (!v) return rgb(null, DEF.color);
+    var t = document.createElement('canvas').getContext('2d');
+    t.fillStyle = '#000'; t.fillStyle = v;
+    var s = t.fillStyle;
+    if (s.charAt(0) === '#') return [1, 3, 5].map(function (i) { return parseInt(s.substr(i, 2), 16); });
+    var m = s.match(/[\d.]+/g);
+    return m ? [+m[0], +m[1], +m[2]] : rgb(null, DEF.color);
+  }
+
+  function start(el) {
+    if (el.__fx) return; el.__fx = 1;
+    var ds = el.dataset;
+    var C = {
+      on: ds.fxColor ? rgb(ds.fxColor, DEF.color) : fromVar(el), off: rgb(ds.fxIdle, DEF.idle),
+      idleA: ds.fxIdleAlpha != null ? parseFloat(ds.fxIdleAlpha) : DEF.idleAlpha,
+      gap: parseFloat(ds.fxGap) || DEF.gap, R: parseFloat(ds.fxRadius) || DEF.radius,
+      glow: ds.fxGlow != null ? parseFloat(ds.fxGlow) : DEF.glow,
+      shape: ds.fxShape || DEF.shape, wave: ds.fxWave !== 'false'
+    };
+    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    el.style.isolation = 'isolate'; // el canvas queda sobre el fondo del contenedor y bajo su contenido
+
+    var cv = document.createElement('canvas');
+    cv.className = 'bg-patron-luminoso-cv';
+    cv.setAttribute('aria-hidden', 'true');
+    cv.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block';
+    var g = cv.getContext('2d');
+
+    // El constructor (GHL) pone el color de fondo en un hijo ".bg" y puede borrar lo que inyectamos al hidratar la página.
+    // Por eso el canvas va justo después de ".bg" (encima del color), el contenido se sube por encima del canvas,
+    // y se vuelve a insertar solo si lo quitan.
+    function mount() {
+      if (!el.isConnected) return;
+      if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+      el.style.isolation = 'isolate';
+      var bg = null;
+      for (var n = el.firstElementChild; n; n = n.nextElementSibling) if (n.classList.contains('bg')) { bg = n; break; }
+      var ref = bg ? bg.nextSibling : el.firstChild;
+      if (cv.parentNode !== el || (bg && cv.previousElementSibling !== bg)) el.insertBefore(cv, ref);
+      for (var c = el.firstElementChild; c; c = c.nextElementSibling) {
+        if (c === cv || c === bg) continue;
+        var cs = getComputedStyle(c);
+        if (cs.position === 'static') c.style.position = 'relative';
+        if (cs.zIndex === 'auto') c.style.zIndex = '1';
+      }
+    }
+    mount();
+    new MutationObserver(mount).observe(el, { childList: true });
+    addEventListener('load', mount);
+
+    var dead = false, W = 0, H = 0, cols = 0, rows = 0, en, raf = 0, visible = true, lastMove = -1e9;
+    var P = { x: -999, y: -999, lx: -999, ly: -999, on: false }, waves = [];
+
+    function size() {
+      if (!el.isConnected) return;
+      var dpr = Math.min(devicePixelRatio || 1, 2);
+      W = el.clientWidth; H = el.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cols = Math.ceil(W / C.gap) + 1; rows = Math.ceil(H / C.gap) + 1;
+      en = new Float32Array(cols * rows);
+      wake();
+    }
+
+    function frame(now) {
+      if (!el.isConnected) { dead = true; raf = 0; return; }
+      g.clearRect(0, 0, W, H);
+      P.lx += (P.x - P.lx) * .12; P.ly += (P.y - P.ly) * .12;
+      if (P.on && C.glow > 0) {
+        var gr = g.createRadialGradient(P.lx, P.ly, 0, P.lx, P.ly, C.R * 1.7);
+        gr.addColorStop(0, 'rgba(' + C.on.join(',') + ',' + C.glow + ')');
+        gr.addColorStop(1, 'rgba(' + C.on.join(',') + ',0)');
+        g.fillStyle = gr; g.fillRect(0, 0, W, H);
+      }
+      for (var w = waves.length - 1; w >= 0; w--) if (now - waves[w].t > 1400) waves.splice(w, 1);
+      var busy = (P.on && now - lastMove < 600) || waves.length > 0 || Math.abs(P.x - P.lx) > .5;
+      var ox = (W % C.gap) / 2, oy = (H % C.gap) / 2;
+      g.lineCap = 'round';
+      for (var j = 0; j < rows; j++) for (var i = 0; i < cols; i++) {
+        var k = j * cols + i, x = ox + i * C.gap, y = oy + j * C.gap, tgt = 0;
+        if (P.on) { var d = Math.hypot(x - P.lx, y - P.ly); if (d < C.R) tgt = Math.pow(1 - d / C.R, 2); }
+        for (var q = 0; q < waves.length; q++) {
+          var ww = waves[q], r = (now - ww.t) * .9, dd = Math.hypot(x - ww.x, y - ww.y), b = 1 - Math.abs(dd - r) / 38;
+          if (b > 0) tgt = Math.max(tgt, b * (1 - (now - ww.t) / 1400));
+        }
+        en[k] += (tgt - en[k]) * .18;
+        var e = en[k]; if (e > .01) busy = true;
+        var m = e * e, a = C.idleA + (.95 - C.idleA) * e;
+        var col = 'rgba(' + [0, 1, 2].map(function (n) { return Math.round(C.off[n] + (C.on[n] - C.off[n]) * m); }).join(',') + ',' + a.toFixed(3) + ')';
+        if (C.shape === 'dot') {
+          g.fillStyle = col; g.beginPath(); g.arc(x, y, 1.1 + 2.6 * e, 0, 6.2832); g.fill();
+        } else {
+          var s = 2.2 + 5 * e, ang = Math.PI / 4 * e, c = Math.cos(ang) * s, sn = Math.sin(ang) * s;
+          g.strokeStyle = col; g.lineWidth = 1 + .6 * e;
+          g.beginPath(); g.moveTo(x - c, y - sn); g.lineTo(x + c, y + sn); g.moveTo(x + sn, y - c); g.lineTo(x - sn, y + c); g.stroke();
+        }
+      }
+      raf = busy && visible ? requestAnimationFrame(frame) : 0;
+    }
+    function wake() { if (!raf && visible && !dead) raf = requestAnimationFrame(frame); }
+
+    function local(e) { var r = el.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      var p = local(e); P.x = p.x; P.y = p.y;
+      if (!P.on) { P.lx = P.x; P.ly = P.y; }
+      P.on = true; lastMove = performance.now(); wake();
+    }, { passive: true });
+    if (C.wave) addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      var p = local(e); waves.push({ x: p.x, y: p.y, t: performance.now() }); wake();
+    });
+    document.documentElement.addEventListener('pointerleave', function () { P.on = false; wake(); });
+
+    if ('ResizeObserver' in window) new ResizeObserver(size).observe(el); else addEventListener('resize', size);
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en2) { visible = en2[0].isIntersecting; wake(); }).observe(el);
+    size();
+  }
+
+  function scan() { document.querySelectorAll(SEL).forEach(start); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scan); else scan();
+  addEventListener('load', scan);
+  // si el constructor añade la sección después de cargar la página
+  new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
