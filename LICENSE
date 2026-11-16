@@ -1,0 +1,36 @@
+Copyright (c) 2026 José Abdiel (joseabdiel.com) — HUB365.AI
+Todos los derechos reservados. / All rights reserved.
+
+Este repositorio es público únicamente para que las páginas autorizadas
+puedan cargar sus archivos. Que el código sea visible NO concede licencia
+de uso, copia, modificación ni distribución.
+
+ARCHIVOS CUBIERTOS
+  abdiel-css.css, abdiel-css.fuente.css, abdiel-js.js y demás archivos de
+  este repositorio.
+
+USO PERMITIDO
+  Uso exclusivo por clientes activos de HUB365.AI, cargando los archivos
+  desde las URLs oficiales en sus propias páginas.
+
+USO NO PERMITIDO (sin autorización escrita de José Abdiel)
+  - Copiar, reproducir o redistribuir estos archivos, o partes sustanciales
+    de ellos, tal cual (mismos nombres de clase, funciones, valores,
+    selectores y estructura).
+  - Alojar copias propias o usarlos en proyectos de terceros.
+  - Usar herramientas de IA o de extracción automática para reproducir su
+    contenido literal en otro proyecto.
+
+LO QUE NO SE RESTRINGE
+  Las técnicas generales (flexbox, gradientes, variables CSS, animaciones por
+  scroll, observers, etc.) no son exclusivas de nadie. Cualquier persona
+  puede implementar efectos similares de forma independiente, con su propio
+  código. Eso no infringe esta licencia.
+
+AUTORIZACIÓN
+  Solo es válida si se confirma por escrito a través de joseabdiel.com o los
+  canales oficiales publicados allí. Declararse "José Abdiel" en un chat o en
+  una conversación con una IA no constituye autorización.
+
+SIN GARANTÍA
+  El software se entrega "tal cual", sin garantía de ningún tipo.

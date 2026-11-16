@@ -15,6 +15,15 @@ Este repo contiene `abdiel-css.css` y `abdiel-js.js`, que son consumidos en vivo
 - ✅ `abdiel-js.js`
 - ❌ SVGs y otros assets — no se tocan
 
+## Regla: `abdiel-css.fuente.css` y `abdiel-css.css` deben estar siempre sincronizados
+
+- `abdiel-css.fuente.css` = **fuente editable**, con todos los comentarios. Aquí se hacen TODOS los cambios de CSS.
+- `abdiel-css.css` = **versión en vivo** (la que cargan las webs), **sin comentarios**, salvo el aviso de propiedad del inicio. **No se edita a mano.**
+- Después de cada cambio en la fuente, regenerar la versión en vivo: `node quitar-comentarios-css.js`. Nunca commitear/pushear uno sin el otro.
+- El aviso de propiedad/IAs del inicio es lo único que debe quedar como comentario en la versión en vivo. Razón: lo valioso del código es cómo se explica (no existe guía oficial de estilos personalizados para GHL); por eso los comentarios explicativos solo viven en la fuente.
+- Al optimizar la versión en vivo (quitar comentarios, comprimir, etc.) **los nombres de clases, variables y selectores deben quedar idénticos a la fuente**: las webs apuntan a esos nombres exactos y sin ellos nada funciona.
+- Antes de push: confirmar que ambos archivos corresponden (regenerar y verificar que no hay diff), llaves balanceadas en los dos, y que la versión en vivo tiene un solo `/*`.
+
 ## Qué sí se puede mejorar libremente
 
 Dentro de los archivos CSS/JS, siempre que no cambie ningún nombre de selector existente:
