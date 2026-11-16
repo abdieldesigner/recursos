@@ -64,7 +64,7 @@ IMPORTANTE:
 
     --move-degradado: linear-gradient(105deg, var(--secondary-color-custom), var(--accent-color-custom), var(--secondary-color-custom));
 
-    --divider-mask: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/Shapes/mountains.svg");
+    --divider-mask: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/Shapes/mountains.svg");
     --divider-mask-top: var(--divider-mask);
     --divider-mask-bottom: var(--divider-mask);
     --divider-color: var(--bg-p-l);
@@ -1397,7 +1397,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 .brillos::after {
     content: '';
-    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/GIF-texturas/brillos.webp);
+    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/GIF-texturas/brillos.webp);
     background-size: 200px;
     background-repeat: repeat;
  /* Repetir la imagen */
@@ -1427,11 +1427,11 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 .mask-4-cuadros-redondeados img {
   /* La máscara SVG */
-    -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/64b825bf0ee11ef0046a185e4519740b19da87f7/mascaras/Mask-4cuadros-redondeados.svg");
+    -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@64b825bf0ee11ef0046a185e4519740b19da87f7/mascaras/Mask-4cuadros-redondeados.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
     -webkit-mask-size: contain;
-    mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/64b825bf0ee11ef0046a185e4519740b19da87f7/mascaras/Mask-4cuadros-redondeados.svg");
+    mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@64b825bf0ee11ef0046a185e4519740b19da87f7/mascaras/Mask-4cuadros-redondeados.svg");
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: contain;
@@ -1447,11 +1447,11 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 .mask-ovalada1 {
   /* La máscara SVG */
-    -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/ovalada1.svg");
+    -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/mascaras/ovalada1.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
     -webkit-mask-size: contain;
-    mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/ovalada1.svg");
+    mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/mascaras/ovalada1.svg");
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: contain;
@@ -1472,12 +1472,12 @@ body:has(.hub365-ghl-not) #__nuxt * {
     height: auto;
     object-fit: cover;
     object-position: center;
-    -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/Mask%20tecno%201.svg");
+    -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/mascaras/Mask%20tecno%201.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: cover;
     -webkit-mask-position: center;
     -webkit-mask-mode: alpha;
-    mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/Mask%20tecno%201.svg");
+    mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/mascaras/Mask%20tecno%201.svg");
     mask-repeat: no-repeat;
     mask-size: cover;
     mask-position: center;
@@ -1492,13 +1492,13 @@ body:has(.hub365-ghl-not) #__nuxt * {
   object-fit: cover;
   object-position: center;
 
-  -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/Mask%20tecno%202.svg");
+  -webkit-mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/mascaras/Mask%20tecno%202.svg");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: cover;
   -webkit-mask-position: center;
   -webkit-mask-mode: alpha;
 
-  mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/mascaras/Mask%20tecno%202.svg");
+  mask-image: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/mascaras/Mask%20tecno%202.svg");
   mask-repeat: no-repeat;
   mask-size: cover;
   mask-position: center;
@@ -4041,7 +4041,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 /* Textura de ruido sobre toda la página */
 .ruido > .bg::after, .ruido-directo::after {
     content: '';
-    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/texturas-planas/Ruido-estandar-Jose-Abdiel.webp);
+    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/texturas-planas/Ruido-estandar-Jose-Abdiel.webp);
     background-size: 120px;
     background-repeat: repeat;
     background-position: center center;
@@ -4064,7 +4064,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 /* respaldo */
 .ruido-v2 > .bg::after, .ruido-v2-directo::after { 
     content: '';
-    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/ruido-abdiel.webp);
+    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/ruido-abdiel.webp);
     background-size: 100px;
     background-repeat: repeat;
     background-position: center center;
@@ -4083,7 +4083,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 .ruido-move > .bg::before, .ruido-move-directo::after  {
     border-radius: 10px;
     content: '';
-    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/GIF-texturas/ruido-animado-abdiel.gif);
+    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/GIF-texturas/ruido-animado-abdiel.gif);
     background-size: 200px;
     background-repeat: repeat;
     background-position: center center;
@@ -4103,7 +4103,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 /* Textura de semitono */
 .semitono > .bg::after, .semitono-directo::after {
     content: '';
-    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/texturas-planas/textura-semitono-jose-abdiel.webp);
+    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/texturas-planas/textura-semitono-jose-abdiel.webp);
     background-size: var(--size-textura, 90px);
     background-repeat: repeat;
     background-position: center center;
@@ -4120,7 +4120,7 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 /* Textura plástica — se estira/deforma para cubrir el elemento completo, no se repite */
 .textura-plastica > .image-container::after, .textura-plastica-directo::after {
     content: '';
-    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web/refs/heads/main/texturas-planas/textura-plastica-2-jose-abdiel.webp);
+    background-image: url(https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/texturas-planas/textura-plastica-2-jose-abdiel.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
