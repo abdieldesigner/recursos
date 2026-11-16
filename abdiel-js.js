@@ -1,3 +1,7 @@
+/* Candado: evita que la librería se ejecute dos veces si se pega duplicada */
+if (window.__hub365Cargado) throw new Error('abdiel-js ya cargado');
+window.__hub365Cargado = true;
+
 /* ============================================================
    INICIA JS MENU EXPANDIBLE
    ============================================================ */
@@ -292,6 +296,9 @@
 window.addEventListener('load', () => {
   const tracks = document.querySelectorAll('.marquee-track'); // Selecciona todas las pistas de marquee
 
+  const procesados = []; // Pistas ya duplicadas; sus anchos se leen después (evita un layout por pista)
+
+  // Pasada 1: solo escrituras al DOM
   tracks.forEach((track) => {
     const textBlock = track.querySelector('.marquee-text'); // Bloque que contiene el texto original
     if (!textBlock) return; // Si este track no trae el bloque de texto, se salta (no rompe los demás)
@@ -306,13 +313,17 @@ window.addEventListener('load', () => {
     // Duplica el contenido para lograr un bucle continuo (scroll infinito sin cortes)
     const clone = textBlock.cloneNode(true); // true = clona con hijos
     track.appendChild(clone); // Añade la copia al final del track
+    procesados.push(track);
+  });
 
-    // Calcula la duración basada en el ancho real del contenido
-    // - track.scrollWidth ahora es el ancho de texto original + clon (x2)
-    const totalWidth = track.scrollWidth / 2; // Solo el ancho del bloque original
-    const speed = 40; // Velocidad objetivo: 40 px/seg
-    const duration = totalWidth / speed; // Segundos que tarda en recorrer media pista
+  // Pasada 2: solo lecturas (un único layout)
+  // - track.scrollWidth ahora es el ancho de texto original + clon (x2)
+  const anchos = procesados.map((track) => track.scrollWidth / 2); // Solo el ancho del bloque original
 
+  // Pasada 3: escrituras de la duración
+  const speed = 40; // Velocidad objetivo: 40 px/seg
+  procesados.forEach((track, i) => {
+    const duration = anchos[i] / speed; // Segundos que tarda en recorrer media pista
     // Setea la duración en la animación CSS (definida como linear infinite)
     track.style.animationDuration = duration + 's';
   });
@@ -348,28 +359,40 @@ window.addEventListener('load', () => {
   const HIDE_TOP = 0.1; // Oculta si el bottom sube por encima del 10% del viewport (se fue por arriba)
   const HIDE_BOT = 0.9; // Oculta si el top baja por debajo del 90% del viewport (se fue por abajo)
 
+  let ticking = false; // Limita el cálculo a una vez por frame
+
   function fadeScroll() {
+    ticking = false;
     const vh = window.innerHeight || document.documentElement.clientHeight; // Alto visible actual
 
-    elementos.forEach((el) => {
+    // 1) Solo lecturas (un único layout)
+    const estados = Array.prototype.map.call(elementos, (el) => {
       const rect = el.getBoundingClientRect(); // Métricas relativas al viewport
 
       const topIn = rect.top <= vh * APPEAR_AT; // ¿Entró lo suficiente?
       const notGoneTop = rect.bottom >= vh * HIDE_TOP; // ¿Aún no se fue por arriba?
       const notGoneBot = rect.top <= vh * HIDE_BOT; // ¿Aún no se fue por abajo?
 
-      if (topIn && notGoneTop && notGoneBot) {
-        el.classList.add('ativo'); // Aparece (CSS gestiona el fade + translate -> none)
-      } else {
-        el.classList.remove('ativo'); // Desaparece (vuelve a estado inicial)
-      }
+      return topIn && notGoneTop && notGoneBot;
+    });
+
+    // 2) Solo escrituras (CSS gestiona el fade + translate)
+    elementos.forEach((el, i) => {
+      el.classList.toggle('ativo', estados[i]); // true = aparece, false = vuelve a estado inicial
     });
   }
 
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(fadeScroll);
+    }
+  }
+
   // Suscripción a eventos relevantes con buen performance
-  window.addEventListener('scroll', fadeScroll, { passive: true }); // passive: true evita bloquear el scroll
-  window.addEventListener('resize', fadeScroll); // Recalcula en cambios de tamaño
-  window.addEventListener('load', fadeScroll); // Evalúa al terminar de cargar
+  window.addEventListener('scroll', onScroll, { passive: true }); // passive: true evita bloquear el scroll
+  window.addEventListener('resize', onScroll, { passive: true }); // Recalcula en cambios de tamaño
+  window.addEventListener('load', onScroll); // Evalúa al terminar de cargar
 
   // Primera evaluación inmediata por si ya hay elementos en viewport
   fadeScroll();
@@ -882,9 +905,11 @@ if (document.readyState === 'loading') {
   var observer = new MutationObserver(function () {
     if (init()) observer.disconnect();
   });
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  init();
+  if (!init()) {
+    observer.observe(document.body, { childList: true, subtree: true });
+    // Límite de 20 s: si la sección no aparece, deja de observar el DOM
+    setTimeout(function () { observer.disconnect(); }, 20000);
+  }
 })();
 /* ============================================================
    TERMINA JS: sección que tapa
