@@ -561,13 +561,11 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-t
 }
 
 
-/* iconos sociales que brillan */
-.elemento-luz .elementor-grid-item i {
-  transition: color  0.5s;
-}
-.elemento-luz .elementor-grid-item i:before {
-
-  transition: opacity  0.5s, filter  0.5s;
+/* iconos sociales que brillan
+   NOTA: Elementor 4.x ahora pinta los iconos como <svg> (antes <i>). Se apuntan ambos;
+   a futuro, si ya no se usan fuentes <i>, se pueden quitar los selectores "i". */
+.elemento-luz .elementor-grid-item :is(i, svg) {
+  transition: color 0.5s, fill 0.5s, opacity 0.5s, filter 0.5s;
 }
 
 
@@ -581,11 +579,9 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-t
     border: none !important;
 }
 
-.elemento-luz .elementor-grid-item:hover i {
+.elemento-luz .elementor-grid-item:hover :is(i, svg) {
     color: var(--text-l) !important;
-
-}
-.elemento-luz .elementor-grid-item:hover i:before {
+    fill: var(--text-l) !important;
     opacity: .9;
     filter: drop-shadow(0 0 19.821px rgb(255 255 255 / .9)) drop-shadow(0 0 5.663px rgb(255 255 255 / .8)) drop-shadow(0 0 2.832px rgb(255 255 255 / .8))
 }

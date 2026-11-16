@@ -77,6 +77,19 @@
 .kcm-ts__fontsearch-item { padding: 4px 6px; border-radius: 5px; font-size: 11px; color: #fff; cursor: pointer; text-align: left; }
 .kcm-ts__fontsearch-item:hover { background: rgba(255,255,255,.14); }
 .kcm-ts__fontsearch-empty { font-size: 10px; color: rgba(255,255,255,.5); padding: 2px 6px; }
+/* Radius: cuadro rápido (ambos iguales) + engranaje con Principal/Elemento por separado */
+.kcm-ts__num:disabled { opacity: .35; cursor: not-allowed; }
+.kcm-ts__radiuspop { width: 170px; white-space: normal; }
+.kcm-ts__radius-divider { color: rgba(255,255,255,.5); font-size: 9px; text-transform: uppercase; letter-spacing: .06em;
+  margin: 8px 0 6px; border-top: 1px solid rgba(255,255,255,.15); padding-top: 6px; }
+.kcm-ts__radius-anchor { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.kcm-ts__radius-link { background: none; border: 1px solid rgba(255,255,255,.3); border-radius: 6px; color: rgba(255,255,255,.7);
+  font-size: 13px; cursor: pointer; padding: 4px 7px; line-height: 1; flex: 0 0 auto; }
+.kcm-ts__radius-link.is-linked { background: rgba(255,255,255,.18); color: #fff; }
+.kcm-ts__radius-corners { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex: 1 1 auto; }
+.kcm-ts__radius-corners label { display: flex; flex-direction: column; gap: 2px; color: rgba(255,255,255,.6); font-size: 9px; text-align: center; }
+.kcm-ts__radius-corners input { width: 100%; box-sizing: border-box; background: rgba(255,255,255,.08); color: #fff;
+  border: 1px solid rgba(255,255,255,.2); border-radius: 6px; font-size: 11px; padding: 3px 4px; text-align: center; }
 /* Botones de ícono (+ y descargar): sin degradado, solo un glifo centrado */
 .kcm-ts__btn--icon { background: rgba(255,255,255,.1); display: flex; align-items: center;
   justify-content: center; font-size: 16px; color: #fff; line-height: 1; }
@@ -273,7 +286,30 @@
   <span class="kcm-ts__sep"></span>
   <div class="kcm-ts__field-stack">
     <span class="kcm-ts__label">Radius</span>
-    <input class="kcm-ts__num" id="kcmRadius" type="number" min="0" max="100" step="1">
+    <input class="kcm-ts__num" id="kcmRadius" type="number" min="0" max="300" step="1">
+    <button class="kcm-ts__gear" id="kcmRadiusGear" type="button" aria-label="Más opciones de Radius">⚙</button>
+    <div class="kcm-ts__popover kcm-ts__radiuspop" id="kcmRadiusPopover">
+      <div class="kcm-ts__radius-divider" style="margin-top:0;">Principal</div>
+      <div class="kcm-ts__radius-anchor">
+        <button class="kcm-ts__radius-link is-linked" id="kcmRadiusPLink" type="button" aria-label="Vincular las 4 esquinas de Principal">🔗</button>
+        <div class="kcm-ts__radius-corners">
+          <label>↖<input type="number" id="kcmRadiusPTL" min="0" max="300" step="1" placeholder="auto"></label>
+          <label>↗<input type="number" id="kcmRadiusPTR" min="0" max="300" step="1" placeholder="auto"></label>
+          <label>↘<input type="number" id="kcmRadiusPBR" min="0" max="300" step="1" placeholder="auto"></label>
+          <label>↙<input type="number" id="kcmRadiusPBL" min="0" max="300" step="1" placeholder="auto"></label>
+        </div>
+      </div>
+      <div class="kcm-ts__radius-divider">Elemento</div>
+      <div class="kcm-ts__radius-anchor">
+        <button class="kcm-ts__radius-link is-linked" id="kcmRadiusELink" type="button" aria-label="Vincular las 4 esquinas de Elemento">🔗</button>
+        <div class="kcm-ts__radius-corners">
+          <label>↖<input type="number" id="kcmRadiusETL" min="0" max="300" step="1" placeholder="auto"></label>
+          <label>↗<input type="number" id="kcmRadiusETR" min="0" max="300" step="1" placeholder="auto"></label>
+          <label>↘<input type="number" id="kcmRadiusEBR" min="0" max="300" step="1" placeholder="auto"></label>
+          <label>↙<input type="number" id="kcmRadiusEBL" min="0" max="300" step="1" placeholder="auto"></label>
+        </div>
+      </div>
+    </div>
   </div>
   <span class="kcm-ts__sep"></span>
   <button class="kcm-ts__btn kcm-ts__btn--icon" id="kcmDownload" aria-label="Download current configuration">
@@ -823,16 +859,121 @@
     document.querySelectorAll('.kcm-ts__popover.is-open').forEach(function (p) { p.classList.remove('is-open'); });
   });
 
-  /* Radius: un solo campo asigna el mismo valor a las 2 variables
-     (--radius-principal y --radius-element), siempre, desde el primer
-     momento en que carga el panel — igual que con los colores: un valor
-     declarado, no una lectura separada de cada una. */
+  /* Radius: el cuadro rápido pone el mismo valor en --radius-principal y
+     --radius-element (uso normal, ambos iguales). El engranaje abre control
+     fino con DOS anclas independientes (Principal y Elemento), cada una
+     vinculada (1 valor, 4 esquinas iguales) o desvinculada (4 esquinas
+     sueltas, ej. 30px 50px 50px 30px). Nada se escribe al cargar — se queda
+     tu valor real hasta que toques algo. */
   var radiusInp = document.getElementById('kcmRadius');
-  radiusInp.value = resolvePx('borderRadius', '--radius-principal', 40);
+  var radiusGearBtn = document.getElementById('kcmRadiusGear');
+  var radiusPopover = document.getElementById('kcmRadiusPopover');
+
+  /* "10px 20px 20px 10px" -> {tl,tr,br,bl}, expandiendo 1/2/3/4 valores
+     igual que hace CSS con el shorthand border-radius */
+  function parseRadiusCorners(raw) {
+    var toks = (raw || '').trim().split(/\s+/).filter(Boolean).map(function (t) { return parseFloat(t) || 0; });
+    if (!toks.length) return null;
+    if (toks.length === 1) return { tl: toks[0], tr: toks[0], br: toks[0], bl: toks[0] };
+    if (toks.length === 2) return { tl: toks[0], tr: toks[1], br: toks[0], bl: toks[1] };
+    if (toks.length === 3) return { tl: toks[0], tr: toks[1], br: toks[2], bl: toks[1] };
+    return { tl: toks[0], tr: toks[1], br: toks[2], bl: toks[3] };
+  }
+
+  /* Tocar cualquier campo de cualquiera de las 2 anclas separa Principal/Elemento
+     del cuadro rápido de afuera (ya no se puede garantizar que sean iguales a la
+     fuerza) y lo desactiva hasta que se cancele/reinicie. */
+  function disableQuickRadius() {
+    radiusInp.disabled = true;
+  }
+
+  /* Arma un ancla completa para una variable de radio dada: 4 esquinas SIEMPRE
+     visibles + un 🔗 que decide el comportamiento al escribir. Vinculado
+     (por defecto): escribir en cualquier esquina copia el mismo valor a las
+     otras 3. Desvinculado: cada esquina es independiente (ej. 30/50/50/30).
+     Se usa dos veces: una para --radius-principal y otra para --radius-element. */
+  function makeRadiusAnchor(varName, ids) {
+    var linkBtn = document.getElementById(ids.link);
+    var corners = [document.getElementById(ids.tl), document.getElementById(ids.tr),
+      document.getElementById(ids.br), document.getElementById(ids.bl)];
+    var linked = true;
+
+    function updateUI() {
+      linkBtn.classList.toggle('is-linked', linked);
+    }
+
+    function applyCorners() {
+      var vals = corners.map(function (inp) { return (inp.value || 0) + 'px'; });
+      document.body.style.setProperty(varName, vals.join(' '));
+    }
+
+    /* Lee la variable TAL CUAL está escrita (texto crudo, no resuelta) y
+       reparte el valor en las 4 esquinas — si ya tiene esquinas distintas
+       declaradas, arranca desvinculada mostrando exactamente esas 4. */
+    function read() {
+      var raw = getComputedStyle(document.body).getPropertyValue(varName).trim();
+      var c = parseRadiusCorners(raw);
+      if (!c) {
+        corners.forEach(function (inp) { inp.value = ''; });
+        linked = true;
+      } else {
+        corners[0].value = c.tl; corners[1].value = c.tr; corners[2].value = c.br; corners[3].value = c.bl;
+        linked = (c.tl === c.tr && c.tr === c.br && c.br === c.bl);
+      }
+      updateUI();
+    }
+
+    /* Pone el mismo valor en las 4 esquinas (usado por el cuadro rápido de afuera) */
+    function setAll(v) {
+      corners.forEach(function (inp) { inp.value = v; });
+      linked = true;
+      updateUI();
+    }
+
+    corners.forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        disableQuickRadius();
+        if (linked) corners.forEach(function (c) { c.value = inp.value; });
+        applyCorners();
+      });
+    });
+    linkBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      disableQuickRadius();
+      linked = !linked;
+      updateUI();
+      if (linked) {
+        corners.forEach(function (c) { c.value = corners[0].value; });
+        applyCorners();
+      }
+    });
+
+    return { read: read, setAll: setAll };
+  }
+
+  var radiusPrincipalAnchor = makeRadiusAnchor('--radius-principal', {
+    link: 'kcmRadiusPLink', tl: 'kcmRadiusPTL', tr: 'kcmRadiusPTR', br: 'kcmRadiusPBR', bl: 'kcmRadiusPBL'
+  });
+  var radiusElementAnchor = makeRadiusAnchor('--radius-element', {
+    link: 'kcmRadiusELink', tl: 'kcmRadiusETL', tr: 'kcmRadiusETR', br: 'kcmRadiusEBR', bl: 'kcmRadiusEBL'
+  });
+  radiusPrincipalAnchor.read();
+  radiusElementAnchor.read();
+
   radiusInp.addEventListener('input', function () {
     document.body.style.setProperty('--radius-principal', (radiusInp.value || 0) + 'px');
     document.body.style.setProperty('--radius-element', (radiusInp.value || 0) + 'px');
+    radiusPrincipalAnchor.setAll(radiusInp.value);
+    radiusElementAnchor.setAll(radiusInp.value);
   });
+
+  radiusGearBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var wasOpen = radiusPopover.classList.contains('is-open');
+    document.querySelectorAll('.kcm-ts__popover.is-open').forEach(function (p) { p.classList.remove('is-open'); });
+    if (!wasOpen) radiusPopover.classList.add('is-open');
+  });
+  radiusPopover.addEventListener('click', function (e) { e.stopPropagation(); });
 
   /* Estado inicial: reafirma en línea los valores ya leídos (punto de partida editable).
      --extrafont NO se reafirma aquí a propósito: si tu CSS real la deja sin declarar
@@ -844,8 +985,9 @@
   document.body.style.setProperty('--size-h2-2', h2bInp.value + 'px');
   document.body.style.setProperty('--size-h3', h3Inp.value + 'px');
   document.body.style.setProperty('--size-p', pInp.value + 'px');
-  document.body.style.setProperty('--radius-principal', radiusInp.value + 'px');
-  document.body.style.setProperty('--radius-element', radiusInp.value + 'px');
+  /* --radius-principal/--radius-element NO se reafirman aquí a propósito: si ya
+     tienes esquinas distintas en --radius-element (ej. 30px 50px 50px 30px),
+     forzarlas aplastaría esa forma desde el primer segundo sin haber tocado nada. */
 
   /* Colores: se arma la paleta "Default" a partir de los colores reales de la
      página (sin importar si coinciden o no con alguna de las 6 fijas), se pinta
@@ -889,7 +1031,10 @@
     h2bInp.value = resolvePx('fontSize', '--size-h2-2', 40);
     h3Inp.value = resolvePx('fontSize', '--size-h3', 24);
     pInp.value = resolvePx('fontSize', '--size-p', 16);
+    radiusInp.disabled = false;
     radiusInp.value = resolvePx('borderRadius', '--radius-principal', 40);
+    radiusPrincipalAnchor.read();
+    radiusElementAnchor.read();
   });
 
   /* ---------- Crear paleta personalizada a partir de la activa ---------- */
@@ -1241,8 +1386,8 @@
     lines.push('  --size-h2-2: ' + h2bInp.value + 'px;');
     lines.push('  --size-h3: ' + h3Inp.value + 'px;');
     lines.push('  --size-p: ' + pInp.value + 'px;');
-    lines.push('  --radius-principal: ' + radiusInp.value + 'px;');
-    lines.push('  --radius-element: ' + radiusInp.value + 'px;');
+    lines.push('  --radius-principal: ' + resolveFontName('--radius-principal', '') + ';');
+    lines.push('  --radius-element: ' + resolveFontName('--radius-element', '') + ';');
     lines.push('}');
 
     var blob = new Blob([lines.join('\n')], { type: 'text/css' });

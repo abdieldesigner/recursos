@@ -1,0 +1,161 @@
+<!-- ═══ Bloque superior Hub365: librería + retraso de scripts pesados ═══
+     DÓNDE: en un elemento de "Código personalizado" / SVG que sea lo PRIMERO de la página.
+     NO en el código de seguimiento del Head/Body del sitio: GHL inserta lo de esos
+     campos por JavaScript, tarde.
+     Puedes DEJAR el elemento antiguo de más abajo: el paso 2 anula sus copias de la
+     librería (escritas en el HTML) para que no se ejecuten ni se apliquen dos veces.
+     Defensa complementaria: candado window.__hub365Cargado dentro de abdiel-js.js. -->
+
+<!-- 1) Librería Hub365: arriba del todo para que el hero ya pinte con tus estilos -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-css.css">
+<script src="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.min.js" defer></script>
+
+<!-- Fuentes del sitio: arriba para que el hero pinte ya con su tipografía.
+     Incluye TODOS los pesos que usa la web (las copias de abajo con las mismas familias se anulan). -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600;700&family=Great+Vibes&display=swap">
+
+<!-- 2) Anti-duplicados: la primera copia gana; las que vengan después en el HTML
+     se desactivan antes de ejecutarse/aplicarse.
+     - Librería: agrupa todas sus URLs (hub365.ai y jsDelivr, con o sin ?v=).
+     - Google Fonts (css2): anula una copia posterior solo si pide EXACTAMENTE las mismas
+       familias que una anterior. Las fuentes de GHL (css?family=) no se tocan.
+     - Imágenes con la clase "img-prioridad-alta": sin lazy y con prioridad alta (úsala solo en el hero). -->
+<script>
+(function () {
+  "use strict";
+  var LIBRERIA = [
+    /resources\.hub365\.ai\/(js|css)\/webs/i,
+    /cdn\.jsdelivr\.net\/gh\/abdieldesigner\/recursos[^\/]*\/abdiel-(js|css)/i
+  ];
+  var vistos = {};
+
+  function clave(n) {
+    var esJS = n.tagName === "SCRIPT";
+    var esCSS = n.tagName === "LINK" && /stylesheet/i.test(n.rel);
+    var url = esJS ? n.src : esCSS ? n.href : "";
+    if (esCSS && /fonts\.googleapis\.com\/css2\?/i.test(url)) {
+      var familias = (url.match(/family=[^&:]+/g) || []).map(function (f) {
+        return decodeURIComponent(f.slice(7).replace(/\+/g, " ")).toLowerCase();
+      }).sort();
+      return familias.length ? "FUENTES|" + familias.join(",") : null;
+    }
+    if (!url || !LIBRERIA.some(function (p) { return p.test(url); })) return null;
+    return esJS ? "JS" : "CSS"; // una sola clave por tipo, sin importar la URL
+  }
+  // Imágenes importantes (hero/LCP): clase "img-prioridad-alta" en el elemento imagen de GHL.
+  // Les quita el lazy de GHL y les da prioridad alta de descarga.
+  function priorizar(img) {
+    if (img.dataset.prioridadOk) return;
+    img.dataset.prioridadOk = "1";
+    img.loading = "eager";
+    img.setAttribute("fetchpriority", "high");
+  }
+  function revisar(n) {
+    if (!n || n.nodeType !== 1) return;
+    if (n.tagName === "IMG" && n.closest(".img-prioridad-alta")) priorizar(n);
+    if (n.querySelectorAll) n.querySelectorAll(".img-prioridad-alta img, img.img-prioridad-alta").forEach(priorizar);
+    var k = clave(n);
+    if (k) {
+      if (!vistos[k]) { vistos[k] = n; }
+      else if (vistos[k] !== n) {
+        if (n.tagName === "SCRIPT") { n.type = "text/plain"; n.removeAttribute("src"); }
+        else { n.media = "not all"; n.disabled = true; }
+      }
+    }
+    if (n.querySelectorAll) n.querySelectorAll("script[src],link[rel~='stylesheet']").forEach(revisar);
+  }
+
+  revisar(document.documentElement); // registra las copias de arriba
+  var mo = new MutationObserver(function (lista) {
+    lista.forEach(function (m) { m.addedNodes.forEach(revisar); });
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener("load", function () { setTimeout(function () { mo.disconnect(); }, 5000); });
+})();
+</script>
+
+<!-- 3) Retrasa reCAPTCHA, el chat widget y Google Analytics hasta la primera
+     interacción (scroll/toque/mouse/teclado), y evita que reCAPTCHA
+     se cargue una vez por cada formulario. -->
+<script>
+(function () {
+  "use strict";
+
+  // No actuar dentro del constructor/vista previa de GHL (solo en la web publicada)
+  if (window.self !== window.top ||
+      /leadconnectorhq|gohighlevel|msgsndr|^app\./i.test(location.hostname)) return;
+
+  // Scripts a retrasar. max = respaldo en ms: se carga aunque nadie interactúe (0 = solo con interacción)
+  var PATRONES = [
+    { re: /recaptcha/i, max: 0 },                                           // reCAPTCHA de los formularios
+    { re: /widgets\.leadconnectorhq\.com\/(loader|chat-widget)/i, max: 0 }, // chat widget de GHL
+    { re: /googletagmanager\.com\/gtag/i, max: 5000 }                       // Google Analytics: registra también a quien no interactúa
+  ];
+
+  var cola = [], liberado = false, cargados = {}, enCurso = {};
+  var appendOrig = Node.prototype.appendChild;
+  var insertOrig = Node.prototype.insertBefore;
+
+  function patron(n) {
+    if (!n || n.tagName !== "SCRIPT" || !n.src) return null;
+    for (var i = 0; i < PATRONES.length; i++) if (PATRONES[i].re.test(n.src)) return PATRONES[i];
+    return null;
+  }
+
+  // Inserta un script; si ya se cargó (o se está cargando) el mismo src,
+  // no lo descarga otra vez: solo le avisa "load" al duplicado.
+  function insertar(n) {
+    var src = n.src;
+    if (cargados[src]) { setTimeout(function () { n.dispatchEvent(new Event("load")); }, 0); return; }
+    if (enCurso[src]) { enCurso[src].push(n); return; }
+    enCurso[src] = [];
+    n.addEventListener("load", function () {
+      cargados[src] = true;
+      (enCurso[src] || []).forEach(function (d) { d.dispatchEvent(new Event("load")); });
+      delete enCurso[src];
+    });
+    appendOrig.call(document.head, n);
+  }
+
+  function interceptar(n) {
+    var p = patron(n);
+    if (!p) return false;
+    if (liberado || p.suelto) insertar(n); else cola.push({ n: n, p: p });
+    return true;
+  }
+
+  Node.prototype.appendChild = function (n) {
+    return interceptar(n) ? n : appendOrig.apply(this, arguments);
+  };
+  Node.prototype.insertBefore = function (n, ref) {
+    return interceptar(n) ? n : insertOrig.apply(this, arguments);
+  };
+  ["append", "prepend"].forEach(function (m) {
+    var orig = Element.prototype[m];
+    if (!orig) return;
+    Element.prototype[m] = function () {
+      var resto = Array.prototype.filter.call(arguments, function (a) {
+        return !(a && a.nodeType === 1 && interceptar(a));
+      });
+      return orig.apply(this, resto);
+    };
+  });
+
+  function soltar(p) {
+    p.suelto = true;
+    cola = cola.filter(function (it) { if (it.p === p) { insertar(it.n); return false; } return true; });
+  }
+  PATRONES.forEach(function (p) { if (p.max > 0) setTimeout(function () { soltar(p); }, p.max); });
+
+  var EVENTOS = ["pointerdown", "touchstart", "keydown", "scroll", "wheel", "mousemove", "focusin"];
+  function liberar() {
+    if (liberado) return;
+    liberado = true;
+    EVENTOS.forEach(function (e) { window.removeEventListener(e, liberar, { passive: true }); });
+    cola.splice(0).forEach(function (it) { insertar(it.n); });
+  }
+  EVENTOS.forEach(function (e) { window.addEventListener(e, liberar, { passive: true }); });
+})();
+</script>

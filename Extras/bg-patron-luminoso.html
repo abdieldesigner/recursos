@@ -1,25 +1,33 @@
 <!-- ============================================================
   BG PATRÓN LUMINOSO · fondo interactivo (copiar y pegar completo, sin cambios)
-  USO: ponle la clase  bg-patron-luminoso  al contenedor (sección, fila, columna…).
-  El script crea un <canvas> como primer hijo de ese contenedor.
+  TRES CLASES (el mismo código sirve para las tres, pégalo una sola vez):
+    bg-patron-luminoso          uso general. El canvas va entre el color de fondo y el contenido.
+                                Eleva los hijos sueltos del contenedor para que queden sobre el canvas.
+    bg-patron-luminoso-interno  para contenedores que tengan menús/popups/paneles fijos DENTRO (ej. el footer).
+                                El canvas va dentro del fondo (.bg) y NO toca ningún otro elemento.
+    bg-patron-luminoso-body     la pones en CUALQUIER elemento que exista en la página (no importa cuál) y el
+                                efecto se monta solo en el <body>, cubriendo todo el fondo de la web. Los
+                                atributos data-fx-* (ver abajo) se leen de ese mismo elemento donde pusiste la clase.
+  USO: ponle UNA sola de las tres clases al elemento. No combines varias a la vez.
   NO cambia el color de fondo: el fondo lo pones tú. Los textos quedan encima.
   Opcional, por contenedor, con atributos data-fx-*  (todos opcionales):
     data-fx-color="14,230,207"   color al encenderse (R,G,B). Si no lo pones, usa la variable --accent-color-custom
+    data-fx-on-alpha="70"        opacidad máxima de la cruz/ícono al encenderse (0 a 100, por defecto 70)
     data-fx-idle="255,255,255"   color en reposo (R,G,B)
     data-fx-idle-alpha="0.07"    visibilidad en reposo (0 a 1)
     data-fx-gap="30"             separación entre símbolos (px)
     data-fx-radius="190"         radio de luz del cursor (px)
     data-fx-glow="0.13"          luz suave que sigue al cursor (0 = sin luz)
+    data-fx-glow-color="14,230,207" color de esa luz (R,G,B). Si no lo pones, usa el mismo que data-fx-color/--accent-color-custom
     data-fx-shape="plus"         plus (cruz que gira a ×) o dot (punto)
     data-fx-wave="true"          onda expansiva al hacer clic (false = sin onda)
   Ejemplo: <section class="bg-patron-luminoso" data-fx-color="8,197,235" data-fx-gap="26">
 ============================================================ -->
 <script>
 (function () {
-  var SEL = '.bg-patron-luminoso';
-  var DEF = { color: '58,29,137', idle: '255,255,255', idleAlpha: .07, gap: 30, radius: 190, glow: .13, shape: 'plus', wave: true };
+  var SEL = '.bg-patron-luminoso, .bg-patron-luminoso-interno, .bg-patron-luminoso-body';
+  var DEF = { color: '58,29,137', idle: '255,255,255', idleAlpha: .07, onAlpha: 50, gap: 30, radius: 190, glow: .15, shape: 'plus', wave: true };
 
-  // sin efecto en pantallas táctiles ni si el usuario pidió menos movimiento
   if (matchMedia('(hover: none)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var rgb = function (s, d) {
@@ -27,9 +35,8 @@
     return a.length === 3 && a.every(function (n) { return !isNaN(n); }) ? a : String(d).split(',').map(Number);
   };
 
-  // lee --accent-color-custom del sitio (acepta hex, rgb() y nombres de color) y la pasa a [R,G,B]
-  function fromVar(el) {
-    var v = getComputedStyle(el).getPropertyValue('--accent-color-custom').trim();
+  function fromVar(el, varName) {
+    var v = getComputedStyle(el).getPropertyValue(varName).trim();
     if (!v) return rgb(null, DEF.color);
     var t = document.createElement('canvas').getContext('2d');
     t.fillStyle = '#000'; t.fillStyle = v;
@@ -40,33 +47,56 @@
   }
 
   function start(el) {
-    if (el.__fx) return; el.__fx = 1;
-    var ds = el.dataset;
+    var bodyMode = el.classList.contains('bg-patron-luminoso-body');
+    var target = bodyMode ? document.body : el;
+    if (target.__fx) return; target.__fx = 1;
+    var ds = el.dataset; // los data-fx-* se leen de donde pusiste la clase, aunque en modo -body el efecto se monte en <body>
     var C = {
-      on: ds.fxColor ? rgb(ds.fxColor, DEF.color) : fromVar(el), off: rgb(ds.fxIdle, DEF.idle),
+      on: ds.fxColor ? rgb(ds.fxColor, DEF.color) : fromVar(el, '--accent-color-custom'), // color de las cruces, formas o iconos
+      onAlpha: ds.fxOnAlpha != null ? parseFloat(ds.fxOnAlpha) : DEF.onAlpha, // opacidad máxima de "on" al encenderse (0-100)
+      off: rgb(ds.fxIdle, DEF.idle),
       idleA: ds.fxIdleAlpha != null ? parseFloat(ds.fxIdleAlpha) : DEF.idleAlpha,
       gap: parseFloat(ds.fxGap) || DEF.gap, R: parseFloat(ds.fxRadius) || DEF.radius,
       glow: ds.fxGlow != null ? parseFloat(ds.fxGlow) : DEF.glow,
+      glowColor: ds.fxGlowColor ? rgb(ds.fxGlowColor, DEF.color) : fromVar(el, '--accent-color-custom'), // color del resplandor; su opacidad es "glow" de arriba
       shape: ds.fxShape || DEF.shape, wave: ds.fxWave !== 'false'
     };
-    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
-    el.style.isolation = 'isolate'; // el canvas queda sobre el fondo del contenedor y bajo su contenido
+    var inner = !bodyMode && el.classList.contains('bg-patron-luminoso-interno');
+    if (!bodyMode && getComputedStyle(el).position === 'static') el.style.position = 'relative';
 
     var cv = document.createElement('canvas');
     cv.className = 'bg-patron-luminoso-cv';
     cv.setAttribute('aria-hidden', 'true');
-    cv.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block';
+    cv.style.cssText = bodyMode
+      ? 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;display:block;z-index:0'
+      : 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:block' + (inner ? '' : ';z-index:0');
     var g = cv.getContext('2d');
 
-    // El constructor (GHL) pone el color de fondo en un hijo ".bg" y puede borrar lo que inyectamos al hidratar la página.
-    // Por eso el canvas va justo después de ".bg" (encima del color), el contenido se sube por encima del canvas,
-    // y se vuelve a insertar solo si lo quitan.
     function mount() {
+      if (bodyMode) {
+        if (cv.parentNode !== target || target.firstElementChild !== cv) target.insertBefore(cv, target.firstChild);
+        for (var cb = target.firstElementChild; cb; cb = cb.nextElementSibling) {
+          if (cb === cv) continue;
+          var csb = getComputedStyle(cb);
+          if (csb.position === 'static') cb.style.position = 'relative';
+          if (csb.zIndex === 'auto') cb.style.zIndex = '1';
+        }
+        return;
+      }
       if (!el.isConnected) return;
       if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
-      el.style.isolation = 'isolate';
       var bg = null;
       for (var n = el.firstElementChild; n; n = n.nextElementSibling) if (n.classList.contains('bg')) { bg = n; break; }
+      if (inner) {
+        if (bg) { cv.style.zIndex = ''; if (cv.parentNode !== bg) bg.appendChild(cv); }
+        else {
+          cv.style.zIndex = '-1';
+          if (getComputedStyle(el).isolation !== 'isolate') el.style.isolation = 'isolate';
+          if (cv.parentNode !== el) el.insertBefore(cv, el.firstChild);
+        }
+        return;
+      }
+      el.style.isolation = 'isolate';
       var ref = bg ? bg.nextSibling : el.firstChild;
       if (cv.parentNode !== el || (bg && cv.previousElementSibling !== bg)) el.insertBefore(cv, ref);
       for (var c = el.firstElementChild; c; c = c.nextElementSibling) {
@@ -77,61 +107,110 @@
       }
     }
     mount();
-    new MutationObserver(mount).observe(el, { childList: true });
+    new MutationObserver(mount).observe(target, { childList: true, subtree: !bodyMode && inner });
     addEventListener('load', mount);
 
     var dead = false, W = 0, H = 0, cols = 0, rows = 0, en, raf = 0, visible = true, lastMove = -1e9;
     var P = { x: -999, y: -999, lx: -999, ly: -999, on: false }, waves = [];
+    var live = new Set();
+    var base = null;
+    var PAL_STEPS = 48, PAL = [];
+
+    for (var ps = 0; ps <= PAL_STEPS; ps++) {
+      var pe = ps / PAL_STEPS, pm = pe * pe, pa = C.idleA + (C.onAlpha / 100 - C.idleA) * pe;
+      PAL.push('rgba(' + [0, 1, 2].map(function (n) { return Math.round(C.off[n] + (C.on[n] - C.off[n]) * pm); }).join(',') + ',' + pa.toFixed(3) + ')');
+    }
+
+    // Para un icono propio en vez de "plus"/"dot": new Path2D('<d del SVG>'), y dibujarlo con
+    // ctx.translate(x,y) + ctx.fill(ICON)/stroke(ICON) + ctx.translate(-x,-y). Evitar drawImage()
+    // con un SVG rasterizado, eso sí es más costoso que el dibujo vectorial actual.
+    function drawCell(ctx, x, y, e) {
+      var col = PAL[Math.round(e * PAL_STEPS)];
+      if (C.shape === 'dot') {
+        ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, 1.1 + 2.6 * e, 0, 6.2832); ctx.fill();
+      } else {
+        var s = 2.2 + 5 * e, ang = Math.PI / 4 * e, c = Math.cos(ang) * s, sn = Math.sin(ang) * s;
+        ctx.strokeStyle = col; ctx.lineWidth = 1 + .6 * e;
+        ctx.beginPath(); ctx.moveTo(x - c, y - sn); ctx.lineTo(x + c, y + sn); ctx.moveTo(x + sn, y - c); ctx.lineTo(x - sn, y + c); ctx.stroke();
+      }
+    }
 
     function size() {
-      if (!el.isConnected) return;
+      if (!bodyMode && !el.isConnected) return;
       var dpr = Math.min(devicePixelRatio || 1, 2);
-      W = el.clientWidth; H = el.clientHeight;
+      if (bodyMode) { W = innerWidth; H = innerHeight; } else { W = el.clientWidth; H = el.clientHeight; }
       cv.width = W * dpr; cv.height = H * dpr;
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.lineCap = 'round';
       cols = Math.ceil(W / C.gap) + 1; rows = Math.ceil(H / C.gap) + 1;
       en = new Float32Array(cols * rows);
+      live = new Set();
+
+      base = document.createElement('canvas');
+      base.width = cv.width; base.height = cv.height;
+      var bg = base.getContext('2d');
+      bg.setTransform(dpr, 0, 0, dpr, 0, 0);
+      bg.lineCap = 'round';
+      var ox0 = (W % C.gap) / 2, oy0 = (H % C.gap) / 2;
+      for (var j0 = 0; j0 < rows; j0++) for (var i0 = 0; i0 < cols; i0++) drawCell(bg, ox0 + i0 * C.gap, oy0 + j0 * C.gap, 0);
       wake();
     }
 
     function frame(now) {
-      if (!el.isConnected) { dead = true; raf = 0; return; }
-      g.clearRect(0, 0, W, H);
+      if (!bodyMode && !el.isConnected) { dead = true; raf = 0; return; }
+      g.save(); g.setTransform(1, 0, 0, 1, 0, 0);
+      g.clearRect(0, 0, cv.width, cv.height);
+      g.drawImage(base, 0, 0);
+      g.restore();
+
       P.lx += (P.x - P.lx) * .12; P.ly += (P.y - P.ly) * .12;
       if (P.on && C.glow > 0) {
         var gr = g.createRadialGradient(P.lx, P.ly, 0, P.lx, P.ly, C.R * 1.7);
-        gr.addColorStop(0, 'rgba(' + C.on.join(',') + ',' + C.glow + ')');
-        gr.addColorStop(1, 'rgba(' + C.on.join(',') + ',0)');
+        gr.addColorStop(0, 'rgba(' + C.glowColor.join(',') + ',' + C.glow + ')');
+        gr.addColorStop(1, 'rgba(' + C.glowColor.join(',') + ',0)');
         g.fillStyle = gr; g.fillRect(0, 0, W, H);
       }
       for (var w = waves.length - 1; w >= 0; w--) if (now - waves[w].t > 1400) waves.splice(w, 1);
-      var busy = (P.on && now - lastMove < 600) || waves.length > 0 || Math.abs(P.x - P.lx) > .5;
+
       var ox = (W % C.gap) / 2, oy = (H % C.gap) / 2;
-      g.lineCap = 'round';
-      for (var j = 0; j < rows; j++) for (var i = 0; i < cols; i++) {
-        var k = j * cols + i, x = ox + i * C.gap, y = oy + j * C.gap, tgt = 0;
-        if (P.on) { var d = Math.hypot(x - P.lx, y - P.ly); if (d < C.R) tgt = Math.pow(1 - d / C.R, 2); }
+      var next = new Set(live);
+      if (P.on) {
+        var i0 = Math.max(0, Math.floor((P.lx - C.R - ox) / C.gap)), i1 = Math.min(cols - 1, Math.ceil((P.lx + C.R - ox) / C.gap));
+        var j0 = Math.max(0, Math.floor((P.ly - C.R - oy) / C.gap)), j1 = Math.min(rows - 1, Math.ceil((P.ly + C.R - oy) / C.gap));
+        for (var jc = j0; jc <= j1; jc++) for (var ic = i0; ic <= i1; ic++) next.add(jc * cols + ic);
+      }
+      for (var qq = 0; qq < waves.length; qq++) {
+        var wv = waves[qq], rad = (now - wv.t) * .9 + 38;
+        var wi0 = Math.max(0, Math.floor((wv.x - rad - ox) / C.gap)), wi1 = Math.min(cols - 1, Math.ceil((wv.x + rad - ox) / C.gap));
+        var wj0 = Math.max(0, Math.floor((wv.y - rad - oy) / C.gap)), wj1 = Math.min(rows - 1, Math.ceil((wv.y + rad - oy) / C.gap));
+        for (var jw = wj0; jw <= wj1; jw++) for (var iw = wi0; iw <= wi1; iw++) next.add(jw * cols + iw);
+      }
+
+      live = new Set();
+      var busy = (P.on && now - lastMove < 600) || waves.length > 0 || Math.abs(P.x - P.lx) > .5;
+      next.forEach(function (k) {
+        var i = k % cols, j = (k / cols) | 0, x = ox + i * C.gap, y = oy + j * C.gap, tgt = 0;
+        if (P.on) {
+          var ddx = x - P.lx, ddy = y - P.ly, d2 = ddx * ddx + ddy * ddy, RR = C.R * C.R;
+          if (d2 < RR) { var d = Math.sqrt(d2); tgt = Math.pow(1 - d / C.R, 2); }
+        }
         for (var q = 0; q < waves.length; q++) {
           var ww = waves[q], r = (now - ww.t) * .9, dd = Math.hypot(x - ww.x, y - ww.y), b = 1 - Math.abs(dd - r) / 38;
           if (b > 0) tgt = Math.max(tgt, b * (1 - (now - ww.t) / 1400));
         }
         en[k] += (tgt - en[k]) * .18;
-        var e = en[k]; if (e > .01) busy = true;
-        var m = e * e, a = C.idleA + (.95 - C.idleA) * e;
-        var col = 'rgba(' + [0, 1, 2].map(function (n) { return Math.round(C.off[n] + (C.on[n] - C.off[n]) * m); }).join(',') + ',' + a.toFixed(3) + ')';
-        if (C.shape === 'dot') {
-          g.fillStyle = col; g.beginPath(); g.arc(x, y, 1.1 + 2.6 * e, 0, 6.2832); g.fill();
-        } else {
-          var s = 2.2 + 5 * e, ang = Math.PI / 4 * e, c = Math.cos(ang) * s, sn = Math.sin(ang) * s;
-          g.strokeStyle = col; g.lineWidth = 1 + .6 * e;
-          g.beginPath(); g.moveTo(x - c, y - sn); g.lineTo(x + c, y + sn); g.moveTo(x + sn, y - c); g.lineTo(x - sn, y + c); g.stroke();
-        }
-      }
+        var e = en[k];
+        if (e > .01) { live.add(k); drawCell(g, x, y, e); busy = true; }
+      });
+
       raf = busy && visible ? requestAnimationFrame(frame) : 0;
     }
     function wake() { if (!raf && visible && !dead) raf = requestAnimationFrame(frame); }
 
-    function local(e) { var r = el.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    function local(e) {
+      var r = cv.getBoundingClientRect(), sx = r.width / (W || 1) || 1, sy = r.height / (H || 1) || 1;
+      return { x: (e.clientX - r.left) / sx, y: (e.clientY - r.top) / sy };
+    }
     addEventListener('pointermove', function (e) {
       if (e.pointerType !== 'mouse') return;
       var p = local(e); P.x = p.x; P.y = p.y;
@@ -144,15 +223,20 @@
     });
     document.documentElement.addEventListener('pointerleave', function () { P.on = false; wake(); });
 
-    if ('ResizeObserver' in window) new ResizeObserver(size).observe(el); else addEventListener('resize', size);
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (en2) { visible = en2[0].isIntersecting; wake(); }).observe(el);
+    if (bodyMode) {
+      addEventListener('resize', size);
+      document.addEventListener('visibilitychange', function () { visible = !document.hidden; wake(); });
+    } else {
+      if ('ResizeObserver' in window) new ResizeObserver(size).observe(el); else addEventListener('resize', size);
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (en2) { visible = en2[0].isIntersecting; wake(); }).observe(el);
+    }
     size();
   }
 
-  function scan() { document.querySelectorAll(SEL).forEach(start); }
+  var tick = 0;
+  function scan() { if (tick) return; tick = requestAnimationFrame(function () { tick = 0; document.querySelectorAll(SEL).forEach(start); }); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scan); else scan();
   addEventListener('load', scan);
-  // si el constructor añade la sección después de cargar la página
   new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
 })();
 </script>
