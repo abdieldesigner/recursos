@@ -160,38 +160,39 @@ window.__hub365Cargado = true;
     el.classList.add('a-e-waiting');
   });
 
+  // Elige la animación de un elemento. Solo LEE (clases y variables CSS).
+  function elegirAnim(el) {
+    // 1) clase específica (a-e-flip-x, a-e-fade-l, a-e-zoom, etc.)
+    for (var i = 0; i < keys.length; i++) {
+      if (el.classList.contains(keys[i])) return MAP[keys[i]];
+    }
+    // 2) si no, y tiene .animacion-e -> usa la animación de su variable (o el respaldo)
+    if (el.classList.contains('animacion-e')) {
+      return getComputedStyle(el).getPropertyValue('--a-e-anim').trim() || DEFAULT_ANIM;
+    }
+    // 3) si no, y es uno de los botones -> usa --animate-btn (o el respaldo)
+    for (var j = 0; j < BTN_CLASSES.length; j++) {
+      if (el.classList.contains(BTN_CLASSES[j])) {
+        return getComputedStyle(el).getPropertyValue('--animate-btn').trim() || DEFAULT_BTN_ANIM;
+      }
+    }
+    return null;
+  }
+
   var io = new IntersectionObserver(
     function (entries) {
+      // Pasada 1: SOLO lecturas. Leer getComputedStyle justo después de añadir clases
+      // al elemento anterior obligaba a recalcular estilos una vez por elemento
+      // (p. ej. 20 botones del menú a la vez → tareas largas / TBT).
+      var tareas = [];
       entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = e.target,
-          anim = null;
+        if (e.isIntersecting) tareas.push({ el: e.target, anim: elegirAnim(e.target) });
+      });
 
-        // 1) clase específica (a-e-flip-x, a-e-fade-l, a-e-zoom, etc.)
-        for (var i = 0; i < keys.length; i++) {
-          if (el.classList.contains(keys[i])) {
-            anim = MAP[keys[i]];
-            break;
-          }
-        }
-
-        // 2) si no, y tiene .animacion-e -> usa la animación de su variable (o el respaldo)
-        if (!anim && el.classList.contains('animacion-e')) {
-          var v = getComputedStyle(el).getPropertyValue('--a-e-anim').trim();
-          anim = v || DEFAULT_ANIM;
-        }
-
-        // 3) si no, y es uno de los 3 botones -> usa --animate-btn (o el respaldo)
-        if (!anim) {
-          for (var j = 0; j < BTN_CLASSES.length; j++) {
-            if (el.classList.contains(BTN_CLASSES[j])) {
-              var vb = getComputedStyle(el).getPropertyValue('--animate-btn').trim();
-              anim = vb || DEFAULT_BTN_ANIM;
-              break;
-            }
-          }
-        }
-
+      // Pasada 2: SOLO escrituras (un único recálculo de estilos al final).
+      tareas.forEach(function (t) {
+        var el = t.el,
+          anim = t.anim;
         if (anim) {
           el.classList.add('animate__animated', anim);
           // Al terminar, se quitan las clases de animación para que un reflow
@@ -200,7 +201,6 @@ window.__hub365Cargado = true;
             'animationend',
             function handler() {
               el.classList.remove('animate__animated', anim);
-              el.removeEventListener('animationend', handler);
             },
             { once: true },
           );
