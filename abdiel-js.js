@@ -147,9 +147,9 @@ window.__hub365Cargado = true;
     )
     .join(',');
 
-  // .no-anim queda completamente afuera del sistema (no se oculta, no se observa)
+  // .no-anim (en el propio elemento o en cualquier contenedor) queda afuera del sistema (no se oculta, no se observa)
   var els = Array.prototype.filter.call(document.querySelectorAll(sel), function (el) {
-    return !el.classList.contains('no-anim');
+    return !el.closest('.no-anim');
   });
   if (!els.length) return;
 
