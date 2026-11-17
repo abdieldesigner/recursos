@@ -207,11 +207,11 @@
 	  { name: "color_accent",    value: "#ccff00" },
 	  { name: "color_highlight", value: "#ffd700" },
 	  { name: "favicon_url",     value: "https://storage.googleapis.com/msgsndr/rpfGXwQGWBN80QBxnzZh/media/682b39660ed506890c43a865.png" },
-	  { name: "hero_img",        value: "https://raw.githubusercontent.com/abdieldesigner/recursos/refs/heads/main/Powered%20by%20hub365%20ai%20v2.svg" },
-	  { name: "logo_dark_h",     value: "https://raw.githubusercontent.com/abdieldesigner/recursos/refs/heads/main/Powered%20by%20hub365%20ai%20v2.svg" },
-	  { name: "logo_dark_v",     value: "https://raw.githubusercontent.com/abdieldesigner/recursos/refs/heads/main/Powered%20by%20hub365%20ai%20v2.svg" },
-	  { name: "logo_light_h",    value: "https://raw.githubusercontent.com/abdieldesigner/recursos/refs/heads/main/Powered%20by%20hub365%20ai%20v2.svg" },
-	  { name: "logo_light_v",    value: "https://raw.githubusercontent.com/abdieldesigner/recursos/refs/heads/main/Powered%20by%20hub365%20ai%20v2.svg" }
+	  { name: "hero_img",        value: "https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/Powered%20by%20hub365%20ai%20v2.svg" },
+	  { name: "logo_dark_h",     value: "https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/Powered%20by%20hub365%20ai%20v2.svg" },
+	  { name: "logo_dark_v",     value: "https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/Powered%20by%20hub365%20ai%20v2.svg" },
+	  { name: "logo_light_h",    value: "https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/Powered%20by%20hub365%20ai%20v2.svg" },
+	  { name: "logo_light_v",    value: "https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/Powered%20by%20hub365%20ai%20v2.svg" }
 	];
 
 

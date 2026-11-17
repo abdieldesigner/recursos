@@ -12,15 +12,53 @@
 <script src="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.min.js" defer></script>
 
 <!-- Fuentes del sitio: arriba para que el hero pinte ya con su tipografía.
-     Incluye TODOS los pesos que usa la web (las copias de abajo con las mismas familias se anulan). -->
+     Incluye TODOS los pesos que usa la web (los <link> de abajo con las mismas familias se anulan). -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600;700&family=Great+Vibes&display=swap">
+<!-- Precarga de los archivos de fuente que usa el hero (evita el salto al cambiar de fuente).
+     Si Google cambia la versión (v20/v21) habrá que actualizar estas URLs. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4jQmfxI.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/greatvibes/v21/RWmMoKWR9v4ksMfaWd_JN9XFiaQoDmlr.woff2">
+<!-- Fuentes incrustadas (en vez del <link> a fonts.googleapis.com: una petición menos que bloquea).
+     Los archivos .woff2 siguen en Google. POR SITIO: copia las reglas desde la URL css2 de sus fuentes
+     (bloques "latin" y "latin-ext") y pon esas familias en FUENTES_INCRUSTADAS (paso 2). -->
+     <!-- FONT-DISPLAY (revisar al cambiar o añadir tipografías):
+     - optional → fuente grande del hero (titulares) que ADEMÁS esté precargada arriba.
+                  Nunca cambia después de pintarse (evita el CLS). En una primera visita
+                  muy lenta puede verse la fuente de reserva; desde la siguiente, ya la tuya.
+     - swap     → texto de párrafos y menús, y fuentes que no se ven al cargar.
+                  Decorativas (p. ej. Great Vibes): swap si la letra es clave para la marca;
+                  optional si se prioriza PageSpeed.
+     - block    → solo fuentes de iconos (Font Awesome, etc.).
+     Al copiar las reglas desde Google Fonts vienen con "swap": cambia a "optional"
+     solo las de los titulares del hero que precargues. -->
+<style>
+/* Cormorant Garamond italic 400-500 (latin-ext) */
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400 500;font-display:swap;src:url(https://fonts.gstatic.com/s/cormorantgaramond/v21/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtGmSqn7B6DxjY.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+/* Cormorant Garamond italic 400-500 (latin) */
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400 500;font-display:swap;src:url(https://fonts.gstatic.com/s/cormorantgaramond/v21/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEtImSqn7B6D.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+/* Cormorant Garamond normal 400-700 (latin-ext) */
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400 700;font-display:swap;src:url(https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYp3tKky2F7i6C.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+/* Cormorant Garamond normal 400-700 (latin) */
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400 700;font-display:swap;src:url(https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtKky2F7g.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+/* Great Vibes normal 400 (latin-ext) */
+@font-face{font-family:'Great Vibes';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/greatvibes/v21/RWmMoKWR9v4ksMfaWd_JN9XLiaQoDmlrMlY.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+/* Great Vibes normal 400 (latin) */
+@font-face{font-family:'Great Vibes';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/greatvibes/v21/RWmMoKWR9v4ksMfaWd_JN9XFiaQoDmlr.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+/* Jost normal 300-700 (latin-ext) */
+@font-face{font-family:'Jost';font-style:normal;font-weight:300 700;font-display:swap;src:url(https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4jQmfxIC7w.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+/* Jost normal 300-700 (latin) */
+@font-face{font-family:'Jost';font-style:normal;font-weight:300 700;font-display:swap;src:url(https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4jQmfxI.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+
+/* Las variables de estilos aca */
+
+</style>
 
 <!-- 2) Anti-duplicados: la primera copia gana; las que vengan después en el HTML
      se desactivan antes de ejecutarse/aplicarse.
      - Librería: agrupa todas sus URLs (hub365.ai y jsDelivr, con o sin ?v=).
      - Google Fonts (css2): anula una copia posterior solo si pide EXACTAMENTE las mismas
-       familias que una anterior. Las fuentes de GHL (css?family=) no se tocan.
+       familias que una anterior o que FUENTES_INCRUSTADAS. Las fuentes de GHL (css?family=) no se tocan.
      - Imágenes con la clase "img-prioridad-alta": sin lazy y con prioridad alta (úsala solo en el hero). -->
 <script>
 (function () {
@@ -30,6 +68,12 @@
     /cdn\.jsdelivr\.net\/gh\/abdieldesigner\/recursos[^\/]*\/abdiel-(js|css)/i
   ];
   var vistos = {};
+  // Familias cuyas fuentes ya van incrustadas arriba (<style> @font-face).
+  // Cualquier <link> de Google Fonts (css2) posterior con exactamente estas familias se anula.
+  var FUENTES_INCRUSTADAS = ["Cormorant Garamond", "Jost", "Great Vibes"];
+  if (FUENTES_INCRUSTADAS.length) {
+    vistos["FUENTES|" + FUENTES_INCRUSTADAS.map(function (f) { return f.toLowerCase(); }).sort().join(",")] = true;
+  }
 
   function clave(n) {
     var esJS = n.tagName === "SCRIPT";

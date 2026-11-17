@@ -157,15 +157,15 @@ CSS via css
 NUeva manera d eimprotar 2026:
 
 <!--  Via CSS directo:  -->
-@import url("https://resources.hub365.ai/css/webs");
+@import url("https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-css.css");
 
 
 <!-- CSS & JS vía Libreria -->
-<link rel="preconnect" href="https://resources.hub365.ai">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
-<link rel="stylesheet" href="https://resources.hub365.ai/css/webs">
-<script src="https://resources.hub365.ai/js/webs" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-css.css">
+<script src="https://cdn.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.min.js" defer></script>
 
 
 

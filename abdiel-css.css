@@ -1433,6 +1433,13 @@ body:has(.hub365-ghl-not) #__nuxt * {
 
 
 
+#__nuxt .menu-pegajoso, #__nuxt .menu-sticky {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 99 !important;
+}
+
+
 
 
 

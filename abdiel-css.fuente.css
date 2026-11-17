@@ -1546,6 +1546,13 @@ body:has(.hub365-ghl-not) #__nuxt * {
    TERMINA CSS Elemento Sticky Pegagoso
    ========================================= */
 
+/* Menú pegajoso arriba: clase .menu-pegajoso o .menu-sticky en la sección/menú */
+#__nuxt .menu-pegajoso, #__nuxt .menu-sticky {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 99 !important;
+}
+
 
 
 /* =========================================

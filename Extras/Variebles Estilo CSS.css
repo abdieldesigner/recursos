@@ -70,7 +70,7 @@ body, .elementor-kit-3346, [data-theme="dark"] .theme-lock-no  {
     --color-texto-boton: var(--bg-p-d);
     --seo-text: var(--text-d);
     
-    --divider-mask: url("https://raw.githubusercontent.com/abdieldesigner/Efectos-Web/refs/heads/main/Shapes/triangle.svg");
+    --divider-mask: url("https://cdn.jsdelivr.net/gh/abdieldesigner/Efectos-Web@main/Shapes/triangle.svg");
     --divider-color: var(--bg-p-l);
     --divider-height: 70px;
 
@@ -586,10 +586,12 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.elementor-button-t
     filter: drop-shadow(0 0 19.821px rgb(255 255 255 / .9)) drop-shadow(0 0 5.663px rgb(255 255 255 / .8)) drop-shadow(0 0 2.832px rgb(255 255 255 / .8))
 }
 
-.text-luz a, .enlace-luz a, .icon-luz .elementor-grid-item i {
+/* NOTA: Elementor 4.x pinta los iconos como <svg> (antes <i>); se apuntan ambos.
+   A futuro se puede quitar "i" si ya no se usan fuentes. */
+.text-luz a, .enlace-luz a, .icon-luz .elementor-grid-item :is(i, svg) {
   transition: all .5s;
 }
-.text-luz:hover a, .enlace-luz a:hover, .icon-luz .elementor-grid-item:hover i {
+.text-luz:hover a, .enlace-luz a:hover, .icon-luz .elementor-grid-item:hover :is(i, svg) {
     fill: #fff !important;
     stroke: #fff;
     color: white !important;

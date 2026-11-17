@@ -318,43 +318,69 @@ window.__hub365Cargado = true;
 
   /* ============================================================
    INICIA JS DE CINTA DE TEXTO (marquee): duplicado + duración
+   Se prepara cuando el navegador está libre (requestIdleCallback),
+   no en el evento "load", para no sumar trabajo al momento de carga.
    ============================================================ */
 
-window.addEventListener('load', () => {
-  const tracks = document.querySelectorAll('.marquee-track'); // Selecciona todas las pistas de marquee
+(function () {
+  function iniciarMarquee() {
+    const tracks = document.querySelectorAll('.marquee-track'); // Selecciona todas las pistas de marquee
+    if (!tracks.length) return; // Página sin marquee: no hace nada
 
-  const procesados = []; // Pistas ya duplicadas; sus anchos se leen después (evita un layout por pista)
+    const procesados = []; // Pistas ya duplicadas; sus anchos se leen después
 
-  // Pasada 1: solo escrituras al DOM
-  tracks.forEach((track) => {
-    const textBlock = track.querySelector('.marquee-text'); // Bloque que contiene el texto original
-    if (!textBlock) return; // Si este track no trae el bloque de texto, se salta (no rompe los demás)
+    // Pasada 1: solo escrituras al DOM
+    tracks.forEach((track) => {
+      const textBlock = track.querySelector('.marquee-text'); // Bloque que contiene el texto original
+      if (!textBlock) return; // Si este track no trae el bloque de texto, se salta (no rompe los demás)
 
-    // Reemplaza saltos de línea <br> por un separador visual ✦
-    // - Usamos regex /<br\s*\/?>/gi para cubrir <br>, <br/> y mayúsculas/minúsculas
-    textBlock.innerHTML = textBlock.innerHTML.replace(
-      /<br\s*\/?>/gi,
-      '<span class="separator">✦</span>',
-    );
+      // Reemplaza saltos de línea <br> por un separador visual ✦
+      textBlock.innerHTML = textBlock.innerHTML.replace(
+        /<br\s*\/?>/gi,
+        '<span class="separator">✦</span>',
+      );
 
-    // Duplica el contenido para lograr un bucle continuo (scroll infinito sin cortes)
-    const clone = textBlock.cloneNode(true); // true = clona con hijos
-    track.appendChild(clone); // Añade la copia al final del track
-    procesados.push(track);
-  });
+      // Duplica el contenido para lograr un bucle continuo (scroll infinito sin cortes)
+      const clone = textBlock.cloneNode(true); // true = clona con hijos
+      track.appendChild(clone); // Añade la copia al final del track
+      procesados.push(track);
+    });
 
-  // Pasada 2: solo lecturas (un único layout)
-  // - track.scrollWidth ahora es el ancho de texto original + clon (x2)
-  const anchos = procesados.map((track) => track.scrollWidth / 2); // Solo el ancho del bloque original
+    if (!procesados.length) return;
 
-  // Pasada 3: escrituras de la duración
-  const speed = 40; // Velocidad objetivo: 40 px/seg
-  procesados.forEach((track, i) => {
-    const duration = anchos[i] / speed; // Segundos que tarda en recorrer media pista
-    // Setea la duración en la animación CSS (definida como linear infinite)
-    track.style.animationDuration = duration + 's';
-  });
-});
+    // Pasadas 2 y 3 en el siguiente fotograma: el navegador ya hizo el layout
+    // por su cuenta, así que leer scrollWidth no fuerza un recálculo extra.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Pasada 2: solo lecturas — scrollWidth es original + clon (x2)
+        const anchos = procesados.map((track) => track.scrollWidth / 2);
+
+        // Pasada 3: escrituras de la duración
+        const speed = 40; // Velocidad objetivo: 40 px/seg
+        procesados.forEach((track, i) => {
+          if (!(anchos[i] > 0)) return; // Pista oculta (ancho 0): conserva la duración del CSS
+          track.style.animationDuration = anchos[i] / speed + 's'; // Animación CSS (linear infinite)
+        });
+      });
+    });
+  }
+
+  // Programa la preparación cuando el navegador esté libre (máx. 2 s de espera).
+  // Respaldo para navegadores sin requestIdleCallback (p. ej. Safari antiguo).
+  function programar() {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(iniciarMarquee, { timeout: 2000 });
+    } else {
+      setTimeout(iniciarMarquee, 200);
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    programar();
+  } else {
+    window.addEventListener('load', programar);
+  }
+})();
 
 /* ============================================================
    TERMINA JS DE CINTA DE TEXTO (marquee)
