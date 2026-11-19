@@ -1,0 +1,316 @@
+<nav class="gt_min_switch auto-contraste-texto notranslate" translate="no" aria-label="Selector de idioma">
+    <a href="#" class="gt_min_link" data-lang="en">EN</a>
+    <span class="gt_min_sep" aria-hidden="true">|</span>
+    <a href="#" class="gt_min_link" data-lang="es">ES</a>
+</nav>
+
+<style>
+  .gt_min_switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--contentfont);
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: .04em;
+  color: var(--text-d);
+  -webkit-user-select: none;
+  user-select: none;
+}
+.gt_min_link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+  opacity: .7;
+  cursor: pointer;
+  transition: opacity .2s, background-color .2s;
+}
+.gt_min_link:hover { opacity: 1; }
+.gt_min_link.active {
+  opacity: 1;
+  background-color: color-mix(in srgb, currentColor 10%, transparent);
+}
+.gt_min_link:focus-visible {
+  opacity: 1;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.gt_min_sep { display: none; }
+
+.gt_min_switch.translating .gt_min_link.active {
+  animation: gt_pulse 1s ease-in-out infinite;
+}
+@keyframes gt_pulse {
+  50% { opacity: .4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gt_min_switch.translating .gt_min_link.active { animation: none; }
+}
+</style>
+
+<script>
+window.TRADUCTOR_EXTRA = {
+  enlaces:  { "/blog": "/es-blog", "/blog-old": "/es-blog" },
+  glosario: { "Video Production": "Producción de video" }
+};
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  var SOURCE_LANG = "en";
+  var TARGET_LANG = "es";
+
+  var BATCH_SIZE  = 80;
+  var MIN_LENGTH  = 2;
+  var CACHE_KEY   = "site_translations_" + SOURCE_LANG + "_" + TARGET_LANG;
+  var LANG_KEY      = "site_lang";
+  var LANG_TIME_KEY = "site_lang_time";
+  var LANG_TTL_MS   = 30 * 60 * 1000;
+
+  var BOTONES = ".main-heading-button";
+  var GLOSARIOS = {
+    "en>es": { "Home": "Inicio", "Close": "Cerrar", "Privacy Policy": "Política de privacidad" },
+    "es>en": { "Inicio": "Home", "Cerrar": "Close", "Política de privacidad": "Privacy Policy" }
+  };
+  var EXTRA = window.TRADUCTOR_EXTRA || {};
+  var glosario = {};
+  (function () {
+    var base = GLOSARIOS[SOURCE_LANG + ">" + TARGET_LANG] || {}, extra = EXTRA.glosario || {}, k;
+    for (k in base)  glosario[k.toLowerCase()] = base[k];
+    for (k in extra) glosario[k.toLowerCase()] = extra[k];
+  })();
+  var enlacesEnPagina = EXTRA.enlaces || {};
+
+  if (window.__gtMinIniciado) return;
+  window.__gtMinIniciado = true;
+
+  var originalTexts = [];
+  var ariaCambiados = [];
+  var enlacesCambiados = [];
+  var translationCache = {};
+  var isTranslated = false;
+  var traduciendo = false;
+  var deseado = null;
+
+  try {
+    var saved = sessionStorage.getItem(CACHE_KEY);
+    if (saved) translationCache = JSON.parse(saved);
+  } catch(e){}
+
+  function saveCache() {
+    try { sessionStorage.setItem(CACHE_KEY, JSON.stringify(translationCache)); } catch(e){}
+  }
+
+  var SKIP_TAGS = ["SCRIPT","STYLE","NOSCRIPT","IFRAME","OBJECT","EMBED","SVG","CODE","PRE","TEXTAREA","INPUT"];
+  var SKIP_CLASSES = ["notranslate","gt_min_switch","goog-te-banner-frame"];
+
+  function shouldSkip(node) {
+    var el = node && node.parentElement;
+    if (!el) return true;
+    while (el) {
+      if (SKIP_TAGS.indexOf(el.tagName) !== -1) return true;
+      if (el.getAttribute && el.getAttribute("translate") === "no") return true;
+      if (el.classList) {
+        for (var i = 0; i < SKIP_CLASSES.length; i++) {
+          if (el.classList.contains(SKIP_CLASSES[i])) return true;
+        }
+      }
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  function collectTextNodes() {
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node) {
+        var text = node.nodeValue.trim();
+        if (text.length < MIN_LENGTH) return NodeFilter.FILTER_REJECT;
+        if (/^[\d\s\.\,\;\:\!\?\@\#\$\%\&\*\(\)\-\_\=\+\[\]\{\}\\\/\|]+$/.test(text)) return NodeFilter.FILTER_REJECT;
+        if (shouldSkip(node)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes = [];
+    while (walker.nextNode()) nodes.push({ node: walker.currentNode, original: walker.currentNode.nodeValue });
+    return nodes;
+  }
+
+  function translateBatch(texts, sl, tl) {
+    return new Promise(function(resolve, reject){
+      var url = "https://translate.googleapis.com/translate_a/t?client=gtx&sl=" + sl + "&tl=" + tl;
+      texts.forEach(function(t){ url += "&q=" + encodeURIComponent(t); });
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.onload = function(){
+        if (xhr.status !== 200) return reject(new Error("HTTP " + xhr.status));
+        try {
+          var data = JSON.parse(xhr.responseText), results = [];
+          if (Array.isArray(data)) {
+            data.forEach(function(item){
+              if (typeof item === "string") results.push(item);
+              else if (Array.isArray(item) && item.length > 0) results.push(item[0]);
+            });
+          } else if (typeof data === "string") results.push(data);
+          resolve(results);
+        } catch(e) { reject(e); }
+      };
+      xhr.onerror = function(){ reject(new Error("Network error")); };
+      xhr.send();
+    });
+  }
+
+  function conEspacios(original, traducido) {
+    var m = original.match(/^(\s*)[\s\S]*?(\s*)$/);
+    return m[1] + traducido + m[2];
+  }
+
+  function glosarioBoton(node, texto) {
+    var fijo = glosario[texto.toLowerCase()];
+    if (!fijo) return null;
+    var el = node.parentElement;
+    return el && el.closest && el.closest(BOTONES) ? fijo : null;
+  }
+
+  function traducirAria() {
+    document.querySelectorAll("[aria-label]").forEach(function(el){
+      var fijo = glosario[el.getAttribute("aria-label").trim().toLowerCase()];
+      if (fijo && el.querySelector(BOTONES)) {
+        ariaCambiados.push({ el: el, original: el.getAttribute("aria-label") });
+        el.setAttribute("aria-label", fijo);
+      }
+    });
+  }
+
+  function ruta(p) { return p.length > 1 ? p.replace(/\/+$/, "") : p; }
+  function traducirEnlaces() {
+    var claves = Object.keys(enlacesEnPagina);
+    if (!claves.length) return;
+    document.querySelectorAll("a[href]").forEach(function(a){
+      var url;
+      try { url = new URL(a.href, location.href); } catch(e) { return; }
+      if (url.origin !== location.origin) return;
+      var destino = enlacesEnPagina[ruta(url.pathname)];
+      if (!destino) return;
+      enlacesCambiados.push({ el: a, original: a.getAttribute("href") });
+      a.setAttribute("href", destino + url.search + url.hash);
+    });
+  }
+
+  function marcarCargando(on) {
+    document.querySelectorAll(".gt_min_switch").forEach(function(n){ n.classList.toggle("translating", on); });
+  }
+
+  async function translatePage() {
+    if (isTranslated || traduciendo) return;
+    traduciendo = true;
+    marcarCargando(true);
+
+    originalTexts = collectTextNodes();
+    var needTranslation = [], needIndices = [];
+
+    originalTexts.forEach(function(item, index){
+      var key = item.original.trim();
+      var fijo = glosarioBoton(item.node, key);
+      if (fijo) item.node.nodeValue = conEspacios(item.original, fijo);
+      else if (translationCache[key]) item.node.nodeValue = conEspacios(item.original, translationCache[key]);
+      else { needTranslation.push(key); needIndices.push(index); }
+    });
+
+    for (var i = 0; i < needTranslation.length; i += BATCH_SIZE) {
+      var batch = needTranslation.slice(i, i + BATCH_SIZE);
+      var batchIndices = needIndices.slice(i, i + BATCH_SIZE);
+      try {
+        var translated = await translateBatch(batch, SOURCE_LANG, TARGET_LANG);
+        translated.forEach(function(text, j){
+          translationCache[batch[j]] = text;
+          var item = originalTexts[batchIndices[j]];
+          item.node.nodeValue = conEspacios(item.original, text);
+        });
+      } catch(e) {
+        console.warn("Translation batch error:", e);
+      }
+    }
+    if (needTranslation.length) saveCache();
+    traducirAria();
+    traducirEnlaces();
+
+    isTranslated = true;
+    traduciendo = false;
+    document.documentElement.lang = TARGET_LANG;
+    marcarCargando(false);
+
+    if (deseado === SOURCE_LANG) restorePage();
+  }
+
+  function restorePage() {
+    originalTexts.forEach(function(item){ item.node.nodeValue = item.original; });
+    ariaCambiados.forEach(function(c){ c.el.setAttribute("aria-label", c.original); });
+    enlacesCambiados.forEach(function(c){ c.el.setAttribute("href", c.original); });
+    ariaCambiados = []; enlacesCambiados = [];
+    isTranslated = false;
+    document.documentElement.lang = SOURCE_LANG;
+  }
+
+  function updateActive(lang) {
+    document.querySelectorAll(".gt_min_link").forEach(function(el){
+      var activo = el.getAttribute("data-lang") === lang;
+      el.classList.toggle("active", activo);
+      if (activo) el.setAttribute("aria-current", "true"); else el.removeAttribute("aria-current");
+    });
+  }
+
+  function saveLang(lang) {
+    try {
+      sessionStorage.setItem(LANG_KEY, lang);
+      sessionStorage.setItem(LANG_TIME_KEY, String(Date.now()));
+    } catch(e) {}
+  }
+
+  function getSavedLang() {
+    try {
+      var lang = sessionStorage.getItem(LANG_KEY);
+      var time = parseInt(sessionStorage.getItem(LANG_TIME_KEY), 10);
+      if (!lang || !time || isNaN(time)) return null;
+      if (Date.now() - time > LANG_TTL_MS) {
+        sessionStorage.removeItem(LANG_KEY);
+        sessionStorage.removeItem(LANG_TIME_KEY);
+        return null;
+      }
+      return lang;
+    } catch(e) { return null; }
+  }
+
+  var idiomaInicial = getSavedLang() === TARGET_LANG ? TARGET_LANG : SOURCE_LANG;
+  updateActive(idiomaInicial);
+
+  function arrancar() {
+    updateActive(idiomaInicial);
+    if (idiomaInicial === TARGET_LANG) translatePage();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", arrancar);
+  else arrancar();
+
+  document.addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest(".gt_min_link");
+    if (!a) return;
+    e.preventDefault();
+    var lang = a.getAttribute("data-lang");
+    if (lang !== SOURCE_LANG && lang !== TARGET_LANG) return;
+
+    deseado = lang;
+    updateActive(lang);
+    saveLang(lang);
+    if (lang === SOURCE_LANG) { if (isTranslated) restorePage(); }
+    else translatePage();
+  });
+
+})();
+</script>

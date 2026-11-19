@@ -1,0 +1,58 @@
+<!-- Fondos de video de GHL: no se descargan al abrir la página.
+     Esperan a que la página termine de cargar (más un momento libre) o a que el
+     visitante se acerque a la sección, lo que pase primero.
+     DÓNDE: elemento de código en ESTA página, en una sección ANTES de la del video
+     (por ejemplo, debajo del hero). -->
+<script>
+(function () {
+  "use strict";
+  var pendientes = [];
+
+  function soltar(v) {
+    if (!v.hasAttribute("data-src-diferido")) return;
+    v.preload = "auto";
+    v.src = v.getAttribute("data-src-diferido");
+    v.removeAttribute("data-src-diferido");
+    var p = v.play && v.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+
+  /* Si el visitante baja rápido antes de que termine la carga, sale antes */
+  var io = "IntersectionObserver" in window ? new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (e.isIntersecting) { io.unobserve(e.target); soltar(e.target); }
+    });
+  }, { rootMargin: "600px 0px" }) : null;
+
+  function diferir(v) {
+    var src = v.getAttribute("src");
+    if (!src || v.hasAttribute("data-src-diferido")) return;
+    v.setAttribute("data-src-diferido", src);
+    v.removeAttribute("src");
+    v.preload = "none";
+    pendientes.push(v);
+    if (io) io.observe(v);
+  }
+  function revisar(n) {
+    if (!n || n.nodeType !== 1) return;
+    if (n.tagName === "VIDEO" && n.classList.contains("bgVideo")) diferir(n);
+    else if (n.querySelectorAll) n.querySelectorAll("video.bgVideo").forEach(diferir);
+  }
+
+  revisar(document.documentElement);
+  var mo = new MutationObserver(function (lista) {
+    lista.forEach(function (m) { m.addedNodes.forEach(revisar); });
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+
+  /* Carga total + 3 s + momento libre del navegador */
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      mo.disconnect();
+      (window.requestIdleCallback || function (f) { setTimeout(f, 0); })(function () {
+        pendientes.forEach(function (v) { if (io) io.unobserve(v); soltar(v); });
+      }, { timeout: 2000 });
+    }, 3000);
+  });
+})();
+</script>

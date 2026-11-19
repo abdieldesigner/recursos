@@ -63,6 +63,19 @@
 }
 </style>
 
+<!-- OPCIONAL, SOLO PARA ESTA PÁGINA (va ANTES del script principal; si no lo necesitas, bórralo).
+     El script principal es igual en todas las webs; lo que cambia por página va aquí.
+     - enlaces:  "ruta en el idioma original" → "ruta en el idioma traducido". Al traducir se cambia el href
+                 de esos enlaces y al volver al original se restaura. Las rutas empiezan con "/".
+     - glosario: "texto de botón" → "traducción forzada" (solo botones; se suma al glosario general).
+<script>
+window.TRADUCTOR_EXTRA = {
+  enlaces:  { "/blog": "/es-blog" },
+  glosario: { }
+};
+</script>
+-->
+
 <script>
 (function(){
   "use strict";
@@ -80,12 +93,32 @@
   var LANG_TIME_KEY = "site_lang_time";
   var LANG_TTL_MS   = 30 * 60 * 1000; // recuerda el idioma elegido 30 minutos
 
+  // ── Glosario de botones: traducción forzada, SOLO para el texto de botones ──
+  // Clave = texto original (sin importar mayúsculas), valor = traducción. Va por dirección
+  // ("origen>destino"), así que sirve igual si la web es en→es o es→en.
+  // Los textos que no estén aquí, o que no estén dentro de un botón, los traduce Google como siempre.
+  var BOTONES = ".main-heading-button"; // texto de los botones de GHL
+  var GLOSARIOS = {
+    "en>es": { "Home": "Inicio", "Close": "Cerrar", "Privacy Policy": "Política de privacidad" },
+    "es>en": { "Inicio": "Home", "Cerrar": "Close", "Política de privacidad": "Privacy Policy" }
+  };
+  var EXTRA = window.TRADUCTOR_EXTRA || {};  // ajustes opcionales de ESTA página (ver bloque de arriba)
+  var glosario = {};
+  (function () {
+    var base = GLOSARIOS[SOURCE_LANG + ">" + TARGET_LANG] || {}, extra = EXTRA.glosario || {}, k;
+    for (k in base)  glosario[k.toLowerCase()] = base[k];
+    for (k in extra) glosario[k.toLowerCase()] = extra[k];
+  })();
+  var enlacesEnPagina = EXTRA.enlaces || {}; // "/ruta original" → "/ruta traducida"
+
   // Si el script está pegado en más de un elemento (ej. menú móvil), solo corre una vez
   if (window.__gtMinIniciado) return;
   window.__gtMinIniciado = true;
 
   // ── Estado ──
   var originalTexts = [];     // {node, original}
+  var ariaCambiados = [];     // {el, original}: aria-label de botones que cambió el glosario
+  var enlacesCambiados = [];  // {el, original}: href que cambió por la ruta del otro idioma
   var translationCache = {};  // "texto original" → "texto traducido"
   var isTranslated = false;
   var traduciendo = false;
@@ -166,6 +199,41 @@
     return m[1] + traducido + m[2];
   }
 
+  // Traducción forzada del glosario, solo si el texto está dentro de un botón
+  function glosarioBoton(node, texto) {
+    var fijo = glosario[texto.toLowerCase()];
+    if (!fijo) return null;
+    var el = node.parentElement;
+    return el && el.closest && el.closest(BOTONES) ? fijo : null;
+  }
+
+  // aria-label de los botones (lo que lee un lector de pantalla): solo con el glosario
+  function traducirAria() {
+    document.querySelectorAll("[aria-label]").forEach(function(el){
+      var fijo = glosario[el.getAttribute("aria-label").trim().toLowerCase()];
+      if (fijo && el.querySelector(BOTONES)) {
+        ariaCambiados.push({ el: el, original: el.getAttribute("aria-label") });
+        el.setAttribute("aria-label", fijo);
+      }
+    });
+  }
+
+  // Cambia el href de los enlaces definidos en TRADUCTOR_EXTRA.enlaces (misma web, misma ruta)
+  function ruta(p) { return p.length > 1 ? p.replace(/\/+$/, "") : p; }
+  function traducirEnlaces() {
+    var claves = Object.keys(enlacesEnPagina);
+    if (!claves.length) return;
+    document.querySelectorAll("a[href]").forEach(function(a){
+      var url;
+      try { url = new URL(a.href, location.href); } catch(e) { return; }
+      if (url.origin !== location.origin) return;
+      var destino = enlacesEnPagina[ruta(url.pathname)];
+      if (!destino) return;
+      enlacesCambiados.push({ el: a, original: a.getAttribute("href") });
+      a.setAttribute("href", destino + url.search + url.hash);
+    });
+  }
+
   function marcarCargando(on) {
     document.querySelectorAll(".gt_min_switch").forEach(function(n){ n.classList.toggle("translating", on); });
   }
@@ -180,7 +248,9 @@
 
     originalTexts.forEach(function(item, index){
       var key = item.original.trim();
-      if (translationCache[key]) item.node.nodeValue = conEspacios(item.original, translationCache[key]);
+      var fijo = glosarioBoton(item.node, key);
+      if (fijo) item.node.nodeValue = conEspacios(item.original, fijo);
+      else if (translationCache[key]) item.node.nodeValue = conEspacios(item.original, translationCache[key]);
       else { needTranslation.push(key); needIndices.push(index); }
     });
 
@@ -199,6 +269,8 @@
       }
     }
     if (needTranslation.length) saveCache();
+    traducirAria();
+    traducirEnlaces();
 
     isTranslated = true;
     traduciendo = false;
@@ -210,6 +282,9 @@
 
   function restorePage() {
     originalTexts.forEach(function(item){ item.node.nodeValue = item.original; });
+    ariaCambiados.forEach(function(c){ c.el.setAttribute("aria-label", c.original); });
+    enlacesCambiados.forEach(function(c){ c.el.setAttribute("href", c.original); });
+    ariaCambiados = []; enlacesCambiados = [];
     isTranslated = false;
     document.documentElement.lang = SOURCE_LANG;
   }

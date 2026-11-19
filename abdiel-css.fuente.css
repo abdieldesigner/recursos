@@ -127,6 +127,10 @@ IMPORTANTE:
 body {
   	--cobalt: var(--accent-color-custom, #0047AB);
   }
+
+.blog-item-description .compact-more-button {
+    color: var(--primary-color-custom, #0047AB) !important;
+}
   .form-step .active, .divider-form i, .step2 i {
     color: var(--accent-color-custom, #0047AB) !important;
 }
@@ -3307,7 +3311,10 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     font-weight: var(--font-weight-btn, revert);
 }
 
-.btn-footer :is(.main-heading-button, a, p, .button-icon-end) {
+/* Los selectores 2 y 3 igualan la fuerza de .btn-vp (3 clases) y, al ir después, ganan con ambas clases (en el mismo elemento o btn-footer en un contenedor) */
+.btn-footer :is(.main-heading-button, a, p, .button-icon-end),
+.btn-footer.btn-vp :is(.main-heading-button, .button-icon-end),
+.btn-footer .btn-vp :is(.main-heading-button, .button-icon-end) {
     font-size: 13px !important;
     font-weight: 400 !important;
     line-height: 1.75 !important;
@@ -3982,6 +3989,11 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
             font-size: var(--size-font-btn, 14px);
         }
     }
+
+    /* Texto de términos y condiciones del formulario: 12px forzado */
+    [class*="terms-text-container"] * {
+        font-size: 12px !important;
+    }
 }
 
 /* =========================================
@@ -4444,3 +4456,126 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
 /* ============================================================
    TERMINA CSS SELECTOR DE IDIOMA
    ============================================================ */
+
+/* Banner de cookies nativo de GHL (.hl-cookie-consent-banner): tarjeta flotante con variables de la web */
+#__nuxt .hl-cookie-consent-banner {
+  position: fixed !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: 16px !important;
+  left: 50% !important;
+  transform: translateX(-50%);
+  width: min(980px, calc(100% - 32px)) !important;
+  box-sizing: border-box;
+  /* Sin display: GHL lo oculta con style="display:none" al aceptar; forzarlo lo dejaba visible */
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 18px !important;
+  padding: 12px 14px 12px 20px !important;
+  background: var(--bg-p-l, #fff) !important;
+  color: var(--text-d, #222);
+  border: 1px solid color-mix(in srgb, var(--accent-color-custom, #999) 30%, transparent);
+  border-radius: var(--radius-principal, 14px);
+  box-shadow: 0 12px 34px color-mix(in srgb, var(--text-d, #000) 16%, transparent);
+  font-family: var(--contentfont, sans-serif), sans-serif;
+}
+
+#__nuxt .hl-cookie-consent-banner .banner-text-container {
+  flex: 1 1 auto;
+  max-width: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  line-height: 1.45 !important;
+  text-align: left !important;
+}
+
+#__nuxt .hl-cookie-consent-banner .banner-text,
+#__nuxt .hl-cookie-consent-banner .learn-more {
+  margin: 0;
+  font-family: var(--contentfont, sans-serif), sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+  color: var(--text-d, #222) !important;
+  text-align: left !important;
+}
+
+#__nuxt .hl-cookie-consent-banner .learn-more {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--accent-color-custom-2, var(--text-d, #222)) !important;
+}
+
+#__nuxt .hl-cookie-consent-banner .banner-actions-container {
+  flex: 0 0 auto !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+/* Botones: misma forma que los de la web */
+#__nuxt .hl-cookie-consent-banner .button {
+  width: auto !important;
+  margin: 0 !important;
+  padding: 9px 18px !important;
+  border-radius: var(--radius-element, 100px) !important;
+  font-family: var(--contentfont, sans-serif), sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  box-shadow: none !important;
+  transition: box-shadow .3s, background-color .3s, filter .3s;
+}
+
+/* Principal: degradado/acento de la web + color de texto de botón */
+#__nuxt .hl-cookie-consent-banner .button.primary {
+  background: var(--degradado-boton, var(--accent-color-custom, #222)) !important;
+  color: var(--color-texto-boton, #fff) !important;
+  border: 0 !important;
+}
+#__nuxt .hl-cookie-consent-banner .button.primary:hover {
+  box-shadow: var(--resplandor-boton, 0 0 1.5rem rgba(0, 0, 0, .15)) !important;
+  filter: brightness(1.03);
+}
+
+/* Secundarios: contorno suave en el tono de acento */
+#__nuxt .hl-cookie-consent-banner :is(.button.secondary, .button.customize) {
+  background: transparent !important;
+  color: var(--text-d, #222) !important;
+  border: 1px solid color-mix(in srgb, var(--accent-color-custom, #999) 55%, transparent) !important;
+}
+#__nuxt .hl-cookie-consent-banner :is(.button.secondary, .button.customize):hover {
+  background: color-mix(in srgb, var(--accent-color-custom, #999) 12%, transparent) !important;
+}
+
+/* Móvil: texto arriba y los dos botones lado a lado */
+@media (max-width: 600px) {
+  #__nuxt .hl-cookie-consent-banner {
+    bottom: 10px !important;
+    width: calc(100% - 20px) !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 12px !important;
+  }
+  #__nuxt .hl-cookie-consent-banner .banner-text,
+  #__nuxt .hl-cookie-consent-banner .learn-more {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+  #__nuxt .hl-cookie-consent-banner .banner-actions-container {
+    width: 100% !important;
+    justify-content: stretch !important;
+  }
+  #__nuxt .hl-cookie-consent-banner .button {
+    flex: 1 1 0;
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+  }
+}
