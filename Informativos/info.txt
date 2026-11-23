@@ -47,6 +47,63 @@ en ese punto SÍ se podría considerar eliminar esta condición de
 seguridad (body:has(...)) de las reglas, ya que dejaría de ser
 necesaria. Hasta entonces, debe mantenerse.
 
+>>> ACTUALIZACIÓN 2026-11-23: EL GUARDIÁN YA FUE ELIMINADO <<<
+
+Qué se hizo:
+Se quitó el prefijo body:has(.colores-abdiel, .colores-hub365) de las 7
+reglas de colores de abdiel-css.fuente.css. Las clases .colores-abdiel y
+.colores-hub365 se dejaron como estaban, pero ya no son necesarias para
+que esas reglas apliquen: ahora se aplican siempre, sin comprobar si la
+clase existe.
+
+Por qué:
+- Rendimiento: body:has(...) obliga al navegador a mirar dentro de todo
+  el body y a repetir la comprobación cada vez que cambia el DOM (GHL/Nuxt
+  lo cambia mucho al cargar). Una de las reglas afectaba a todos los
+  h1, h2, h3, h4 y p de la página.
+- El guardián era un interruptor temporal mientras se migraban las webs.
+  Ya pasó un año y la mayoría de las webs tienen las variables de color
+  bien configuradas.
+
+Cómo era el código antes (para volver a aplicarlo):
+Cada regla empezaba con este prefijo, seguido de un espacio:
+
+  body:has(.colores-abdiel, .colores-hub365)
+
+Las 7 reglas afectadas (buscar en abdiel-css.fuente.css el comentario
+"antes: body:has(.colores-abdiel, .colores-hub365)" o la nota
+"2026-11-23"):
+  1. .bg-degradado (y .faq-degradado ... .active)
+  2. .cinta2 span, .cinta2 .marquee-text
+  3. h1/h2 strong y .gradient-text / .text-degradado (texto con degradado)
+  4. Esas mismas, en su versión ::before
+  5. h1, h2, h3, h4, p, .button-icon-end ::before
+  6. .boton-degradado, .btn-degradado
+  7. .boton-degradado, .btn-degradado en :hover
+
+Para volver atrás: poner de nuevo el prefijo delante del selector de cada
+una de esas reglas y regenerar abdiel-css.css con
+"node quitar-comentarios-css.js".
+
+Cuidado (riesgo conocido):
+- Una web que NO tenga definidas las variables --degradado-texto,
+  --degradado-fondo o --degradado-boton ahora recibe esas reglas. Con
+  --degradado-texto indefinido, el texto de h1/h2 strong,
+  .text-degradado y .cinta2 puede quedar transparente (invisible), porque
+  la regla pone -webkit-text-fill-color: transparent.
+- Al quitar body:has(...) baja la especificidad de esas reglas (de
+  0,1,1 a 0,1,0 o similar). Alguna regla de la web podría ahora ganarles.
+
+>>> 2026-11-23: .hub365-ghl-not COMENTADO <<<
+La regla "body:has(.hub365-ghl-not) #__nuxt * { margin:0; padding:0;
+background: transparent; color: inherit; border: 0; box-shadow: none;
+text-decoration: none }" quedó comentada completa en
+abdiel-css.fuente.css (código intacto, buscar "DESACTIVADO 2026-11-23").
+Motivo: el selector * dentro de :has era el más caro de la librería.
+El JS "ACTIVACION SIN VERIFICACION" de abdiel-js.js sigue igual; su clase
+hub365-ghl-not ya no produce efecto visual mientras la regla esté
+comentada. Para reactivarla: quitar el comentario y regenerar.
+
 --------------------------------------------------
 Carrusel con scroll-pin (avanza solo con el scroll de la página)
 --------------------------------------------------
@@ -176,6 +233,13 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main
 https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-css.css
 https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
 
+
+
+Sí, es el GIF transparente de 1×1 incrustado. Se usa cuando en GHL tienes que ponerle una imagen de fondo a un elemento (para que GHL cree el contenedor del fondo) pero no quieres que cargue ninguna imagen real:
+
+data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7
+
+
 */
 
 /* opciones para iconos text ★ ✦ ✶ ✰ ✪ ☆ ✱ ♡ ❂ ❋ ❆ ♥︎ ❤︎ 𓆩♡𓆪 ⊗ ◉ ● ● • ∙ ○ ◎ ◦ ∘ ☢ ♛ ♚ ♔ ❀ ✿  ⚡ 🗲 ☀️ ☁︎ 💀 ☠ ✈︎ ✈️ ✒ 🤿 🐟 🐠 */
@@ -263,3 +327,32 @@ https://purge.jsdelivr.net/gh/abdieldesigner/recursos@main/abdiel-js.js
     --a-e-anim: animate__fadeInUp;
     --animate-btn: animate__fadeIn;
 }
+
+
+
+--------------------------------------------------
+2026-11-23: CSS del calendario (.nr-*) retirado de la librería
+--------------------------------------------------
+
+Qué se hizo:
+El bloque "CSS Calendario" (clases .nr-wrap, .nr-chip, .nr-month, .nr-modal,
+.nr-btn, #nr-chips, etc.) quedó comentado en abdiel-css.fuente.css (buscar
+"DESACTIVADO 2026-11-23: CSS del calendario"). Como la versión en vivo
+(abdiel-css.css) se genera sin comentarios, ese CSS ya no se descarga en las
+webs (~3,5 KB menos).
+
+Por qué es seguro:
+Extras/Calendario Google o manual .html ya trae el CSS completo del
+calendario dentro de su propio <style>, así que funciona sin la librería.
+Se usa siempre pegando ese archivo completo (HTML + CSS).
+
+Cuidado:
+- Una web que tenga solo el HTML del calendario, sin el <style> del archivo
+  de Extras, perdería los estilos. Para volver atrás: quitar el comentario
+  en abdiel-css.fuente.css y regenerar con "node quitar-comentarios-css.js".
+- El bloque definía en :root las variables globales --accent1, --accent2,
+  --ink y --muted (la librería con --accent1 dorado #e3c35b; el archivo de
+  Extras con --accent1 morado #8e73c2). Ya no se definen globalmente: solo
+  existen cuando se pega el archivo de Extras.
+- El bloque "Variebles de calendario" (widget nativo de citas de GHL,
+  .appointment_widgets--revamp--container) NO se tocó.

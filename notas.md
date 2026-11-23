@@ -37,3 +37,22 @@ Ideas para considerar más adelante. Ninguna está aprobada ni aplicada.
 **Por decidir:**
 - Si se quita la regla de la hora o se conserva como respaldo (recomendado: quitarla).
 - Si se añade un `addEventListener('change', ...)` para que cambie en vivo cuando el usuario cambia el modo del dispositivo con la página abierta.
+
+## Probar las clases flip-1/2/3 e img-expan-g en una web real
+
+**Estado:** pendiente de verificar. Anotada el 2026-11-23.
+
+**Situación:** estas clases existen en `abdiel-css.fuente.css` (alrededor de las líneas 3010-3120) pero nunca se han usado en una web. No hay documentación en `info.txt` ni en los comentarios, y no se sabe si funcionan bien.
+
+**Cómo deberían funcionar (según el CSS, sin probar):**
+- `flip-1`, `flip-2` o `flip-3` va en la tarjeta (columna, fila o sección), y `flip-contenido` en el elemento de dentro que aparece. `flip-1`: fade in. `flip-2`: fade in + sube 12 px + escala. `flip-3`: giro 3D desde la izquierda.
+- `img-expan-g` va en la fila que contiene las imágenes (no se sabe seguro si es fila o sección). La primera imagen se ve a 300 px y las demás al 10 %; al pasar el ratón, la imagen se expande a 300 px. En móvil, ocupa la mitad.
+- Se ponen en GHL en Avanzado → Clases CSS.
+
+**Qué verificar:**
+- Que cada flip aparezca al pasar el ratón en la web publicada.
+- Qué pasa en móvil: el contenido empieza con `opacity: 0` y solo sale con `:hover`, así que puede quedar oculto (riesgo de ocultar contenido sin hover).
+- En `img-expan-g`, en qué elemento exacto va la clase para que funcione.
+- Si en el constructor se ven los efectos al activar el botón de custom code (cada regla tiene una segunda opción con `body:has(#hl-builder-render-custom-code-button.hl-active-btn)` para el editor).
+
+**Después de probarlo:** documentar en `info.txt` cómo se usan, igual que el carrusel con scroll-pin.

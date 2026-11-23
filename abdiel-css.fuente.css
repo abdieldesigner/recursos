@@ -346,7 +346,8 @@ body .colores-a2 {
 
 
 
-body:has(.colores-abdiel, .colores-hub365) .bg-degradado,
+/* 2026-11-23: se eliminó el guardián body:has(.colores-abdiel, .colores-hub365) de las reglas de colores; ahora aplican siempre. Detalle en Informativos/info.txt */
+.bg-degradado,
 .faq-degradado .hl-faq-child-heading.active {
     box-shadow: none;
     background: var(--degradado-fondo);
@@ -391,46 +392,48 @@ body:has(.colores-abdiel, .colores-hub365) .bg-degradado,
 .bg-degradado-p {
   background-image: linear-gradient(
     135deg,
-    var(--primary-color-custom),
-    color-mix(in srgb, var(--primary-color-custom) 70%, white)
+    var(--primary-color-custom, #39ff14),
+    color-mix(in srgb, var(--primary-color-custom, #39ff14) 70%, white)
   );
 }
 
 .bg-degradado-s {
   background-image: linear-gradient(
     135deg,
-    var(--secondary-color-custom),
-    color-mix(in srgb, var(--secondary-color-custom) 70%, white)
+    var(--secondary-color-custom, #39ff14),
+    color-mix(in srgb, var(--secondary-color-custom, #39ff14) 70%, white)
   );
 }
 
 .bg-degradado-a {
   background-image: linear-gradient(
     135deg,
-    var(--accent-color-custom),
-    color-mix(in srgb, var(--accent-color-custom) 70%, white)
+    var(--accent-color-custom, #39ff14),
+    color-mix(in srgb, var(--accent-color-custom, #39ff14) 70%, white)
   );
 }
 
-body:has(.colores-abdiel, .colores-hub365) :is(.cinta2 span, .cinta2 .marquee-text) {
+/* antes: body:has(.colores-abdiel, .colores-hub365) */
+:is(.cinta2 span, .cinta2 .marquee-text) {
     color: #646464 !important;
     -webkit-text-fill-color: transparent;
-    background-image: var(--degradado-texto) !important;
+    background-image: var(--degradado-texto, linear-gradient(currentColor, currentColor)) !important;
     padding-right: .15rem;
     -webkit-background-clip: text;
     background-clip: text;
 }
 
+/* Color de respaldo verde neón (#39ff14): si una clase ct-*/bg-* se ve de ese color, falta declarar la variable en la web */
 .ct-p * {
-    color: var(--primary-color-custom);
+    color: var(--primary-color-custom, #39ff14);
 }
 
 .ct-s * {
-    color: var(--secondary-color-custom);
+    color: var(--secondary-color-custom, #39ff14);
 }
 
 .ct-a * {
-    color: var(--accent-color-custom);
+    color: var(--accent-color-custom, #39ff14);
 }
 
 .bg-p-d {
@@ -446,31 +449,33 @@ body:has(.colores-abdiel, .colores-hub365) :is(.cinta2 span, .cinta2 .marquee-te
     background-color: var(--bg-s-l, #f3f1f2) !important;
 }
 .bg-p {
-    background-color: var(--primary-color-custom) !important;
+    background-color: var(--primary-color-custom, #39ff14) !important;
 }
 .bg-s {
-    background-color: var(--secondary-color-custom) !important;
+    background-color: var(--secondary-color-custom, #39ff14) !important;
 }
 .bg-a {
-    background-color: var(--accent-color-custom) !important;
+    background-color: var(--accent-color-custom, #39ff14) !important;
 }
 .bg-a2 {
-    background-color: var(--accent-color-custom-2) !important;
+    background-color: var(--accent-color-custom-2, #39ff14) !important;
 }
 
-body:has(.colores-abdiel, .colores-hub365) :is(
+/* antes: body:has(.colores-abdiel, .colores-hub365) */
+:is(
     :is(h1, h2) strong,
     :is(.gradient-text, .text-degradado) :is(h1, h2, strong, .counter-value, .timer-box > .count)
   ) {
     color: var(--text-d);
     -webkit-text-fill-color: transparent;
-    background-image: var(--degradado-texto);
+    background-image: var(--degradado-texto, linear-gradient(currentColor, currentColor));
     padding-right: .15rem;
     -webkit-background-clip: text;
     background-clip: text;
 }
 
-body:has(.colores-abdiel, .colores-hub365) :is(
+/* antes: body:has(.colores-abdiel, .colores-hub365) */
+:is(
     :is(h1, h2) strong,
     :is(.gradient-text, .text-degradado) :is(h1, h2, strong, .counter-value, .timer-box > .count)
 )::before {
@@ -516,7 +521,8 @@ body:has(.colores-abdiel, .colores-hub365) :is(
 
 
 
-body:has(.colores-abdiel, .colores-hub365) :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .algunaotraclase *)::before   {
+/* antes: body:has(.colores-abdiel, .colores-hub365) */
+:is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .algunaotraclase *)::before   {
     color: currentColor;
     padding-left: .15rem;
 }
@@ -786,10 +792,11 @@ html {
    TERMINA CSS: SEPARACIÓN ENTRE ELEMENTOS
    ========================================= */
 
+/* DESACTIVADO 2026-11-23 (rendimiento: selector * dentro de :has). Código intacto para reactivar: quitar este comentario.
 body:has(.hub365-ghl-not) #__nuxt * {
-  /* all: inherit !important; 
+  all: inherit !important; 
     box-sizing: border-box !important;
-    display: block !important;*/
+    display: block !important;
     margin: 0 !important;
     padding: 0 !important;
     background: transparent !important;
@@ -798,6 +805,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     box-shadow: none !important;
     text-decoration: none !important;
 }
+*/
 
 
 /* =========================================
@@ -2033,7 +2041,8 @@ body:has(.hub365-ghl-not) #__nuxt * {
    Comienza CSS Calendario
    ========================================= */
 
-/*<!-- ===== Calendario Abdiel: chips, meses en cajas, modal con descripción y links ===== -->*/
+/* DESACTIVADO 2026-11-23: CSS del calendario .nr-* (ya viene incluido en Extras/Calendario Google o manual .html). Para reactivar: quitar este comentario.
+<!-- ===== Calendario Abdiel: chips, meses en cajas, modal con descripción y links ===== -->
 
   :root{ --accent1:#e3c35b; --accent2:#b6a1e1; --ink:#17151f; --muted:#8c8a96; }
   .nr-wrap{max-width:1200px;margin:0 auto;padding:24px 16px;font-family:var(--contentfont)}
@@ -2059,7 +2068,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
   .nr-summary li{font-size:13px;display:flex;gap:8px;align-items:center;padding:4px 0;font-family:var(--contentfont)}
   .nr-pill{padding:3px 8px;border-radius:999px;background:var(--accent2);font-size:11px;color:#2b2550}
 
-  /* Modal centrado + overlay */
+   Modal centrado + overlay 
   .nr-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:9998}
   .nr-modal{position:fixed;inset:0;display:none;z-index:9999;align-items:center;justify-content:center;padding:20px}
   .nr-modal__card{width:min(640px, 94vw);background:#fff;color:#111;border-radius:16px;
@@ -2071,14 +2080,14 @@ body:has(.hub365-ghl-not) #__nuxt * {
   .nr-modal__body{font-size:14px;color:#222}
   .nr-modal__body a{color:#111;text-decoration:underline}
 
-  /* Botones del modal (más pequeños y en fila) */
+   Botones del modal (más pequeños y en fila) 
   .nr-modal__actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
   .nr-btn{display:inline-flex;align-items:center;justify-content:center;
     padding:8px 12px;border-radius:12px;font-weight:600;font-size:13px;text-decoration:none;line-height:1}
   .nr-btn--primary{background:#111;color:#fff;border:1px solid #111}
   .nr-btn--ghost{background:transparent;color:#111;border:1px solid #111}
   
-  /* Etiquetas - botones de cada evento */
+   Etiquetas - botones de cada evento 
 #nr-chips {
   display: flex;     
   flex-wrap: wrap;         
@@ -2086,13 +2095,13 @@ body:has(.hub365-ghl-not) #__nuxt * {
 }
   
  @media (max-width: 768px) {
-/* ajustar tamaño de calendario en movil */
+ ajustar tamaño de calendario en movil 
   .nr-month {
     margin-left: -30px;
     scale: 0.95;
   }
 }
-
+*/
 
 /* =========================================
    Termina CSS Calendario
@@ -3322,7 +3331,8 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
     text-align: left !important;
 }
 
-body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado) {
+/* antes: body:has(.colores-abdiel, .colores-hub365) */
+:is(.boton-degradado, .btn-degradado) {
     box-shadow: none;
     background: var(--degradado-boton, var(--accent-color-custom, #a8a8a8));
     transition: all .4s;
@@ -3338,7 +3348,8 @@ body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado)
     font-family: var(--btn-font) !important;
 }
 
-body:has(.colores-abdiel, .colores-hub365) :is(.boton-degradado, .btn-degradado):hover {
+/* antes: body:has(.colores-abdiel, .colores-hub365) */
+:is(.boton-degradado, .btn-degradado):hover {
     box-shadow: var(--resplandor-boton);
 }
 
@@ -3574,8 +3585,8 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     inset: 0;
     background: linear-gradient(
         100deg,
-        var(--bg-p-d) 30%,
-        color-mix(in srgb, var(--bg-p-d) 72%, transparent) 46%,
+        var(--bg-p-d, #0d0d0d) 30%,
+        color-mix(in srgb, var(--bg-p-d, #0d0d0d) 72%, transparent) 46%,
         transparent 62%
     );
 }
@@ -3585,8 +3596,8 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
     .capa-bg-d .bgVideoWrapper::after {
         background: linear-gradient(
             143deg,
-            var(--bg-p-d) 30%,
-            color-mix(in srgb, var(--bg-p-d) 72%, transparent) 60%,
+            var(--bg-p-d, #0d0d0d) 30%,
+            color-mix(in srgb, var(--bg-p-d, #0d0d0d) 72%, transparent) 60%,
             transparent 75%
         );
     }
@@ -4417,6 +4428,8 @@ body:has(.animate-btn-not) :is(.btn-link, .btn-border, .btn-3d, .boton-degradado
   -webkit-user-select: none;
   user-select: none;
 }
+/* Fondo oscuro: agrega la clase idioma-claro al selector y usa --text-l en vez de --text-d */
+.gt_min_switch.idioma-claro { --idioma-color: var(--text-l); }
 .gt_min_link {
   display: inline-flex;
   align-items: center;

@@ -13,7 +13,7 @@
   font-size: 14px;
   line-height: 1;
   letter-spacing: .04em;
-  color: var(--text-d);
+  color: var(--idioma-color, var(--text-l));
   -webkit-user-select: none;
   user-select: none;
 }
@@ -56,8 +56,16 @@
 
 <script>
 window.TRADUCTOR_EXTRA = {
-  enlaces:  { "/blog": "/es-blog", "/blog-old": "/es-blog" },
-  glosario: { "Video Production": "Producción de video" }
+  enlaces:  { },
+  glosario: {
+    "Citas": "Appointments",
+    "Blog": "Blog",
+    "Sobre Ulises": "About Ulises",
+    "Mentoría 1:1": "1:1 Mentorship",
+    "Conocer su historia": "Learn the story",
+    "Conoce Construye tu Pozo": "Discover Build Your Well",
+    "Construye tu Pozo": "Build Your Well"
+  }
 };
 </script>
 
@@ -65,8 +73,8 @@ window.TRADUCTOR_EXTRA = {
 (function(){
   "use strict";
 
-  var SOURCE_LANG = "en";
-  var TARGET_LANG = "es";
+  var SOURCE_LANG = "es";
+  var TARGET_LANG = "en";
 
   var BATCH_SIZE  = 80;
   var MIN_LENGTH  = 2;
