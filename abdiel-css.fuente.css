@@ -3206,6 +3206,10 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
+/* Color del corazón .icon-code: poner code-optimizacion, code-general o code-adaptativo (en el mismo elemento o en un ancestro) */
+.icon-code.code-optimizacion, .code-optimizacion .icon-code { background-color: var(--color-code-optimizacion, #00ff66) !important; }
+.icon-code.code-general, .code-general .icon-code { background-color: var(--color-code-general, #ff00e6) !important; }
+.icon-code.code-adaptativo, .code-adaptativo .icon-code { background-color: var(--color-code-adaptativo, #2b7fff) !important; }
 /* TEXTOS */
 
 
@@ -3302,6 +3306,8 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 }
 .radius-principal-s {
     border-radius: var(--radius-principal) !important;
+}
+#__nuxt .radius-principal-s {
     overflow: hidden;
 }
 
@@ -3505,7 +3511,7 @@ body:not(:has(.btn-border-not-effect)) .btn-border:hover :is(.main-heading-butto
     box-shadow:
     inset 0 0 0 1px var(--card-border-color, var(--accent-color-custom)),
     var(--resplandor-boton);
-    /* Para desactivar el resplandor: :is(.grid-card-border, .card-border) {--resplandor-boton: 0 0 0rem var(--accent-color-custom);} */
+    /* Para desactivar el resplandor: :is(.grid-card-border, .card-border) {--resplandor-boton: 0 0 0rem var(--accent-colo  r-custom);} */
     
 }
 

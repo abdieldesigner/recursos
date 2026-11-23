@@ -2950,6 +2950,10 @@ body:has(#hl-builder-render-custom-code-button.hl-active-btn) .img-expan-g > div
   mask-repeat: no-repeat;
 }
 
+.icon-code.code-optimizacion, .code-optimizacion .icon-code { background-color: var(--color-code-optimizacion, #00ff66) !important; }
+.icon-code.code-general, .code-general .icon-code { background-color: var(--color-code-general, #ff00e6) !important; }
+.icon-code.code-adaptativo, .code-adaptativo .icon-code { background-color: var(--color-code-adaptativo, #2b7fff) !important; }
+
 
 
 
@@ -3044,6 +3048,8 @@ p:not(.excluir-p, .excluir-p p, .pre-titulo p, .form-custom-ab p) {
 }
 .radius-principal-s {
     border-radius: var(--radius-principal) !important;
+}
+#__nuxt .radius-principal-s {
     overflow: hidden;
 }
 
