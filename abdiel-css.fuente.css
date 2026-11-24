@@ -423,7 +423,7 @@ body .colores-a2 {
     background-clip: text;
 }
 
-/* Color de respaldo verde neón (#39ff14): si una clase ct-*/bg-* se ve de ese color, falta declarar la variable en la web */
+/* Color de respaldo verde neón (#39ff14): si una clase ct-* o bg-* se ve de ese color, falta declarar la variable en la web */
 .ct-p * {
     color: var(--primary-color-custom, #39ff14);
 }
@@ -1942,6 +1942,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
 .abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) .subscribe-wrapper-plain {
     width: 100% !important;
     padding: 0 !important;
+    min-height: 0 !important; /* anula el min-height:120px nativo de GHL */
 }
 
 .abdiel-suscripcion:is(#fake-id, .abdiel-suscripcion) button.subscribe-button {

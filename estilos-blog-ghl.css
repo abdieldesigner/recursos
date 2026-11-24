@@ -35,34 +35,6 @@ IMPORTANTE:
    ========================================================= */
 
 /* =========================================================
-   PERSONALIZAR POR PÁGINA — reemplaza estos valores en cada
-   proyecto (colores, fuentes y tamaños varían por cliente)
-   ========================================================= */
-body {
-    --primary-color-custom: #2d1155;
-    --secondary-color-custom: #5b3a8c;
-    --accent-color-custom: #C9A24B;
-    --accent-color-custom-2: #C9A24B;
-    --bg-p-d: #1A0A2E;
-    --bg-s-d: #2d1155;
-    --bg-p-l: #ffffff;
-    --bg-s-l: #f6f6ff;
-    --text-l: #fdfdfd;
-    --text-d: #2d1155;
-    --color-texto-boton: var(--text-d);
-    --degradado-texto: linear-gradient(105deg, var(--primary-color-custom), var(--accent-color-custom));
-    --headlinefont: 'Cormorant Garamond';
-    --contentfont: 'Raleway';
-    --size-h2: clamp(32px, 4vw, 48px);
-    --size-h3: clamp(16px, 2vw, 24px);
-    --size-p: 16px;
-    --size-font-btn: 20px;
-    --icon-h2: "◆";
-    --icon-list: "✦";
-    /* ◆, ✦, ●, ▸, ➤ */
-}
-
-/* =========================================================
    ESTILOS BASE — reutilizables tal cual, no deberían cambiar
    de un proyecto a otro (solo usan las variables de arriba)
    ========================================================= */
