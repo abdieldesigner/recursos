@@ -2112,25 +2112,25 @@ body:has(.hub365-ghl-not) #__nuxt * {
    Comienza CSS SEO despleglable
    ========================================= */
 
-
-/* ====== Abdiel estilos del SEO desplegable ====== */
-/* ====== Variables globales del módulo ====== */
+/* DESACTIVADO 2026-11-24: SEO desplegable v1 (.seo-*), ya no se usa; solo se usa el v2 (#seo-abdiel / .sab2-*). Para reactivar: quitar este comentario.
+ ====== Abdiel estilos del SEO desplegable ====== 
+ ====== Variables globales del módulo ====== 
   :root{
-    /* Colores base */
-    /*--seo-text:   #212121;    color de texto principal */
+     Colores base 
+    --seo-text:   #212121;    color de texto principal 
 
     --seo-border: rgba(19,127,82,.18);
 
-    /* ====== Tipografía (2 tamaños) ====== */
-    --seo-fs-title: 16px;    /* tamaño de títulos (H2 + H3) */
-    --seo-fs-body:  15px;    /* tamaño del contenido (p + li) */
+     ====== Tipografía (2 tamaños) ====== 
+    --seo-fs-title: 16px;     tamaño de títulos (H2 + H3) 
+    --seo-fs-body:  15px;     tamaño del contenido (p + li) 
 
-    /* ====== Peso/“ancho” (2 pesos) ====== */
-    --seo-fw-title: 600;     /* peso para títulos */
-    --seo-fw-body:  500;     /* peso para contenido */
+     ====== Peso/“ancho” (2 pesos) ====== 
+    --seo-fw-title: 600;      peso para títulos 
+    --seo-fw-body:  500;      peso para contenido 
   }
 
-  /* ====== Panel maestro ====== */
+   ====== Panel maestro ====== 
   .seo-pane{
     position: relative;
     color: var(--seo-text);
@@ -2162,10 +2162,10 @@ body:has(.hub365-ghl-not) #__nuxt * {
   .seo-h2{
     margin: 0;
     text-align: center;
-    color: var(--seo-text) !important;              /* forzar color vs estilos globales */
+    color: var(--seo-text) !important;               forzar color vs estilos globales 
     font-family: var(--headlinefont);
-    font-weight: var(--seo-fw-title);              /* peso de títulos */
-    font-size: var(--seo-fs-title) !important;     /* tamaño H2 principal (forzado) */
+    font-weight: var(--seo-fw-title);               peso de títulos 
+    font-size: var(--seo-fs-title) !important;      tamaño H2 principal (forzado) 
     line-height: 1.4;
   }
 
@@ -2179,7 +2179,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     transform: translateY(1px);
   }
 
-  /* ====== Cuerpo en 2 columnas ====== */
+   ====== Cuerpo en 2 columnas ====== 
   .seo-body{
     margin-top: .75rem;
     max-width: 1100px;
@@ -2190,7 +2190,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     column-fill: balance;
   }
 
-  /* ====== Ítems colapsables (cada bloque) ====== */
+   ====== Ítems colapsables (cada bloque) ====== 
   .seo-item{
     break-inside: avoid;
     -webkit-column-break-inside: avoid;
@@ -2199,7 +2199,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     border-bottom: 1px dashed var(--seo-border);
   }
 
-  /* Head del bloque */
+   Head del bloque 
   .seo-item-summary{
     list-style: none;
     cursor: pointer;
@@ -2209,15 +2209,15 @@ body:has(.hub365-ghl-not) #__nuxt * {
     user-select: none;
     position: relative;
     min-height: 32px;
-    padding: .25rem 0 .4rem 1.6rem; /* espacio para el chevron */
+    padding: .25rem 0 .4rem 1.6rem;  espacio para el chevron 
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Oculta marcador nativo cross-browser */
+   Oculta marcador nativo cross-browser 
   .seo-item-summary::-webkit-details-marker{ display:none; }
   .seo-item-summary::marker{ content: ""; }
 
-  /* Chevron */
+   Chevron 
   .seo-item-summary::before{
     content: "";
     position: absolute;
@@ -2227,26 +2227,26 @@ body:has(.hub365-ghl-not) #__nuxt * {
     height: 10px;
     border-right: 2px solid var(--accent-color-custom, #b0b0b0);
     border-bottom: 2px solid var(--accent-color-custom, #b0b0b0);
-    transform: translateY(-50%) rotate(-45deg); /* “>” derecha */
+    transform: translateY(-50%) rotate(-45deg);  “>” derecha 
     transition: transform .2s ease;
     filter: drop-shadow(0 0 6px var(--accent-color-custom, #b0b0b0));
   }
   .seo-item[open] .seo-item-summary::before{
-    transform: translateY(-50%) rotate(45deg);  /* hacia abajo al abrir */
+    transform: translateY(-50%) rotate(45deg);   hacia abajo al abrir 
   }
 
-  /* Título h3 del bloque */
+   Título h3 del bloque 
   .seo-sub{
     margin: 0;
-    color: var(--accent-color-custom, #b0b0b0) !important;           /* forzar color vs estilos globales */
+    color: var(--accent-color-custom, #b0b0b0) !important;            forzar color vs estilos globales 
     font-family: var(--headlinefont);
-    font-size: var(--seo-fs-title) !important;     /* tamaño subtítulo (forzado) */
-    font-weight: var(--seo-fw-title);              /* peso de títulos */
+    font-size: var(--seo-fs-title) !important;      tamaño subtítulo (forzado) 
+    font-weight: var(--seo-fw-title);               peso de títulos 
     line-height: 1.25;
     letter-spacing: .1px;
   }
 
-  /* Contenido interno del bloque */
+   Contenido interno del bloque 
   .seo-item-content{
     padding: 0 0 .75rem 0;
   }
@@ -2254,12 +2254,12 @@ body:has(.hub365-ghl-not) #__nuxt * {
   .seo-item-content p{
     margin: 0 0 .65rem 0;
     font-family: var(--contentfont);
-    font-size: var(--seo-fs-body) !important;      /* tamaño contenido (forzado) */
-    font-weight: var(--seo-fw-body);               /* peso contenido */
-    color: var(--seo-text) !important;             /* forzar color vs estilos globales */
+    font-size: var(--seo-fs-body) !important;       tamaño contenido (forzado) 
+    font-weight: var(--seo-fw-body);                peso contenido 
+    color: var(--seo-text) !important;              forzar color vs estilos globales 
   }
 
-  /* Listas */
+   Listas 
   .seo-list{
     margin: 0 0 .75rem 0;
     padding: 0;
@@ -2270,9 +2270,9 @@ body:has(.hub365-ghl-not) #__nuxt * {
     padding-left: 1.25rem;
     margin: .35rem 0;
     font-family: var(--contentfont);
-    font-size: var(--seo-fs-body) !important;      /* tamaño contenido (forzado) */
-    font-weight: var(--seo-fw-body);               /* peso contenido */
-    color: var(--seo-text) !important;             /* forzar color vs estilos globales */
+    font-size: var(--seo-fs-body) !important;       tamaño contenido (forzado) 
+    font-weight: var(--seo-fw-body);                peso contenido 
+    color: var(--seo-text) !important;              forzar color vs estilos globales 
   }
   .seo-list li::before{
     content: "";
@@ -2286,7 +2286,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     box-shadow: 0 0 8px var(--accent-color-custom, #b0b0b0);
   }
 
-  /* Estado abierto del panel maestro */
+   Estado abierto del panel maestro 
   .seo-details:not([open]) .seo-body{ 
     display: none; 
   }
@@ -2299,7 +2299,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     100%{ box-shadow: 0 0 8px  var(--accent-color-custom, #b0b0b0); }
   }
 
-  /* Responsive */
+   Responsive 
   @media (max-width: 768px){
     .seo-body{
       column-count: 1;
@@ -2307,7 +2307,8 @@ body:has(.hub365-ghl-not) #__nuxt * {
     }
   }
 
-/*<!-- ====== SEO Colapsable Abdiel JoseAbdiel.com ====== -->*/
+<!-- ====== SEO Colapsable Abdiel JoseAbdiel.com ====== -->
+*/
 
 
 /* =========================================

@@ -81,10 +81,18 @@ window.__hub365Cargado = true;
 
   // Si aún no existen los elementos, reacciona en cuanto aparezcan en el DOM
   // (sin depender de un polling con intervalo fijo ni de un límite de intentos)
+  var ticMenuAb = false;
+  var pendienteMenuAb = true;
   var observerMenuAb = new MutationObserver(function () {
-    if (bind()) {
-      observerMenuAb.disconnect(); // ya conectado: deja de observar para siempre
-    }
+    if (ticMenuAb) return; // máximo una revisión por cuadro
+    ticMenuAb = true;
+    requestAnimationFrame(function () {
+      ticMenuAb = false;
+      if (pendienteMenuAb && bind()) {
+        pendienteMenuAb = false;
+        observerMenuAb.disconnect(); // ya conectado: deja de observar para siempre
+      }
+    });
   });
   observerMenuAb.observe(document.documentElement, { childList: true, subtree: true });
 
@@ -447,8 +455,8 @@ window.__hub365Cargado = true;
   window.addEventListener('resize', onScroll, { passive: true }); // Recalcula en cambios de tamaño
   window.addEventListener('load', onScroll); // Evalúa al terminar de cargar
 
-  // Primera evaluación inmediata por si ya hay elementos en viewport
-  fadeScroll();
+  // Primera evaluación por si ya hay elementos en viewport (en el siguiente frame, para no forzar un reflujo)
+  onScroll();
 })();
 
 /* ============================================================
@@ -459,6 +467,7 @@ window.__hub365Cargado = true;
    INICIA JS ROBA COLOR DEL BORDE PARA DIVISORES
    ============================================================ */
 
+/* DESACTIVADO 2026-11-25: los divisores ya no toman el color del borde de la sección (opción que nunca se usó; ahora son CSS puro). Para reactivar: quitar este comentario.
 document.addEventListener('DOMContentLoaded', function () {
   const secciones = document.querySelectorAll('section, .section, [class*="section"]');
 
@@ -481,6 +490,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+*/
 
 /* ============================================================
    TERMINA JS roba color del borde para divisores
@@ -641,10 +651,18 @@ window.addEventListener('load', function () {
 
   if (bindAcordeon()) return; // el DOM ya estaba listo, no hace falta observar nada
 
+  var ticAcordeon = false;
+  var pendienteAcordeon = true;
   var observerAcordeon = new MutationObserver(function () {
-    if (bindAcordeon()) {
-      observerAcordeon.disconnect(); // ya conectado: deja de observar para siempre
-    }
+    if (ticAcordeon) return; // máximo una revisión por cuadro
+    ticAcordeon = true;
+    requestAnimationFrame(function () {
+      ticAcordeon = false;
+      if (pendienteAcordeon && bindAcordeon()) {
+        pendienteAcordeon = false;
+        observerAcordeon.disconnect(); // ya conectado: deja de observar para siempre
+      }
+    });
   });
   observerAcordeon.observe(document.documentElement, { childList: true, subtree: true });
 
@@ -955,8 +973,18 @@ if (document.readyState === 'loading') {
     return true;
   }
 
+  var ticObserver = false;
+  var pendienteObserver = true;
   var observer = new MutationObserver(function () {
-    if (init()) observer.disconnect();
+    if (ticObserver) return; // máximo una revisión por cuadro
+    ticObserver = true;
+    requestAnimationFrame(function () {
+      ticObserver = false;
+      if (pendienteObserver && init()) {
+        pendienteObserver = false;
+        observer.disconnect();
+      }
+    });
   });
   if (!init()) {
     observer.observe(document.body, { childList: true, subtree: true });
