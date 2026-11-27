@@ -523,7 +523,7 @@ body .colores-a2 {
 
 /* antes: body:has(.colores-abdiel, .colores-hub365) */
 :is(h1, h2, h3, h4, p, .button-icon-end):not(.excluir-icons *, .algunaotraclase *)::before   {
-    color: currentColor;
+    color: currentColor !important;
     padding-left: .15rem;
 }
 
@@ -1598,11 +1598,13 @@ body:has(.hub365-ghl-not) #__nuxt * {
    .cinta1 {
        transform: rotate(5deg) scale(1.1);
        overflow: visible;
-       z-index: 1;
+       z-index: 2;
    }
    
    .cinta2 {
        transform: rotate(356deg);
+       overflow: visible;
+       z-index: 1;
    }
 
 
@@ -2422,7 +2424,8 @@ body:has(.hub365-ghl-not) #__nuxt * {
     z-index: 1;
 }
 
-/* Divisor TOP - una sola clase */
+/* DESACTIVADO 2026-11-27: divisores con máscara (.divisor-top-ab2 / .divisor-bottom-ab2), prueba que no funcionó; vive en Test. Para reactivar: quitar este comentario.
+Divisor TOP - una sola clase
 .divisor-top-ab2 {
     position: absolute !important;
     top: 0;
@@ -2441,7 +2444,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     z-index: 0;
 }
 
-/* Divisor BOTTOM - una sola clase */
+Divisor BOTTOM - una sola clase
 .divisor-bottom-ab2 {
     position: absolute;
     bottom: 0;
@@ -2460,6 +2463,7 @@ body:has(.hub365-ghl-not) #__nuxt * {
     z-index: 1;
 }
 
+*/
 /* La sección padre necesita esto */
 .seccion-con-divisor {
     position: relative !important;
@@ -2467,26 +2471,25 @@ body:has(.hub365-ghl-not) #__nuxt * {
 }
 
 
-/* Animación para divisores - se activa con la clase "divisor-move" */
+/* Animación de divisores con translate (sin recalcular el diseño): se activa con la clase "divider-move" */
 .divider-move.divider-top-ab::before,
-.divider-move.divider-bottom-ab::after,
-.divider-move.divisor-top-ab2,
-.divider-move.divisor-bottom-ab2 {
+.divider-move.divider-bottom-ab::after {
+/* .divider-move.divisor-top-ab2 desactivado */
+/* .divider-move.divisor-bottom-ab2 desactivado */
     width: 210% !important;
     animation: wave-divider 30s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
 }
 
 @keyframes wave-divider {
-    0% {
-        margin-left: 0;
-    }
+    0%   { translate: 0 0; }
+    50%  { translate: -47.619% 0; }
+    100% { translate: 0 0; }
+}
 
-    50% {
-        margin-left: -100%;
-    }
-
-    100% {
-        margin-left: 0;
+@media (prefers-reduced-motion: reduce) {
+    .divider-move.divider-top-ab::before,
+    .divider-move.divider-bottom-ab::after {
+        animation: none;
     }
 }
 
@@ -2688,15 +2691,16 @@ body:has(.hub365-ghl-not) #__nuxt * {
         line-height: 0.6;
     }
 }
+/* DESACTIVADO 2026-11-27: .menu-lado-1 / .menu-lado-1b / .menu-lado-2, ya no se usan en ningún sitio. Para reactivar: quitar este comentario.
 div.menu-lado-1 {
   width: 80% !important;
 }
 div.menu-lado-1b {
   width: 87% !important;
 }
-/* div.c-svg {
+div.c-svg {
   margin: auto !important;
-} */
+}
 div.menu-lado-2 {
   width: 10% !important;
 }
@@ -2708,6 +2712,7 @@ div.menu-lado-2 {
         width: 60% !important;
   }
 }
+*/
 /* =========================================
    Termina CSS menu expandible
    ========================================= */
